@@ -1,0 +1,425 @@
+@media (max-width: 1440px) and (min-width: 1200px){
+    .container{
+        max-width: 1140px;
+    }
+}
+@media (max-width: 1440px){
+    .navbar {
+        padding: 12px 0;
+    }
+    .navbar .navbar-container .navbar-nav .btn-nav {
+        min-width: 140px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+    }
+    .intro-box { 
+        max-width: 1320px;
+        height: 800px;
+        padding-top: 42px;
+    }
+    .intro-box .intro {
+        font-size: 26px;
+    }
+    .intro-box .title {
+        font-size: 60px;
+    }
+    .intro-box .description {
+        font-size: 16px;
+    }
+    .intro-box #timer #days,
+    .intro-box #timer #hours,
+    .intro-box #timer #minutes,
+    .intro-box #timer #seconds{
+        font-size: 40px;
+    }
+    .intro-box #timer span{
+        margin-top: 10px;
+    }
+    .intro-box .btn-video {
+        bottom: 130px;
+    }
+    .country-container .country-box .name {
+        font-size: 16px;
+    }
+    .header-sub .sub-title,
+    .contact-us-form .title,
+    .testimonials-container .section-title .title,
+    .documents-section .main-title,
+    .features-section .features-container .features-head .title {
+        font-size: 30px;
+    }
+    .about-container {
+        max-width: 1328px;
+        min-height: 642px;
+    }
+    .footer .footer-container {
+        gap: 75px;
+    }
+    
+    .login-form .logo{
+        margin-bottom: 30px;
+    }
+    .login-form .logo,
+    .login-form .logo img {
+        height: 46px;
+    }
+    .login-form .header .pic {
+        width: 177px;
+        margin-bottom: 30px;
+    }
+    .login-form .header .title {
+        font-size: 20px;
+    }
+    .login-form .header .info {
+        font-size: 14px;
+    }
+    [dir="rtl"] .login-form .form [type="email"],
+    [dir="rtl"] .login-form .form [type="url"],
+    [dir="rtl"] .login-form .form [type="tel"] {
+        padding-inline-end: 60px;
+    }
+    .login-form .form .form-control {
+        text-align: center;
+        height: 50px;
+        border-radius: 20px;
+        padding-inline-start: 50px;
+    }
+    .login-form .form .btn {
+        height: 50px;
+        line-height: 50px;
+    }
+    .login-page .login-head { 
+        gap: 30px;
+    }
+    .login-page .login-head .login-box-counter {
+        width: 150px;
+    }
+    .login-page .login-head .login-box-counter .icon {
+        width: 90px;
+        height: 90px;
+    }
+    .login-page .login-head .login-box-counter .icon svg{
+        max-width: 100%;
+    }
+    .login-page .login-head .login-box-counter:nth-child(2)::before {
+        right: -32px;
+    }
+    .login-page .login-head .login-box-counter:nth-child(2)::after {
+        left: -32px;
+    }
+    [dir="ltr"] .login-page .login-head .login-box-counter:nth-child(2)::before {
+        right: auto;
+        left: -32px;
+    }
+    [dir="ltr"] .login-page .login-head .login-box-counter:nth-child(2)::after {
+        left: auto;
+        right: -32px;
+    }
+    .login-page .login-head .login-box-counter:nth-child(2)::after,
+    .login-page .login-head .login-box-counter:nth-child(2)::before {
+        width: 32px;
+    }
+}
+@media (max-width: 1200px){
+    /*
+}
+
+@media (max-width: 1024px){
+    */
+    .navbar .navbar-container .navbar-nav {
+        gap: 24px;
+    }
+    .country-container .country-box .pic {
+        width: 80px;
+        height: 80px;
+    }
+    .features-section .features-container { 
+        padding-top: 60px;
+    }
+    .features-section .features-container .features-head {
+        margin-bottom: 50px;
+    }
+    .features-section .features-container .features-row{
+        gap: 20px;
+    }
+    .features-section .features-container .features-row .features-box{
+        margin-bottom: 0;
+        padding: 30px;
+    }
+    .features-section .features-container .features-row .features-box:nth-child(odd) {
+        transform: none;
+    }
+    .about-container {
+        max-width: 1128px;
+        min-height: 497px;
+    }
+    .about-box .title {
+        font-size: 30px;
+    }
+    .counter-box {
+        width: 145px;
+        height: 145px;
+    }
+    .counter-box .content{
+        width: 125px;
+        height: 125px;
+    }
+    .counter-box .content .number {
+        font-size: 30px;
+    }
+    .counter-box .content .title {
+        font-size: 16px;
+    }
+    .counter-boxs .logo-box{
+        width: 110px;
+        height: 110px;
+    }
+    .counter-boxs .logo-box img{
+        width: 100%; 
+    }
+    .testimonials-box {
+        padding: 30px;
+    }
+    .testimonials-box .user .content .name {
+        font-size: 16px;
+    }
+    .testimonials-box .user .content .info {
+        font-size: 14px;
+    }
+    .footer .footer-container {
+        gap: 30px;
+    }
+    .footer .footer-container .footer-title {
+        font-size: 16px;
+    }
+    .testimonials-box .user .pic {
+        min-width: 48px;
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+        font-size: 20px;
+    }
+    .testimonials-box .user::after {
+        font-size: 40px;
+    }
+    .copyright-container,
+    .copyright-container .nav-link{
+        font-size: 14px;
+    }
+    .document-box {
+        padding: 20px;
+    }
+}
+@media (max-width: 1024px){ 
+    .login-page .login-head {
+        flex-direction: column; 
+        min-height: auto;
+        padding: 3rem 0;
+    }
+    .login-page .login-head .login-box-counter{
+        transform: none !important;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        min-width: 270px;
+        height: auto;
+        padding: 1rem;
+        text-align: inherit;
+    }
+    .login-page .login-head .login-box-counter::before,
+    .login-page .login-head .login-box-counter::after{
+        display: none;
+    }
+    .login-page .login-head .login-box-counter .icon{
+        margin: 0; 
+        width: 80px;
+        height: 80px;
+    }
+    .login-page .login-head .login-box-counter .icon svg{ 
+        width: 50px;
+        height: 50px;
+    }
+    .login-form .header { 
+        margin-bottom: 20px;
+    }
+    .login-page .login-head .login-box-counter .title {
+        margin-bottom: 0px;
+    }
+}
+@media (max-width: 991px){
+    .navbar-collapse{
+        position: fixed;
+        z-index: 19;
+    }
+    .navbar-collapse.collapsing .navbar-nav {
+        display: block;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: -270px;
+        transition: all 0.2s ease; 
+        justify-content: start !important;  
+        height: 100%;
+        overflow-y: scroll; 
+    } 
+    .navbar-container .main-nav{
+        gap: 0;
+    }
+    .navbar-collapse.show .navbar-nav {
+        background-color: #fff;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        flex-direction: column;
+        height: auto;
+        width: 270px; 
+        padding: 1rem;
+        transition: left 0.35s ease;
+        box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+        z-index: 99;
+        overflow-y: scroll;
+    } 
+    
+    [dir="rtl"] .navbar-collapse.collapsing .navbar-nav {
+        left: auto;
+        right: -300px;
+    } 
+    [dir="rtl"] .navbar-collapse.show .navbar-nav {
+        left: auto;
+        right: 0;
+        transition: right 0.35s ease;
+    }
+
+    .navbar-collapse.show .navbar-nav .nav-link:not(.btn-nav){
+        font-size: 14px;
+        line-height: 20px;
+        border-bottom: 1px solid #f1f1f1;
+    } 
+    .navbar-collapse.show .navbar-nav .nav-link::after{
+        display: none;
+    }  
+    .navbar-collapse.show .navbar-nav li:last-child .nav-link{
+        border-bottom: none;
+    }
+    .about-section .about-box{
+        max-width: 520px;
+    }
+    .footer .links{
+        min-width: 110px;
+    }
+    .footer .newsletter{
+        width: 280px;
+        min-width: 280px;
+    } 
+    .documents-section .nav-documents-tab {
+        gap: 10px;
+    }
+    .documents-section .nav-documents-tab .nav-item::after{
+        display: none;
+    }
+}
+@media (max-width: 767px){
+    .country-container {
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+    }
+    .footer-container {
+        flex-direction: column;
+    }
+    .footer-container .links .nav{
+        flex-direction: row !important;
+        gap: 1rem;
+    }
+    .footer-container .about,
+    .footer-container .content,
+    .footer-container .newsletter,
+    .footer-container .links{
+        width: 100%;
+    }
+    .document-box .content {
+        font-size: 14px;
+    }
+    .testimonials-container {
+        min-height: 602px;
+    }
+    .about-box .title {
+        font-size: 20px;
+    }
+    .about-box .sub-title {
+        font-size: 14px;
+    }
+    .about-box .info {
+        font-size: 14px;
+    }
+    .about-box .btn {
+        height: 40px;
+        line-height: 40px;
+    }
+}
+@media (max-width: 579px){
+    .intro-box .title {
+        font-size: 40px;
+    }
+    .intro-box #timer { 
+        gap: 30px;
+    }
+    .footer-container,
+    .copyright-container,
+    .testimonials-container,
+    .about-container,
+    .documents-container,
+    .features-container{
+        padding: 0 1rem;
+    }
+    .header-sub .sub-title,
+    .contact-us-form .title,
+    .testimonials-container .section-title .title,
+    .documents-section .main-title,
+    .features-section .features-container .features-head .title {
+        font-size: 26px;
+    }
+    
+    .copyright-container{
+        flex-direction: column;
+    }
+    
+    .counter-box {
+        width: 125px;
+        height: 125px;
+        margin-bottom: 10px;
+    }
+    .counter-row{
+        margin-bottom: 10px;
+    }
+    .counter-box .content{
+        width: 105px;
+        height: 105px;
+    }
+    .counter-box .content .number {
+        font-size: 20px;
+    }
+    .counter-box .content .title {
+        font-size: 14px;
+    }
+    .counter-boxs .logo-box{
+        width: 90px;
+        height: 90px;
+    }
+    .testimonials-box .user {
+        gap:20px;
+    }
+    
+    .login-page{
+        padding: 30px;
+    }
+    .login-page .login-head {
+        display: none;
+    }
+}
+@media (max-width: 420px){
+}
+
+@media (max-width: 375px){
+}

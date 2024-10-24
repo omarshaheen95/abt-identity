@@ -1,0 +1,54 @@
+.multiselect-container {
+    direction: rtl;
+}
+
+.multiselect-container .multiselect-item {
+    text-align: right;
+}
+
+.multiselect-container .multiselect-selected-text {
+    float: right;
+}
+
+.multiselect-container .multiselect.dropdown-toggle {
+    float: right;
+}
+
+.multiselect-container .multiselect-clear-filter {
+    float: left;
+}
+
+.multiselect-container .caret {
+    margin-left: 5px;
+    margin-right: unset;
+}
+
+.multiselect-container .dropdown-menu {
+    right: 0;
+    left: unset;
+}
+div.col-2 {
+    direction: rtl; /* Set the direction to RTL */
+}
+
+/* Rotate the icons to adapt to RTL */
+#multiselect_rightAll .fa-forward {
+    transform: rotate(180deg); /* Flip forward to point left */
+}
+
+#multiselect_rightSelected .fa-chevron-right {
+    transform: rotate(180deg); /* Flip chevron right to point left */
+}
+
+#multiselect_leftSelected .fa-chevron-left {
+    transform: rotate(180deg); /* Flip chevron left to point right */
+}
+
+#multiselect_leftAll .fa-backward {
+    transform: rotate(180deg); /* Flip backward to point right */
+}
+div.col-2 button {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+}

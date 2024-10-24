@@ -1,5 +1,5 @@
 <meta charset="utf-8"/>
-<title>My Identity Assessment|@yield('title')</title>
+<title>My Identity Assessment | @yield('title')</title>
 <meta name="description" content="{{ !settingCache('name') ?settingCache('name'):'ABT-Math' }}">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">

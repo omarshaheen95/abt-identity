@@ -21,7 +21,7 @@ class YearTableSeeder extends Seeder
         ];
         foreach($years as $year)
         {
-            Year::query()->firstOrCreate([
+            Year::query()->updateOrCreate([
                 'name' => $year['name'],
             ],$year);
         }

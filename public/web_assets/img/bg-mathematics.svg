@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="427.75" height="137" viewBox="0 0 427.75 137">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Background" width="427.75" height="137" fill="#ffdfd6"/>
+    </clipPath>
+    <radialGradient id="radial-gradient" cx="0.461" cy="0.583" r="2.237" gradientTransform="matrix(0.985, 0.172, -0.118, 0.677, 0.076, 0.109)" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#5cf4b3"/>
+      <stop offset="0.207" stop-color="#49dbb1"/>
+      <stop offset="0.542" stop-color="#30b8af"/>
+      <stop offset="0.819" stop-color="#21a3ae"/>
+      <stop offset="1" stop-color="#1c9cae"/>
+    </radialGradient>
+  </defs>
+  <g id="vector" clip-path="url(#clip-path)">
+    <rect id="Rectangle_12255" data-name="Rectangle 12255" width="427.75" height="137" fill="url(#radial-gradient)"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<svg id="false" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="38.436" height="38.436" viewBox="0 0 38.436 38.436">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fd869c"/>
+      <stop offset="0.979" stop-color="#f3385d"/>
+    </radialGradient>
+  </defs>
+  <ellipse id="Ellipse_10369" data-name="Ellipse 10369" cx="19.218" cy="19.218" rx="19.218" ry="19.218" transform="translate(0 0)" fill="url(#radial-gradient)"/>
+  <g id="Group_64179" data-name="Group 64179" transform="translate(31.441 12.61)">
+    <path id="Path_96880" data-name="Path 96880" d="M453.166,323.358a13.191,13.191,0,0,0-.593-2.163,1.52,1.52,0,0,1,2.851-1.053,16.231,16.231,0,0,1,.731,2.663,1.52,1.52,0,0,1-2.989.553Z" transform="translate(-452.478 -319.148)" fill="#fdb0bf"/>
+  </g>
+  <g id="Group_64180" data-name="Group 64180" transform="translate(31.592 20.627)">
+    <path id="Path_96881" data-name="Path 96881" d="M454.582,380.588a1.52,1.52,0,0,1-.957-1.925,13.09,13.09,0,0,0,.415-1.538,1.52,1.52,0,1,1,2.977.611,16.2,16.2,0,0,1-.511,1.9A1.52,1.52,0,0,1,454.582,380.588Z" transform="translate(-453.546 -375.91)" fill="#fdb0bf"/>
+  </g>
+  <path id="Path_96882" data-name="Path 96882" d="M309.966,306.743l5.844-5.844a2.28,2.28,0,1,0-3.224-3.224l-5.844,5.844-5.844-5.844a2.28,2.28,0,0,0-3.224,3.224l5.844,5.844-5.844,5.844a2.28,2.28,0,1,0,3.224,3.224l5.844-5.844,5.844,5.844a2.28,2.28,0,1,0,3.224-3.224Z" transform="translate(-287.524 -287.525)" fill="#fff"/>
+</svg>

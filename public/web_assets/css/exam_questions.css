@@ -1,0 +1,354 @@
+/*This style custom for match and sort questions*/
+.matchAnswers {
+    background: transparent;
+    height: 100px; /* Adjust height as needed */
+    position: relative;
+    color: #666;
+    font-size: 18px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.matchAnswers div {
+    background: transparent;
+    border: 1px solid #f5f5f5;
+    padding: 10px 20px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #666;
+    cursor: pointer;
+}
+
+.matchAnswers.active div {
+    padding: 10px 0;
+    border-radius: 50px;
+    border-width: 0.2px;
+    text-align: center;
+    line-height: 2.4;
+    color: #000000;
+    border-style: solid;
+}
+
+.matchAnswers.imageOnly div {
+    color: #000000;
+    border-color: #ffaf43;
+    border-radius: 50px;
+    margin-top: 10px;
+    padding: 110px 0 !important;
+}
+
+.matchOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid #EAEAEA;
+    min-height: 75px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.matchOptions .ui-state-default {
+    background-color: #F5F7F9;
+    border-radius: 10px;
+    color: var(--dark-color);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 65px;
+}
+
+
+
+/* Ensuring li takes full height and width of ul */
+.matchWords .add-answer {
+    width: 100%;
+    height: 100%; /* Full height of parent ul */
+    background-color: #ffaf43;
+    border-radius: 10px;
+    border-color: #ffaf43;
+    border-width: 0.2px;
+    text-align: center;
+    line-height: 2.5;
+    color: #fff;
+    border-style: dashed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Ensure content fits */
+}
+
+/* Ensure ul occupies full space in parent */
+.matchAnswers ul {
+    height: 100%; /* Full height */
+    width: 100%; /* Full width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    /*border: 2px dashed #2a62d9; !* Apply border style *!*/
+    /*border-radius: 20px; !* Optional, adds rounded corners *!*/
+}
+
+ul.matchAnswers li {
+    height: 100%;
+    width: 100%;
+    display: flex; align-items: center; justify-content: center; flex-grow: 1;
+}
+
+/*This style custom for fill blank*/
+.fillBlankAnswers {
+    background: transparent;
+    min-height: 50px;
+    /*height: auto;*/
+    position: relative;
+    color: #666;
+    border : 2px dashed #7E44B2;
+    border-radius:10px;
+    font-size: 18px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    min-width: 100px;
+    width: auto;
+}
+
+.fillBlankAnswers div {
+    background: transparent;
+    border: 1px solid #f5f5f5;
+    padding: 10px 20px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #666;
+    cursor: pointer;
+}
+
+.fillBlankAnswers.active div {
+    text-align: center;
+    color: #ffffff;
+    border-style: solid;
+    border-radius: 10%;
+    padding: 10px;
+}
+
+.fillBlankAnswers.imageOnly div {
+    color: #000000;
+    border-color:  #E96565;
+    border-radius: 50px;
+    margin-top: 10px;
+    padding: 110px 0 !important;
+}
+
+
+
+.fillBlankOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid #EAEAEA;
+    min-height: 75px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.fillBlankOptions .ui-state-default {
+    /*background: #fafafa;*/
+    /*border: #a7a9ab solid 2px !important;*/
+    /*-webkit-box-shadow: none;*/
+    /*box-shadow: none;*/
+    /*color: #666;*/
+    /*cursor: pointer;*/
+    /*width: 40%;*/
+    /*margin: 0 10px;*/
+    /*!*height: 40px;*!*/
+    /*line-height: 2;*/
+    background-color: #F5F7F9;
+    border-radius: 10px;
+    color: var(--dark-color);
+    font-size: 14px;
+    font-weight: 700;
+    /*padding: 1rem 2rem;*/
+    padding: 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    /*transition: all .3s ease;*/
+}
+
+
+
+.fillBlankWords .add-answer {
+    width: 100%;
+    height: 50px;
+    background-color: #ffaf43;
+    border-color: #ffaf43;
+    border-radius: 10%;
+    text-align: center;
+    color: #fff;
+    border-style: dashed;
+}
+
+/*This style custom for sort*/
+.sortAnswers {
+    background: transparent;
+    min-height: 100px;
+    /*height: auto;*/
+    position: relative;
+    color: #666;
+    border : 2px dashed #7E44B2;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+}
+
+.sortAnswers div {
+    background: transparent;
+    border: 1px solid #f5f5f5;
+    padding: 10px 20px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #666;
+    cursor: pointer;
+}
+
+.sortAnswers.active div {
+    /*color: #fff;*/
+    /*background-color: #79B530;*/
+    /*border-color:  #E96565;*/
+    /*padding: 10px 0;*/
+
+    /*width: 100%;*/
+    /*height: 70px;*/
+    /*background-color: #F5F7F9;*/
+    /*border-radius: 50px;*/
+    /*border-width: 0.2px;*/
+    /*text-align: center;*/
+    /*line-height: 2.4;*/
+    /*color: #000000;*/
+    /*border-style: solid;*/
+
+
+}
+
+.sortAnswers.imageOnly div {
+    color: #000000;
+    border-color:  #E96565;
+    border-radius: 50px;
+    margin-top: 10px;
+    padding: 110px 0 !important;
+}
+
+.sortOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid #EAEAEA;
+    min-height: 75px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.sortOptions .ui-state-default {
+    /*background: #fafafa;*/
+    /*border: #a7a9ab solid 2px !important;*/
+    /*-webkit-box-shadow: none;*/
+    /*box-shadow: none;*/
+    /*color: #666;*/
+    /*cursor: pointer;*/
+    /*width: 40%;*/
+    /*margin: 0 10px;*/
+    /*!*height: 40px;*!*/
+    /*line-height: 2;*/
+    background-color: #F5F7F9;
+    border-radius: 10px;
+    color: var(--dark-color);
+    font-size: 14px;
+    font-weight: 700;
+    /*padding: 1rem 2rem;*/
+    padding: 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 65px;
+    /*transition: all .3s ease;*/
+}
+
+.question-option{
+    width: 100%;
+    position: relative;
+    padding: 0 2rem;
+    border: 1px solid #EAEAEA;
+    font-size: 14px;
+    color: var(--dark-color);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 65px;
+}
+
+.sortWords .add-answer {
+    min-width: 10px;
+    height: 65px;
+    background-color: #ceddff;
+    border-radius: 10px;
+    border-color: #7E44B2;
+    border-width: 0.2px;
+    text-align: center;
+    padding: 10px 10px;
+    line-height: 2.4;
+    color: #000000;
+    border-style: solid;
+}
+
+.ui-keyboard{
+    direction: ltr !important;
+}
+.keyboard.ui-keyboard-input{
+    text-align: right !important;
+    font-size: 16px;
+    font-weight: 600;
+}
+.invalid-feedback{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+.head p{
+    line-height: 2 !important;
+}
+.item-container {
+    display: flex;
+    align-items: stretch; /* Make sure all items stretch to the height of the tallest item */
+}
+
+.item {
+    flex: 1; /* Ensure all items take up equal width */
+    min-height: 100px; /* Set the minimum height */
+    /*border: 1px solid #000;*/
+    /*padding: 10px;*/
+    box-sizing: border-box; /* Include padding and border in the height calculation */
+}

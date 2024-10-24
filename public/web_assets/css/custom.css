@@ -1,0 +1,1219 @@
+@import url("../css/font-awesome_6.2.1.min.css");
+@import url("../css/toastify.css");
+
+@font-face {
+    font-family: "bold";
+    src: url("../fonts/FFShamelRounded-Bold.ttf");
+}
+@font-face {
+    font-family: "light";
+    src: url("../fonts/FFShamelRounded-Light.ttf");
+}
+@font-face {
+    font-family: "medium";
+    src: url("../fonts/FFShamelRounded-Medium.ttf");
+}
+@font-face {
+    font-family: "normal";
+    src: url("../fonts/FFShamelRounded-Normal.ttf");
+}
+:root{
+    --science-color: #7E44B2;
+    --science-soft-color: rgb(145, 91, 202, .2);
+    --mathematics-color:#20B2AA;
+    --mathematics-soft-color:rgb(32, 178, 170, .2);
+    --dark-color: #042423;
+    --dark-soft-color: rgb(4, 36, 35, .05);
+}
+
+body{
+    font-family: "normal";
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--dark-color);
+}
+ul,ol{
+    padding: 0;
+    margin: 0;
+}
+a, a:hover{
+    text-decoration: none;
+}
+main{
+    min-height: 100vh;
+}
+.home-page .container{
+    position: relative;
+    min-height: 100vh;
+}
+.home-page{
+    position: relative;
+    background-color: #E6F7F6;
+}
+.home-page .section-bg{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+.header .content{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 0;
+    max-width: 320px;
+    margin: auto;
+}
+.header .content::before,
+.header .content::after{
+    position: absolute;
+    content: "";
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 150px;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 5px;
+    background-color: #A8D0E5;
+    left: -70%;
+    z-index: 1;
+}
+.header .content::before{
+    left: auto;
+    right: -70%;
+}
+.header .logo{
+    width: 150px;
+}
+.header .lang{
+    font-size: 18px;
+    color: var(--dark-color);
+}
+.header .logo img{
+    width: 100%;
+}
+.header .line{
+    width: 1.5px;
+    height: 22px;
+    background-color: #A8D0E5;
+    margin: 0 30px;
+}
+.home-card{
+    display: block;
+    position: relative;
+    text-align: center;
+    border: 1px solid #ECEEF3;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 10px 10px 0 rgb(20, 20, 22, .05);
+    z-index: 1;
+    transition: all .3s ease;
+}
+.home-card:hover{
+    transform: translateY(-10px);
+}
+.home-card .icon{
+    width: 204px;
+    height: 204px;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 36px;
+}
+.home-card .icon img{
+    margin-top: -50px;
+    animation: shakeMe 2s infinite;
+}
+.home-card .content{
+    margin-top: -50px;
+    color: var(--dark-color);
+    padding: 0 36px 36px;
+    transition: all .3s ease;
+}
+.home-card .content .title{
+    font-size: 30px;
+    text-transform: capitalize;
+}
+.home-card .content .sub-title{
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.home-card.science{
+    background-image: url(../img/bg-science.svg);
+    background-position: top;
+    background-repeat: no-repeat;
+}
+.home-card.mathematics{
+    background-image: url(../img/bg-mathematics.svg);
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+.home-card.science:hover .content{
+    color: var(--science-color)
+}
+.home-card.mathematics:hover .content{
+    color: var(--mathematics-color)
+}
+
+/*.copyright a{*/
+/*    color: #FFF;*/
+/*}*/
+
+@keyframes shakeMe {
+    0% {
+        transform: scale(1, 1);
+    }
+    25% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.1, 1.1);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+
+/*
+    login-page
+*/
+
+.login-page section{
+    display: flex;
+    background-color: #F5F7F9;
+    min-height: 100vh;
+}
+.login-page section .pic{
+    position: fixed;
+    height: 100vh;
+    right: 0;
+    max-width: 380px;
+}
+[dir="ltr"] .login-page section .pic{
+    right: auto;
+    left: 0;
+}
+.login-page section .pic img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.login-page section .pic img{
+    height: 100%;
+}
+.login-page section .form{
+    padding-inline-start: 380px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-page section .form .form-card{
+    max-width: 531px;
+    width: 100%;
+    margin: auto;
+    background-color: #fff;
+}
+.login-page section .form .form-card{
+    max-width: 531px;
+    width: 100%;
+    margin: auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 25px;
+    border: 1px solid #EAEAEA;
+    box-shadow: 5px 10px 0 rgb(0, 0, 0, .025);
+}
+.login-page section .form .form-card .header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 40px;
+}
+.login-page section .form .form-card .header .lang{
+    width: 48px;
+}
+.login-page section .form .form-card .info{
+    text-align: center;
+    color: var(--dark-color);
+    margin-bottom: 30px;
+}
+.login-page section .form .form-card .info .title{
+    font-size: 20px;
+    font-family: "bold";
+    margin-bottom: 16px;
+}
+.login-page section .form .form-card .info .sub-title{
+    font-size: 14px;
+}
+.form .body{
+    max-width: 412px;
+    margin: auto;
+}
+.form .form-group{
+    margin-bottom: 24px;
+}
+.form .form-label{
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.form .form-control-icon{
+    position: relative;
+}
+.form .form-control-icon .icon{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 65px;
+    height: 65px;
+    top: 0;
+    right: 0;
+}
+.form .form-control-icon .form-control{
+    border-radius: 20px;
+    min-height: 65px;
+    padding-inline-start: 65px;
+    box-shadow: none;
+    color: var(--dark-color);
+}
+.form .form-control-icon .form-control[type=email],
+.form .form-control-icon .form-control[type=number],
+.form .form-control-icon .form-control[type=tel],
+.form .form-control-icon .form-control[type=url]{
+    padding-inline-start: 1rem;
+    padding-inline-end: 65px;
+}
+form.disabled{
+    pointer-events: none;
+    opacity: 0.75;
+}
+.form .btn{
+    width: 100%;
+    min-height: 65px;
+    border-radius: 20px;
+}
+.form .sign-in-other{
+    background-color: #F5F5F5;
+    border: 1px solid #EEEEEE;
+    border-radius: 20px;
+    display: flex;
+    align-content: center;
+    min-height: 35px;
+    min-height: 65px;
+    width: 100%;
+}
+.form .sign-in-other a{
+    position: relative;
+    display: block;
+    max-width: 50%;
+    width: 100%;
+    line-height: 60px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--dark-color);
+}
+.form .sign-in-other a::after{
+    position: absolute;
+    content: "";
+    width: 2px;
+    height: 42px;
+    top: 50%;
+    left: 1px;
+    transform: translateY(-50%);
+    background-color: #EAEAEA;
+}
+.form .sign-in-other a:last-child:after{
+    display: none
+}
+.form .form-control-icon .icon svg path{
+    fill: var(--dark-color);
+}
+.form-control.is-valid,
+.was-validated .form-control:valid,
+.form-control.is-invalid,
+.was-validated .form-control:invalid{
+    background-image: none;
+}
+.science .form .form-control-icon .form-control:focus{
+    border-color: var(--science-color);
+}
+.science .form .btn{
+    background-color: var(--science-color);
+    color: #fff;
+}
+
+.mathematics .form .form-control-icon .form-control:focus{
+    border-color: var(--mathematics-color);
+}
+.mathematics .form .btn{
+    background-color: var(--mathematics-color);
+    color: #fff;
+}
+
+/*---------------------------
+    navbard-top
+---------------------------*/
+
+.navbard-top{
+    border-bottom: 1px solid #EAEAEA;
+    background-color: #fff;
+}
+.navbard-top .navbar-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    height: 75px;
+}
+.navbard-top .navbar-container .logo{
+    height: 75px;
+    line-height: 75px;
+    max-width: 155px;
+    padding-inline-end: 45px;
+    border-inline-end: 1px solid #EAEAEA;
+}
+.navbard-top .navbar-container .logo img{
+    width: 100%;
+}
+.navbard-top .navbar-container .action{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.navbard-top .navbar-container .action .lang{
+    display: inline-block;
+    font-size: 14px;
+    color: var(--dark-color);
+}
+.navbard-top .navbar-container .action .profile-card{
+    display: flex;
+    gap: 1rem;
+    padding-inline-start: 30px;
+    border-inline-start: 1px solid #EAEAEA;
+}
+.navbard-top .navbar-container .action .profile-card .pic{
+    min-width: 40px;
+    width:  40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.navbard-top .navbar-container .action .profile-card .pic img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.navbard-top .navbar-container .action .dropdown-toggle::after{
+    display: none;
+}
+.navbard-top .navbar-container .action .profile-card .content{
+    font-family: "medium";
+}
+.navbard-top .navbar-container .action .profile-card .content .name{
+    font-size: 14px;
+    color: var(--dark-color);
+    margin-bottom: 3px;
+    margin-top: 11px;
+}
+.navbard-top .navbar-container .action .profile-card .content .job{
+    font-size: 12px;
+    margin-bottom: 0;
+}
+.science .navbard-top .navbar-container .action .profile-card .content .job{
+    color: var(--science-color);
+}
+.mathematics .navbard-top .navbar-container .action .profile-card .content .job{
+    color: var(--mathematics-color);
+}
+
+.navbard-top .navbar-container .leave-exam{
+    font-size: 14px;
+    color: #F46E4C;
+}
+.navbard-top .navbar-container .back-card{
+    font-size: 14px;
+    color: var(--dark-color);
+}
+[dir="ltr"] .navbard-top .navbar-container .back-card img{
+    display: inline-block;
+    transform: scale(-1);
+}
+
+/*
+    exam
+*/
+
+.exam-page{
+    background-color: #F5F7F9;
+}
+.exam-page section{
+    padding: 30px 0;
+}
+
+.header-card{
+    border-radius: 30px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #EAEAEA;
+}
+.header-card .info{
+    padding: 35px;
+    border-radius: 30px;
+    border: 1px solid #EAEAEA;
+}
+.header-card .info .logo{
+    max-width: 186px;
+    width: 100%;
+    margin: 0 auto 30px;
+}
+.header-card .info .logo img{
+    width: 100%;
+}
+.header-card .info .content .title{
+    font-size: 25px;
+    font-family: "bold";
+    margin-bottom:30px;
+}
+.header-card .info .content .nav{
+    gap: 60px
+}
+.header-card .info .content .nav .nav-item{
+    position: relative;
+    font-size: 14px;
+}
+.header-card .info .content .nav .nav-item::after{
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: -30px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--dark-color);
+    transform: translateY(-50%);
+}
+.header-card .info .content .nav .nav-item:last-child:after{
+    display: none;
+}
+.science .header-card .info .content .nav .nav-item span{
+    color: var(--science-color);
+}
+.mathematics .header-card .info .content .nav .nav-item span{
+    color: var(--mathematics-color);
+}
+
+.header-card .tab .nav{
+    gap: 1rem;
+}
+.header-card .tab .nav .nav-link{
+    font-size: 14px;
+    color: var(--dark-color);
+    padding: 1rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+}
+.science .header-card .tab .nav .nav-link.active{
+    border-color: var(--science-color);
+    color: var(--science-color);
+}
+.mathematics .header-card .tab .nav .nav-link.active{
+    border-color: var(--mathematics-color);
+    color: var(--mathematics-color);
+}
+
+.exam-card{
+    border-radius: 28px;
+    border: 1px solid #EAEAEA;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+.exam-card .icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 26px;
+    background-color: #fff;
+}
+.exam-card .icon{
+    background-color: #F5F5F5;
+}
+.exam-card .icon svg path{
+    transition: all .3s ease;
+    stroke: var(--dark-color);
+}
+.science .exam-card:hover .icon{
+    transition: all .3s ease;
+    background-color: var(--science-soft-color);
+}
+.science .exam-card:hover .icon svg path{
+    stroke: var(--science-color);
+}
+.mathematics .exam-card:hover .icon{
+    background-color: var(--mathematics-soft-color);
+}
+.mathematics .exam-card:hover .icon svg path{
+    stroke: var(--mathematics-color);
+}
+.exam-card .content{
+    padding: 1rem;
+    text-align: center;
+    background: #fff;
+}
+.exam-card .content .title{
+    font-family: "bold";
+    font-size: 16px;
+    margin-bottom: 1rem;
+}
+.exam-card .content .question-count{
+    font-family: "normal";
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+.exam-card .content .question-count span{
+    font-family: "bold";
+}
+.exam-card .content .btn{
+    max-width: 246px;
+    width: 100%;
+    height: 50px;
+    line-height: 45px;
+    padding: 0 1rem;
+    border-radius: 50px;
+    border: 1px solid #EAEAEA;
+}
+.science .exam-card .content .btn{
+    color: var(--science-color);
+}
+.mathematics .exam-card .content .btn{
+    color: var(--mathematics-color);
+}
+.science .exam-card:hover .content .btn{
+    background-color: var(--science-color);
+    border-color: var(--science-color);
+    color: #fff;
+}
+.mathematics .exam-card:hover .content .btn{
+    background-color: var(--mathematics-color);
+    border-color: var(--mathematics-color);
+    color: #fff;
+}
+
+.science .exam-card:hover{
+    border-color: var(--science-color);
+}
+.mathematics .exam-card:hover{
+    border-color: var(--mathematics-color);
+}
+.science .exam-card:hover .content .title{
+    color: var(--science-color);
+}
+.mathematics .exam-card:hover .content .title{
+    color: var(--mathematics-color);
+}
+
+.c-modal.modal-content{
+    border-radius: 32px;
+}
+.exam-confirm{
+    text-align: center;
+}
+.science .exam-confirm .icon{
+    margin-bottom: 0;
+}
+.science .exam-confirm .icon svg path{
+    stroke: var(--science-color)
+}
+.mathematics .exam-confirm .icon svg path{
+    stroke: var(--mathematics-color)
+}
+.exam-confirm .content{
+    padding: 2rem;
+}
+.exam-confirm .content .title{
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-family: "bold";
+}
+.exam-confirm .content .info{
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-family: "normal";
+}
+.exam-confirm .content .btn{
+    max-width: 246px;
+    width: 100%;
+    height: 50px;
+    line-height: 45px;
+    padding: 0 1rem;
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 25px;
+}
+.science .exam-confirm .content .btn{
+    background-color: var(--science-color);
+    border-color: var(--science-color);
+}
+.mathematics .exam-confirm .content .btn{
+    background-color: var(--mathematics-color);
+    border-color: var(--mathematics-color);
+}
+
+
+/*
+    Exam View
+*/
+
+.exam-view .header-card{
+    margin-bottom: 30px;
+}
+.exam-view .header-card .info{
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    padding: 30px 60px;
+    border: none;
+}
+.science .exam-view .header-card{
+    background-color: var(--science-color);
+}
+.mathematics .exam-view .header-card{
+    background-color: var(--mathematics-color);
+}
+
+.exam-view .exam-details{
+    text-align: initial;
+}
+.exam-view .exam-details.en{
+    direction: ltr;
+}
+.exam-view .exam-details ul{
+    padding: 0;
+}
+.exam-view .exam-details ul li{
+    font-size: 14px;
+    padding: .35rem 0;
+}
+.exam-view .exam-timer .countdown{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 800;
+    gap: 1rem;
+    background-color: rgb(255, 255, 255, .15);
+    color: #fff;
+}
+.exam-view .exam-timer .countdown .icon svg{
+    width: 30px;
+    height: 30px;
+}
+.exam-view .exam-timer .countdown .icon svg [stroke]{
+    stroke: #fff;
+}
+
+/*
+    question-card
+*/
+.true-false-pic{
+
+}
+.match-pic{
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%; /* This ensures the image takes the full width of the container */
+    height: 200px; /* Set your desired height for the container */
+    overflow: hidden; /* This will ensure that the image does not overflow the container */
+}
+.match-pic img{
+    max-width: 100%; /* This makes the image take the maximum available width */
+    max-height: 100%; /* This makes the image take the maximum available height */
+}
+.option-pic{
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%; /* This ensures the image takes the full width of the container */
+    height: 200px; /* Set your desired height for the container */
+    overflow: hidden; /* This will ensure that the image does not overflow the container */
+}
+.option-pic img{
+    max-width: 100%; /* This makes the image take the maximum available width */
+    max-height: 100%; /* This makes the image take the maximum available height */
+}
+.question-card{
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 45px 60px;
+    margin-bottom: 30px;
+}
+.question-card .question-content .pic{
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%; /* This ensures the image takes the full width of the container */
+    height: 250px; /* Set your desired height for the container */
+    overflow: hidden; /* This will ensure that the image does not overflow the container */
+    /*max-width: 520px;*/
+    /*margin: auto;*/
+    margin-bottom: 20px;
+}
+.q-image{
+    /*height: 400px;*/
+    /*width: 500px;*/
+    /*object-fit: fill*/
+}
+/*.q-image{*/
+/*    height: 400px;*/
+/*    width: 500px;*/
+/*    object-fit: fill*/
+/*}*/
+.q-number{
+    /*background-color: #CBB4E0;*/
+    /*color:#540d95;*/
+    background-color:#7E44B2FF;
+    color:#ffffff;
+    border-radius: 50%;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.question-card .question-content .pic img{
+    max-width: 100%; /* This makes the image take the maximum available width */
+    max-height: 100%; /* This makes the image take the maximum available height */
+    /*width: 100%;*/
+}
+.answer-content{
+    border-radius: 20px;
+    background-color: #F5F7F9;
+    border: 1px solid #EAEAEA;
+    /*padding-inline-start: 20px;*/
+}
+.answer-content .answer-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+.mathematics .answer-content .answer-card .title .icon svg path{
+    fill: var(--mathematics-color);
+}
+.science .answer-content .answer-card .title .icon svg path{
+    fill: var(--science-color);
+}
+.answer-content .answer-card .answer-group{
+    display: flex;
+    gap: 30px;
+    background-color: #fff;
+    /*border: 1px solid #EAEAEA;*/
+    height: 100%;
+    /*border-radius: 20px;*/
+    padding: 20px;
+}
+.form-check-input {
+    width: 25px;
+    height: 25px;
+    margin-top: 0;
+    margin-inline-end: 14px;
+    border-color: #D9D9DC;
+    box-shadow: none;
+    border: 3px solid rgb(5 3 3 / 25%);
+}
+.form-check-input:checked{
+    box-shadow: none;
+}
+.science .form-check-input:checked{
+    background-color: var(--science-color);
+    border-color: var(--science-color);
+}
+.mathematics .form-check-input:checked{
+    background-color: var(--mathematics-color);
+    border-color: var(--mathematics-color);
+}
+
+.action-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.action-content .btn{
+    min-width: 220px;
+    border-radius: 50px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 1rem;
+    border: 1px solid transparent
+}
+.science .action-content .btn.btn-prev{
+    color: var(--science-color);
+    background-color: var(--science-soft-color);
+}
+.science .action-content .btn.btn-submit,
+.science .action-content .btn.btn-next{
+    color: #fff;
+    background-color: var(--science-color);
+}
+.mathematics .action-content .btn.btn-prev{
+    color: var(--mathematics-color);
+    background-color: var(--mathematics-soft-color);
+}
+.mathematics .action-content .btn.btn-next{
+    color: #fff;
+    background-color: var(--mathematics-color);
+}
+.form-check .form-check-custom{
+    padding: .5rem 1.5rem;
+    border-radius: 30px;
+    cursor: pointer;
+    border: 1px solid #eaceff;
+}
+.form-check .form-check-custom img{
+    margin-inline-end: 1rem;
+}
+.science .form-check input:checked + label.form-check-custom{
+    /*background-color: #9550d5;*/
+    background-color: #7E44B2FF;
+    color: #ffffff;
+    /*background-color: var(--science-soft-color);*/
+    /*color: var(--science-color)*/
+}
+.mathematics .form-check input:checked + label.form-check-custom{
+    background-color: var(--mathematics-soft-color);
+    color: var(--mathematics-color)
+}
+
+.answer-group .form-group{
+    width: 420px;
+}
+.answer-group .form-group .form-control{
+    box-shadow: none;
+}
+
+
+
+.answer-list:not(.answers){
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: 1px solid #EAEAEA;
+    min-height: 75px;
+    border-radius: 20px;
+    padding: 20px;
+}
+.answer-list .answer-box{
+    background-color: #F5F7F9;
+    border-radius: 10px;
+    color: var(--dark-color);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 65px;
+    transition: all .3s ease;
+}
+.science .answer-list .answer-box:hover{
+    background-color: var(--science-soft-color);
+    color: var(--science-color)
+}
+.mathematics .answer-list .answer-box:hover{
+    background-color: var(--mathematics-soft-color);
+    color: var(--mathematics-color);
+}
+
+.complete-answer-question{
+    display: flex;
+    gap: 1rem;
+}
+.complete-answer-question .question{
+    width: 100%;
+}
+.complete-answer-question .complete-answer-question-title{
+    width: 100%;
+    position: relative;
+    padding: 0 2rem;
+    border: 1px solid #EAEAEA;
+    font-size: 14px;
+    color: var(--dark-color);
+    border-radius: 50px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    min-height: 65px;
+}
+.complete-answer-question .complete-answer-question-title img{
+    max-height: 150px;
+    object-fit: cover;
+}
+.complete-answer-question .complete-answer-question-title::after{
+    position: absolute;
+    content: "";
+    width: 220px;
+    height: 100%;
+    top: 0;
+    right: calc(100% + 1rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    min-height: 65px;
+    z-index: 0;
+}
+[dir="ltr"] .complete-answer-question .complete-answer-question-title::after{
+    right: auto;
+    left: calc(100% + 1rem);
+}
+.science .complete-answer-question .complete-answer-question-title::after{
+    background-color: var(--science-soft-color);
+    border: 1px dashed var(--science-color);
+    color: var(--science-color);
+    border-radius: 50px;
+}
+.mathematics .complete-answer-question .complete-answer-question-title::after{
+    background-color: var(--mathematics-soft-color);
+    border: 1px dashed var(--mathematics-color);
+    color: var(--mathematics-color);
+    border-radius: 50px;
+}
+.complete-answer-question .answers{
+    position: relative;
+    z-index: 2;
+    min-width: 220px;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    padding: 0;
+    text-align: center;
+}
+.complete-answer-question .answers .form-answer .answer-box{
+    background-color: transparent;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+}
+.complete-answer-question .answers .form-answer:last-child .answer-box{
+    margin-bottom: 0;
+}
+
+
+/*
+    progress-card
+*/
+
+.progress-card .nav{
+    justify-content: center;
+    margin-bottom: 1rem;
+    border: none;
+}
+.progress-card .nav .nav-link{
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.progress-card .nav .nav-link .question-number{
+    color: #fff;
+    font-size: 11px;
+    margin-bottom: 5px;
+    opacity: 0;
+    transition: all .3s ease;
+}
+.progress-card .nav .nav-item:first-child .nav-link .question-number,
+.progress-card .nav .nav-item .nav-link.active .question-number,
+.progress-card .nav .nav-item .nav-link:hover .question-number,
+.progress-card .nav .nav-item:last-child .nav-link .question-number{
+    opacity: 1;
+}
+
+
+.progress-card .nav .nav-link .question-dot{
+    width: 20px;
+    height: 6px;
+    border-radius: 30px;
+    display: block;
+    background-color: #fff;
+}
+
+.progress-card .nav .nav-item .nav-link.active .question-dot,
+.progress-card .nav .nav-item .nav-link.done .question-dot{
+    background-color: #FFCB57;
+}
+
+
+.exam-view .tab-content .tab-pane:first-child .action-content{
+    justify-content: flex-end;
+}
+.exam-view .tab-content .tab-pane:first-child .action-content .btn-prev{
+    display: none;
+}
+
+
+
+.confirm-card .confirm-box{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 50px 20px;
+    text-align: center;
+}
+.confirm-card .confirm-box .pic{
+    margin-bottom: 40px;
+}
+.confirm-card .confirm-box .title{
+    font-size: 20px;
+    font-weight: bold;
+    color: #041637;
+    margin-bottom: 20px;
+}
+.confirm-card .confirm-box .info{
+    font-size: 14px;
+    color: #041637;
+    margin-bottom: 0;
+}
+.confirm-card .btn-submit{
+    min-width: 200px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 1rem;
+    color: #fff;
+    border-radius: 20px;
+}
+.confirm-card .progress{
+    max-width: 540px;
+    margin: auto;
+    width: 100%;
+    height: 24px;
+    border-radius: 30px;
+    background-color: #EAEAEA;
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+.confirm-card .progress .progress-bar{
+    height: 24px;
+    border-radius: 30px;
+}
+
+.science .confirm-card .progress .progress-bar{
+    background-color: var(--science-color);
+}
+.mathematics .confirm-card .progress .progress-bar{
+    background-color: var(--mathematics-color);
+}
+
+
+/*
+    bg-home-mathematics
+*/
+
+.home-page .header .content{
+    padding: 30px 0px 25px 0;
+}
+.bg-home-science{
+    background-image: url(../img/bg-home-science.svg);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bg-home-mathematics{
+    background-image: url(../img/bg-home-mathematics.svg);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bg-home-science .header .lang,
+.bg-home-mathematics .header .lang{
+    color: #fff;
+}
+
+.bg-home-mathematics .blackboard-card{
+    background-image: url(../img/mathematics-blackboard.svg);
+}
+.bg-home-science .blackboard-card{
+    background-image: url(../img/science-blackboard.svg);
+}
+.blackboard-card{
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-width: 772px;
+    height: 460px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    padding-top: 120px;
+}
+.blackboard-card .title{
+    font-size: 68px;
+    font-family: "bold";
+    margin-bottom: 20px;
+    color: #FFEED8;
+}
+.blackboard-card .sub-title{
+    font-size: 35px;
+    font-family: "bold";
+    text-transform: uppercase;
+    margin-bottom: 0;
+    color: #FFEED8;
+}
+
+.login-option{
+    gap: 40px;
+    margin: 40px auto;
+}
+.login-option .nav-item .nav-link{
+    font-size: 14px;
+    color: var(--dark-color);
+    border-radius: 50px;
+    padding: .75rem 2rem;
+    transition: all .3s ease;
+    background-color: rgb(254, 239, 231, .5);
+}
+.login-option .nav-item .nav-link:hover{
+    background-color: #FEEFE7;
+    color: var(--dark-color);
+}
+
+.main-footer{
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.main-footer .contact{
+    direction: ltr;
+    display: flex;
+    gap: 20px;
+}
+.main-footer .contact a{
+    color: var(--dark-color);
+}
+
+.bg-home-science .main-footer .copyright,
+.bg-home-science .main-footer .contact a{
+    color: #fff;
+}
+.main-footer .contact a span img{
+    margin-right: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 10px;
+    text-align: center;
+}

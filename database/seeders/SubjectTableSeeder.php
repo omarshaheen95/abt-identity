@@ -15,9 +15,9 @@ class SubjectTableSeeder extends Seeder
     public function run()
     {
         $subjects = [
-            ['name'=>'Culture','mark'=>25],
-            ['name'=>'History','mark'=>25],
-            ['name'=>'Science','mark'=>25],
+            ['name'=>'Culture','mark'=>40],
+            ['name'=>'Values','mark'=>30],
+            ['name'=>'Citizenship','mark'=>30],
         ];
        foreach($subjects as $subject){
            Subject::query()->updateOrCreate(['name'=>$subject['name']],$subject);

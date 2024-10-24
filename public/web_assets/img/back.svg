@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38">
+  <g id="back" transform="translate(-0.488 -0.488)">
+    <rect id="bg" width="38" height="38" rx="19" transform="translate(0.488 0.488)" fill="#eceef3"/>
+    <g id="back-2" data-name="back" transform="translate(11.917 13.649)" style="isolation: isolate">
+      <g id="Group_56390" data-name="Group 56390" style="isolation: isolate">
+        <path id="Path_65250" data-name="Path 65250" d="M674.4,377.934l4.3,4.3H665.984V383.5h12.707l-4.3,4.3.911.91,5.383-5.383.436-.455-.436-.455-5.383-5.383Z" transform="translate(-665.984 -377.024)" fill="#172239"/>
+      </g>
+    </g>
+  </g>
+</svg>

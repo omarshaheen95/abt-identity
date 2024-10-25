@@ -43,7 +43,7 @@
 
 }
 .sortable2.active2 li {
-    border-color: #7E44B2;
+    border-color: #068241;
     padding: 10px 0;
     border-radius: 50px;
     border-width: 0.2px;
@@ -57,7 +57,7 @@
 
 .sortable2.imageOnly li {
     color: #000000;
-    border-color: #7E44B2;
+    border-color: #068241;
     border-radius: 50px;
     margin-top: 10px;
     padding: 110px 0 !important;
@@ -65,7 +65,7 @@
 .sort-container{
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid #7E44B2;
+    border: 1px solid #068241;
     min-height: 90px;
     border-radius: 10px;
     /*position: relative;*/
@@ -170,7 +170,7 @@
     background-color: #c4bad3;
 
     border-radius: 50px;
-    border-color: #7E44B2;
+    border-color: #068241;
     border-width: 0.2px;
     text-align: center;
     line-height: 2.5;
@@ -196,17 +196,17 @@
     width: auto;
     padding-left: 20px;
     padding-right: 20px;
-    background-color: #7E44B2;
-    border-color: #7E44B2;
+    background-color: #068241;
+    border-color: #068241;
     font-weight: bold;
     color: #FFFFFF;
     border-radius: 2rem;
 }
 .btn_nav:hover{
-    background-color: #64368d;
+    background-color: #055b2e;
     color: #FFFFFF;
 }
 .btn_nav_active{
-    background-color: #64368d;
+    background-color: #068241;
     color: #FFFFFF;
 }

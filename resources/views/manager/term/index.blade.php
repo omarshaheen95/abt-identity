@@ -1,17 +1,17 @@
 @extends('manager.layout.container')
 @section('title')
-    {{t('Terms')}}
+    {{$title}}
 @endsection
 @push('breadcrumb')
     <li class="breadcrumb-item text-muted">
-        {{t('Terms')}}
+        {{$title}}
     </li>
 @endpush
 
 @section('actions')
     @can('add terms')
         <a href="{{route('manager.term.create')}}" class="btn btn-primary font-weight-bolder">
-            <i class="la la-plus"></i>{{t('Create Term')}}</a>
+            <i class="la la-plus"></i>{{t('Create Assessment')}}</a>
     @endcan
 
     <div class="dropdown" id="actions_dropdown">

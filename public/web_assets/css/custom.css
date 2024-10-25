@@ -18,8 +18,8 @@
     src: url("../fonts/FFShamelRounded-Normal.ttf");
 }
 :root{
-    --science-color: #7E44B2;
-    --science-soft-color: rgb(145, 91, 202, .2);
+    --science-color: #068241;
+    --science-soft-color: rgb(6,130,65, .2);
     --mathematics-color:#20B2AA;
     --mathematics-soft-color:rgb(32, 178, 170, .2);
     --dark-color: #042423;
@@ -785,7 +785,7 @@ form.disabled{
 .q-number{
     /*background-color: #CBB4E0;*/
     /*color:#540d95;*/
-    background-color:#7E44B2FF;
+    background-color:#068241FF;
     color:#ffffff;
     border-radius: 50%;
     padding: 5px;
@@ -888,7 +888,7 @@ form.disabled{
 }
 .science .form-check input:checked + label.form-check-custom{
     /*background-color: #9550d5;*/
-    background-color: #7E44B2FF;
+    background-color: #068241FF;
     color: #ffffff;
     /*background-color: var(--science-soft-color);*/
     /*color: var(--science-color)*/

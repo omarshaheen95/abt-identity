@@ -112,7 +112,7 @@ class TermController extends Controller
     }
     public function export(Request $request)
     {
-        return (new TermExport($request))->download('Terms Details.xlsx');
+        return (new TermExport($request))->download('Assessments Details.xlsx');
     }
 
     public function preview($id){
@@ -218,7 +218,7 @@ class TermController extends Controller
 
     public function termsQuestionsExport(Request $request)
     {
-        return (new QuestionsExport($request))->download('Terms Questions Details.xlsx');
+        return (new QuestionsExport($request))->download('Assessments Questions Details.xlsx');
     }
 
     public function termsNames(Request $request, $level)
@@ -468,7 +468,7 @@ class TermController extends Controller
             }
         });
 
-        return redirect()->back()->with('message', t('Terms copied successfully'));
+        return redirect()->back()->with('message', t('Assessments copied successfully'));
 
     }
 
@@ -547,7 +547,7 @@ class TermController extends Controller
                     ->where('year_id', $request->get('year_id'));
             })->where('round', $request->get('round'))
             ->update(['active' => $request->get('active')]);
-        return $this->sendResponse(null,t('Terms Status Updated Successfully to').': '.($request->get('active')?t('Active'):t('Non-Active')));
+        return $this->sendResponse(null,t('Assessments Status Updated Successfully to').': '.($request->get('active')?t('Active'):t('Non-Active')));
     }
 
 }

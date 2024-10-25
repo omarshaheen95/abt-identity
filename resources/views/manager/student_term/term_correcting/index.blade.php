@@ -16,7 +16,7 @@
                 </a>
                 <a href="#!" class="btn btn-primary leave-exam text-white"
                    style="background-color: #7d44b1;border-color: #7d44b1">
-                    {{t('Term Approval')}}
+                    {{t('Assessment Approval')}}
                 </a>
             </div>
         </div>
@@ -266,7 +266,7 @@
                             <div class="content">
                                 <h2 class="title" dir="ltr">{{t('Do you want to approve the term?')}}</h2>
                                 <a href="#!" class="btn btn-exam-view"
-                                   onclick="examFormSubmit()">{{t('Term Approval')}}</a>
+                                   onclick="examFormSubmit()">{{t('Assessment Approval')}}</a>
                             </div>
                         </div>
                     </div>

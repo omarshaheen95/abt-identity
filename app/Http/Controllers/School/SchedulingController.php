@@ -16,7 +16,7 @@ class SchedulingController extends Controller
         $grades = SchoolGrade::query()->where('school_id',$id)->get();
         $school = School::query()->where('id',$id)->first();
         $years = Year::query()->get();
-        $title = t('Terms Scheduling');
+        $title = t('Assessments Scheduling');
         return view('school.terms.scheduling',compact('grades','school','years','title'));
     }
 
@@ -41,7 +41,7 @@ class SchedulingController extends Controller
                     ]);
             }
         }
-        return redirect()->back()->with('message',t('Terms scheduling updated successfully '));
+        return redirect()->back()->with('message',t('Assessments scheduling updated successfully '));
     }
 
 }

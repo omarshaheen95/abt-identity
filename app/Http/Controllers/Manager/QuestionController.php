@@ -45,7 +45,7 @@ class QuestionController extends Controller
     public function showQuestionsStructure($id){
         $term = Term::with('question')->where('id',$id)->first();
         $questions = $term->getRelation('question');
-        $title = t('Term Questions Structure');
+        $title = t('Assessment Questions Structure');
         $types = Question::getQuestionTypes();
         $subjects = Subject::all();
         return view('manager.term.questions_structure',
@@ -152,7 +152,7 @@ class QuestionController extends Controller
 
 
     public function showQuestions($id){
-        $title = t('Term Questions Content');
+        $title = t('Assessment Questions Content');
         $term = Term::query()->where('id',$id)->first();
         $questions = Question::with(['tf_question','option_question','match_question','sort_question','fill_blank_question','question_standard','subject'])
             ->where('term_id', $id)->get()->groupBy('subject_id');

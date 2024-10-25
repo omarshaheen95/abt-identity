@@ -44,7 +44,7 @@ class MarkingRequestController extends Controller
                 })
                 ->addColumn('status', function ($row) {
                     $html = '<span>'.t($row->status).'</span> <br>';
-                    $html .='<div class="d-flex mt-3">'.t('Terms').': ' .'  <span class="badge badge-info ms-1">' . $row->uncorrected_student_terms_count . '</span></div>';
+                    $html .='<div class="d-flex mt-3">'.t('Assessments').': ' .'  <span class="badge badge-info ms-1">' . $row->uncorrected_student_terms_count . '</span></div>';
                     return $html;
                 })->addColumn('year', function ($row) {
                     return $row->year->name;

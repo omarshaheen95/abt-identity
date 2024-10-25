@@ -785,4 +785,5 @@ return
  	'Inspection Sign In' => 'Inspection Sign In',
  	'Uncorrected Student Assessments' => 'Uncorrected Student Assessments',
  	'Corrected Student Assessments' => 'Corrected Student Assessments',
+ 	'Create Assessment' => 'Create Assessment',
 ];

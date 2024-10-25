@@ -7,7 +7,7 @@
 @push('breadcrumb')
     <li class="breadcrumb-item text-muted">
         <a href="{{route('manager.term.index')}}" class="text-muted">
-            {{t('Terms')}}
+            {{t('Assessments')}}
         </a>
     </li>
     <li class="breadcrumb-item text-muted">

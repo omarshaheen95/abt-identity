@@ -17,7 +17,8 @@ class CreateQuestionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('term_id');
             $table->enum('type',['true_false','multiple_choice','matching','sorting','article','fill_blank']);
-            $table->foreignId('subject_id')->constrained('subjects');
+            $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
+            $table->unsignedBigInteger('question_file_id');
             $table->text('content')->nullable();
             $table->string('image')->nullable();
             $table->string('audio')->nullable();
@@ -27,6 +28,7 @@ class CreateQuestionsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('term_id')->on('terms')->references('id')->cascadeOnDelete();
+            $table->foreign('question_file_id')->on('question_files')->references('id')->cascadeOnDelete();
         });
     }
 

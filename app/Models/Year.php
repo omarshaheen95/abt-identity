@@ -43,7 +43,7 @@ class Year extends Model
             ['key'=>'edit','name'=>t('Edit'),'route'=>route('manager.year.edit', $this->id),'permission'=>'edit years'],
             ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete years'],
         ];
-        return view('manager.settings.action_menu')->with('actions',$actions);
+        return view('general.action_menu')->with('actions',$actions);
 
     }
 }

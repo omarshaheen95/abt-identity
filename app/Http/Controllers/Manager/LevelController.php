@@ -158,8 +158,8 @@ class LevelController extends Controller
             $levels_grade [] = [
                 'name' => json_encode(
                     [
-                        'ar' => "Grade $grade Math - Sep $first_year to May $second_year",
-                        'en' => "Grade $grade Math - Sep $first_year to May $second_year",
+                        'ar' => "Grade $grade - Sep $first_year to May $second_year",
+                        'en' => "Grade $grade - Sep $first_year to May $second_year",
                     ]
                 ),
                 'year_id' => $year_id,

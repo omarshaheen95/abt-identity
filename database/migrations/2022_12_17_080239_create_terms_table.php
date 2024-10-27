@@ -20,7 +20,6 @@ return new class extends Migration
             $table->enum('round', ['september', 'february', 'may']);
             $table->boolean('active')->default(1);
             $table->float('duration')->default(60)->comment('by minutes');
-            $table->boolean('demo');
             $table->timestamps();
             $table->softDeletes();
 

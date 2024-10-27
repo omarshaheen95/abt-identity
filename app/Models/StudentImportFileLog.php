@@ -51,6 +51,6 @@ class StudentImportFileLog extends Model
             ['key' => 'save', 'name' => t('Save'), 'route' => $this->id, ],
             ['key' => 'delete', 'name' => t('Delete'), 'route' => $this->id, ],
         ];
-        return view('manager.settings.action_menu')->with('actions', $actions);
+        return view('general.action_menu')->with('actions', $actions);
     }
 }

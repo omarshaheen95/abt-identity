@@ -17,13 +17,13 @@ use Spatie\Translatable\HasTranslations;
 class Term extends Model
 {
     use SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = [ 'name', 'level_id', 'round', 'active', 'duration','show_calculator'];
+    protected static $logAttributes = [ 'name', 'level_id', 'round', 'active', 'duration'];
 
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
     //round 'september', 'february', 'may'
     protected $fillable = [
-        'name', 'level_id', 'round', 'active','demo', 'duration'
+        'name', 'level_id', 'round', 'active', 'duration'
     ];
     public $translatable = ['name'];
     protected $cascadeDeletes = ['student_terms','question'];
@@ -82,7 +82,7 @@ class Term extends Model
 
         $actions [] = ['key' => 'delete', 'name' => t('Delete'), 'route' => $this->id, 'permission' => 'delete terms'];
 
-        return view('manager.settings.action_menu')->with('actions', $actions);
+        return view('general.action_menu')->with('actions', $actions);
     }
 
 

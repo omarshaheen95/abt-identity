@@ -16,13 +16,13 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Question extends Model
 {
     use SoftDeletes,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = ['term_id','type','content','image','subject_id','audio','mark','question_reader', 'formula'];
+    protected static $logAttributes = ['term_id','type','content','image','subject_id','audio','mark','question_reader', 'question_file_id'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
 
-    protected $fillable = ['term_id','type','content','image','subject_id','audio','mark','question_reader'];
+    protected $fillable = ['term_id','type','content','image','subject_id','audio','mark','question_reader','question_file_id'];
     protected $cascadeDeletes = [
         'tf_question','tf_question_result',
         'option_question','option_question_result',

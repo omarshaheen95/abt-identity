@@ -84,6 +84,11 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'show questions content','guard_name'=>'manager','group'=>'terms'],
             ['name' => 'edit questions content','guard_name'=>'manager','group'=>'terms'],
 
+            ['name' => 'show imported questions','guard_name'=>'manager','group'=>'questions_import'],
+            ['name' => 'import questions','guard_name'=>'manager','group'=>'questions_import'],
+            ['name' => 'edit imported questions','guard_name'=>'manager','group'=>'questions_import'],
+            ['name' => 'delete imported questions','guard_name'=>'manager','group'=>'questions_import'],
+
             ['name' => 'show students not submitted term','guard_name'=>'manager','group'=>'terms'],
             ['name' => 'export students not submitted term','guard_name'=>'manager','group'=>'terms'],
 
@@ -121,6 +126,8 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'show login sessions','guard_name'=>'manager','group'=>'login_sessions'],
 
             ['name' => 'copy terms','guard_name'=>'manager','group'=>'terms'],
+
+
 
 
         ];

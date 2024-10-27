@@ -68,7 +68,7 @@ class Inspection extends Authenticatable
             ['key'=>'login','name'=>t('Login'),'route'=>route('manager.login-inspection', $this->id),'permission'=>'inspection login'],
             ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete inspections'],
         ];
-        return view('manager.settings.action_menu')->with('actions',$actions);
+        return view('general.action_menu')->with('actions',$actions);
     }
 
     static function getInspectionSchools(){

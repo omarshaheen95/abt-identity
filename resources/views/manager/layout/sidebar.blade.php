@@ -178,7 +178,16 @@
                                     </a>
                                 </div>
                             @endcan
-
+                            @can('show imported questions')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/question-file') )active @endif" href="{{ route('manager.question-file.index') }}">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                        <span class="menu-title">{{t('Import Questions')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
 
 
                         </div>

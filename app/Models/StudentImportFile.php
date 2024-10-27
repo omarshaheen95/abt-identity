@@ -55,7 +55,7 @@ public function logs()
         $actions[]= ['key' => 'delete', 'name' => t('Delete'), 'route' => $this->id, 'permission' => 'delete students import'];
 
 
-        return view('manager.settings.action_menu')->with('actions', $actions);
+        return view('general.action_menu')->with('actions', $actions);
     }
 
 }

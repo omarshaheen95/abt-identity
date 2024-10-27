@@ -45,7 +45,7 @@ class Manager extends Authenticatable
             ['key'=>'track_logs','name'=>t('Track Activity'),'route'=>route('manager.activity-log.index', ['causedByManager'=>$this->id]),'permission'=>'show activity logs'],
             ['key' => 'delete', 'name' => t('Delete'), 'route' => $this->id, 'permission' => 'delete managers'],
         ];
-        return view('manager.settings.action_menu')->with('actions', $actions);
+        return view('general.action_menu')->with('actions', $actions);
     }
     public function login_sessions(){
         return $this->morphMany(LoginSession::class,'model');

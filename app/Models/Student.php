@@ -135,7 +135,7 @@ class Student extends Authenticatable
                     ['key'=>'login','name'=>t('Login'),'route'=>route('manager.student.student-login', $this->id),'permission'=>'student login'],
                     ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete students'],
                 ];
-                return view('manager.settings.action_menu')->with('actions',$actions);
+                return view('general.action_menu')->with('actions',$actions);
             }
         }
         elseif (\request()->is('school/*')){
@@ -152,7 +152,7 @@ class Student extends Authenticatable
                 ['key'=>'login','name'=>t('Login'),'route'=>route('inspection.student.student-login', $this->id)],
             ];
         }
-        return view('manager.settings.action_menu')->with('actions',$actions);
+        return view('general.action_menu')->with('actions',$actions);
 
     }
 

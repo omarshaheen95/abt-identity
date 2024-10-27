@@ -40,7 +40,7 @@ class ActivityLogController extends Controller
                     return optional($row->causer)->name ?? t('System');
                 })
                 ->addColumn('actions', function ($row) {
-                    return view('manager.settings.action_menu')->with('actions',$row->action_buttons);
+                    return view('general.action_menu')->with('actions',$row->action_buttons);
                 })
                 ->make();
         }

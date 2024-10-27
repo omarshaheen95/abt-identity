@@ -78,7 +78,7 @@ class MarkingRequest extends Model
             ];
 
         }
-        return view('manager.settings.action_menu')->with('actions', $actions);
+        return view('general.action_menu')->with('actions', $actions);
     }
 
     public function getGradesNameAttribute()

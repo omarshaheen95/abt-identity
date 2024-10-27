@@ -38,9 +38,14 @@
                           action="{{route('manager.term.update-questions',['id'=>request()['id']])}}"
                           enctype="multipart/form-data">
                         @csrf
-                        @foreach($questions[$subject->id] as $question)
-                            @include('manager.term.questions_types.'.$question->type)
-                        @endforeach
+                        @if(isset($questions[$subject->id]))
+                            @foreach($questions[$subject->id] as $question)
+                                @include('manager.term.questions_types.'.$question->type)
+                            @endforeach
+                        @else
+                            <h4 class="text-center">{{t('The subject not have any questions!')}}</h4>
+                        @endif
+
                         <button type="submit" class="btn btn-primary">{{t('Save')}}</button>
                     </form>
                 </div>

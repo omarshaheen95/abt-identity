@@ -63,7 +63,7 @@ class Level extends Model
             ['key'=>'edit','name'=>t('Edit'),'route'=>route('manager.level.edit', $this->id),'permission'=>'edit levels'],
             ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete levels'],
         ];
-        return view('manager.settings.action_menu', compact('actions'));
+        return view('general.action_menu', compact('actions'));
 
     }
 

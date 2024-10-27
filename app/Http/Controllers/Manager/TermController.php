@@ -334,7 +334,7 @@ class TermController extends Controller
 
                 })
                 ->addColumn('actions', function ($term) {
-                    // return view('manager.settings.action_menu')->with('actions',$term->action_buttons);
+                    // return view('general.action_menu')->with('actions',$term->action_buttons);
                 })->make();
         }
         $years = Year::query()->get();

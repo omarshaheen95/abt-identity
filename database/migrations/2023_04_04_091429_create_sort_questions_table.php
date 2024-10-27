@@ -18,7 +18,7 @@ class CreateSortQuestionsTable extends Migration
             $table->uuid('uid')->index();
             $table->unsignedBigInteger('question_id');
             $table->string('content')->nullable();
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->tinyInteger('ordered');
             $table->timestamps();
             $table->softDeletes();

@@ -78,6 +78,12 @@ Route::group([], function () {
     Route::post('term/question/delete-file', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteQuestionFile'])->name('term.delete-question-file');
     Route::post('term/question/delete-option-image', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteOptionImageRequest'])->name('term.delete-option-image');
 
+    //Question File
+    Route::resource('question-file', \App\Http\Controllers\Manager\QuestionFileController::class)->except(['destroy', 'edit', 'update']);
+    Route::delete('question-file/delete', [\App\Http\Controllers\Manager\QuestionFileController::class, 'destroy'])->name('question-file.destroy');
+    Route::get('download_question_file/{id}', [\App\Http\Controllers\Manager\QuestionFileController::class, 'downloadFile'])->name('question-file.download_file');
+
+
     //Term
     Route::resource('term', \App\Http\Controllers\Manager\TermController::class)->except(['destroy']);
     Route::post('term-export', [\App\Http\Controllers\Manager\TermController::class, 'export'])->name('term.export');
@@ -157,6 +163,9 @@ Route::group([], function () {
         return redirect()->route('manager.home');
 
     });
+
+    Route::get('get-levels-by-year/{id}', [\App\Http\Controllers\GeneralController::class, 'levelsByYear'])->name('get-levels-by-year');
+    Route::get('get-terms-by-level/{id}', [\App\Http\Controllers\GeneralController::class, 'termsByLevel'])->name('get-terms-by-level');
 
 
 });

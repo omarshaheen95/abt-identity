@@ -51,6 +51,14 @@
                     @endforeach
                 </select>
             </div>
+                <div class="col-lg-4 mb-2">
+                    <label class="form-label mb-1">{{t('Section')}}:</label>
+                    <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Section')}}" name="section">
+                        <option></option>
+                            <option {{isset($level) && $level->arab == 1 ? 'selected':'' }} value="1">{{t('Arabs')}}</option>
+                            <option {{isset($level) && $level->arab == 0 ? 'selected':'' }} value="2">{{t('Non-Arabs')}}</option>
+                    </select>
+                </div>
 
                 <div class="col-lg-4 mt-8">
                     <div class="form-check form-switch form-check-custom form-check-solid">

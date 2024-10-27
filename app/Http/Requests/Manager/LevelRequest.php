@@ -27,6 +27,7 @@ class LevelRequest extends FormRequest
             'grade' => 'required',
             'slug' => 'nullable',
             'year_id' => 'required',
+            'section' => 'required|in:1,2',
         ];
         foreach(\Config::get('app.languages') as $locale)
         {

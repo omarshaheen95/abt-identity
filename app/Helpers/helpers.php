@@ -42,7 +42,7 @@ function getGuard()
 function settingCache($key)
 {
     //Cache::forget('settings');
-    $cache = Cache::remember('settings', 60 * 48, function () {
+    $cache = \Illuminate\Support\Facades\Cache::remember('settings', 60 * 48, function () {
         return \App\Models\Setting::get();
     });
 

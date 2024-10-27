@@ -785,4 +785,10 @@ return
  	'Inspection Sign In' => 'Inspection Sign In',
  	'Uncorrected Student Assessments' => 'Uncorrected Student Assessments',
  	'Corrected Student Assessments' => 'Corrected Student Assessments',
+
+ 	'Please enter our registered email' => 'Please enter our registered email',
+ 	'Create Assessment' => 'Create Assessment',
+ 	'Culture' => 'Culture',
+ 	'Values' => 'Values',
+ 	'Citizenship' => 'Citizenship',
 ];

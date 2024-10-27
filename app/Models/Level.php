@@ -18,12 +18,12 @@ class Level extends Model
 {
     use SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
     protected $fillable = [
-        'name', 'grade', 'slug', 'year_id', 'active'
+        'name', 'grade', 'slug', 'year_id', 'active', 'arab'
     ];
     public $translatable = ['name'];
     protected $cascadeDeletes = ['terms'];
 
-    protected static $logAttributes = [ 'name', 'year_id', 'grade', 'slug', 'active'];
+    protected static $logAttributes = [ 'name', 'year_id', 'grade', 'slug', 'active', 'arab'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 

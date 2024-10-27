@@ -62,6 +62,7 @@ class LevelController extends Controller
     {
         $data = $request->validated();
         $data['active'] = $request->get('active', false) ? 1 : 0;
+        $data['arab'] = $request->get('section', 1) != 2 ? 1 : 0;
         Level::query()->create($data);
         return redirect()->route('manager.level.index')->with('message', t('Successfully Created'));
     }
@@ -80,6 +81,7 @@ class LevelController extends Controller
         $level = Level::query()->findOrFail($id);
         $data = $request->validated();
         $data['active'] = $request->get('active', false) ? 1 : 0;
+        $data['arab'] = $request->get('section', 1) != 2 ? 1 : 0;
         $level->update($data);
         return redirect()->route('manager.level.index')->with('message', t('Successfully Updated'));
     }

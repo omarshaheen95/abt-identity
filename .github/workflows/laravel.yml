@@ -1,8 +1,8 @@
-name: Deploy ABT-Identitiy App
+name: Deploy ABT-Identity App
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   deploy:
@@ -12,11 +12,22 @@ jobs:
       # Check out the code
       - uses: actions/checkout@v4
 
+      # Add server to known hosts
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_ADDRESS }} >> ~/.ssh/known_hosts
+
       # Set up SSH for deployment
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Test SSH Connection
+      - name: Test SSH Connection
+        run: |
+          ssh -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_ADDRESS }} "echo Connection successful"
 
       # Deploy files to the server
       - name: Deploy to Server
@@ -24,9 +35,11 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_ADDRESS }} "
             cd /path/to/your/laravel/project &&
             git pull origin master &&
-            composer install --no-dev &&
+            composer install --no-dev --optimize-autoloader &&
             php artisan migrate --force &&
+            php artisan cache:clear &&
             php artisan config:cache &&
             php artisan route:cache &&
-            php artisan view:cache
+            php artisan view:cache &&
+            php artisan queue:restart
           "

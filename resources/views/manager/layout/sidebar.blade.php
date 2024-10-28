@@ -55,7 +55,7 @@
 
                 @can('show schools')
                     <div class="menu-item">
-                        <a class="menu-link @if(Request::is('manager/school*') && !Request::is('manager/school_level') ) active @endif" href="{{ route('manager.school.index') }}">
+                        <a class="menu-link @if(Request::is('manager/school*') || Request::is('manager/scheduling/*') && !Request::is('manager/school_level') ) active @endif" href="{{ route('manager.school.index') }}">
                     <span class="menu-icon">
                         <i class="ki-duotone ki-teacher fs-2">
                          <i class="path1"></i>
@@ -86,7 +86,7 @@
 
                 @can('show students')
                     <div class="menu-item">
-                        <a class="menu-link @if(Request::is('manager/student') )active @endif" href="{{ route('manager.student.index') }}">
+                        <a class="menu-link @if(Request::is('manager/student')|| Request::is('manager/student/*') )active @endif" href="{{ route('manager.student.index') }}">
                     <span class="menu-icon">
                        <i class="ki-duotone ki-profile-user fs-2">
                          <i class="path1"></i>

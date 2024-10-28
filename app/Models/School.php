@@ -101,7 +101,7 @@ class School extends Authenticatable
             $actions =  [
                 ['key'=>'edit','name'=>t('Edit'),'route'=>route('manager.school.edit', $this->id),'permission'=>'edit schools'],
                 ['key'=>'login','name'=>t('School Login'),'route'=>route('manager.school-login', $this->id),'permission'=>'school login'],
-                ['key'=>'terms_scheduling','name'=>t('Terms Scheduling'),'route'=>route('manager.school.scheduling.index', $this->id),'permission'=>'school terms scheduling'],
+                ['key'=>'terms_scheduling','name'=>t('Assessments Scheduling'),'route'=>route('manager.school.scheduling.index', $this->id),'permission'=>'school terms scheduling'],
                 ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete schools'],
             ];
         }else if (\request()->is('inspection/*')){

@@ -78,7 +78,7 @@
             <th class="text-start">{{t('Name')}}</th>
             <th class="text-start">{{t('Username')}}</th>
             <th class="text-start">{{t('Grade Name')}}</th>
-            <th class="text-start">{{t('Term')}}</th>
+            <th class="text-start">{{t('Assessment')}}</th>
             <th class="text-start">{{t('Round')}}</th>
             <th class="text-start">{{t('Year')}}</th>
             @if(request('type')=='corrected')

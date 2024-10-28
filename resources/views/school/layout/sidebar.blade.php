@@ -119,7 +119,7 @@
 
 
                 <div class="menu-item">
-                    <a class="menu-link @if(Request::is('school/student'))active @endif" href="{{ route('school.student.index') }}">
+                    <a class="menu-link @if(Request::is('school/student')||Request::is('school/student/*'))active @endif" href="{{ route('school.student.index') }}">
                                 <span class="menu-icon">
                                    <i class="ki-duotone ki-profile-user fs-2">
                                      <i class="path1"></i>

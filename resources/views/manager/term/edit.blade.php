@@ -5,7 +5,7 @@
 @push('breadcrumb')
     <li class="breadcrumb-item text-muted">
         <a href="{{route('manager.term.index')}}" class="text-muted">
-            {{t('Terms')}}
+            {{t('Assessments')}}
         </a>
     </li>
     <li class="breadcrumb-item text-muted">
@@ -24,8 +24,8 @@
         <div class="form-group row">
             @foreach(\Config::get('app.languages') as $locale)
                 <div class="col-lg-4 mb-2">
-                    <label class="mb-1">{{t('Term Name')}} : ({{$locale}})</label>
-                    <input name="name[{{$locale}}]" type="text" placeholder="{{t('Term Name')}}"
+                    <label class="mb-1">{{t('Assessment Name')}} : ({{$locale}})</label>
+                    <input name="name[{{$locale}}]" type="text" placeholder="{{t('Assessment Name')}}"
                            class="form-control"
                            value="{{ isset($term) ? $term->getTranslation('name', $locale) : old("name[$locale]") }}"
                     />

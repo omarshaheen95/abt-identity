@@ -24,14 +24,24 @@ class SchoolObserver
         $school->update(['available_year_id'=>$year_id]);
 
         $school_grades = [];
-        for ($i=0; $i<12; $i++){
+        foreach (range(1,12) as $grade)
+        {
             $school_grades[] = [
                 'school_id'=>$school->id,
-                'grade'=>$i+1,
+                'arab'=>1,
+                'grade'=>$grade,
+                'created_at'=>now(),
+                'updated_at'=>now()
+            ];
+            $school_grades[] = [
+                'school_id'=>$school->id,
+                'arab'=>0,
+                'grade'=>$grade,
                 'created_at'=>now(),
                 'updated_at'=>now()
             ];
         }
+
 
         SchoolGrade::insert($school_grades);
     }

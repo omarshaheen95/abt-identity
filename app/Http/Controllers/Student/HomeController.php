@@ -38,6 +38,7 @@ class HomeController extends Controller
             //get grade to check available round
             $grade =  SchoolGrade::with('school')
                 ->where('grade',$student->level->grade)
+                ->where('arab',$student->level->arab)
                 ->where('school_id',$student->school_id)
                 ->whereHas('school',function ($query) use ($student){
                     $query->where('available_year_id',$student->level->year_id);

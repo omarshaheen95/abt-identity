@@ -809,4 +809,10 @@ return
  	'Citizenship' => 'Citizenship',
  	'Show File Errors' => 'Show File Errors',
  	'Import Question' => 'Import Question',
+ 	'Assessments Scheduling' => 'Assessments Scheduling',
+ 	'Non-Arab' => 'Non-Arab',
+ 	'Assessments scheduling updated successfully' => 'Assessments scheduling updated successfully',
+ 	'3' => '3',
+ 	'Subjects' => 'Subjects',
+ 	'Subject ID' => 'Subject ID',
 ];

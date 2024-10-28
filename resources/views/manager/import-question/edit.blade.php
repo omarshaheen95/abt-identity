@@ -70,6 +70,24 @@
                 <a target="_blank" href="{{asset('Examples Sheets/Questions Sample.xlsx')}}?v={{time()}}"
                    class="btn btn-link text-primary ms-1 text-decoration-underline">{{t('Download')}}</a>
             </div>
+
+            <h5 class="m-0 mb-4">{{t('Subjects')}} :
+            </h5>
+            <table class="table table-separate table-bordered text-center">
+                <thead class="bg-gray-300">
+                <tr>
+                    <td>{{t('Subject')}}</td>
+                    <td>{{t('Subject ID')}}</td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach(\App\Models\Subject::all() as $subject) @endforeach
+                 <tr>
+                     <td>{{t($subject->name)}}</td>
+                     <td>{{t($subject->id)}}</td>
+                 </tr>
+                </tbody>
+            </table>
             <div class="row my-5">
                 <div class="separator separator-content my-4"></div>
                 <div class="col-12 d-flex justify-content-end">

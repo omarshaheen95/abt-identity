@@ -17,6 +17,7 @@ class CreateSchoolGradesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('school_id');
             $table->integer('grade');
+            $table->boolean('arab');
             $table->boolean('september')->default(0);
             $table->boolean('february')->default(0);
             $table->boolean('may')->default(0);

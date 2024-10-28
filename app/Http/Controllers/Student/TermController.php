@@ -11,6 +11,7 @@ use App\Models\OptionQuestionResult;
 use App\Models\Question;
 use App\Models\SchoolGrade;
 use App\Models\SortQuestionResult;
+use App\Models\Student;
 use App\Models\StudentTerm;
 use App\Models\Subject;
 use App\Models\Term;
@@ -26,10 +27,10 @@ class TermController extends Controller
 
     public function termStart(Request $request, $id)
     {
-        $student = Auth::guard('student')->user();
+        $student = Student::query()->with(['level'])->find(Auth::guard('student')->user()->id);
 
 
-        if (!Auth::guard('student')->user()->demo) {
+        if (!$student->demo) {
             //get term and check if available for student
             $term = Term::query()
                 ->where('id', $id)
@@ -44,6 +45,7 @@ class TermController extends Controller
             $round_is_available = SchoolGrade::with('school')
                 ->where('school_id', $student->school_id)
                 ->where($term->round, true)
+                ->where('arab', $student->level->arab)
                 ->whereHas('school', function ($query) use ($student) {
                     $query->where('available_year_id', $student->level->year_id);
                 })->first();

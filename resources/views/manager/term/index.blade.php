@@ -151,7 +151,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title">{{t('Terms Activation')}}</h3>
+                        <h3 class="modal-title">{{t('Assessments Activation')}}</h3>
 
                         <!--begin::Close-->
                         <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal"

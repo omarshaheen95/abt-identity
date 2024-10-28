@@ -13,12 +13,11 @@
         {{$title}}
     </li>
 @endpush
-
 @section('content')
-    <form id="grades_form" method="POST" action="{{route('manager.school.scheduling.update',['id'=>request()['id']])}}">
+    <form id="grades_form" method="POST"
+          action="{{route('manager.school.scheduling.update',['id'=>request()['id']])}}">
         @csrf
         <div class="row mb-3">
-
             <div class="col-3 ">
                 <label>{{t('Years')}}:</label>
                 <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id">
@@ -49,13 +48,13 @@
             <thead>
             <tr>
                 <th>{{t('Grade')}}</th>
+                <th>{{t('Arab')}}</th>
                 <th>
                     <div class="d-flex flex-column align-items-center">
                         {{t('September')}}
                         <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
                             <input class="form-check-input september_select_all " type="checkbox" value="" id="flexRadioLg"
-                            @if(count($grades->where('september',0))==0) checked @endif
-                            />
+                                   @if(count($grades)>0 && count($grades->where('september',0))==0) checked @elseif(count($grades)==0) checked @endif />
                         </div>
                     </div>
 
@@ -64,8 +63,8 @@
                     <div class="d-flex flex-column align-items-center">
                         {{t('February')}}
                         <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
-                            <input class="form-check-input february_select_all" type="checkbox" value="" id="flexRadioLg"/>
-                            @if(count($grades->where('february',0))==0) checked @endif
+                            <input class="form-check-input february_select_all" type="checkbox" value="" id="flexRadioLg"
+                                   @if(count($grades)>0 && count($grades->where('february',0))==0) checked @elseif(count($grades)==0) checked @endif />
                         </div>
                     </div>
 
@@ -75,8 +74,7 @@
                         {{t('May')}}
                         <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
                             <input class="form-check-input may_select_all" type="checkbox" value="" id="flexRadioLg"
-                                   @if(count($grades->where('may',0))==0) checked @endif
-                            />
+                                   @if(count($grades)>0 && count($grades->where('may',0))==0) checked @elseif(count($grades)==0) checked @endif />
 
                         </div>
                     </div>
@@ -84,38 +82,46 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($grades as $grade)
-                <tr>
-                    <td>
-                        {{$grade->grade}}
-                    </td>
-                    <td>
-                        <input type="hidden" name="grades[{{$grade->id}}][id]" value="{{$grade->id}}">
-                        <div class="d-flex justify-content-center">
-                            <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
-                                <input class="form-check-input september_checkbox" name="grades[{{$grade->id}}][september]" type="checkbox" value="september" id="flexRadioLg" {{$grade->september?'checked':''}}/>
+            @if(count($grades)>0)
+                @foreach($grades as $grade)
+                    <tr>
+                        <td>
+                            {{$grade->grade}}
+                            <input type="hidden" name="grades[{{$grade->id}}][grade]" value="{{$grade->grade}}">
+                        </td>
+                        <td>
+                            <input type="hidden" name="grades[{{$grade->id}}][arab]" value="{{$grade->arab}}">
+                            <span class="badge {{$grade->arab?'badge-primary':'badge-secondary'}}">{{$grade->arab?t('Arab'):t('Non-Arab')}}</span>
+                        </td>
+                        <td>
+                            <input type="hidden" name="grades[{{$grade->id}}][id]" value="{{$grade->id}}">
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
+                                    <input class="form-check-input september_checkbox" name="grades[{{$grade->id}}][september]" type="checkbox" value="september" id="flexRadioLg" {{$grade->september?'checked':''}}/>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
-                    <td>
-                        <div class="d-flex justify-content-center">
-                            <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
-                                <input class="form-check-input february_checkbox" name="grades[{{$grade->id}}][february]" type="checkbox" value="february" id="flexRadioLg" {{$grade->february?'checked':''}}/>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
+                                    <input class="form-check-input february_checkbox" name="grades[{{$grade->id}}][february]" type="checkbox" value="february" id="flexRadioLg" {{$grade->february?'checked':''}}/>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
-                    <td>
-                        <div class="d-flex justify-content-center">
-                            <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
-                                <input class="form-check-input may_checkbox" name="grades[{{$grade->id}}][may]" type="checkbox" value="may" id="flexRadioLg" {{$grade->may?'checked':''}}/>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
+                                    <input class="form-check-input may_checkbox" name="grades[{{$grade->id}}][may]" type="checkbox" value="may" id="flexRadioLg" {{$grade->may?'checked':''}}/>
+                                </div>
                             </div>
-                        </div>
 
-                    </td>
-                </tr>
-            @endforeach
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+
             </tbody>
         </table>
         <!--end: Datatable-->

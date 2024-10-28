@@ -10,11 +10,11 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class SchoolGrade extends Model
 {
     use SoftDeletes, LogsActivity;
-    protected static $logAttributes = ['school_id', 'grade', 'september', 'february', 'may'];
+    protected static $logAttributes = ['school_id','arab','grade', 'september', 'february', 'may'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
-    protected $fillable = ['school_id','grade','september','february','may'];
+    protected $fillable = ['school_id','arab','grade','september','february','may'];
 
     public function school(): BelongsTo
     {

@@ -51,10 +51,10 @@ class QuestionFileController extends Controller
                     return '<span class="badge badge-info">' . t('Type') . '</span> : '. class_basename($row->author->getMorphClass()) . '<br>' . '<span class="badge badge-info">' . t('Name') . '</span> : '. $row->author->name;
                 })
                 ->addColumn('info', function ($row) {
-                    $html = '<div class="d-flex flex-column">';
-                    $html .=  '<span class="badge badge-info">' . t('Assessment') . '</span> : '. $row->term->name;
-                    $html .= '<span class="badge badge-info">' . t('Year') . '</span> : '. $row->level->year->name;
-                    $html .= '<span class="badge badge-info">' . t('Level') . '</span> : '. $row->level->name;
+                    $html = '<div class="d-flex flex-column gap-1">';
+                    $html .=  '<div><span class="badge badge-info">' . t('Assessment') . '</span> : '. $row->term->name.'</div>';
+                    $html .= '<div><span class="badge badge-info">' . t('Year') . '</span> : '. $row->level->year->name.'</div>';
+                    $html .= '<div><span class="badge badge-info">' . t('Level') . '</span> : '. $row->level->name.'</div>';
                     $html .= '<div class="mb-1"><span >' . t('File') . ':</span> ' . '<span class="link link-dark"><a href="' . route(getGuard().'.question-file.download_file', $row->id) . '" target="_blank"><span class="font-weight-bold">' . $row->original_file_name . '</span> <i class="bi bi-download text-dark fs-3"></i> </a></span></div>';
                     $html .= '</div>';
                     return $html;

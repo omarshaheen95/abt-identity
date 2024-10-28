@@ -124,7 +124,8 @@
                        Request::is('manager/term/*/questions_structure')||
                        Request::is('manager/term/*/questions')||
                        Request::is('manager/terms_questions')||
-                       Request::is('manager/standards')?'here show':''
+                       Request::is('manager/standards')||
+                       Request::is('manager/question-file*')?'here show':''
                  }}">
                                            <span class="menu-link">
                                                 <span class="menu-icon">
@@ -180,7 +181,7 @@
                             @endcan
                             @can('show imported questions')
                                 <div class="menu-item">
-                                    <a class="menu-link @if(Request::is('manager/question-file') )active @endif" href="{{ route('manager.question-file.index') }}">
+                                    <a class="menu-link @if(Request::is('manager/question-file*') )active @endif" href="{{ route('manager.question-file.index') }}">
                                             <span class="menu-bullet">
                                                 <span class="bullet bullet-dot"></span>
                                             </span>

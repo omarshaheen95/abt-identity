@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Validation\Rule;
@@ -25,7 +26,7 @@ use Maatwebsite\Excel\Validators\Failure;
 
 HeadingRowFormatter::default('none');
 
-class QuestionsImport implements ToModel, WithHeadingRow, SkipsOnFailure, SkipsOnError, WithValidation
+class QuestionsImport implements ToModel, WithHeadingRow, SkipsOnFailure, SkipsOnError, WithValidation,ToCollection
 {
     private $created_rows_count = 0;
     private $updated_rows_count = 0;
@@ -53,10 +54,7 @@ class QuestionsImport implements ToModel, WithHeadingRow, SkipsOnFailure, SkipsO
 
         // Check if 'Question Title' is present and valid for all types
         if (empty($row['Question Title'])) {
-            $this->failures[] = [
-                'row' => $this->rowNumber,
-                'error' => 'Question Title is required.'
-            ];
+            $this->failures[$this->rowNumber] = [ 'Question Title is required.'];
             return null; // Skip this row
         }
 
@@ -342,22 +340,30 @@ class QuestionsImport implements ToModel, WithHeadingRow, SkipsOnFailure, SkipsO
     {
         $this->error = $e->getMessage();
     }
-//    public function collection(Collection $rows)
-//    {
-//        $subjects = Subject::all();
-//        $subject_rows = $rows->groupBy('Subject ID');
-//        foreach ($subject_rows as $subject_id=>$s_rows) {
-//            $subject = $subjects->where('id', $subject_id)->first();
-//            if (!$subject){
-//                 throw new GeneralException('subject not found');
-//            }
-//            $s_rows_sum = collect($s_rows)->sum('Mark');
-//            if ($s_rows_sum != $subject->mark){
-//                 throw new GeneralException('subject ('.$subject->name.') marks sum not equal '.$subject->mark);
-//            }
-//
-//        }
-//        return $rows;
-//    }
+
+    public function collection(Collection $rows)
+    {
+
+        $subject_rows = $rows->groupBy('Subject ID');
+        $subjects = Subject::query()->whereIn('id', $subject_rows->keys())->get();
+        $total = 0;
+        foreach ($subject_rows as $subject_id=>$s_rows) {
+            $subject = $subjects->where('id', $subject_id)->first();
+            if (!$subject){
+                $this->failures[$subject->name] = ['subject not found'];
+            }
+            $s_rows_sum = collect($s_rows)->sum('Mark');
+            $total += $s_rows_sum;
+            if ($s_rows_sum != $subject->mark){
+
+                $this->failures[$subject->name] = ['subject ('.$subject->name.') marks sum not equal '.$subject->mark];
+            }
+
+        }
+        if ($total != 100){
+
+            $this->failures['Marks Total'] = ['The marks total not equal 100'];
+        }
+    }
 
 }

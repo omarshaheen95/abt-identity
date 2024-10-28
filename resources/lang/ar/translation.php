@@ -760,4 +760,6 @@ return
  	'The subject not have any questions!' => 'The subject not have any questions!',
  	'Values' => 'Values',
  	'Citizenship' => 'Citizenship',
+ 	'Show File Errors' => 'Show File Errors',
+ 	'Import Question' => 'Import Question',
 ];

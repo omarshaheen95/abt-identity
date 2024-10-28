@@ -74,7 +74,7 @@ function uploadNewFile($file, $path ,bool $new_name=true)
     $file_original_name = $file->getClientOriginalName();
     $file_new_name = Str::random(27) . '.' . $file->getClientOriginalExtension();
 //    $path = $file->storeAs($path, $new_name?$file_new_name:$file_original_name, 'public');
-    $directory = $path.'/'.date("Y").'/'.date("m").'/'.date("d");
+    $directory ='uploads' . '/' . $path.'/'.date("Y").'/'.date("m").'/'.date("d");
     $destination = public_path($directory);
     $file->move($destination , $file_new_name);
     return ['name'=>$new_name?$file_new_name:$file_original_name,'path'=>$directory.DIRECTORY_SEPARATOR.$file_new_name];

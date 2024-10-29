@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Level;
 use App\Models\Student;
 use App\Models\StudentImportFile;
 use App\Rules\StudentNameRule;
@@ -24,17 +25,22 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
 
     public $file;
     public $update;
+
+    public $row_num = 1;
     private $rows_count = 0;
     private $updated_rows_count = 0;
     private $failed_row_count = 0;
     private $error = null;
     private $failures = [];
 
+    public $levels;
+
 
     public function __construct(StudentImportFile $file, $update = false)
     {
         $this->file = $file;
         $this->update = $update;
+        $this->levels = Level::query()->get();
     }
 
     public function transformDate($value, $format = 'd-M-Y')
@@ -53,6 +59,7 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
     */
     public function model(array $row)
     {
+        $this->row_num++;
         if (!$this->update) {
             $full_name = trim(str_replace('  ', ' ', str_replace(' ', ' ', $row['Name'])));
             if (strlen($full_name) > 25) {
@@ -80,6 +87,35 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
             } else {
                 $gender = 'girl';
             }
+
+            $assessment = $this->levels->where('grade', $row['grade'])->where('arab', $row['arab'])->first();
+
+            if(!$assessment){
+                $this->failures[$this->row_num][] = 'Assessment Not Found, check Grade and Arab';
+                $data_errors = ['Assessment Not Found, check Grade and Arab'];
+                $data = [];
+                $data['inputs'] = [];
+                foreach ($row as $key => $value) {
+                    //check if not number
+                    if (!is_numeric($key)) {
+                        array_push($data['inputs'], [
+                            'key' => $key,
+                            'value' => $value,
+                        ]);
+                    }
+                }
+                $data['errors'] = $data_errors;
+                $this->file->logs()->create([
+                    'row_num' => $this->row_num,
+                    'data' => $data,
+                ]);
+
+                $this->failed_row_count++;
+                return null;
+            }else{
+                $row['Assessment'] = $assessment->id;
+            }
+
             $student = Student::query()->create([
                 'id_number' => $row['Student ID'],
                 'name' => $full_name,
@@ -118,9 +154,35 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
                 }
                 $data['dob'] = $dob;
             }
-            if(isset($row['Assessment']) && !is_null($row['Assessment']))
+            if((isset($row['Grade']) && !is_null($row['Grade']) && $row['Grade'] != "") && (isset($row['Arab']) && !is_null($row['Arab']) && $row['Arab'] != ""))
             {
-                $data['level_id'] = $row['Assessment'];
+                $assessment = $this->levels->where('grade', $row['Grade'])->where('arab', $row['Arab'])->first();
+                if(!$assessment) {
+                    $this->failures[$this->row_num][] = 'Assessment Not Found, check Grade and Arab';
+                    $data_errors = ['Assessment Not Found, check Grade and Arab'];
+                    $data = [];
+                    $data['inputs'] = [];
+                    foreach ($row as $key => $value) {
+                        //check if not number
+                        if (!is_numeric($key)) {
+                            array_push($data['inputs'], [
+                                'key' => $key,
+                                'value' => $value,
+                            ]);
+                        }
+                    }
+                    $data['errors'] = $data_errors;
+                    $this->file->logs()->create([
+                        'row_num' => $this->row_num,
+                        'data' => $data,
+                    ]);
+
+                    $this->failed_row_count++;
+                    return null;
+                }else{
+                    $data['level_id'] = $assessment->id;
+                }
+
             }
             if(isset($row['Citizen']) && !is_null($row['Citizen']))
             {
@@ -258,7 +320,8 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
             return [
                 'Student ID' => 'required',
                 'Name' =>['required', new StudentNameRule()],
-                'Assessment' => 'required',
+//                'Assessment' => 'required',
+                'grade' => 'required',
                 'Nationality' => 'nullable',
                 'Grade Name' => 'nullable',
                 'SEN' => 'required|in:1,0',
@@ -272,7 +335,8 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
             return [
                 'Student ID' => 'required',
                 'Name' =>['nullable', new StudentNameRule()],
-                'Assessment' => 'nullable',
+//                'Assessment' => 'nullable',
+                'grade' => 'nullable',
                 'Nationality' => 'nullable',
                 'Grade Name' => 'nullable',
                 'SEN' => 'nullable|in:1,0',

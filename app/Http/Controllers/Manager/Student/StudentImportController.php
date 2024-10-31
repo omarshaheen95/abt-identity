@@ -205,7 +205,7 @@ class StudentImportController extends Controller
                     return Carbon::parse($row->created_at)->toDateString();
                 })
                 ->addColumn('data', function ($row) use ($levels) {
-                    $inputs  = ['Name', 'Student ID','Assessment', 'Nationality', 'Grade Name', 'SEN', 'G&T', 'Arab', 'Date Of Birth', 'Gender', 'Citizen'];
+                    $inputs  = ['Name', 'Student ID','Grade', 'Nationality', 'Grade Name', 'SEN', 'G&T', 'Arab', 'Date Of Birth', 'Gender', 'Citizen'];
                     $inputs_with_values = [];
                     foreach ($inputs as $input) {
                         $row_input_value = array_filter($row->data['inputs'], function ($item) use ($input) {
@@ -243,6 +243,7 @@ class StudentImportController extends Controller
         $student_data_file = StudentImportFile::query()->findOrFail($data['student_data_file_id']);
         $counts = 0;
         $rows_num = [];
+        $levels = Level::query()->get();
         foreach ($data['student'] as $std) {
             $student = new Student($std);
 
@@ -280,7 +281,18 @@ class StudentImportController extends Controller
             $student->gender = $std['gender']==1?'boy':'girl';
             $student->dob = $std['date_of_birth'];
             $student->nationality = $std['nationality'];
-            $student->level_id = $std['assessment'];
+            if (isset($std['grade']) && !is_null($std['grade']) && $std['grade'] != '' && isset($std['arab']) && $std['arab'] != '') {
+                $assessment = $levels->where('grade', $std['grade'])->where('arab', $std['arab'])->first();
+                if ($assessment) {
+                    $student->level_id = $assessment->id;
+                }else{
+                    continue;
+                }
+            }else{
+                continue;
+            }
+
+
             $student->g_t = $std['g&t'];
             $student->email = $username;
 

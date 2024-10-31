@@ -28,7 +28,7 @@ class StudentImportLogDataRequest extends FormRequest
             'student.*.citizen' => 'required|in:1,0',
             'student.*.arab' => 'required|in:1,0',
             'student.*.grade_name' => 'nullable',
-            'student.*.assessment' => 'required',
+            'student.*.grade' => 'required',
         ];
     }
 

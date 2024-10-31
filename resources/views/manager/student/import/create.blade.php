@@ -56,6 +56,12 @@
                     </div>
                 </div>
             </div>
+            <div class="d-flex align-items-center">
+                <h5 class="m-0 mr-2">{{t('Example File')}} :
+                </h5>
+                <a target="_blank" href="{{asset('Examples Sheets/Import Users Example.xlsx')}}?v={{time()}}"
+                   class="btn btn-link text-primary ms-1 text-decoration-underline">{{t('Download')}}</a>
+            </div>
             <div class="d-flex align-items-center my-8">
                 <h5 class="m-0 mr-2">{{t('Note')}}: </h5>
                 <p class="m-0">{{$note}}</p>

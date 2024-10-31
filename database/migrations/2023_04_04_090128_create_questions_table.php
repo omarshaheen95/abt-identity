@@ -18,7 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->unsignedBigInteger('term_id');
             $table->enum('type',['true_false','multiple_choice','matching','sorting','article','fill_blank']);
             $table->foreignId('subject_id')->constrained('subjects')->cascadeOnDelete();
-            $table->unsignedBigInteger('question_file_id');
+            $table->unsignedBigInteger('question_file_id')->nullable();
             $table->text('content')->nullable();
             $table->string('image')->nullable();
             $table->string('audio')->nullable();

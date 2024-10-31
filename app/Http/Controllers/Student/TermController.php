@@ -102,52 +102,64 @@ class TermController extends Controller
     {
         $request->validate(['questions' => 'required|array']);
 
-//        dd($request['questions']);
         $student = Auth::guard('student')->user();
 
         if (!$student->demo) {
-            $student_term = StudentTerm::query()->create([
-                'student_id' => $student->id,
-                'term_id' => $id,
-                "dates_at" => [
-                    'started_at' => $request->get('started_at', \Carbon\Carbon::now()->format('Y-m-d H:i:s')),
-                    'submitted_at' => \Carbon\Carbon::now('Asia/Dubai')->format('Y-m-d H:i:s'),
-                    'corrected_at' => null,
-                    'corrected_by' => null,
-                ]
-            ]);
 
-            DB::transaction(function () use ($request, $id, $student, $student_term) {
+            DB::transaction(function () use ($request, $id, $student) {
+
+                $student_term = StudentTerm::query()->create([
+                    'student_id' => $student->id,
+                    'term_id' => $id,
+                    "dates_at" => [
+                        'started_at' => $request->get('started_at', \Carbon\Carbon::now()->format('Y-m-d H:i:s')),
+                        'submitted_at' => \Carbon\Carbon::now('Asia/Dubai')->format('Y-m-d H:i:s'),
+                        'corrected_at' => null,
+                        'corrected_by' => null,
+                    ]
+                ]);
 
                 foreach ($request['questions'] as $key => $question) {
                     switch ($question['type']) {
+                        case 'true_false':
+                            if (isset($question['answer'])) {
+                                $this->saveTFResult($student->id, $student_term->id, $key, $question['answer']);
+                            }
+                            break;
 
-                        case 'true_false' && isset($question['answer']):
-                            $this->saveTFResult($student->id, $student_term->id, $key, $question['answer']);
+                        case 'multiple_choice':
+                            if (isset($question['answer_option_id'])) {
+                                $this->saveOptionResult($student->id, $student_term->id, $key, $question['answer_option_id']);
+                            }
                             break;
-                        case 'multiple_choice' && isset($question['answer_option_id']):
-                            $this->saveOptionResult($student->id, $student_term->id, $key, $question['answer_option_id']);
+
+                        case 'matching':
+                            if (isset($question['options'])) {
+                                 $this->saveMatchResult($student->id, $student_term->id, $key, $question['options']);
+                            }
                             break;
-                        case 'matching' && isset($question['options']):
-                            $this->saveMatchResult($student->id, $student_term->id, $key, $question['options']);
+
+                        case 'sorting':
+                            if (isset($question['options'])) {
+                                $this->saveSortResult($student->id, $student_term->id, $key, $question['options']);
+                            }
                             break;
-                        case 'sorting' && isset($question['options']):
-                            $this->saveSortResult($student->id, $student_term->id, $key, $question['options']);
-                            break;
+
                         case 'fill_blank':
                             $this->saveFillBlank($student_term->id, $key, $question);
                             break;
+
                         case 'article':
                             $this->saveArticleResult($student_term->id, $key, $question);
                             break;
                     }
-
                 }
+
+
             });
         }
 
 
-//        \session()->forget('student_term_id');
 
         return redirect()->route('student.home')->with('term-message', t('Assessment passed successfully'));
     }
@@ -179,14 +191,22 @@ class TermController extends Controller
 
     private function saveMatchResult($student_id, $student_term_id, $question_id, array $matches)
     {
+        $answers = [];
         foreach ($matches as $match_answer_uid => $match_id) {
-            MatchQuestionResult::query()->create([
-                'student_id' => $student_id,
-                'student_term_id' => $student_term_id,
-                'question_id' => $question_id,
-                'match_id' => $match_id,
-                'match_question_answer_uid' => $match_answer_uid,
-            ]);
+           if (!is_null($match_id)){
+              $answers[] = [
+                   'student_id' => $student_id,
+                   'student_term_id' => $student_term_id,
+                   'question_id' => $question_id,
+                   'match_id' => $match_id,
+                   'match_question_answer_uid' => $match_answer_uid,
+                   'created_at'=>now(),
+                   'updated_at'=>now(),
+               ];
+           }
+        }
+        if ($answers){
+            MatchQuestionResult::insert($answers);
         }
         return true;
     }
@@ -194,15 +214,21 @@ class TermController extends Controller
 
     private function saveSortResult($student_id, $student_term_id, $question_id, array $sort)
     {
+        $answers = [];
         foreach ($sort as $key => $value) {
-            if ($value) {
-                SortQuestionResult::query()->create([
+            if (!is_null($value)) {
+                $answers[] = [
                     'student_id' => $student_id,
                     'student_term_id' => $student_term_id,
                     'question_id' => $question_id,
                     'sort_question_uid' => $key,
-                ]);
+                    'created_at'=>now(),
+                    'updated_at'=>now(),
+                ];
             }
+        }
+        if ($answers){
+            SortQuestionResult::insert($answers);
         }
         return true;
     }
@@ -228,15 +254,21 @@ class TermController extends Controller
     {
 
         if (isset($question['blanks']) && count($question['blanks']) > 0) {
+            $answers = [];
             foreach ($question['blanks'] as $uid => $fillBlank_question_id) {
                 if (!is_null($fillBlank_question_id)) {
-                    FillBlankAnswer::query()->create([
+                    $answers []  = [
                         'student_term_id' => $student_term_id,
                         'question_id' => $question_id,
                         'fill_blank_question_id' => $fillBlank_question_id,
                         'answer_fill_blank_question_uid' => $uid,
-                    ]);
+                        'created_at'=>now(),
+                        'updated_at'=>now(),
+                    ];
                 }
+            }
+            if ($answers){
+                FillBlankAnswer::insert($answers);
             }
         }
     }

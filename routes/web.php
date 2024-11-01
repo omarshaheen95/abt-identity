@@ -24,10 +24,10 @@ Route::get('/', function () {
 Route::group(['prefix' => 'manager'], function () {
     Route::get('/login', [\App\Http\Controllers\ManagerAuth\LoginController::class, 'showLoginForm'])->name('manager.login');
     Route::post('/login', [\App\Http\Controllers\ManagerAuth\LoginController::class, 'login']);
-    Route::post('/logout', [\App\Http\Controllers\ManagerAuth\LoginController::class, 'logout'])->name('logout');
-    Route::post('/password/email', [\App\Http\Controllers\ManagerAuth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.request');
-    Route::post('/password/reset', [\App\Http\Controllers\ManagerAuth\ResetPasswordController::class, 'reset'])->name('password.email');
-    Route::get('/password/reset', [\App\Http\Controllers\ManagerAuth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.reset');
+    Route::post('/logout', [\App\Http\Controllers\ManagerAuth\LoginController::class, 'logout'])->name('manager.logout');
+    Route::post('/password/email', [\App\Http\Controllers\ManagerAuth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('manager.password.request');
+    Route::post('/password/reset', [\App\Http\Controllers\ManagerAuth\ResetPasswordController::class, 'reset'])->name('manager.password.email');
+    Route::get('/password/reset', [\App\Http\Controllers\ManagerAuth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('manager.password.reset');
     Route::get('/password/reset/{token}', [\App\Http\Controllers\ManagerAuth\ResetPasswordController::class, 'showResetForm']);
 });
 
@@ -35,10 +35,10 @@ Route::group(['prefix' => 'school'], function () {
 
     Route::get('/login', [\App\Http\Controllers\SchoolAuth\LoginController::class, 'showLoginForm'])->name('school.login');
     Route::post('/login', [\App\Http\Controllers\SchoolAuth\LoginController::class, 'login']);
-    Route::post('/logout', [\App\Http\Controllers\SchoolAuth\LoginController::class, 'logout'])->name('school.logout');
-    Route::post('/password/email', [\App\Http\Controllers\SchoolAuth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.request');
-    Route::post('/password/reset', [\App\Http\Controllers\SchoolAuth\ResetPasswordController::class, 'reset'])->name('password.email');
-    Route::get('/password/reset', [\App\Http\Controllers\SchoolAuth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.reset');
+    Route::post('/logout', [\App\Http\Controllers\SchoolAuth\LoginController::class, 'logout'])->name('school.school.logout');
+    Route::post('/password/email', [\App\Http\Controllers\SchoolAuth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('school.password.request');
+    Route::post('/password/reset', [\App\Http\Controllers\SchoolAuth\ResetPasswordController::class, 'reset'])->name('school.password.email');
+    Route::get('/password/reset', [\App\Http\Controllers\SchoolAuth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('school.password.reset');
     Route::get('/password/reset/{token}', [\App\Http\Controllers\SchoolAuth\ResetPasswordController::class, 'showResetForm']);
 });
 
@@ -48,17 +48,17 @@ Route::group(['prefix' => 'inspection'], function () {
 
     Route::get('/login', [\App\Http\Controllers\InspectionAuth\LoginController::class, 'showLoginForm'])->name('inspection.login');
     Route::post('/login', [\App\Http\Controllers\InspectionAuth\LoginController::class, 'login']);
-    Route::post('/logout', [\App\Http\Controllers\InspectionAuth\LoginController::class, 'logout'])->name('logout');
-    Route::post('/password/email', [\App\Http\Controllers\InspectionAuth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.request');
-    Route::post('/password/reset', [\App\Http\Controllers\InspectionAuth\ResetPasswordController::class, 'reset'])->name('password.email');
-    Route::get('/password/reset', [\App\Http\Controllers\InspectionAuth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.reset');
+    Route::post('/logout', [\App\Http\Controllers\InspectionAuth\LoginController::class, 'logout'])->name('inspection.logout');
+    Route::post('/password/email', [\App\Http\Controllers\InspectionAuth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('inspection.password.request');
+    Route::post('/password/reset', [\App\Http\Controllers\InspectionAuth\ResetPasswordController::class, 'reset'])->name('inspection.password.email');
+    Route::get('/password/reset', [\App\Http\Controllers\InspectionAuth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('inspection.password.reset');
     Route::get('/password/reset/{token}', [\App\Http\Controllers\InspectionAuth\ResetPasswordController::class, 'showResetForm']);
 });
 
 Route::group(['prefix' => 'student'], function () {
     Route::get('/login', [\App\Http\Controllers\StudentAuth\LoginController::class, 'showLoginForm'])->name('student.login');
     Route::post('/login', [\App\Http\Controllers\StudentAuth\LoginController::class, 'studentLogin']);
-    Route::post('/logout', [\App\Http\Controllers\StudentAuth\LoginController::class, 'logout'])->name('logout');
+    Route::post('/logout', [\App\Http\Controllers\StudentAuth\LoginController::class, 'logout'])->name('student.logout');
 });
 
 Route::get('cache', function(){

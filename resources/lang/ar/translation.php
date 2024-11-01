@@ -782,4 +782,6 @@ return
  	'3' => '3',
  	'Subjects' => 'Subjects',
  	'Subject ID' => 'Subject ID',
+
+ 	'Please enter our registered email' => 'Please enter our registered email',
 ];

@@ -108,28 +108,30 @@
                 <div class="tab-content" id="myTabContent">
                     @foreach($subjects as $subject)
                         <div class="tab-pane fade {{$loop->index==0?'show active':''}}" id="kt_tab_pane_{{$subject->id}}" role="tabpanel">
-                            @foreach($questions[$subject->id] as $question)
-                                @php
-                                    $index = $loop->index
-                                @endphp
+                            @isset($questions[$subject->id])
+                                @foreach($questions[$subject->id] as $question)
+                                    @php
+                                        $index = $loop->index
+                                    @endphp
 
-                                <input type="hidden" value="{{$question->type}}" name="questions[{{$question->id}}][type]">
-                                <input type="hidden" value="{{$question->subject}}" name="questions[{{$question->id}}][subject]">
+                                    <input type="hidden" value="{{$question->type}}" name="questions[{{$question->id}}][type]">
+                                    <input type="hidden" value="{{$question->subject->id}}" name="questions[{{$question->id}}][subject]">
 
-                                @if($question->type == 'true_false')
-                                    @include('student.term.questions.true_false', compact('question','index'))
-                                @elseif($question->type == 'multiple_choice')
-                                    @include('student.term.questions.choose', compact('question','index'))
-                                @elseif($question->type == 'matching' && isset($question->match_question) && count($question->match_question)>0)
-                                    @include('student.term.questions.match', compact('question','index'))
-                                @elseif($question->type == 'sorting' && isset($question->sort_question) && count($question->sort_question)>0)
-                                    @include('student.term.questions.sort', compact('question','index'))
-                                @elseif($question->type == 'article')
-                                    @include('student.term.questions.article', compact('question','index'))
-                                @elseif($question->type == 'fill_blank')
-                                    @include('student.term.questions.fill_blank', compact('question','index'))
-                                @endif
-                            @endforeach
+                                    @if($question->type == 'true_false')
+                                        @include('student.term.questions.true_false', compact('question','index'))
+                                    @elseif($question->type == 'multiple_choice')
+                                        @include('student.term.questions.choose', compact('question','index'))
+                                    @elseif($question->type == 'matching' && isset($question->match_question) && count($question->match_question)>0)
+                                        @include('student.term.questions.match', compact('question','index'))
+                                    @elseif($question->type == 'sorting' && isset($question->sort_question) && count($question->sort_question)>0)
+                                        @include('student.term.questions.sort', compact('question','index'))
+                                    @elseif($question->type == 'article')
+                                        @include('student.term.questions.article', compact('question','index'))
+                                    @elseif($question->type == 'fill_blank')
+                                        @include('student.term.questions.fill_blank', compact('question','index'))
+                                    @endif
+                                @endforeach
+                            @endisset
                             @include('student.term.parts.action_buttons',['tab_index' => $subject->id])
 
                         </div>

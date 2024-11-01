@@ -27,6 +27,20 @@
                     <option value="2" {{$input['value'] == 2 ? 'selected':''}}>{{t('Girl')}}</option>
                 </select>
             </div>
+        @elseif($input['key'] == 'Grade')
+            <div class="col-3">
+                <label class="text-info">{{$input['key']}}</label>
+                <select name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
+                        data-name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
+                        class="form-control from-input-data form-select"
+                        data-control="select2"
+                        data-placeholder="{{t('Select '.$input['key'])}}">
+                    <option value="" disabled selected>{{t('Select '.$input['key'])}}</option>
+                    @foreach(range(1, 12) as $grade)
+                        <option value="{{$grade}}" {{$input['value'] == $grade ? 'selected':''}}>{{t('Grade').' '.$grade}}</option>
+                    @endforeach
+                </select>
+            </div>
         @elseif($input['key'] == 'Assessment')
             <div class="col-3">
                 <label class="text-info">{{t('Levels')}}</label>

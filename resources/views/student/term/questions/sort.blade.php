@@ -66,7 +66,7 @@
                                                                                     <div data-question="{{$question->id}}" class="ui-state-default add-answer me-1 ui-sortable-handle" data-id="{{$answer->sort_question_uid}}" style="">
                                                                                         <text>{{$question->sort_question->where('uid',$answer->sort_question_uid)->first()->content}} </text>
                                                                                         <span class="float-right"></span>
-                                                                                        <input type="hidden" name="questions[{{$question->id}}][options][{{$answer->sort_question_uid}}]" id="" value="">
+                                                                                        <input type="hidden" name="questions[{{$question->id}}][options][{{$answer->sort_question_uid}}]" id="" value="{{$loop->iteration}}">
                                                                                     </div>
                                                                                 @endforeach
                                                                            @endif

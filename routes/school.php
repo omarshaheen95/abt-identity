@@ -37,7 +37,7 @@ Route::get('students_not_submitted_terms',  [\App\Http\Controllers\School\TermCo
 Route::post('students_not_submitted_terms/export', [\App\Http\Controllers\School\TermController::class, 'studentsNotSubmittedTermsExport'])->name('term.students-not-submitted-terms-export');
 
 //Marking Requests
-Route::resource('marking_requests', \App\Http\Controllers\School\MarkingRequestController::class);
+Route::resource('marking_requests', \App\Http\Controllers\School\MarkingRequestController::class)->except(['destroy']);
 Route::delete('marking_requests', [\App\Http\Controllers\School\MarkingRequestController::class, 'destroy'])->name('marking_requests.destroy');
 Route::get('completed_terms_total', [\App\Http\Controllers\School\MarkingRequestController::class, 'getCompletedTermsTotal'])->name('completed-terms-total');
 

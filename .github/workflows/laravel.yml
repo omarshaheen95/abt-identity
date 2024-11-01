@@ -1,32 +1,42 @@
-name: Deploy ABT-Identitiy App
+name: Deploy ABT-Identity App
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       # Check out the code
       - uses: actions/checkout@v4
 
-      # Set up SSH for deployment
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Add server to known hosts
+      - name: Add server to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.SERVER_ADDRESS }} >> ~/.ssh/known_hosts
+
+      # Test SSH Connection with username and password
+      - name: Test SSH Connection
+        env:
+          SSHPASS: ${{ secrets.SERVER_PASSWORD }}
+        run: |
+          sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_ADDRESS }} "echo Connection successful"
 
       # Deploy files to the server
       - name: Deploy to Server
+        env:
+          SSHPASS: ${{ secrets.SERVER_PASSWORD }}
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_ADDRESS }} "
-            cd /path/to/your/laravel/project &&
+          sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_ADDRESS }} "
+            cd /home/omar/websites/abt-identity &&
             git pull origin master &&
-            composer install --no-dev &&
+            composer install --no-dev --optimize-autoloader &&
             php artisan migrate --force &&
+            php artisan cache:clear &&
             php artisan config:cache &&
             php artisan route:cache &&
-            php artisan view:cache
+            php artisan view:cache &&
+            php artisan queue:restart
           "

@@ -829,6 +829,21 @@ return
  	'3' => '3',
  	'Subjects' => 'Subjects',
  	'Subject ID' => 'Subject ID',
+<<<<<<< HEAD
 
  	'Please enter our registered email' => 'Please enter our registered email',
+=======
+ 	'Assessments Activation' => 'Assessments Activation',
+ 	'No completed assessments are available' => 'No completed assessments are available',
+ 	'Are you sure to save the assessment ?' => 'Are you sure to save the assessment ?',
+ 	'Once you save the assessment, you will not be able to return to it' => 'Once you save the assessment, you will not be able to return to it',
+ 	'Save Assessment' => 'Save Assessment',
+ 	'Are you sure to leave the assessment ?' => 'Are you sure to leave the assessment ?',
+ 	'The assessment and its answers will not be saved upon leaving' => 'The assessment and its answers will not be saved upon leaving',
+ 	'Leave Assessment' => 'Leave Assessment',
+ 	'Assessment passed successfully' => 'Assessment passed successfully',
+ 	'No assessments are available' => 'No assessments are available',
+ 	'Assessment Approval' => 'Assessment Approval',
+ 	'Edit Assessment' => 'Edit Assessment',
+>>>>>>> 91ff022beb2c5e78ef649ed8b550a374cab23882
 ];

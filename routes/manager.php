@@ -133,7 +133,7 @@ Route::group([], function () {
     Route::post('students_files_import/save_student_data_logs', [\App\Http\Controllers\Manager\Student\StudentImportController::class, 'saveLogs'])->name('students_files_import.save_logs');
 
     //Marking Requests
-    Route::resource('marking_requests', \App\Http\Controllers\Manager\MarkingRequestController::class);
+    Route::resource('marking_requests', \App\Http\Controllers\Manager\MarkingRequestController::class)->except(['destroy']);
     Route::delete('marking_requests', [\App\Http\Controllers\Manager\MarkingRequestController::class, 'destroy'])->name('marking_requests.destroy');
 
     //StudentTerm

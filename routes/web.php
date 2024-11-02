@@ -54,13 +54,11 @@ Route::group(['prefix' => 'inspection'], function () {
     Route::get('/password/reset', [\App\Http\Controllers\InspectionAuth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('inspection.password.reset');
     Route::get('/password/reset/{token}', [\App\Http\Controllers\InspectionAuth\ResetPasswordController::class, 'showResetForm']);
 });
-
 Route::group(['prefix' => 'student'], function () {
     Route::get('/login', [\App\Http\Controllers\StudentAuth\LoginController::class, 'showLoginForm'])->name('student.login');
     Route::post('/login', [\App\Http\Controllers\StudentAuth\LoginController::class, 'studentLogin']);
     Route::post('/logout', [\App\Http\Controllers\StudentAuth\LoginController::class, 'logout'])->name('student.logout');
 });
-
 Route::get('cache', function(){
     \Illuminate\Support\Facades\Artisan::call('cache:clear');
     \Illuminate\Support\Facades\Artisan::call('config:cache');

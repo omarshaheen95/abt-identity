@@ -10,7 +10,6 @@ jobs:
     steps:
       # Check out the code
       - uses: actions/checkout@v4
-
       # Add server to known hosts
       - name: Add server to known hosts
         run: |

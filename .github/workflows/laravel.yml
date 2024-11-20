@@ -32,6 +32,7 @@ jobs:
             cd /home/omar/websites/abt-identity &&
             git pull origin master &&
             composer install --no-dev --optimize-autoloader &&
+            composer update &&
             php artisan migrate --force &&
             php artisan cache:clear &&
             php artisan config:cache &&

@@ -3,13 +3,17 @@ name: Deploy ABT-Identity App
 on:
   push:
     branches: ["master"]
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       # Check out the code
       - uses: actions/checkout@v4
+
+      # تحديث الريموت ليستخدم رمز الوصول الشخصي
+      - name: Update Git Remote to use Token
+        run: git remote set-url origin https://${{ secrets.ACCESS_TOKEN }}@github.com/omarshaheen95/abt-identity.git
+
       # Add server to known hosts
       - name: Add server to known hosts
         run: |
@@ -31,12 +35,10 @@ jobs:
           sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_ADDRESS }} "
             cd /home/omar/websites/abt-identity &&
             git pull origin master &&
-            composer install --no-dev --optimize-autoloader &&
-            composer update &&
             php artisan migrate --force &&
             php artisan cache:clear &&
             php artisan config:cache &&
             php artisan route:cache &&
             php artisan view:cache &&
             php artisan queue:restart
-          "
+            "

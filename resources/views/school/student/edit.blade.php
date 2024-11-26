@@ -202,7 +202,7 @@
             var name = $(".name").val().toLowerCase().split(" ");
             var year = (new Date).getFullYear();
             var number = parseInt(Math.random() * 100);
-            var username = name[0] + year + number + '@social';
+            var username = name[0] + year + number + '@identity';
             $(".username").val(username);
         }
 

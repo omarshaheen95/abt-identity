@@ -64,7 +64,9 @@ class QuestionController extends Controller
         $data = $request->validated();
         $marks = 0;
 
-        $term_questions_ids =   Question::query()->where('term_id',$id)->get()->pluck('id');
+        $db_questions = Question::with(['tf_question','sort_question','match_question','fill_blank_question','option_question','question_standard'])
+            ->where('term_id',$id)->get();
+        $term_questions_ids = $db_questions->pluck('id');
         $request_questions_ids = collect($request['questions'])->pluck('id')->toArray();
 
 
@@ -119,12 +121,20 @@ class QuestionController extends Controller
             }
 
             //create or update question
+            $update = 0;
             foreach ($data['questions'] as $question) {
                 if (isset($question['id'])) {//Just can update mark
-                    Question::query()
+                    $updated_data = [
+                        'mark' => $question['mark'],
+                    ];
+                    if (!$this->questionHasData($db_questions->where('id', $question['id'])->first())) {
+                        $updated_data['type'] = $question['type'];
+                        $updated_data['subject_id'] = $question['subject_id'];
+                    }
+                    $update += Question::query()
                         ->where('id', $question['id'])
                         ->where('term_id', $id)
-                        ->update(['mark' => $question['mark']]);
+                        ->update($updated_data);
                 } else {
                     Question::query()
                         ->create([
@@ -149,6 +159,24 @@ class QuestionController extends Controller
     }
 
 
+    private function questionHasData(Question $question)
+    {
+        switch ($question->type){
+            case 'true_false':
+                return (bool)$question->tf_question;
+            case 'multiple_choice':
+                return (bool)$question->option_question->count()>0;
+            case 'matching':
+                return (bool)$question->match_question->count()>0;
+            case 'sorting':
+                return (bool)$question->sort_question->count()>0;
+            case 'fill_blank':
+                return (bool)$question->fill_blank_question->count()>0;
+            case 'article':
+               return !is_null($question->content);
+        }
+        return false;
+    }
 
 
     public function showQuestions($id){

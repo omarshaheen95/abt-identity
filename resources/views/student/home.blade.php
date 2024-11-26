@@ -132,7 +132,7 @@
     <script>
         $(document).on("click",".exam-card .btn", function(){
             let examID = $(this).data("exam-id"),
-                examURL = "{{route('student.term',['id'=>'id'])}}".replace("id", examID);
+                examURL = "{{route('student.term',['id'=>':id'])}}".replace(":id", examID);
             $("#start-term .btn-exam-view").attr("href", examURL);
             $("#start-term").modal("show");
         });

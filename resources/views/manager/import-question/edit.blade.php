@@ -81,11 +81,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach(\App\Models\Subject::all() as $subject) @endforeach
+                @foreach(\App\Models\Subject::all() as $subject)
                  <tr>
                      <td>{{t($subject->name)}}</td>
                      <td>{{t($subject->id)}}</td>
                  </tr>
+                @endforeach
                 </tbody>
             </table>
             <div class="row my-5">

@@ -24,8 +24,8 @@
 @section('style')
     <link href="{{asset('web_assets/css/custom2.css')}}?v{{time()}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/exam_questions.css')}}?v{{time()}}" rel="stylesheet">
-    <link href="{{asset('calculator_assets/css/style.css')}}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}">
+    <link href="{{asset('calculator_assets/css/style.css')}}?v={{time()}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}?v={{time()}}">
         <style>
             #keyboardInputLayout {
                 direction: ltr !important;

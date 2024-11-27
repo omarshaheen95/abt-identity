@@ -60,28 +60,54 @@
                     @foreach($subjects as $subject)
                         <div class="tab-pane fade {{$loop->index==0?'show active':''}}" id="kt_tab_pane_{{$subject->id}}" role="tabpanel">
                             @if(isset($questions[$subject->id]))
-                                @foreach($questions[$subject->id] as $question)
-                                    @php
-                                        $index = $loop->index
-                                    @endphp
 
-                                    <input type="hidden" value="{{$question->type}}" name="questions[{{$question->id}}][type]">
-                                    <input type="hidden" value="{{$question->subject}}" name="questions[{{$question->id}}][subject]">
+                                @foreach($questions[$subject->id] as $type => $questions_by_type)
+                                    <div class="questions-group-card">
+                                        <div class="d-flex justify-content-center">
 
-                                    @if($question->type == 'true_false')
-                                        @include('manager.student_term.term_preview.questions.true_false', compact('question','index'))
-                                    @elseif($question->type == 'multiple_choice')
-                                        @include('manager.student_term.term_preview.questions.choose', compact('question','index'))
-                                    @elseif($question->type == 'matching' && isset($question->match_question) && count($question->match_question)>0)
-                                        @include('manager.student_term.term_preview.questions.match', compact('question','index'))
-                                    @elseif($question->type == 'sorting' && isset($question->sort_question) && count($question->sort_question)>0)
-                                        @include('manager.student_term.term_preview.questions.sort', compact('question','index'))
-                                    @elseif($question->type == 'article')
-                                        @include('manager.student_term.term_preview.questions.article', compact('question','index'))
-                                    @elseif($question->type == 'fill_blank')
-                                        @include('manager.student_term.term_preview.questions.fill_blank', compact('question','index'))
-                                    @endif
+                                            @switch($type)
+                                                @case('true_false')
+                                                    <div class="head">{{t('True Or False Questions')}} </div>
+                                                    @break
+                                                @case('multiple_choice')
+                                                    <div class="head">{{t('Multiple Choice Questions : choose the correct answer')}} </div>
+                                                    @break
+                                                @case('fill_blank')
+                                                    <div class="head">{{t('Fill blank Questions : Put the answer in the appropriate blank')}} </div>
+                                                    @break
+                                            @endswitch
+
+
+
+                                        </div>
+                                        <div class="card-body">
+                                            @foreach(collect($questions_by_type)->shuffle() as $question)
+                                                @php
+                                                    $index = $loop->index
+                                                @endphp
+
+                                                <input type="hidden" value="{{$question->type}}" name="questions[{{$question->id}}][type]">
+                                                <input type="hidden" value="{{$question->subject}}" name="questions[{{$question->id}}][subject]">
+
+                                                @if($question->type == 'true_false')
+                                                    @include('manager.student_term.term_preview.questions.true_false', compact('question','index'))
+                                                @elseif($question->type == 'multiple_choice')
+                                                    @include('manager.student_term.term_preview.questions.choose', compact('question','index'))
+                                                @elseif($question->type == 'matching' && isset($question->match_question) && count($question->match_question)>0)
+                                                    @include('manager.student_term.term_preview.questions.match', compact('question','index'))
+                                                @elseif($question->type == 'sorting' && isset($question->sort_question) && count($question->sort_question)>0)
+                                                    @include('manager.student_term.term_preview.questions.sort', compact('question','index'))
+                                                @elseif($question->type == 'article')
+                                                    @include('manager.student_term.term_preview.questions.article', compact('question','index'))
+                                                @elseif($question->type == 'fill_blank')
+                                                    @include('manager.student_term.term_preview.questions.fill_blank', compact('question','index'))
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+
                                 @endforeach
+
                             @else
                                 <h4 class="text-center">{{t('The subject not have any questions!')}}</h4>
                             @endif

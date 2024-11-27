@@ -206,7 +206,7 @@
     background-color: #055b2e;
     color: #FFFFFF;
 }
-.btn_nav_active{
-    background-color: #068241;
-    color: #FFFFFF;
+.btn_nav.active{
+    background-color: #175d33;
+    color: #FFEB3B;
 }

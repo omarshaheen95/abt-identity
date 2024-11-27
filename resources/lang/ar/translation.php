@@ -794,4 +794,10 @@ return
  	'No assessments are available' => 'No assessments are available',
  	'Assessment Approval' => 'Assessment Approval',
  	'Edit Assessment' => 'Edit Assessment',
+
+ 	'Multiple Choice Questions: choose the correct answer' => 'Multiple Choice Questions: choose the correct answer',
+ 	'True Or False Questions' => 'True Or False Questions',
+ 	'Fill blank Questions: Put the answer in the appropriate blank' => 'Fill blank Questions: Put the answer in the appropriate blank',
+ 	'Multiple Choice Questions : choose the correct answer' => 'Multiple Choice Questions : choose the correct answer',
+ 	'Fill blank Questions : Put the answer in the appropriate blank' => 'Fill blank Questions : Put the answer in the appropriate blank',
 ];

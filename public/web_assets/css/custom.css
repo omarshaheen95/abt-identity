@@ -761,6 +761,7 @@ form.disabled{
     padding: 45px 60px;
     margin-bottom: 30px;
 }
+
 .question-card .question-content .pic{
     display: flex;
     justify-content: center; /* Center horizontally */
@@ -772,6 +773,32 @@ form.disabled{
     /*margin: auto;*/
     margin-bottom: 20px;
 }
+.questions-group-card{
+    border: 1px solid #068241;
+    background-color: #fff;
+    border-radius: 30px;
+    padding: 30px 35px;
+    margin-bottom: 30px;
+}
+.questions-group-card .head {
+    display: inline-block; /* Make the width fit the content */
+    text-align: center;    /* Center text inside */
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px auto;     /* Center the element horizontally */
+    background-color: #ececec;
+    padding: 0 20px;       /* Add horizontal padding around the text */
+    height: 40px;          /* Set consistent height */
+    line-height: 40px;     /* Vertically center text */
+    border-radius: 5px;    /* Optional for rounded corners */
+    box-sizing: border-box; /* Ensure proper sizing */
+}
+.questions-group-card .question-card {
+    margin-top: 10px;
+    border: 1px solid #d2d2d2;
+
+}
+
 .q-image{
     /*height: 400px;*/
     /*width: 500px;*/

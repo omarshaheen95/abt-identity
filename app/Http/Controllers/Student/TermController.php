@@ -79,11 +79,11 @@ class TermController extends Controller
 
         }
 
-
         $questions = Question::with(['option_question', 'match_question', 'sort_question','fill_blank_question'])
-            ->where('term_id', $id)->get()->groupBy('subject_id');
+            ->where('term_id', $id)->get();
 
         $questions_count = count($questions);
+        $questions = $questions->groupBy(['subject_id','type']);
         $subjects = Subject::all();
         $marks = '100';
 

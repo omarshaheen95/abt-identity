@@ -3,19 +3,19 @@
     <div class="col-lg-12">
         <div class="question-card">
             <div class="question-content">
-                <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="d-flex align-items-center gap-2 ">
                     <h6 class="fw-bold m-0 pb-1 q-number">{{$index+1}}</h6>
-                    <p class="m-0 pb-1"> {{$question->content}}</p>
+{{--                    <p class="m-0 pb-1"> {{$question->content}}</p>--}}
                 </div>
 
 
                 @if($question->image)
-                    <div class="pic">
+                    <div class="pic mb-2">
                         <img src="{{asset($question->image)}}" class="q-image">
                     </div>
                 @endif
             </div>
-            <div class="answer-box justify-content-center mt-2 p-4">
+            <div class="answer-box justify-content-center  p-4">
                 <div class="w-100">
                     <div class="answers" data-question="{{$question->id}}">
                         <div class="row justify-content-center">

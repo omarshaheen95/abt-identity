@@ -19,8 +19,8 @@
 
     @yield('pre-style')
     <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
-    <link href="{{asset('web_assets/css/custom.css')}}" rel="stylesheet">
-    <link href="{{asset('web_assets/css/responsive.css')}}" rel="stylesheet">
+    <link href="{{asset('web_assets/css/custom.css')}}?v={{time()}}" rel="stylesheet">
+    <link href="{{asset('web_assets/css/responsive.css')}}?v={{time()}}" rel="stylesheet">
     @yield('style')
 
 </head>

@@ -114,7 +114,7 @@ $(document).ready(function () {
 
     leaveBtn.click(function (e) {
         e.preventDefault();
-        $("#submit-term").modal("show");
+        $("#leave-term-modal").modal("show");
     });
 
 

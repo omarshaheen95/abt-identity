@@ -163,7 +163,7 @@ class TermController extends Controller
             $marks = 100;
             $preview_mode = true;
 
-            $questions = $questions->groupBy('subject_id');
+            $questions = $questions->groupBy(['subject_id','type']);
 
 
             return view('manager.student_term.term_preview.term_preview',compact('term','questions','questions_count','marks','subjects','preview_mode'));

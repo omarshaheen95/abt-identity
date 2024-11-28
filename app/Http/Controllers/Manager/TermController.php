@@ -81,7 +81,6 @@ class TermController extends Controller
     {
         $data = $request->validated();
         $data['active'] = $request->get('active', false) ? 1 : 0;
-        $data['demo'] = $request->get('demo', false) ? 1 : 0;
         Term::query()->create($data);
         return redirect()->route('manager.term.index')->with('message', t('Successfully Created'));
     }
@@ -100,7 +99,6 @@ class TermController extends Controller
         $term = Term::query()->findOrFail($id);
         $data = $request->validated();
         $data['active'] = $request->get('active', false) ? 1 : 0;
-        $data['demo'] = $request->get('demo', false) ? 1 : 0;
         $term->update($data);
         return redirect()->route('manager.term.index')->with('message', t('Successfully Updated'));
     }

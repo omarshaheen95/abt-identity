@@ -86,15 +86,6 @@
                         </label>
                     </div>
                 </div>
-
-                <div class="col-3 mt-3">
-                    <div class="form-check form-check-custom form-check-solid me-10">
-                        <input class="form-check-input" type="checkbox" value="1" name="demo" {{ isset($term) && $term->demo ? 'checked':'' }} id="flexCheckbox30"/>
-                        <label class="form-check-label text-dark" for="flexCheckbox30">
-                            {{t('Demo')}}
-                        </label>
-                    </div>
-                </div>
         </div>
 
         <div class="row my-5">

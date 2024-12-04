@@ -169,8 +169,12 @@ Route::group([], function () {
     Route::get('copy_structure', function (){
         $terms = \App\Models\Term::query()->with(['question', 'level'])
             ->whereRelation('level', 'year_id', 2)->get();
-        $arabs = $terms->where('arab',1);
-        $non_arabs = $terms->where('arab',0);
+        $arabs = $terms->filter(function ($value){
+            return $value->level->arab == 1;
+        });
+        $non_arabs = $terms->filter(function ($value){
+            return $value->level->arab == 0;
+        });
         foreach ($arabs as $term){
             $non_arab_term = $non_arabs->filter(function ($value) use ($term){
                 return $value->level->grade == $term->level->grade;

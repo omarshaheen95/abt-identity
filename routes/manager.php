@@ -190,6 +190,7 @@ Route::group([], function () {
                 }
             }
         }
+        return 'done';
     })->name('copy_structure');
 
 

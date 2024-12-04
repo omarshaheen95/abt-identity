@@ -166,6 +166,31 @@ Route::group([], function () {
 
     Route::get('get-levels-by-year/{id}', [\App\Http\Controllers\GeneralController::class, 'levelsByYear'])->name('get-levels-by-year');
     Route::get('get-terms-by-level/{id}', [\App\Http\Controllers\GeneralController::class, 'termsByLevel'])->name('get-terms-by-level');
+    Route::get('copy_structure', function (){
+        $terms = \App\Models\Term::query()->with(['question', 'level'])->whereIn('grade_id',[1,2,3,4,5,6,7,8,9,10,11,12])->whereRelation('level', 'year_id', 2)->get();
+        $arabs = $terms->where('arab',1);
+        $non_arabs = $terms->where('arab',0);
+        foreach ($arabs as $term){
+            $non_arab_term = $non_arabs->filter(function ($value) use ($term){
+                return $value->level->grade == $term->level->grade;
+            })->first();
+            if ($non_arab_term)
+            {
+                $non_arab_term->question()->delete();
+                //replicate questions for non arab term
+                foreach ($term->question as $question){
+                    $new_question = $question->replicate();
+                    $new_question->term_id = $non_arab_term->id;
+                    $new_question->content = null;
+                    $new_question->image = null;
+                    $new_question->audio = null;
+                    $new_question->question_reader = null;
+                    $new_question->question_file_id = null;
+                    $new_question->save();
+                }
+            }
+        }
+    })->name('copy_structure');
 
 
 });

@@ -28,7 +28,7 @@ class TelegramLoggerHandler extends AbstractProcessingHandler {
 
         $currentUrl = request()->fullUrl();
 
-        $message = "<b>Application:</b> " . config('app.name') . "\n" .
+        $message = "<b>Application:</b> " . config('app.name')=='Laravel'?'ABT-IDENTITY':config('app.name') . "\n" .
             "\n".
             "<b>URL:</b> " . $currentUrl.
             "\n".

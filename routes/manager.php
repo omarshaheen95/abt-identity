@@ -167,7 +167,8 @@ Route::group([], function () {
     Route::get('get-levels-by-year/{id}', [\App\Http\Controllers\GeneralController::class, 'levelsByYear'])->name('get-levels-by-year');
     Route::get('get-terms-by-level/{id}', [\App\Http\Controllers\GeneralController::class, 'termsByLevel'])->name('get-terms-by-level');
     Route::get('copy_structure', function (){
-        $terms = \App\Models\Term::query()->with(['question', 'level'])->whereIn('grade',[1,2,3,4,5,6,7,8,9,10,11,12])->whereRelation('level', 'year_id', 2)->get();
+        $terms = \App\Models\Term::query()->with(['question', 'level'])
+            ->whereRelation('level', 'year_id', 2)->get();
         $arabs = $terms->where('arab',1);
         $non_arabs = $terms->where('arab',0);
         foreach ($arabs as $term){

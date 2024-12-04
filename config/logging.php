@@ -117,6 +117,11 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+        'telegram' => [
+            'driver' => 'monolog',
+            'handler' => \App\Exceptions\TelegramLoggerHandler::class,
+            'level' => 'debug',
+        ],
     ],
 
 ];

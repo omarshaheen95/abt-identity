@@ -8,7 +8,7 @@
     {{$title}}
 @endsection
 
-@if(Auth::guard('manager')->!user()->approved && Auth::guard('manager')->user()->hasDirectPermission('show statistics'))
+@if(Auth::guard('manager')->user()->approved && Auth::guard('manager')->user()->hasDirectPermission('show statistics'))
     @section('charts')
         <div class="row gy-5 g-xl-10">
             <div class="col-sm-6 col-xl-2 mb-xl-10">

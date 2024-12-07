@@ -220,7 +220,11 @@ class StudentImportController extends Controller
                     $html = '';
                     foreach ($row->data['errors'] as $errors) {
                         $html .= '<ul><li class="text-danger">';
-                        $html .= '<ul><li class="text-danger">' . implode('</li><li class="text-danger">', $errors) . '</li></ul>';
+                        if (is_array($errors))
+                            $html .= '<ul><li class="text-danger">' . implode('</li><li class="text-danger">', $errors) . '</li></ul>';
+                        else
+                            $html .= $errors;
+
                         $html .= '</li></ul>';
                     }
                     return $html;

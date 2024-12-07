@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -54,6 +55,17 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function report(Throwable $exception)
+    {
+        if (!$exception instanceof NotFoundHttpException && !$exception instanceof ValidationException && !$exception instanceof UnauthorizedHttpException && !$exception instanceof AuthenticationException && !$exception instanceof TokenMismatchException)
+        {
+            $message = $exception->getMessage() .' Code: '.$exception->getCode() . ' File: '. $exception->getFile() . ' Line:'. $exception->getLine();
+            Log::channel('telegram')->critical($message);
+        }
+
+        parent::report($exception);
     }
 
     public function render($request, Throwable $exception)

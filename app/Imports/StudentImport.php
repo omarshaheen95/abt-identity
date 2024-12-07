@@ -89,6 +89,7 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
             }
 
             $assessment = $this->levels->where('Grade', $row['Grade'])->where('Arab', $row['Arab'])->first();
+            dd($assessment, $this->levels);
 
             if(!$assessment){
                 $this->failures[$this->row_num][] = 'Assessment Not Found, check Grade and Arab';

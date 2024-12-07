@@ -40,7 +40,7 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
     {
         $this->file = $file;
         $this->update = $update;
-        $this->levels = Level::query()->get();
+        $this->levels = Level::query()->latest()->get();
     }
 
     public function transformDate($value, $format = 'd-M-Y')
@@ -88,8 +88,7 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
                 $gender = 'girl';
             }
 
-            $assessment = $this->levels->where('Grade', $row['Grade'])->where('Arab', $row['Arab'])->first();
-            dd($assessment, $this->levels, $row['Grade'], $row['Arab']);
+            $assessment = $this->levels->where('grade', $row['Grade'])->where('arab', $row['Arab'])->first();
 
             if(!$assessment){
                 $this->failures[$this->row_num][] = 'Assessment Not Found, check Grade and Arab';

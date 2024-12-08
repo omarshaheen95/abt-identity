@@ -33,7 +33,7 @@
                                 <input type="hidden" name="questions[{{$question->id}}][question_result_id]" value="{{$question->result->id}}">
                             @endif
                             @foreach($question->option_question as $option)
-                                <div class="form-check form-check-inline d-flex align-items-start">
+                                <div class="form-check form-check-inline d-flex align-items-center">
                                     <input class="form-check-input" type="radio" name="questions[{{$question->id}}][answer_option_id]"
                                            id="choose-option-{{$option->id}}" value="{{$option->id}}"
 

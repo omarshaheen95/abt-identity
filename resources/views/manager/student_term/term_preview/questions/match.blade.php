@@ -44,7 +44,7 @@
                                                                             @if(!is_null($match->image))
                                                                                 <div class="row justify-content-center">
                                                                                     <div class="col-md-12 text-center">
-                                                                                        <img src="{{asset($match->image)}}" class="match-img" />
+                                                                                        <img src="{{asset($match->image)}}" class="match-img"/>
                                                                                     </div>
                                                                                 </div>
                                                                             @else
@@ -56,7 +56,7 @@
                                                                     <div class="col-md-4 mb-2">
                                                                         <div class="item match-item m-i-border">
                                                                             <ul data-question="{{$question->id}}" data-index="{{$match->id}}"
-                                                                                class="matchAnswers matchWords matchConnected list-unstyled d-flex align-items-center justify-content-center">
+                                                                                class="matchAnswers matchWords matchConnected list-unstyled d-flex align-items-center justify-content-center" @if($match->image) style="height:200px" @endif>
                                                                                 <div data-question="{{$question->id}}" class="ui-state-default add-answer"
                                                                                      data-id="{{$match->uid}}">
                                                                                     <text>{{$match->result}}</text>

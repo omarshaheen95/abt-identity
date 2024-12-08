@@ -114,19 +114,17 @@
                                         <div class="questions-group-card">
                                             <div class="d-flex justify-content-center">
 
-                                                        @switch($type)
-                                                            @case('true_false')
-                                                                 <div class="head">{{t('True Or False Questions')}} </div>
-                                                            @break
-                                                            @case('multiple_choice')
-                                                                 <div class="head">{{t('Multiple Choice Questions : choose the correct answer')}} </div>
-                                                                @break
-                                                            @case('fill_blank')
-                                                                         <div class="head">{{t('Fill blank Questions : Put the answer in the appropriate blank')}} </div>
-                                                                @break
-                                                        @endswitch
-
-
+                                                @switch($type)
+                                                    @case('true_false')
+                                                        <div class="head">{{$term->level->arab != 1 ? 'True Or False Questions' : 'أسئلة صح أو خطأ :اجب بصح أم خطأ'}} </div>
+                                                        @break
+                                                    @case('multiple_choice')
+                                                        <div class="head">{{$term->level->arab != 1 ? 'Multiple Choice Questions' : 'أسئلة اختر من متعدد : قم باختيار الإجابة الصحيحة'}} </div>
+                                                        @break
+                                                    @case('fill_blank')
+                                                        <div class="head">{{$term->level->arab != 1 ? 'Fill blank Questions : Put the answer in the appropriate blank' : 'أسئلة أكمل الفراغ : ضع الإجابة المناسبة بالفراغ المناسب'}} </div>
+                                                        @break
+                                                @endswitch
 
                                             </div>
                                             <div class="card-body">
@@ -177,6 +175,13 @@
 @endsection
 
 @section('script')
+    <script>
+        @if($term->level->arab==1)
+        $('html').attr('lang', 'ar').attr('dir', 'rtl');
+        @else
+        $('html').attr('lang', 'en').attr('dir', 'ltr');
+        @endif
+    </script>
     <script src="{{asset('calculator_assets/js/script.js')}}"></script>
     <script src="{{asset('web_assets/js/student_term.js')}}?v={{time()}}"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>

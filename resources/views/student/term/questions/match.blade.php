@@ -80,7 +80,7 @@
                                                                     <div class="col-md-4 mb-2">
                                                                         <div class="item match-item m-i-border">
                                                                             <ul data-question="{{$question->id}}" data-index="{{$match->id}}"
-                                                                                class="matchAnswers matchWords matchConnected list-unstyled d-flex align-items-center justify-content-center">
+                                                                                class="matchAnswers matchWords matchConnected list-unstyled d-flex align-items-center justify-content-center" @if($match->image) style="height:200px" @endif>
                                                                                @if(isset($question->result))
                                                                                     {{--When have answer in correcting mode--}}
                                                                                     @php

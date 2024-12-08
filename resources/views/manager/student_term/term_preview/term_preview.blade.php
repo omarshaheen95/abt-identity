@@ -17,7 +17,7 @@
 @endsection
 
 @section('style')
-    <link href="{{asset('web_assets/css/exam_questions.css')}}?v1" rel="stylesheet">
+    <link href="{{asset('web_assets/css/exam_questions.css')}}?v={{time()}}" rel="stylesheet">
     <link href="{{asset('calculator_assets/css/style.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}">
     <style>
@@ -33,7 +33,6 @@
             width: 50px
         }
     </style>
-
 @endsection
 
 @section('content')
@@ -67,17 +66,15 @@
 
                                             @switch($type)
                                                 @case('true_false')
-                                                    <div class="head">{{t('True Or False Questions')}} </div>
+                                                    <div class="head">{{$term->level->arab != 1 ? 'True Or False Questions' : 'أسئلة صح أو خطأ :اجب بصح أم خطأ'}} </div>
                                                     @break
                                                 @case('multiple_choice')
-                                                    <div class="head">{{t('Multiple Choice Questions : choose the correct answer')}} </div>
+                                                    <div class="head">{{$term->level->arab != 1 ? 'Multiple Choice Questions' : 'أسئلة اختر من متعدد : قم باختيار الإجابة الصحيحة'}} </div>
                                                     @break
                                                 @case('fill_blank')
-                                                    <div class="head">{{t('Fill blank Questions : Put the answer in the appropriate blank')}} </div>
+                                                    <div class="head">{{$term->level->arab != 1 ? 'Fill blank Questions : Put the answer in the appropriate blank' : 'أسئلة أكمل الفراغ : ضع الإجابة المناسبة بالفراغ المناسب'}} </div>
                                                     @break
                                             @endswitch
-
-
 
                                         </div>
                                         <div class="card-body">
@@ -128,6 +125,13 @@
 @endsection
 
 @section('script')
+    <script>
+        @if($term->level->arab==1)
+        $('html').attr('lang', 'ar').attr('dir', 'rtl');
+        @else
+        $('html').attr('lang', 'en').attr('dir', 'ltr');
+        @endif
+    </script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>

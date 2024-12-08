@@ -36,18 +36,18 @@
                 </a>
             </div>
             <div class="action">
-                @if(app()->getLocale() == "ar")
-                    <a href="{{ route('switch-language', 'en') }}" class="lang">
-                        <span class="text me-2 d-none d-sm-inline-block"> العربية </span>
-                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-arab-emirates.svg')}}" width="20px" alt="arabic">
-                    </a>
+{{--                @if(app()->getLocale() == "ar")--}}
+{{--                    <a href="{{ route('switch-language', 'en') }}" class="lang">--}}
+{{--                        <span class="text me-2 d-none d-sm-inline-block"> العربية </span>--}}
+{{--                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-arab-emirates.svg')}}" width="20px" alt="arabic">--}}
+{{--                    </a>--}}
 
-                @else
-                    <a href="{{ route('switch-language', 'ar') }}" class="lang">
-                        <span class="text me-2 d-none d-sm-inline-block"> English </span>
-                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-states.svg')}}" width="20px" alt="arabic">
-                    </a>
-                @endif
+{{--                @else--}}
+{{--                    <a href="{{ route('switch-language', 'ar') }}" class="lang">--}}
+{{--                        <span class="text me-2 d-none d-sm-inline-block"> English </span>--}}
+{{--                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-states.svg')}}" width="20px" alt="arabic">--}}
+{{--                    </a>--}}
+{{--                @endif--}}
 
                 <div class="dropdown dropdown-profile">
                     <a class="dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

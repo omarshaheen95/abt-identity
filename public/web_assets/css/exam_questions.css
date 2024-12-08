@@ -356,7 +356,7 @@ ul.matchAnswers li {
     border: 2px dashed #068241;border-radius: 10px
 }
 .match-img{
-    max-width: 200px;
+    /*max-width: 200px;*/
     height: 200px;
     object-fit: cover;
 }

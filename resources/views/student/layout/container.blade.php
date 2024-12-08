@@ -1,3 +1,12 @@
+@if($student->level->arab)
+@php
+    app()->setLocale('ar')
+@endphp
+@else
+@php
+    app()->setLocale('en')
+@endphp
+@endif
 <!doctype html>
 <html lang="{{$student->level->arab?'ar':'en'}}" dir="{{$student->level->arab?'rtl':'ltr'}}">
 <head>

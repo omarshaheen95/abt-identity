@@ -34,16 +34,6 @@
                             @endif
                             @foreach($question->option_question as $option)
                                 <div class="form-check form-check-inline align-items-center">
-                                    @if(!$term->level->arab)
-                                        @if(!$option->image)
-                                            <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
-                                        @else
-                                            <div class="option-pic">
-                                                <img src="{{asset($option->image)}}" />
-                                            </div>
-                                        @endif
-                                    @endif
-
                                     <input class="form-check-input" type="radio" name="questions[{{$question->id}}][answer_option_id]"
                                            id="choose-option-{{$option->id}}" value="{{$option->id}}"
 
@@ -62,7 +52,6 @@
                                         {{$question->result->option_id==$option->id?'checked':''}}>
                                     @endif
 
-                                    @if($term->level->arab)
                                         @if(!$option->image)
                                             <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
                                         @else
@@ -70,27 +59,15 @@
                                                 <img src="{{asset($option->image)}}" />
                                             </div>
                                         @endif
-                                    @endif
 
                                 </div>
                             @endforeach
                         @else
                             @foreach($question->option_question as $option)
                                 <div class="form-check form-check-inline align-items-center">
-                                    @if(!$term->level->arab)
-                                        @if(!$option->image)
-                                            <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
-                                        @else
-                                            <div class="option-pic">
-                                                <img src="{{asset($option->image)}}" />
-                                            </div>
-                                        @endif
-                                    @endif
-
                                     <input class="form-check-input" type="radio" name="questions[{{$question->id}}][answer_option_id]"
                                            id="choose-option-{{$option->id}}" value="{{$option->id}}" onclick="saveResult()">
 
-                                        @if($term->level->arab)
                                         @if(!$option->image)
                                             <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
                                         @else
@@ -98,7 +75,6 @@
                                                 <img src="{{asset($option->image)}}" />
                                             </div>
                                         @endif
-                                   @endif
                                 </div>
                             @endforeach
                         @endif

@@ -27,7 +27,7 @@
             <div class="answer-group d-flex justify-content-center align-items-start py-2">
                 @foreach($question->option_question as $option)
                     <div class="form-check form-check-inline align-items-center">
-                        @if(!$term->level->arab)
+                        @if($term->level->arab)
                             @if(!$option->image)
                                 <label class="form-check-label ms-2" for="choose-option-{{$option->id}}">
                                     {{$option->content}}
@@ -44,7 +44,7 @@
                                id="choose-option-{{$option->id}}" value="{{$option->id}}"
                                @if($question->result==$option->id)checked @endif>
 
-                        @if($term->level->arab)
+                        @if(!$term->level->arab)
                             @if(!$option->image)
                                 <label class="form-check-label ms-2" for="choose-option-{{$option->id}}">
                                     {{$option->content}}

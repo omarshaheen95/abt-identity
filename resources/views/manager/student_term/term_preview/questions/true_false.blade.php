@@ -24,7 +24,7 @@
                                         {{$question->result==1?'checked':''}}>
                                     <label class="form-check-label form-check-custom" for="tf-option-{{$question->id}}-1" >
                                         <span> <img src="{{asset('web_assets/img/true.svg')}}" alt=""></span>
-                                        <span class="text"> {{t('True')}} </span>
+                                        <span class="text"> {{$term->level->arab?'صح':'True'}} </span>
                                     </label>
                                 </div>
                                 <div class="form-check form-check-inline ">
@@ -34,7 +34,7 @@
 
                                     <label class="form-check-label form-check-custom" for="tf-option-{{$question->id}}-2">
                                         <span> <img src="{{asset('web_assets/img/false.svg')}}" alt=""></span>
-                                        <span class="text"> {{t('False')}} </span>
+                                        <span class="text"> {{$term->level->arab?'خطأ':'False'}} </span>
                                     </label>
                                 </div>
                         </div>

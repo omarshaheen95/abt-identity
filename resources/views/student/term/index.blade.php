@@ -14,7 +14,7 @@
 
                 <a href="#!" class="leave-exam">
                     <img src="{{asset('web_assets/img/leave.svg')}}" alt="">
-                    <span class="text ms-2">{{t('Leave Term')}}</span>
+                    <span class="text ms-2">{{$term->level->arab?'مغادرة الإختبار':'Leave Assessment'}}</span>
                 </a>
             </div>
         </div>

@@ -125,13 +125,13 @@
 @endsection
 
 @section('script')
-    <script>
-        @if($term->level->arab==1)
-        $('html').attr('lang', 'ar').attr('dir', 'rtl');
-        @else
-        $('html').attr('lang', 'en').attr('dir', 'ltr');
-        @endif
-    </script>
+{{--    <script>--}}
+{{--        @if($term->level->arab==1)--}}
+{{--        $('html').attr('lang', 'ar').attr('dir', 'rtl');--}}
+{{--        @else--}}
+{{--        $('html').attr('lang', 'en').attr('dir', 'ltr');--}}
+{{--        @endif--}}
+{{--    </script>--}}
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>

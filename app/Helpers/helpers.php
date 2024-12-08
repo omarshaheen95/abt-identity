@@ -97,7 +97,7 @@ function set_locale()
 
 function t($key, $placeholder = [], $locale = null)
 {
-    return translation('translation',$key, $placeholder = [], $locale = null);
+    return translation('translation',$key, $placeholder = [], $locale );
 }
 
 function re($key, $placeholder = [], $locale = null){
@@ -106,8 +106,9 @@ function re($key, $placeholder = [], $locale = null){
 
 function translation($group,$key, $placeholder = [], $locale = null)
 {
-    if (is_null($locale))
+    if (is_null($locale)){
         $locale = config('app.locale');
+    }
     $key = trim($key);
     $word = $group . '.' . $key;
     if (Lang::has($word))

@@ -33,7 +33,7 @@
                                 <input type="hidden" name="questions[{{$question->id}}][question_result_id]" value="{{$question->result->id}}">
                             @endif
                             @foreach($question->option_question as $option)
-                                <div class="form-check form-check-inline d-flex align-items-center">
+                                <div class="form-check form-check-inline align-items-center">
                                     @if(!$term->level->arab)
                                         @if(!$option->image)
                                             <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
@@ -76,16 +76,29 @@
                             @endforeach
                         @else
                             @foreach($question->option_question as $option)
-                                <div class="form-check form-check-inline d-flex align-items-center">
+                                <div class="form-check form-check-inline align-items-center">
+                                    @if(!$term->level->arab)
+                                        @if(!$option->image)
+                                            <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
+                                        @else
+                                            <div class="option-pic">
+                                                <img src="{{asset($option->image)}}" />
+                                            </div>
+                                        @endif
+                                    @endif
+
                                     <input class="form-check-input" type="radio" name="questions[{{$question->id}}][answer_option_id]"
                                            id="choose-option-{{$option->id}}" value="{{$option->id}}" onclick="saveResult()">
-                                    @if(!$option->image)
-                                        <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
-                                    @else
-                                        <div class="option-pic">
-                                            <img src="{{asset($option->image)}}" />
-                                        </div>
-                                    @endif
+
+                                        @if($term->level->arab)
+                                        @if(!$option->image)
+                                            <label class="form-check-label ms-2" for="choose-option-{{$option->id}}"> {{$option->content}} </label>
+                                        @else
+                                            <div class="option-pic">
+                                                <img src="{{asset($option->image)}}" />
+                                            </div>
+                                        @endif
+                                   @endif
                                 </div>
                             @endforeach
                         @endif

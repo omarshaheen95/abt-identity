@@ -1,14 +1,9 @@
 <!doctype html>
-@if(!empty(\Session::get('lang')))
-    @php
-        \App::setLocale(Session::get('lang'));
-    @endphp
-@else
-    @php
-        \App::setLocale('ar');
-    @endphp
+@if(isset($term))
+    <html lang="{{$student->level->arab?'ar':'en'}}" dir="{{$student->level->arab?'rtl':'ltr'}}">
+    @else
+    <html lang="{{app()->getlocale()}}" dir="{{direction()}}">
 @endif
-<html lang="{{app()->getlocale()}}" dir="{{direction()}}">
 <head>
     <meta charset="UTF-8">
     <title> A.B.T | @yield('title')</title>
@@ -17,7 +12,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}" />
     @yield('pre-style')
-    <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+    @if(isset($term))
+        @if($term->level->arab)
+            <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+        @else
+            <link href="{{asset('web_assets/css/bootstrap.min.css')}}" rel="stylesheet">
+        @endif
+    @else
+        <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+    @endif
     <link href="{{asset('web_assets/css/custom.css')}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/responsive.css')}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/custom2.css')}}?v1" rel="stylesheet">
@@ -53,17 +56,17 @@
                 </a>
             </div>
             <div class="action">
-                @if(app()->getLocale() == "ar")
-                    <a href="{{ route('switch-language', 'en') }}" class="lang">
-                        <span class="text me-2 d-none d-sm-inline-block"> English </span>
-                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-states.svg')}}" width="20px" alt="arabic">
-                    </a>
-                @else
-                    <a href="{{ route('switch-language', 'ar') }}" class="lang">
-                        <span class="text me-2 d-none d-sm-inline-block"> العربية </span>
-                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-arab-emirates.svg')}}" width="20px" alt="arabic">
-                    </a>
-                @endif
+{{--                @if(app()->getLocale() == "ar")--}}
+{{--                    <a href="{{ route('switch-language', 'en') }}" class="lang">--}}
+{{--                        <span class="text me-2 d-none d-sm-inline-block"> English </span>--}}
+{{--                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-states.svg')}}" width="20px" alt="arabic">--}}
+{{--                    </a>--}}
+{{--                @else--}}
+{{--                    <a href="{{ route('switch-language', 'ar') }}" class="lang">--}}
+{{--                        <span class="text me-2 d-none d-sm-inline-block"> العربية </span>--}}
+{{--                        <img style="border-radius: 50%;" src="{{asset('assets_v1/media/flags/united-arab-emirates.svg')}}" width="20px" alt="arabic">--}}
+{{--                    </a>--}}
+{{--                @endif--}}
 
                 <div class="dropdown dropdown-profile">
                     <a class="dropdown-toggle" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

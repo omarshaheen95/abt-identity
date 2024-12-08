@@ -1,6 +1,6 @@
 <!doctype html>
 @if(isset($term))
-    <html lang="{{$student->level->arab?'ar':'en'}}" dir="{{$student->level->arab?'rtl':'ltr'}}">
+    <html lang="{{$term->level->arab?'ar':'en'}}" dir="{{$term->level->arab?'rtl':'ltr'}}">
     @else
     <html lang="{{app()->getlocale()}}" dir="{{direction()}}">
 @endif

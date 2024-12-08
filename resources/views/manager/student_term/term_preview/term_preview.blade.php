@@ -48,7 +48,7 @@
                             @foreach($subjects as $subject)
                                 <li class="nav-item">
                                     <a id="btn_nav_{{$subject->id}}" class="btn_nav btn_nav_active d-flex align-items-center justify-content-center {{$loop->index==0?'active':''}}"
-                                       data-bs-toggle="tab" href="#kt_tab_pane_{{$subject->id}}">{{$subject->name}}</a>
+                                       data-bs-toggle="tab" href="#kt_tab_pane_{{$subject->id}}">{{t($subject->name,[],$term->level->arab?'ar':'en')}}</a>
                                 </li>
                             @endforeach
                         </ul>

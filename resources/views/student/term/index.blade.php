@@ -175,13 +175,19 @@
 @endsection
 
 @section('script')
-{{--    <script>--}}
-{{--        @if($term->level->arab==1)--}}
-{{--        $('html').attr('lang', 'ar').attr('dir', 'rtl');--}}
-{{--        @else--}}
-{{--        $('html').attr('lang', 'en').attr('dir', 'ltr');--}}
-{{--        @endif--}}
-{{--    </script>--}}
+    <script>
+        @if($term->level->arab)
+        @php
+            app()->setLocale('ar')
+        @endphp
+        $('html').attr('lang', 'ar').attr('dir', 'rtl');
+        @else
+        @php
+            app()->setLocale('en')
+        @endphp
+        $('html').attr('lang', 'en').attr('dir', 'ltr');
+        @endif
+    </script>
     <script src="{{asset('calculator_assets/js/script.js')}}"></script>
     <script src="{{asset('web_assets/js/student_term.js')}}?v={{time()}}"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>

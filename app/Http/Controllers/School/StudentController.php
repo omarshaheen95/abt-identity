@@ -114,7 +114,10 @@ class StudentController extends Controller
     }
 
     public function studentsCards(Request $request){
-        $school_id = Auth::guard('school')->user()->id;
+        $school_id = Auth::guard('school')->check() ? Auth::guard('school')->user()->id:$request->get('school_id');
+        if(!$school_id){
+            throw new \Exception('School id not found');
+        }
         $students = Student::query()->where('school_id',$school_id)->search($request)->get();
         $qr = isset($request['qr-code']);
         $students = $students->chunk(6);

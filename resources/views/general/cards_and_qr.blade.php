@@ -48,9 +48,9 @@
                                         <div class="col-12 s-content"><span class="s-title"> Section : </span>{{ $std->grade_name ?? '-' }}</div>
                                         <div class="col-12 s-content"><span class="s-title "> Arab Status : </span>
                                             @if($std->level->arab)
-                                                <label class="badge badge-primary">Arabs</label>
+                                                <span class="arabs">Arabs</span>
                                             @else
-                                                <label class="badge badge-warning">Non-Arabs</label>
+                                                <span class="non-arabs">Non-Arabs</span>
                                             @endif
                                         </div>
                                     </div>

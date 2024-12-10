@@ -29,6 +29,7 @@
             @endcan
             @can('export students cards')
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>
+                <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route("manager.student.students-cards-by-section") }}')">{{t('Cards By Section')}}</a>
             @endcan
 
             @can('delete students')
@@ -104,6 +105,7 @@
             <option value="name">{{t('Name')}}</option>
             <option value="level">{{t('Level')}}</option>
             <option value="section">{{t('Section')}}</option>
+            <option value="arab">{{t('Arab Status')}}</option>
         </select>
     </div>
     <div class="col-3 mb-2">
@@ -129,6 +131,14 @@
             @can('show deleted students')
                 <option value="2">{{t('Deleted Students')}}</option>
             @endcan
+        </select>
+    </div>
+    <div class="col-2 mb-2">
+        <label class="mb-1">{{t('Arabs Status')}}:</label>
+        <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Arabs Status')}}" name="arab_status" data-allow-clear="true">
+            <option></option>
+            <option value="1">{{t('Arabs')}}</option>
+            <option value="2">{{t('Non-Arabs')}}</option>
         </select>
     </div>
     <div class="col-2 mb-2">

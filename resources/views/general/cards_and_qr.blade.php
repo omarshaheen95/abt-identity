@@ -46,7 +46,13 @@
                                         <div class="col-12 s-content"><span class="s-title">ID : </span>{{ $std->id_number ?? '-' }}</div>
                                         <div class="col-12 s-content"><span class="s-title">Grade : </span>Grade {{ $std->level->grade }}</div>
                                         <div class="col-12 s-content"><span class="s-title"> Section : </span>{{ $std->grade_name ?? '-' }}</div>
-{{--                                        <div class="col-12 s-content"><span class="s-title"> Nationality : </span>{{ $std->nationality ?? '-' }}</div>--}}
+                                        <div class="col-12 s-content"><span class="s-title "> Arab Status : </span>
+                                            @if($std->level->arab)
+                                                <span class="arabs">Arabs</span>
+                                            @else
+                                                <span class="non-arabs">Non-Arabs</span>
+                                            @endif
+                                        </div>
                                     </div>
 
                                     <div class="col-5 mt-1 d-flex justify-content-end p-0 pe-1">

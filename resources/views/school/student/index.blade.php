@@ -55,6 +55,7 @@
             <option value="name">{{t('Name')}}</option>
             <option value="level">{{t('Level')}}</option>
             <option value="section">{{t('Section')}}</option>
+            <option value="arab">{{t('Arab Status')}}</option>
         </select>
     </div>
     <div class="col-3 mb-2">
@@ -71,6 +72,14 @@
             <option></option>
             <option value="1">{{t('Citizen')}}</option>
             <option value="2">{{t('Non-Citizen')}}</option>
+        </select>
+    </div>
+    <div class="col-2 mb-2">
+        <label class="mb-1">{{t('Arabs Status')}}:</label>
+        <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Arabs Status')}}" name="arab_status" data-allow-clear="true">
+            <option></option>
+            <option value="1">{{t('Arabs')}}</option>
+            <option value="2">{{t('Non-Arabs')}}</option>
         </select>
     </div>
     <div class="col-2 mb-2">
@@ -98,7 +107,9 @@
 
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{route('school.student.student-marks-export')}}')">{{t('Export Student Marks')}}</a></li>
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>
-                <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
+            <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route("school.student.students-cards-by-section") }}')">{{t('Cards By Section')}}</a>
+
+            <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
 
         </ul>
     </div>

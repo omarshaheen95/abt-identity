@@ -29,6 +29,7 @@
             @endcan
             @can('export students cards')
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>
+                <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route("manager.student.students-cards-by-section") }}')">{{t('Cards By Section')}}</a>
             @endcan
 
             @can('delete students')

@@ -1,7 +1,7 @@
 <!-- Matching -->
     <div class="row">
         <div class="col-lg-12">
-            <div class="question-card">
+            <div class="question-card" data-id="{{$question->id}}">
                 <div class="question-content">
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <h6 class="fw-bold m-0 pb-1 q-number">{{$index+1}}</h6>
@@ -49,7 +49,7 @@
                                                                          data-id="{{$match->uid}}">
                                                                         <text>{{$match->result}}</text>
                                                                         <span class="float-right"></span>
-                                                                        <input type="hidden" name="questions[{{$question->id}}][options][{{$match->uid}}]" id="" value="">
+                                                                        <input class="matching-answer-input" type="hidden" name="questions[{{$question->id}}][options][{{$match->uid}}]" id="" value="">
                                                                     </div>
                                                                 @endforeach
                                                             @endif

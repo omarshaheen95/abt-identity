@@ -1,7 +1,7 @@
  <!-- Choose The Correct Answer -->
     <div class="row">
         <div class="col-lg-12">
-            <div class="question-card">
+            <div class="question-card" data-id="{{$question->id}}">
 
                 <div class="answer-content bg-transparent border-0">
                     <div class="answer-card">

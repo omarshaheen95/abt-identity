@@ -134,6 +134,14 @@
         </select>
     </div>
     <div class="col-2 mb-2">
+        <label class="mb-1">{{t('Arabs Status')}}:</label>
+        <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Arabs Status')}}" name="arab_status" data-allow-clear="true">
+            <option></option>
+            <option value="1">{{t('Arabs')}}</option>
+            <option value="2">{{t('Non-Arabs')}}</option>
+        </select>
+    </div>
+    <div class="col-2 mb-2">
         <label class="mb-1">{{t('G&T')}}:</label>
         <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('G&T')}}" name="g_t" data-allow-clear="true">
             <option></option>

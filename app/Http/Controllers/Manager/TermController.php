@@ -165,7 +165,7 @@ class TermController extends Controller
                     return $question->term->name;
                 })
                 ->addColumn('type', function ($question) {
-                   return camelCaseText($question->type). ' - ' . t('subject') . ' : ' . $question->subject;
+                   return camelCaseText($question->type). ' - ' . t('subject') . ' : ' . $question->subject->name;
 
                 })
                 ->addColumn('level', function ($question) {
@@ -209,7 +209,7 @@ class TermController extends Controller
             return DataTables::make($standard)
                 ->escapeColumns([])
                 ->addColumn('type', function ($standard) {
-                    return camelCaseText($standard->question->type). ' - ' . t('subject') . ' : ' . $standard->question->subject;
+                    return camelCaseText($standard->question->type). ' - ' . t('subject') . ' : ' . $standard->question->subject->name;
                 })
                 ->addColumn('question_content', function ($standard) {
                     return $standard->question->content;

@@ -84,7 +84,7 @@
                                                 @endphp
 
                                                 <input type="hidden" value="{{$question->type}}" name="questions[{{$question->id}}][type]">
-                                                <input type="hidden" value="{{$question->subject}}" name="questions[{{$question->id}}][subject]">
+                                                <input type="hidden" value="{{$question->subject->name}}" name="questions[{{$question->id}}][subject]">
 
                                                 @if($question->type == 'true_false')
                                                     @include('manager.student_term.term_preview.questions.true_false', compact('question','index'))

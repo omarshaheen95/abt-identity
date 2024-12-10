@@ -122,7 +122,6 @@ Route::group([], function () {
     //get levels by year
     Route::get('get-sections', [\App\Http\Controllers\Manager\Student\StudentController::class, 'getSectionsByYear'])->name('student.get-sections');
 
-
     Route::resource('students_files_import',\App\Http\Controllers\Manager\Student\StudentImportController::class)->except(['destroy']);
     Route::delete('delete-student-import', [\App\Http\Controllers\Manager\Student\StudentImportController::class, 'delete'])->name('students_files_import.delete');
     Route::get('student-import-error/{id}', [\App\Http\Controllers\Manager\Student\StudentImportController::class, 'showError'])->name('students_files_import.error');
@@ -198,7 +197,5 @@ Route::group([], function () {
         }
         return 'done';
     })->name('copy_structure');
-
-
 });
 

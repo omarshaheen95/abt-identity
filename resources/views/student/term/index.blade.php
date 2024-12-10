@@ -24,7 +24,6 @@
 @section('style')
     <link href="{{asset('web_assets/css/custom2.css')}}?v{{time()}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/exam_questions.css')}}?v{{time()}}" rel="stylesheet">
-    <link href="{{asset('calculator_assets/css/style.css')}}?v={{time()}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}?v={{time()}}">
         <style>
             #keyboardInputLayout {
@@ -188,7 +187,6 @@
         $('html').attr('lang', 'en').attr('dir', 'ltr');
         @endif
     </script>
-    <script src="{{asset('calculator_assets/js/script.js')}}"></script>
     <script src="{{asset('web_assets/js/student_term.js')}}?v={{time()}}"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>

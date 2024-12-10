@@ -1,7 +1,4 @@
-
-
-
-    /*---------------------------------
+   /*---------------------------------
         Form validation
     ---------------------------------*/
 
@@ -21,16 +18,16 @@
         runToastify
     ---------------------------------  */
 
-    function runToastify(res, status){
+    function showToastify(res, status){
         let backgroundColor,
             position = "right";
-        if($("html").attr("dir") == "rtl"){
+        if($("html").attr("dir") === "rtl"){
             position = "left";
         }
-        if(status == "success"){
+        if(status === "success"){
             backgroundColor= "#01C2A0";
         }
-        if(status == "error"){
+        if(status === "error"){
             backgroundColor= "#F3385D";
         }
         Toastify({
@@ -43,26 +40,3 @@
         }).showToast();
     }
 
-
-
-    /*---------------------------------
-        form submit
-    ---------------------------------*/
-
-    // $("#login-form").on("submit", function(e){
-    //     e.preventDefault();
-    //     var _form = $(this);
-    //     if (_form[0].checkValidity() === false) {
-    //         e.stopPropagation();
-    //     } else {
-    //         _form.find(".btn-submit .spinner-border").toggleClass("d-none");
-    //         _form.addClass("disabled");
-    //
-    //         setTimeout( function(){
-    //             runToastify("تم حفظ البيانات بنجاح", "success")
-    //             _form.find(".btn-submit .spinner-border").toggleClass("d-none");
-    //             _form.removeClass("disabled was-validated");
-    //             _form[0].reset();
-    //         }, 2000);
-    //     }
-    // });

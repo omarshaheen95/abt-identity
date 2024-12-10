@@ -39,22 +39,109 @@ function showArticleQFileInput(question_id){
     $('#article_text_'+question_id).addClass('d-none')
     $('#article_file_'+question_id).removeClass('d-none')
 }
+//Validation
+function validation(){
+    let errors = 0
+    $('.question-card').each(function () {
+        let questionId = $(this).attr('data-id');
+        let questionType = $('input[name="questions['+questionId+'][type]"]').val()
+        // console.log(questionId+'***'+questionType)
 
+        switch (questionType) {
+            case 'true_false':{
+                let hasAnswer = $(this).find('.answer-group input[type="radio"]:checked').length > 0;
+                if (!hasAnswer){
+                    $(this).find(".answer-group").addClass("border border-danger");
+                }else {
+                    $(this).find(".answer-group").removeClass("border border-danger");
+                }
+                if (!hasAnswer){
+                    errors++;
+                }
+                break;
+            }
+            case 'multiple_choice':{
+                let hasAnswer ;
+                if ($(this).find('.answer-group input[type="radio"]').length > 0){
+                    hasAnswer = $(this).find('.answer-group input[type="radio"]:checked').length > 0
+                }
+
+                if (!hasAnswer){
+                    $(this).find(".answer-group").addClass("border border-danger");
+                    errors++;
+                }else {
+                    $(this).find(".answer-group").removeClass("border border-danger");
+                }
+
+                break;
+            }case 'matching':{
+                let hasAnswer = $(this).find('.matchOptions .matching-answer-input').length === 0
+                if (!hasAnswer){
+                    $(this).find(".row .item-container").addClass("border border-danger p-3");
+                    errors++;
+                }else {
+                    $(this).find(".row .item-container").removeClass("border border-danger p-3");
+                }
+
+                break;
+            }case 'sorting':{
+                let hasAnswer = $(this).find('.sortOptions .sort-answer-input').length === 0
+                if (!hasAnswer){
+                    $(this).find(".row .item-container").addClass("border border-danger p-3");
+                    errors++;
+                }else {
+                    $(this).find(".row .item-container").removeClass("border border-danger p-3");
+                }
+
+                break;
+            }
+            case 'fill_blank':{
+                let hasAnswer = $(this).find('.fillBlankOptions .blank-answer-input').length === 0
+                if (!hasAnswer){
+                    $(this).find(".blankAnswers").addClass("border border-danger p-3");
+                    errors++;
+                }else {
+                    $(this).find(".blankAnswers").removeClass("border border-danger p-3");
+                }
+
+                break;
+            }
+            case 'article':{
+                let hasAnswer =
+                    $.trim($(this).find('.answer-box textarea').val()).length === 0 &&
+                    $(this).find('.answer-box .files-upload')[0].files.length === 0
+
+                if (hasAnswer){
+                    $(this).find(".answer-box").addClass("border border-danger p-3");
+                    errors++;
+                }else {
+                    $(this).find(".answer-box").removeClass("border border-danger p-3");
+                }
+
+                break;
+            }
+        }
+    })
+    return errors <= 0;
+}
 
 //-----------------------------------------------------------------------------
 function examFormSubmit(){
-    $("#exams").submit();
-    $("#submit-term").modal("hide");
-    $("#exam-form").addClass("d-none");
-    $("#save-form").removeClass("d-none");
+    if (validation()){
+        $("#submit-term").modal("hide");
+        $("#exam-form").addClass("d-none");
+        $("#save-form").removeClass("d-none");
+        $("#exams").submit();
+    }else {
+        $("#submit-term").modal("hide");
+        showToastify("You must answered for all questions", "error");
+
+    }
 }
 
-function openCalculator(){
-    $("#calculator-modal").modal("show");
-}
+
 $(document).ready(function () {
 
-    setMatchingOptionsHeight() //for responsive height for matching question
     /*---------------------------------------------------
         timer
     ---------------------------------------------------*/
@@ -131,146 +218,5 @@ $(document).ready(function () {
     });
 
 
-    /*---------------------------------------------------
-        sortable
-    ---------------------------------------------------*/
-
-
-
-    $(function () {
-        $(".sortable1, .sortable2").sortable({
-            connectWith: ".connectedSortable"
-        }).disableSelection();
-    });
-
-    $(".sortable2").droppable({
-        drop: function () {
-            $questionId = $(this).attr('question-id');
-            setTimeout(function () {
-                $i = 1;
-                $('.sortable2[question-id = ' + $questionId + '] li span').each(function () {
-                    //$(this).html($i++ );
-                });
-            }, 1);
-            setTimeout(function () {
-                $i = 1;
-                $('.sortable2[question-id = ' + $questionId + '] li input').each(function () {
-                    $(this).val($i++);
-                });
-            }, 1);
-        }
-    });
-
-    $(".sortable1").droppable({
-        drop: function () {
-            setTimeout(function () {
-                $('.sortable1 li span').each(function (i) {
-                    var humanNum = i + 1;
-                    $(this).html('');
-                });
-            }, 1);
-            setTimeout(function () {
-                $('.sortable1 li input').each(function (i) {
-                    var humanNum = i + 1;
-                    $(this).val('');
-                });
-            }, 1);
-        }
-    });
-
-    $(document).on('click', '.sortable1 li', function () {
-        var ele = $(this);
-        let question_id = $(this).closest("ul").attr("question-id")
-        var next_answer_box_length = ele.parent().parent().parent().find('.sortable2 li').length + 1;
-        var next_answer_box = ele.parent().parent().parent().find('.sortable2');
-        let matchingEle = ele.parent().parent().parent().find('.matching')
-        ele.find('input').val(next_answer_box_length);
-        ele.clone().appendTo(next_answer_box);
-        ele.remove();
-        setTimeout(function () {
-            let count = 1;
-            $('.sortable2[question-id = ' + question_id + '] li input').each(function (i) {
-                $(this).val(count);
-                count++;
-            });
-        }, 1);
-
-        if (matchingEle.hasClass('matching')){ //get just container has (matching) class and set height
-            matchOptionsHeight(matchingEle)
-        }
-    });
-
-    $(document).on('click', '.sortable2 li', function () {
-        let question_id = $(this).closest("ul").attr("question-id")
-        var ele = $(this);
-        var next_answer_box = ele.parent().parent().parent().parent().parent().parent().parent().find('.sortable1');
-        ele.find('input').val("")
-        if (ele.parent().parent().parent().parent().hasClass('matching')){
-            ele.css('height','auto');
-        }
-        ele.clone().appendTo(next_answer_box);
-        ele.remove();
-        setTimeout(function () {
-            let count = 1;
-            $('.sortable2[question-id = ' + question_id + '] li input').each(function (i) {
-                $(this).val(count);
-                count++;
-            });
-        }, 1);
-    });
-
-
-    /*---------------------------------------------------
-       formula
-   ---------------------------------------------------*/
-    let formula  = $('.formula-input');
-    if (formula.length>0){
-        //each element has class .formula-input
-        formula.each(function () {
-            var mathInput = $(this).val();
-            var previewElementID = $(this).next().find('.formula-preview').attr('id');
-            // console.log(previewElementID);
-            var previewElement = document.getElementById(previewElementID);
-            previewElement.innerHTML = "\\(" + mathInput + "\\)";
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, previewElement]);
-        });
-    }
-
 });
 
-//set height for element children
-function matchOptionsHeight(elm) {
-    let heights = [];
-    let count = 0;
-    let matchContent = elm.children()
-
-    //get height for each match option
-    let ul22 = matchContent.eq(1).children().find('ul').eq(1).find('li')
-    ul22.each(function () {
-        heights.push($(this).outerHeight())
-    })
-
-    //set height for each match content or image
-    let ul11 = matchContent.eq(0).children().find('li')
-    ul11.each(function () {
-        if (heights[count]>0){
-            $(this).css('height',heights[count])
-        }
-        count++
-    })
-    //set height for each match option  background [the div behind match option]
-    count  = 0;
-    let ul33 = matchContent.eq(1).children().find('ul').eq(0).find('li')
-    ul33.each(function () {
-        if (heights[count]>0){
-            $(this).css('height',heights[count])
-        }
-        count++
-    })
-}
-//set height for all element has this class in exam
-function setMatchingOptionsHeight() {
-    $('.matching').each(function () {
-       matchOptionsHeight($(this))
-    })
-}

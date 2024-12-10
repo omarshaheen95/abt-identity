@@ -1,7 +1,7 @@
 <!-- Sorting -->
 <div class="row">
     <div class="col-lg-12">
-        <div class="question-card">
+        <div class="question-card" data-id="{{$question->id}}">
             <div class="question-content">
                 <div class="d-flex align-items-center gap-2 ">
                     <h6 class="fw-bold m-0 pb-1 q-number">{{$index+1}}</h6>
@@ -36,7 +36,7 @@
                                                  data-id="{{$blank->uid}}">
                                                 <text>{{$blank->content}} </text>
                                                 <span class="float-right"></span>
-                                                <input type="hidden" name="questions[{{$question->id}}][blanks][{{$blank->uid}}]" id=""
+                                                <input type="hidden" class="blank-answer-input" name="questions[{{$question->id}}][blanks][{{$blank->uid}}]" id=""
                                                        value="">
                                             </div>
                                 @endforeach
@@ -47,7 +47,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="question-content">
+                            <div class="question-content blankAnswers">
                                 <div class="d-flex flex-column">
                                     <div class="row align-items-center">
                                         @php

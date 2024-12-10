@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-lg-12">
 
-        <div class="question-card">
+        <div class="question-card" data-id="{{$question->id}}">
 
             <div class="question-content">
                 <div class="d-flex align-items-center gap-2">

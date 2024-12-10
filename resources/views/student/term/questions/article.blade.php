@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12">
 
-            <div class="question-card">
+            <div class="question-card" data-id="{{$question->id}}">
                 <div class="question-content">
                    <div class="d-flex flex-column">
                        <div class="d-flex align-items-center gap-2">
@@ -60,9 +60,9 @@
                 </div>
                 <div class="d-flex justify-content-center mt-2">
                     <div class="col-lg-9">
-                        <div class="">
+                        <div class="answer-box">
                             @if(!isset($question->result))
-                                <input type="file" class="form-control d-none" name="questions[{{$question->id}}][answer_file]" id="article_file_{{$question->id}}" aria-describedby="inputGroupFileAddon04" aria-label="Upload" accept=".jpeg,.png,.jpg" >
+                                <input type="file" class="form-control files-upload d-none" name="questions[{{$question->id}}][answer_file]" id="article_file_{{$question->id}}" aria-describedby="inputGroupFileAddon04" aria-label="Upload" accept=".jpeg,.png,.jpg" >
 
                                 <textarea class="form-control" rows="3" name="questions[{{$question->id}}][answer_text]"
                                           id="article_text_{{$question->id}}" placeholder="{{t('Please enter your answer')}}"

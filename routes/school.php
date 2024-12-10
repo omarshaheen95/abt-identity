@@ -25,6 +25,7 @@ Route::get('students-cards-export', [\App\Http\Controllers\School\StudentControl
 Route::post('student-marks-export', [\App\Http\Controllers\School\StudentController::class, 'studentMarksExport'])->name('student.student-marks-export');
 Route::get('student-login/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentLogin'])->name('student.student-login');
 Route::get('student/{id}/card', [\App\Http\Controllers\School\StudentController::class, 'studentCard'])->name('student-card');
+Route::post('students-cards-by-section', [\App\Http\Controllers\School\StudentController::class, 'studentCardBySections'])->name('student.students-cards-by-section');
 
 Route::get('levelGrades', [\App\Http\Controllers\School\SettingController::class, 'getLevelsByYear'])->name('getLevelsByYear');
 

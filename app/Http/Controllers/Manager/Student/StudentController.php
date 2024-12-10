@@ -13,6 +13,7 @@ use App\Models\Year;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
 class StudentController extends Controller
@@ -209,6 +210,53 @@ class StudentController extends Controller
             return $this->sendResponse(null, t('Successfully Restored'));
         }
         return $this->sendError(t('Student Not Restored'), 402);
+    }
+
+    public function studentCardBySections(Request $request)
+    {
+        $request->validate([
+            'school_id' => 'required',
+            'year_id' => 'required',
+        ]);
+        $request['school_id'] = $request->get('school_id');
+        $students = Student::query()->with(['level', 'school'])->search($request)->get();
+        $sections = $students->whereNotNull('class')->pluck('class')->unique();
+        $students_type = $request->get('arab_status', false);
+        $students_type_request = $students_type ? '&arab_status=' . $students_type : '';
+        $urls = [];
+        foreach ($sections as $section) {
+            $url = '/student-cards?school_id=' . $request['school_id'] . '&year_id=' . $request['year_id'] . '&grade_name=' . $section.$students_type_request;
+            $urls[] = (object)[
+                'section' => str_replace('/', '-', $section),
+                'url' => $url,
+            ];
+        }
+        Log::alert($urls);
+        $client = new \GuzzleHttp\Client([
+            'timeout' => 36000,
+        ]);
+
+        $data = [];
+        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
+            'form_params' => [
+                'platform' => 'arabic-'.sysCountry(),
+                'urls' => $urls,
+                'data' => $data,
+            ],
+        ]);
+        $data = json_decode($res->getBody());
+//        Log::error($res->getBody());
+        $url = $data->url;
+        $fileContent = file_get_contents($url);
+        if ($fileContent === false) {
+            throw new \Exception('Unable to download file');
+        } else {
+            return response($fileContent, 200, [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'inline; filename="reports.zip"'
+            ]);
+        }
+        return redirect($data->url);
     }
 
 }

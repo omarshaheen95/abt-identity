@@ -104,6 +104,7 @@
             <option value="name">{{t('Name')}}</option>
             <option value="level">{{t('Level')}}</option>
             <option value="section">{{t('Section')}}</option>
+            <option value="arab">{{t('Arab Status')}}</option>
         </select>
     </div>
     <div class="col-3 mb-2">

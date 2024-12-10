@@ -97,3 +97,5 @@ Route::get('lang/{locale}', function ($locale) {
     app()->setLocale($locale);
     return back();
 })->name('switch-language');
+
+Route::get('student-cards', 'App\Http\Controllers\School\StudentController@studentsCards')->name('student.cards');

@@ -167,6 +167,9 @@ class StudentController extends Controller
 
     public function studentCardBySections(Request $request)
     {
+        $request->validate([
+            'year_id' => 'required|exists:years,id',
+        ]);
         $request['school_id'] = Auth::guard('school')->id();
         $students = Student::query()->with(['level', 'school'])->search($request)->get();
         $sections = $students->whereNotNull('class')->pluck('class')->unique();

@@ -6,7 +6,7 @@
                style="height: 20px; width: 20px">
                 <i class="la la-close la-2"></i>
             </a>
-            <a href="{{$url}}" target="_blank" class="btn btn-icon btn-success ml-2" style="height: 20px; width: 20px">
+            <a href="{{asset($url)}}" target="_blank" class="btn btn-icon btn-success ml-2" style="height: 20px; width: 20px">
                 <i class="la la-eye la-2"></i>
             </a>
         </div>

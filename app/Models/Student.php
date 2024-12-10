@@ -78,6 +78,8 @@ class Student extends Authenticatable
                     $query->orderBy('level_id');
                 })->when($value == 'section', function (Builder $query) use ($value){
                     $query->orderBy('grade_name');
+                })->when($value == 'arab', function (Builder $query) use ($value){
+                    $query->orderBy('arab')->orderBy('level_id');
                 });
             })->when($value = $request->get('orderBy2', 'latest'), function (Builder $query) use ($value){
                 $query->when($value == 'latest', function (Builder $query) use ($value){

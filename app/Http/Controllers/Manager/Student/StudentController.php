@@ -220,7 +220,7 @@ class StudentController extends Controller
         ]);
         $request['school_id'] = $request->get('school_id');
         $students = Student::query()->with(['level', 'school'])->search($request)->get();
-        $sections = $students->whereNotNull('class')->pluck('class')->unique();
+        $sections = $students->whereNotNull('grade_name')->pluck('grade_name')->unique();
         $students_type = $request->get('arab_status', false);
         $students_type_request = $students_type ? '&arab_status=' . $students_type : '';
         $urls = [];

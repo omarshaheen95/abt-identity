@@ -99,7 +99,9 @@
 
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{route('school.student.student-marks-export')}}')">{{t('Export Student Marks')}}</a></li>
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>
-                <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
+            <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route("school.student.students-cards-by-section") }}')">{{t('Cards By Section')}}</a>
+
+            <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
 
         </ul>
     </div>

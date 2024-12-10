@@ -152,7 +152,6 @@ class Student extends Authenticatable
                 ['key'=>'edit','name'=>t('Edit'),'route'=>route('school.student.edit', $this->id)],
                 ['key' => 'login', 'name' => t('Card'), 'route' => route('school.student-card', $this->id)],
                 $student_login?['key' => 'login', 'name' => t('Login'), 'route' => route('school.student.student-login', $this->id)]:null,
-//                ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id],
             ];
 
         }elseif (\request()->is('inspection/*')){

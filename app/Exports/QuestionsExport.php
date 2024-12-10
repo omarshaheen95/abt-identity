@@ -53,24 +53,13 @@ class QuestionsExport implements WithMapping, Responsable, WithHeadings, FromCol
 
     public function map($row): array
     {
-        $type = '';
-        if ($row->type == 1){
-            $type= re('TrueOrFalse');
-        }elseif ($row->type == 2){
-            $type= re('Choose').'|'.re('subject');
-        }elseif ($row->type == 3){
-            $type= re('Sort');
-        }elseif ($row->type == 4){
-            $type= re('Match');
-        }elseif ($row->type == 5){
-            $type= re('Article');
-        }
+
         return [
             $row->id,
             $row->term['name'],
             $row->content,
-            $row->subject,
-            $type,
+            $row->subject->name,
+            $row->type,
             $row->term['level']['year']['name'],
             $row->term['level']['name'],
             $row->mark

@@ -138,25 +138,6 @@ class TermController extends Controller
         //dd($questions->toArray());
         $questions_count = count($questions);
         if ($questions_count>0){
-            foreach ($questions as $question){
-                if ($question->type == 1){
-                    //result = 0,1
-                    $question['result'] =$question->tf_question? $question->tf_question->result:null;
-                }else if ($question->type == 2){
-                    //result = option_id
-                    $question['result'] = $question->option_question ? $question->option_question->where('result',1)->first()->id:null;
-                }else if ($question->type == 3){
-                    $question['result'] = $question->match_question;
-                }else if ($question->type== 4){
-                    $question['result'] = $question->sort_question;
-                }else if ($question->type == 5){
-                    $question['result'] = null;
-                }else if ($question->type == 6){
-                    $question['result'] = $question->fill_blank_question;
-                }
-
-            }
-
             $subjects = Subject::all();
             $marks = 100;
             $preview_mode = true;
@@ -184,17 +165,8 @@ class TermController extends Controller
                     return $question->term->name;
                 })
                 ->addColumn('type', function ($question) {
-                    if ($question->type == 1) {
-                        return t('TrueOrFalse') . ' - ' . t('subject') . ' : ' . $question->subject;
-                    } elseif ($question->type == 2) {
-                        return t('Choose') . ' - ' . t('subject') . ' : ' . $question->subject;
-                    } elseif ($question->type == 3) {
-                        return t('Match') . ' - ' . t('subject') . ' : ' . $question->subject;
-                    } elseif ($question->type == 4) {
-                        return t('Sort') . ' - ' . t('subject') . ' : ' . $question->subject;
-                    } elseif ($question->type == 5) {
-                        return t('Article') . ' - ' . t('subject') . ' : ' . $question->subject;
-                    }
+                   return camelCaseText($question->type). ' - ' . t('subject') . ' : ' . $question->subject;
+
                 })
                 ->addColumn('level', function ($question) {
                     $year_name = $question->term->level->year->name;
@@ -237,17 +209,7 @@ class TermController extends Controller
             return DataTables::make($standard)
                 ->escapeColumns([])
                 ->addColumn('type', function ($standard) {
-                    if ($standard->question->type == 1) {
-                        return t('TrueOrFalse') . ' - ' . t('subject') . ' : ' . $standard->question->subject;
-                    } elseif ($standard->question->type == 2) {
-                        return t('Choose') . ' - ' . t('subject') . ' : ' . $standard->question->subject;
-                    }elseif ($standard->question->type == 3) {
-                        return t('Match') . ' - ' . t('subject') . ' : ' . $standard->question->subject;
-                    }elseif ($standard->question->type == 4) {
-                        return t('Sort') . ' - ' . t('subject') . ' : ' . $standard->question->subject;
-                    }elseif ($standard->question->type == 5) {
-                        return t('Article') . ' - ' . t('subject') . ' : ' . $standard->question->subject;
-                    }
+                    return camelCaseText($standard->question->type). ' - ' . t('subject') . ' : ' . $standard->question->subject;
                 })
                 ->addColumn('question_content', function ($standard) {
                     return $standard->question->content;

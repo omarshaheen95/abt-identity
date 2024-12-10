@@ -88,6 +88,8 @@ class Student extends Authenticatable
                     $query->orderBy('level_id');
                 })->when($value == 'section', function (Builder $query) use ($value){
                     $query->orderBy('grade_name');
+                })->when($value == 'arab', function (Builder $query) use ($value){
+                    $query->orderBy('arab')->orderBy('level_id');
                 });
             })->when($value = $request->get('sen'), function (Builder $query) use ($value) {
                 $query->where('sen', $value!=2);
@@ -95,8 +97,12 @@ class Student extends Authenticatable
                 $query->where('g_t', $value!=2);
             })->when($value = $request->get('citizen', false), function (Builder $query) use ($value) {
                 $query->where('citizen', $value!=2);
+            })->when($value = $request->get('arab_status', false), function (Builder $query) use ($value) {
+                $query->where('arab_status', $value!=2);
             })->when($value = $request->get('class_name',[]),function (Builder $query) use ($value){
                 $query->whereIn('grade_name', $value);
+            })->when($value = $request->get('grade_name',false),function (Builder $query) use ($value){
+                $query->where('grade_name', $value);
             })->when($value= $request->get('start_date',false),function (Builder $query) use ($value){
                 $query->whereDate('created_at', '>=',$value);
             })->when($value= $request->get('end_date',false),function (Builder $query) use ($value){

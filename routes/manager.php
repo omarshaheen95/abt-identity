@@ -113,6 +113,7 @@ Route::group([], function () {
     Route::post('student-marks-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentMarksExport'])->name('student.student-marks-export');
     Route::get('students-cards-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentsCards'])->name('student.student-cards-export');
     Route::get('student/{id}/card', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCard'])->name('student-card');
+    Route::post('students-cards-by-section', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCardBySections'])->name('student.students-cards-by-section');
 
     //Copy Terms
     Route::get('copy_term', [\App\Http\Controllers\Manager\TermController::class, 'copyTermsView'])->name('term.copy_term_view');

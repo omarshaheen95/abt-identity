@@ -73,12 +73,12 @@
                             </svg>
                         </div>
                         <div class="content">
-                            <h2 class="title" dir="ltr">{{t('Are you sure to leave the assessment ?')}} </h2>
-                            <p class="info"> {{t('The assessment and its answers will not be saved upon leaving')}}</p>
+                            <h2 class="title" dir="ltr">{{$term->level->arab != 1 ? 'Are you sure to leave the assessment ?':'هل أنت متأكد من حفظ الاختبار؟'}} </h2>
+                            <p class="info"> {{$term->level->arab != 1 ? 'The assessment and its answers will not be saved upon leaving':'بمجرد حفظ الاختبار لن تتمكن من العودة إليه.'}}</p>
                             <form id="leave_term_form" method="POST" action="{{route('student.term-leave')}}">
                              @csrf
                             </form>
-                            <a href="#!" class="btn btn-exam-view" onclick="$('#leave_term_form').submit()">{{t('Leave Assessment')}}</a>
+                            <a href="#!" class="btn btn-exam-view" onclick="$('#leave_term_form').submit()">{{$term->level->arab != 1 ? 'Leave Assessment':'حفظ الاختبار.'}}</a>
                         </div>
                     </div>
                 </div>

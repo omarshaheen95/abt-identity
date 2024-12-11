@@ -73,9 +73,9 @@
                             </svg>
                         </div>
                         <div class="content">
-                            <h2 class="title" dir="ltr">{{t('Are you sure to save the assessment ?')}}</h2>
-                            <p class="info">{{t('Once you save the assessment, you will not be able to return to it')}} </p>
-                            <a href="#!" class="btn btn-exam-view" onclick="examFormSubmit()">{{t('Save Assessment')}}</a>
+                            <h2 class="title" dir="ltr">{{$term->level->arab != 1 ?'Are you sure to save the assessment ?':'هل أنت متأكد من حفظ الاختبار؟'}}</h2>
+                            <p class="info">{{$term->level->arab != 1 ?'Once you save the assessment, you will not be able to return to it':'بمجرد حفظ الاختبار لن تتمكن من العودة إليه.'}} </p>
+                            <a href="#!" class="btn btn-exam-view" onclick="examFormSubmit()">{{$term->level->arab != 1 ?'Save Assessment':'حفظ الاختبار.'}}</a>
                         </div>
                     </div>
                 </div>

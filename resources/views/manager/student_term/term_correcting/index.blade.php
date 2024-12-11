@@ -14,8 +14,8 @@
                 <a href="#!" class="back-card">
                     <span class="text ms-2">{{$student_term->term->name}}</span>
                 </a>
-                <a href="#!" class="btn btn-primary leave-exam text-white"
-                   style="background-color: #7d44b1;border-color: #7d44b1">
+                <a href="#!" class="btn btn-primary text-white"
+                   style="background-color: #068241;border-color: #068241" onclick="$('#submit-term').modal('show')">
                     {{t('Assessment Approval')}}
                 </a>
             </div>

@@ -94,7 +94,7 @@ class StudentTermController extends Controller
 
     //correcting
     public function edit($id){
-        $student_term = StudentTerm::with('student')->where('id',$id)->first();
+        $student_term = StudentTerm::with(['student','term'])->where('id',$id)->first();
         $student = $student_term->student;
         $questions = Question::with(
             ['tf_question','match_question','sort_question','option_question','fill_blank_question',
@@ -148,9 +148,10 @@ class StudentTermController extends Controller
         $correct_mode = true;
 
         $questions = $questions->groupBy('subject_id');
+        $term = $student_term->term;
 
 
-        return view('manager.student_term.term_correcting.index',compact('student','questions','student_term','questions_count','marks','subjects','correct_mode'));
+        return view('manager.student_term.term_correcting.index',compact('student','questions','term','student_term','questions_count','marks','subjects','correct_mode'));
     }
 
     //correcting

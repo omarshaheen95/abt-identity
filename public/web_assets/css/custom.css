@@ -781,17 +781,37 @@ form.disabled{
     margin-bottom: 30px;
 }
 .questions-group-card .head {
-    display: inline-block; /* Make the width fit the content */
-    text-align: center;    /* Center text inside */
-    font-size: 18px;
+    display: inline-block;
+    text-align: center;
+    font-size: clamp(1rem, 2vw, 1.125rem); /* Responsive font size between 16px and 18px */
     font-weight: bold;
-    margin: 10px auto;     /* Center the element horizontally */
+    margin: 0.625rem auto;
     background-color: #ececec;
-    padding: 0 20px;       /* Add horizontal padding around the text */
-    height: 40px;          /* Set consistent height */
-    line-height: 40px;     /* Vertically center text */
-    border-radius: 5px;    /* Optional for rounded corners */
-    box-sizing: border-box; /* Ensure proper sizing */
+    padding: 0 1.25rem;
+    min-height: 2.5rem;    /* Changed from fixed height to min-height */
+    line-height: 2.5rem;
+    border-radius: 0.3125rem;
+    box-sizing: border-box;
+    max-width: 100%;       /* Prevent overflow on small screens */
+    word-wrap: break-word; /* Handle long text */
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+    .questions-group-card .head {
+        padding: 0 0.75rem;
+        min-height: 2rem;
+        line-height: 2rem;
+    }
+}
+
+/* For larger screens */
+@media screen and (min-width: 1200px) {
+    .questions-group-card .head {
+        padding: 0 1.5rem;
+        min-height: 3rem;
+        line-height: 3rem;
+    }
 }
 .questions-group-card .question-card {
     margin-top: 10px;

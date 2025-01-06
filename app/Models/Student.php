@@ -54,6 +54,8 @@ class Student extends Authenticatable
             })->when(is_array($request->get('level_id', [])) ? $level_id = $request->get('level_id', []): $level_id = [], function (Builder $query) use ($level_id) {
                 $query->whereIn('level_id', $level_id);
             })->when($year_id = $request->get('year_id', false), function (Builder $query) use ($year_id) {
+                $query->whereRelation('level', 'year_id', $year_id);
+            })->when($year_id = $request->get('student_year_id', false), function (Builder $query) use ($year_id) {
                 $query->where('year_id', $year_id);
             })->when($value = $request->get('file_id', false), function (Builder $query) use ($value) {
                 $query->where('file_id', $value);

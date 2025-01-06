@@ -192,7 +192,7 @@
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>
     <script>
-        let TIME = "{{$term->duration}}";
+        let TIME = "1";
         getAndSetResults() //cache results
     </script>
 

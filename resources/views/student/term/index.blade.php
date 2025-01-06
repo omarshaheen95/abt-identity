@@ -187,13 +187,14 @@
         $('html').attr('lang', 'en').attr('dir', 'ltr');
         @endif
     </script>
+    <script>
+        let TIME = "{{$term->duration}}";
+    </script>
     <script src="{{asset('web_assets/js/student_term.js')}}?v={{time()}}"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>
     <script>
-        let TIME = "1";
         getAndSetResults() //cache results
     </script>
-
 @endsection

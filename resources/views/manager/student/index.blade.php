@@ -69,7 +69,16 @@
         </select>
     </div>
     <div class="col-3 mb-2">
-        <label class="mb-1">{{t('Year')}}:</label>
+        <label class="mb-1">{{t('Student Year')}}:</label>
+        <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="student_year_id" id="student_year_id">
+            <option></option>
+            @foreach($years as $year)
+                <option value="{{$year->id}}">{{$year->name}}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-3 mb-2">
+        <label class="mb-1">{{t('Assessment Year')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id" id="year_id">
             <option></option>
             @foreach($years as $year)

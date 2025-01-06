@@ -148,7 +148,7 @@ $(document).ready(function () {
     let clock = $('#clock');
     if (clock.length > 0 && typeof TIME !== 'undefined' && TIME) {
         var qnt = TIME,
-            val = (qnt * 60 * 60 * 1000),
+            val = (qnt * 60 * 1000),
             selectedDate = new Date().valueOf() + val;
 
         clock.countdown(selectedDate.toString())

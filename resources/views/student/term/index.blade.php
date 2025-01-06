@@ -188,7 +188,7 @@
         @endif
     </script>
     <script>
-        let TIME = "{{$term->duration}}";
+        let TIME = "40";
     </script>
     <script src="{{asset('web_assets/js/student_term.js')}}?v={{time()}}"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>

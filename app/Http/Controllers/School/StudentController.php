@@ -146,14 +146,15 @@ class StudentController extends Controller
     }
     public function getSectionsByYear(Request $request)
     {
-        $year = $request->get('id', false);
+        $year = $request->get('year_id', false);
         $school = Auth::guard('school')->user()->id;
         $sections = Student::query()
-            ->when($year,function (Builder $query) use ($year){
-                $query->whereHas('level', function ($q) use ($year){
-                    $q->where('year_id',$year);
-                });
-            })
+//            ->when($year,function (Builder $query) use ($year){
+//                $query->whereHas('level', function ($q) use ($year){
+//                    $q->where('year_id',$year);
+//                });
+//            })
+            ->where('year_id', $year)
             ->where('school_id',$school)
             ->whereNotNull('grade_name')
             ->select('grade_name')

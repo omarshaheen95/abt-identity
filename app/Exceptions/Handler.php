@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
 
     public function report(Throwable $exception)
     {
-        if (!$exception instanceof NotFoundHttpException && !$exception instanceof ValidationException && !$exception instanceof UnauthorizedHttpException && !$exception instanceof AuthenticationException && !$exception instanceof TokenMismatchException)
+        if (app()->environment() == 'Production' && !$exception instanceof NotFoundHttpException && !$exception instanceof ValidationException && !$exception instanceof UnauthorizedHttpException && !$exception instanceof AuthenticationException && !$exception instanceof TokenMismatchException)
         {
             $message = $exception->getMessage() .' Code: '.$exception->getCode() . ' File: '. $exception->getFile() . ' Line:'. $exception->getLine();
             Log::channel('telegram')->critical($message);

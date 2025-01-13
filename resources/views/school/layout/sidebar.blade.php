@@ -116,8 +116,6 @@
                         <span class="menu-title">{{t('Marking Requests')}}</span>
                     </a>
                 </div>
-
-
                 <div class="menu-item">
                     <a class="menu-link @if(Request::is('school/student')||Request::is('school/student/*'))active @endif" href="{{ route('school.student.index') }}">
                                 <span class="menu-icon">
@@ -129,6 +127,17 @@
                                     </i>
                                 </span>
                         <span class="menu-title">{{t('Students & Marks')}}</span>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a class="menu-link @if(Request::is('school/pre-attainment-report')||Request::is('school/pre-attainment-report/*'))active @endif" href="{{ route('school.report.pre-attainment') }}">
+                                <span class="menu-icon">
+												<i class="ki-duotone ki-document fs-2">
+                                                 <i class="path1"></i>
+                                                 <i class="path2"></i>
+                                                </i>
+											</span>
+                        <span class="menu-title">{{t('Attainment Report')}}</span>
                     </a>
                 </div>
 

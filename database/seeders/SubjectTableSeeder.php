@@ -15,12 +15,51 @@ class SubjectTableSeeder extends Seeder
     public function run()
     {
         $subjects = [
-            ['name'=>'Culture','mark'=>40],
-            ['name'=>'Values','mark'=>30],
-            ['name'=>'Citizenship','mark'=>30],
+            ['name' => 'Culture', 'mark' => 30, 'marks_range' => [
+                'below' => [
+                    'from' => 0,
+                    'to' => 15,
+                ],
+                'inline' => [
+                    'from' => 16,
+                    'to' => 21,
+                ],
+                'above' => [
+                    'from' => 22,
+                    'to' => 30,
+                ],
+            ]],
+            ['name' => 'Values', 'mark' => 30, 'marks_range' => [
+                'below' => [
+                    'from' => 0,
+                    'to' => 15,
+                ],
+                'inline' => [
+                    'from' => 16,
+                    'to' => 21,
+                ],
+                'above' => [
+                    'from' => 22,
+                    'to' => 30,
+                ],
+            ]],
+            ['name' => 'Citizenship', 'mark' => 40, 'marks_range' => [
+                'below' => [
+                    'from' => 0,
+                    'to' => 19,
+                ],
+                'inline' => [
+                    'from' => 20,
+                    'to' => 28,
+                ],
+                'above' => [
+                    'from' => 29,
+                    'to' => 40,
+                ],
+            ]],
         ];
-       foreach($subjects as $subject){
-           Subject::query()->updateOrCreate(['name'=>$subject['name']],$subject);
-       }
+        foreach ($subjects as $subject) {
+            Subject::query()->updateOrCreate(['name' => $subject['name']], $subject);
+        }
     }
 }

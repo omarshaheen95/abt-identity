@@ -196,5 +196,16 @@ class StudentTerm extends Model
             });
     }
 
+    public function getExpectationsAttribute()
+    {
+        if ($this->total >= 0 && $this->total <= 49) {
+            return 'Below';
+        } else if ($this->total >= 50 && $this->total <= 69) {
+            return 'Inline';
+        } else {
+            return 'Above';
+        }
+    }
+
 
 }

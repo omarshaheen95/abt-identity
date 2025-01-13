@@ -247,7 +247,7 @@ class StudentImportController extends Controller
         $student_data_file = StudentImportFile::query()->findOrFail($data['student_data_file_id']);
         $counts = 0;
         $rows_num = [];
-        $levels = Level::query()->get();
+        $levels = Level::query()->where('year_id', $student_data_file->year_id)->get();
         foreach ($data['student'] as $std) {
             $student = new Student($std);
 

@@ -37,7 +37,7 @@
 
             </div>
             <div class="col-6  justify-content-center text-center">
-                <img src="{{!settingCache('logo')? asset('assets_v1/media/svg/logo.svg?v1'):asset(settingCache('logo'))}}"
+                <img src="{{!settingCache('logo')? asset('assets_v1/media/svg/Identity Logo.svg?v1'):asset(settingCache('logo'))}}"
                      width="100%"
                      alt="">
             </div>

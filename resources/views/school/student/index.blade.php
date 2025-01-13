@@ -38,6 +38,14 @@
             @endforeach
         </select>
     </div>
+    <div class="col-3 mb-2">
+        <label class="mb-1">{{t('Grades')}}:</label>
+        <select class="form-select direct-value" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Grade')}}" multiple name="grade[]" id="grade">
+            @foreach(range(1,12) as $grade)
+                <option value="{{$grade}}">{{$grade}}</option>
+            @endforeach
+        </select>
+    </div>
     <div class="col-lg-3 mb-2">
         <label>{{t('Levels')}} :</label>
         <select name="level_id[]" id="levels_id" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Level')}}" multiple data-allow-clear="true">

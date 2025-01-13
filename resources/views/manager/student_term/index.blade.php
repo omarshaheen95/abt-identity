@@ -51,7 +51,7 @@
         <select name="grade[]" multiple class="form-select direct-value" data-control="select2" data-allow-clear="true"
                 data-placeholder="{{t('Select Grade')}}">
             @foreach(range(1,12) as $grade)
-                <option value="{{ $grade }}" @if(request('grades') && in_array($grade,explode(',',request('grades')))) selected @endif>{{ $grade }}</option>
+                <option value="{{ $grade }}">{{ $grade }}</option>
             @endforeach
         </select>
     </div>

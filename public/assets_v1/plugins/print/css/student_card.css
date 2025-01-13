@@ -1,0 +1,52 @@
+.student-card{
+    background-color: #7e89a3;
+    height: 250px;
+}
+.s-title{
+    color: black; font-size: 12px; font-weight: 500;
+}
+.s-content{
+    color: black; font-size: 12px;font-weight: 400;
+}
+.logo{
+    max-height: 50px;
+    /*width: 45px;*/
+}
+.username{
+    color: black;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #FFF2D5;
+    width: fit-content;
+    padding-right:.25rem!important;
+    padding-left:.25rem!important;
+    border-radius:.25rem!important;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%; /* This ensures the image takes the full width of the container */
+    height: 120px; /* Set your desired height for the container */
+    overflow: hidden; /* This will ensure that the image does not overflow the container */
+}
+
+.image-container img {
+    max-width: 100%; /* This makes the image take the maximum available width */
+    max-height: 100%; /* This makes the image take the maximum available height */
+}
+
+.image-container-cards {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 100%; /* This ensures the image takes the full width of the container */
+    height: 45px; /* Set your desired height for the container */
+    overflow: hidden; /* This will ensure that the image does not overflow the container */
+}
+
+.image-container-cards img {
+    max-width: 100%; /* This makes the image take the maximum available width */
+    max-height: 100%; /* This makes the image take the maximum available height */
+}

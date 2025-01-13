@@ -42,5 +42,10 @@ Route::resource('marking_requests', \App\Http\Controllers\School\MarkingRequestC
 Route::delete('marking_requests', [\App\Http\Controllers\School\MarkingRequestController::class, 'destroy'])->name('marking_requests.destroy');
 Route::get('completed_terms_total', [\App\Http\Controllers\School\MarkingRequestController::class, 'getCompletedTermsTotal'])->name('completed-terms-total');
 
-Route::get('get-sections', [\App\Http\Controllers\School\StudentController::class, 'getSectionsByYear'])->name('levels.get-sections');
+Route::get('get-sections', [\App\Http\Controllers\School\StudentController::class, 'getSectionsByYear'])->name('get-sections');
+
+Route::get('pre-attainment-report', [\App\Http\Controllers\School\ReportController::class, 'preAttainmentReport'])->name('report.pre-attainment');
+Route::get('attainment-report', [\App\Http\Controllers\School\ReportController::class, 'attainmentReport'])->name('report.attainment');
+
+
 

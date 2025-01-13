@@ -13,7 +13,11 @@ class Subject extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'mark'];
+    protected $fillable = ['name', 'mark', 'marks_range'];
+
+    protected $casts = [
+        'marks_range' => 'json',
+    ];
 
     public function questions()
     {

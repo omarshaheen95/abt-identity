@@ -12,6 +12,7 @@
     <form id="grades_form" method="POST"
           action="{{route('school.scheduling.update',Auth::guard('school')->user()->id)}}">
         @csrf
+        @method('PATCH')
         <div class="row mb-3">
             <div class="col-3 ">
                 <label>{{t('Years')}}:</label>

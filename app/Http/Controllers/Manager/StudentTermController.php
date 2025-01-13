@@ -215,9 +215,9 @@ class StudentTermController extends Controller
 
                 //set subject mark
                 $status = false;
-                foreach ($subjects_marks as $subject_mark){
-                    if ($subject_mark['subject_id'] == $question['subject_id']){
-                        $subject_mark['mark'] += $mark;
+                for($i = 0; $i < count($subjects_marks); $i++){
+                    if ($subjects_marks[$i]['subject_id'] == $question['subject_id']){
+                        $subjects_marks[$i]['mark'] += $mark;
                         $status = true;
                         break;
                     }
@@ -225,7 +225,7 @@ class StudentTermController extends Controller
                 if (!$status){
                     $subjects_marks[] = ['subject_id' => $question['subject_id'], 'mark' => $mark];
                 }
-//
+
 
 
 
@@ -532,9 +532,9 @@ class StudentTermController extends Controller
 
                     //set subject mark
                     $status = false;
-                    foreach ($subjects_marks as $subject_mark){
-                        if ($subject_mark['subject_id'] == $question->subject_id){
-                            $subject_mark['mark'] += $mark;
+                    for($i = 0; $i < count($subjects_marks); $i++){
+                        if ($subjects_marks[$i]['subject_id'] == $question['subject_id']){
+                            $subjects_marks[$i]['mark'] += $mark;
                             $status = true;
                             break;
                         }

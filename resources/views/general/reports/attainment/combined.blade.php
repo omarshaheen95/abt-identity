@@ -239,8 +239,18 @@
         <span class="number-page">2</span>
     </div>
 @endif
+<div class="page">
+    <div class="subpage-w">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <img src="{{ asset("assets_v1/media/reports/identity_domains.svg") }}?v=2" width="90%"/>
+            </div>
+        </div>
+    </div>
+    <span class="number-page">3</span>
+</div>
 @php
-    $pageNum = 3;
+    $pageNum = 4;
 @endphp
     @if($arab_grades->total)
         <div class="page">

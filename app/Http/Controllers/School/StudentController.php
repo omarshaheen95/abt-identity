@@ -166,7 +166,7 @@ class StudentController extends Controller
         foreach ($sections as $section) {
             $html .= '<option value="' . $section . '">' . $section . '</option>';
         }
-        return response()->json(['html' => $html]);
+        return $this->sendResponse($html, t('Successfully Deleted'));
     }
 
     public function studentCardBySections(Request $request)

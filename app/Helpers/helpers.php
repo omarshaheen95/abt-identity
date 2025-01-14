@@ -570,3 +570,58 @@ function camelCaseText($text,$replace='_'):string
 {
     return Str::title(str_replace($replace, ' ', $text));
 }
+
+function judgement($below, $inline, $above)
+{
+    $data = [];
+    if ($below > 85) {
+        $data['level'] = 'Very Weak';
+        $data['color'] = '#DF8B03';
+        $data['color'] = '#DF8B03';
+        $data['bg_color'] = '#DF8B03';
+    } elseif ($below > 25 && $below <= 85) {
+        $data['level'] = 'Weak';
+        $data['color'] = '#EF5428';
+        $data['bg_color'] = '#EF5428';
+    } elseif (($above > 0 && $above < 50) || ($inline >= 75 && $inline <= 100)) {
+        $data['level'] = 'Acceptable';
+        $data['color'] = '#7F7F7F';
+        $data['bg_color'] = '#7F7F7F';
+    } elseif ($above >= 50 && $above < 61) {
+        $data['level'] = 'Good';
+        $data['color'] = '#2FA6D6';
+        $data['bg_color'] = '#2FA6D6';
+    } elseif ($above >= 61 && $above < 75) {
+        $data['level'] = 'Very Good';
+        $data['color'] = '#FFC211';
+        $data['bg_color'] = '#FFC211';
+    } elseif ($above >= 75 && $above <= 100) {
+        $data['level'] = 'Outstanding';
+        $data['color'] = '#26C281';
+        $data['bg_color'] = '#26C281';
+    } else {
+        $data['level'] = 'Weak';
+        $data['color'] = '#F00';
+        $data['bg_color'] = '#F00';
+    }
+
+    return $data;
+}
+
+function getSubjectAttainment($subject_data, $subjects, $responseTypeText = 1)
+{
+   $subject = $subjects->where('id', $subject_data->subject_id)->first();
+   $below = (object)$subject->marks_range['below'];
+   $inline = (object)$subject->marks_range['inline'];
+   $above = (object)$subject->marks_range['above'];
+
+   if ($subject_data->mark >= $below->from && $subject_data->mark <= $below->to) {
+       return $responseTypeText ? 'Below' : 1;
+   } elseif ($subject_data->mark >= $inline->from && $subject_data->mark <= $inline->to) {
+       return $responseTypeText ? 'Inline' : 2;
+   } elseif ($subject_data->mark >= $above->from && $subject_data->mark <= $above->to) {
+         return $responseTypeText ? 'Above' : 3;
+   } else{
+       return $responseTypeText ? 'Unknown' : 0;
+   }
+}

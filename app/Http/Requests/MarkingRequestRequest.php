@@ -19,6 +19,7 @@ class MarkingRequestRequest extends FormRequest
             'email' => ['required', 'email', 'max:254'],
             'notes' => ['nullable'],
             'round' => ['required'],
+            'status' => ['required'],
             'section' => 'required|in:0,1,2',
 
         ];

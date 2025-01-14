@@ -30,7 +30,7 @@ class MarkingRequestMail extends Mailable
      */
     public function build()
     {
-        $address = 'noreply@abt-assessments.com';
+        $address = 'support@abt-assessments.com';
         $name = 'A.B.T Identity';
         $subject = 'Marking Request';
         $markingRequest = $this->markingRequest;

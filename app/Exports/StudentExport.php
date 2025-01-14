@@ -34,6 +34,7 @@ class StudentExport implements WithMapping, Responsable, WithHeadings, FromColle
     public function headings(): array
     {
         $headers =  [
+            'Student ID',
             'Name',
             'Email',
             'School',
@@ -41,9 +42,11 @@ class StudentExport implements WithMapping, Responsable, WithHeadings, FromColle
             'Level',
             'Nationality',
             'Grade',
+            'Grade Name',
             'Sen',
             'G&T',
             'Arab',
+            'Citizen',
             'Gender',
             'Date Of Birth',
             'Citizen',
@@ -60,16 +63,19 @@ class StudentExport implements WithMapping, Responsable, WithHeadings, FromColle
     public function map($row): array
     {
         return [
+            $row->id_number,
             $row->name,
             $row->email,
             $row->school->name,
             $row->year->name,
             $row->level->name,
             $row->nationality?:'-',
-            $row->grade,
+            $row->level->grade,
+            $row->grade_name,
             $row->sen?re('SEN'):'-',
             $row->g_t?re('Yes'):re('No'),
             $row->arab?re('Arab'):re('Non-Arab'),
+            $row->citizen?re('Yes'):re('No'),
             $row->gender,
             $row->dob,
             $row->citizen?re('Citizen'):re('Non Citizen'),

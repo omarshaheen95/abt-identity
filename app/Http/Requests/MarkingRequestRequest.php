@@ -19,11 +19,13 @@ class MarkingRequestRequest extends FormRequest
             'email' => ['required', 'email', 'max:254'],
             'notes' => ['nullable'],
             'round' => ['required'],
-            'status' => ['required'],
             'section' => 'required|in:0,1,2',
 
         ];
 
+        if (getGuard()=='manager') {
+            $rules['status'] = 'required';
+        }
         if (\Request::is('manager/*')&&\Auth::guard('manager')->user()){
             $rules['school_id'] = ['required', 'integer'];
         }else{

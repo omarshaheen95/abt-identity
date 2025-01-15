@@ -604,7 +604,7 @@
                             <table class="table small m-0">
                                 <thead>
                                 <tr>
-                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}}) - {{re('Girls')}}</th>
+                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}}) - {{re('Boys')}}</th>
                                     <th class="below-td"> {{re('Below')}}</th>
                                     <th class="inline-td"> {{re('Inline')}}</th>
                                     <th class="above-td"> {{re('Above')}}</th>
@@ -1212,7 +1212,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1267,7 +1270,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1322,7 +1328,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1376,7 +1385,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1611,7 +1623,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1666,7 +1681,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1721,7 +1739,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1775,7 +1796,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1829,7 +1853,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1883,7 +1910,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1937,7 +1967,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',

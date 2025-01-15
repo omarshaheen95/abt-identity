@@ -103,6 +103,8 @@ class AttainmentReport
             $boys_grade_rounds = [];
             $girls_grade_rounds = [];
             $local_grade_rounds = [];
+            $boys_local_grade_rounds = [];
+            $girls_local_grade_rounds = [];
             $skills_rounds = [];
 
 
@@ -139,6 +141,8 @@ class AttainmentReport
                 $boys_round_total = 0;
                 $girls_round_total = 0;
                 $local_round_total = 0;
+                $local_boys_round_total = 0;
+                $local_girls_round_total = 0;
 
                 $above_count = 0;
                 $inline_count = 0;
@@ -164,6 +168,14 @@ class AttainmentReport
                 $local_inline_count = 0;
                 $local_below_count = 0;
 
+                $boys_local_above_count = 0;
+                $boys_local_inline_count = 0;
+                $boys_local_below_count = 0;
+
+                $girls_local_above_count = 0;
+                $girls_local_inline_count = 0;
+                $girls_local_below_count = 0;
+
                 $skill_attainments = [];
 
                 // Create a new query instance for each round
@@ -175,7 +187,8 @@ class AttainmentReport
                     &$g_t_round_total, &$g_t_above_count, &$g_t_inline_count, &$g_t_below_count,
                     &$boys_round_total, &$boys_above_count, &$boys_inline_count, &$boys_below_count,
                     &$girls_round_total, &$girls_above_count, &$girls_inline_count, &$girls_below_count,
-                    &$local_round_total, &$local_above_count, &$local_inline_count, &$local_below_count,
+                    &$local_round_total, &$local_boys_round_total, &$local_girls_round_total, &$local_above_count, &$local_inline_count, &$local_below_count,
+                    &$boys_local_above_count, &$boys_local_inline_count, &$boys_local_below_count, &$girls_local_above_count, &$girls_local_inline_count, &$girls_local_below_count,
                     &$skill_attainments, $grade, $above_condition, $inline_condition, $below_condition, $subjects
                 ) {
                     foreach ($chunk as $assessment) {
@@ -209,6 +222,28 @@ class AttainmentReport
                             } elseif ($assessment->total >= $below_condition->from && $assessment->total <= $below_condition->to) {
                                 $local_below_count++;
                             }
+
+                            if ($student->gender == 'boy') {
+                                $local_boys_round_total++;
+                                if ($assessment->total >= $above_condition->from && $assessment->total <= $above_condition->to) {
+                                    $boys_local_above_count++;
+                                } elseif ($assessment->total >= $inline_condition->from && $assessment->total <= $inline_condition->to) {
+                                    $boys_local_inline_count++;
+                                } elseif ($assessment->total >= $below_condition->from && $assessment->total <= $below_condition->to) {
+                                    $boys_local_below_count++;
+                                }
+                            } elseif ($student->gender == 'girl') {
+                                $local_girls_round_total++;
+                                if ($assessment->total >= $above_condition->from && $assessment->total <= $above_condition->to) {
+                                    $girls_local_above_count++;
+                                } elseif ($assessment->total >= $inline_condition->from && $assessment->total <= $inline_condition->to) {
+                                    $girls_local_inline_count++;
+                                } elseif ($assessment->total >= $below_condition->from && $assessment->total <= $below_condition->to) {
+                                    $girls_local_below_count++;
+                                }
+                            }
+
+
                         }
 
                         if ($student->{'g_t'}) {
@@ -381,6 +416,38 @@ class AttainmentReport
                             'percentage' => $local_round_total > 0 ? round(($local_below_count / $local_round_total) * 100, 2) : 0,
                         ],
                     ];
+                    $boys_local_grade_rounds[$round] = (object)[
+                        'round' => $round,
+                        'total' => $local_boys_round_total,
+                        'above' => (object)[
+                            'count' => $boys_local_above_count,
+                            'percentage' => $local_boys_round_total > 0 ? round(($boys_local_above_count / $local_boys_round_total) * 100, 2) : 0,
+                        ],
+                        'inline' => (object)[
+                            'count' => $boys_local_inline_count,
+                            'percentage' => $local_boys_round_total > 0 ? round(($boys_local_inline_count / $local_boys_round_total) * 100, 2) : 0,
+                        ],
+                        'below' => (object)[
+                            'count' => $boys_local_below_count,
+                            'percentage' => $local_boys_round_total > 0 ? round(($boys_local_below_count / $local_boys_round_total) * 100, 2) : 0,
+                        ],
+                    ];
+                    $girls_local_grade_rounds[$round] = (object)[
+                        'round' => $round,
+                        'total' => $local_girls_round_total,
+                        'above' => (object)[
+                            'count' => $girls_local_above_count,
+                            'percentage' => $local_girls_round_total > 0 ? round(($girls_local_above_count / $local_girls_round_total) * 100, 2) : 0,
+                        ],
+                        'inline' => (object)[
+                            'count' => $girls_local_inline_count,
+                            'percentage' => $local_girls_round_total > 0 ? round(($girls_local_inline_count / $local_girls_round_total) * 100, 2) : 0,
+                        ],
+                        'below' => (object)[
+                            'count' => $girls_local_below_count,
+                            'percentage' => $local_girls_round_total > 0 ? round(($girls_local_below_count / $local_girls_round_total) * 100, 2) : 0,
+                        ],
+                    ];
                     $skills_rounds[$round] = $skill_attainments;
                 }
             }
@@ -397,6 +464,8 @@ class AttainmentReport
                 'boys' => $boys_grade_rounds,
                 'girls' => $girls_grade_rounds,
                 'local' => $local_grade_rounds,
+                'local_boys' => $boys_local_grade_rounds,
+                'local_girls' => $girls_local_grade_rounds,
             ];
         }
 

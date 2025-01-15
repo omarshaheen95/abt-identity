@@ -471,7 +471,7 @@
                             <table class="table small m-0">
                                 <thead>
                                 <tr>
-                                    <th class="main-th"> {{re('Assessment')}} ({{re('Citizen')}})</th>
+                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}})</th>
                                     <th class="below-td"> {{re('Below')}}</th>
                                     <th class="inline-td"> {{re('Inline')}}</th>
                                     <th class="above-td"> {{re('Above')}}</th>
@@ -480,6 +480,64 @@
                                 </thead>
                                 <tbody>
                                 @foreach($arab_grade->local as $round)
+                                    <tr class="text-center">
+                                        <td>{{ $round->round }}</td>
+                                        <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
+                                        <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
+                                        <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
+                                        <td>{{ $round->total }}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-5">
+                    <div class="col-11 ">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}}) - {{re('Boys')}}</th>
+                                    <th class="below-td"> {{re('Below')}}</th>
+                                    <th class="inline-td"> {{re('Inline')}}</th>
+                                    <th class="above-td"> {{re('Above')}}</th>
+                                    <th class="main-th"> {{re('Total')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($arab_grade->local_boys as $round)
+                                    <tr class="text-center">
+                                        <td>{{ $round->round }}</td>
+                                        <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
+                                        <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
+                                        <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
+                                        <td>{{ $round->total }}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-5">
+                    <div class="col-11 ">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}}) - {{re('Girls')}}</th>
+                                    <th class="below-td"> {{re('Below')}}</th>
+                                    <th class="inline-td"> {{re('Inline')}}</th>
+                                    <th class="above-td"> {{re('Above')}}</th>
+                                    <th class="main-th"> {{re('Total')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($arab_grade->local_girls as $round)
                                     <tr class="text-center">
                                         <td>{{ $round->round }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>

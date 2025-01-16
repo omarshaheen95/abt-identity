@@ -25,10 +25,12 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
 
     public $file;
     public $update;
+    public $delete;
 
     public $row_num = 1;
     private $rows_count = 0;
     private $updated_rows_count = 0;
+    private $deleted_rows_count = 0;
     private $failed_row_count = 0;
     private $error = null;
     private $failures = [];
@@ -36,11 +38,14 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
     public $levels;
 
 
-    public function __construct(StudentImportFile $file, $update = false)
+    public function __construct(StudentImportFile $file, $update = false, $delete = false)
     {
         $this->file = $file;
         $this->update = $update;
-        $this->levels = Level::query()->latest()->get();
+        $this->delete = $delete;
+        if (!$delete){
+            $this->levels = Level::query()->latest()->get();
+        }
     }
 
     public function transformDate($value, $format = 'd-M-Y')
@@ -60,82 +65,7 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
     public function model(array $row)
     {
         $this->row_num++;
-        if (!$this->update) {
-            $full_name = trim(str_replace('  ', ' ', str_replace(' ', ' ', $row['Name'])));
-            if (strlen($full_name) > 25) {
-                $array_name = explode(' ', $full_name);
-                if (count($array_name) >= 3) {
-                    $full_name = $array_name[0] . ' ' . $array_name[1] . ' ' . $array_name[count($array_name) - 1];
-                } else {
-                    $full_name = $array_name[0] . ' ' . $array_name[1];
-                    if (strlen($full_name) > 25) {
-                        $full_name = $array_name[0];
-                    }
-                }
-            }
-            $names = explode(' ', $full_name);
-            $number = date('Y') . '' . rand(1, 999);
-            $username = $names[0] . '' . $number . '@identity';
-            $pre_username = Student::query()->where('email', $username)->first();
-            while (!is_null($pre_username)) {
-                $number = date('Y') . rand(1, 99999);
-                $username = $names[0] . '' . $number . '@identity';
-                $pre_username = Student::query()->where('email', $username)->first();
-            }
-            if ($row['Gender'] == 1) {
-                $gender = 'boy';
-            } else {
-                $gender = 'girl';
-            }
-
-            $assessment = $this->levels->where('grade', $row['Grade'])->where('arab', $row['Arab'])->first();
-
-            if(!$assessment){
-                $this->failures[$this->row_num][] = 'Assessment Not Found, check Grade and Arab';
-                $data_errors = ['Assessment Not Found, check Grade and Arab'];
-                $data = [];
-                $data['inputs'] = [];
-                foreach ($row as $key => $value) {
-                    //check if not number
-                    if (!is_numeric($key)) {
-                        array_push($data['inputs'], [
-                            'key' => $key,
-                            'value' => $value,
-                        ]);
-                    }
-                }
-                $data['errors'] = $data_errors;
-                $this->file->logs()->create([
-                    'row_num' => $this->row_num,
-                    'data' => $data,
-                ]);
-
-                $this->failed_row_count++;
-                return null;
-            }else{
-                $row['Assessment'] = $assessment->id;
-            }
-
-            $student = Student::query()->create([
-                'id_number' => $row['Student ID'],
-                'name' => $full_name,
-                'email' => $username,
-                'password' => bcrypt('123456'),
-                'level_id' => $row['Assessment'],
-                'nationality' => isset($row['Nationality']) ? $row['Nationality']:null,
-                'grade_name' => isset($row['Grade Name']) ? $row['Grade Name']:null,
-                'sen' => $row['SEN'],
-                'g_t' => $row['G&T'],
-                'arab' => $row['Arab'],
-                'dob' => isset($row['Date Of Birth']) ? $row['Date Of Birth']:null,
-                'gender' => $gender,
-                'citizen' => $row['Citizen'],
-                'file_id' => $this->file['id'],
-                'school_id' => $this->file['school_id'],
-                'year_id' => $this->file['year_id']
-            ]);
-            $this->rows_count++;
-        } else {
+        if ($this->update){
             $data = [];
             if(isset($row['Nationality']) && !is_null($row['Nationality']))
             {
@@ -218,7 +148,94 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
                 $student->update($data);
                 $this->updated_rows_count ++;
             }
+        }elseif ($this->delete){
+            $student = Student::query()
+                ->where('id_number', $row['Student ID'])
+                ->where('school_id', $this->file->school_id)
+                ->where('year_id', $this->file->year_id)
+                ->latest()
+                ->first();
+            if ($student) {
+                $student->delete();
+                $this->deleted_rows_count++;
+            }
+        }else{
+            $full_name = trim(str_replace('  ', ' ', str_replace(' ', ' ', $row['Name'])));
+            if (strlen($full_name) > 25) {
+                $array_name = explode(' ', $full_name);
+                if (count($array_name) >= 3) {
+                    $full_name = $array_name[0] . ' ' . $array_name[1] . ' ' . $array_name[count($array_name) - 1];
+                } else {
+                    $full_name = $array_name[0] . ' ' . $array_name[1];
+                    if (strlen($full_name) > 25) {
+                        $full_name = $array_name[0];
+                    }
+                }
+            }
+            $names = explode(' ', $full_name);
+            $number = date('Y') . '' . rand(1, 999);
+            $username = $names[0] . '' . $number . '@identity';
+            $pre_username = Student::query()->where('email', $username)->first();
+            while (!is_null($pre_username)) {
+                $number = date('Y') . rand(1, 99999);
+                $username = $names[0] . '' . $number . '@identity';
+                $pre_username = Student::query()->where('email', $username)->first();
+            }
+            if ($row['Gender'] == 1) {
+                $gender = 'boy';
+            } else {
+                $gender = 'girl';
+            }
+
+            $assessment = $this->levels->where('grade', $row['Grade'])->where('arab', $row['Arab'])->first();
+
+            if(!$assessment){
+                $this->failures[$this->row_num][] = 'Assessment Not Found, check Grade and Arab';
+                $data_errors = ['Assessment Not Found, check Grade and Arab'];
+                $data = [];
+                $data['inputs'] = [];
+                foreach ($row as $key => $value) {
+                    //check if not number
+                    if (!is_numeric($key)) {
+                        array_push($data['inputs'], [
+                            'key' => $key,
+                            'value' => $value,
+                        ]);
+                    }
+                }
+                $data['errors'] = $data_errors;
+                $this->file->logs()->create([
+                    'row_num' => $this->row_num,
+                    'data' => $data,
+                ]);
+
+                $this->failed_row_count++;
+                return null;
+            }else{
+                $row['Assessment'] = $assessment->id;
+            }
+
+            $student = Student::query()->create([
+                'id_number' => $row['Student ID'],
+                'name' => $full_name,
+                'email' => $username,
+                'password' => bcrypt('123456'),
+                'level_id' => $row['Assessment'],
+                'nationality' => isset($row['Nationality']) ? $row['Nationality']:null,
+                'grade_name' => isset($row['Grade Name']) ? $row['Grade Name']:null,
+                'sen' => $row['SEN'],
+                'g_t' => $row['G&T'],
+                'arab' => $row['Arab'],
+                'dob' => isset($row['Date Of Birth']) ? $row['Date Of Birth']:null,
+                'gender' => $gender,
+                'citizen' => $row['Citizen'],
+                'file_id' => $this->file['id'],
+                'school_id' => $this->file['school_id'],
+                'year_id' => $this->file['year_id']
+            ]);
+            $this->rows_count++;
         }
+
         return $student;
     }
 
@@ -236,6 +253,10 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
     public function getUpdatedRowsCount(): int
     {
         return $this->updated_rows_count;
+    }
+    public function getDeletedRowsCount(): int
+    {
+        return $this->deleted_rows_count;
     }
 
     /**
@@ -264,7 +285,7 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
 
     public function onFailure(Failure ...$failures)
     {
-        if (!$this->update) {
+        if (!$this->update && !$this->delete) {
             $row_num = 0;
             $data_errors = [];
             $data = [];
@@ -315,23 +336,8 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
     }
     public function rules(): array
     {
-        if (!$this->update)
+        if ($this->update)
         {
-            return [
-                'Student ID' => 'required',
-                'Name' =>['required', new StudentNameRule()],
-//                'Assessment' => 'required',
-                'Grade' => 'required',
-                'Nationality' => 'nullable',
-                'Grade Name' => 'nullable',
-                'SEN' => 'required|in:1,0',
-                'G&T' => 'required|in:1,0',
-                'Arab' => 'required|in:1,0',
-                'Date Of Birth' => 'nullable',
-                'Gender' => 'required|in:1,2',
-                'Citizen' => 'required|in:1,0',
-            ];
-        }else{
             return [
                 'Student ID' => 'required',
                 'Name' =>['nullable', new StudentNameRule()],
@@ -345,6 +351,25 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
                 'Date Of Birth' => 'nullable',
                 'Gender' => 'nullable|in:1,2',
                 'Citizen' => 'nullable|in:1,0',
+            ];
+        }elseif ($this->delete){
+            return [
+                'Student ID' => 'required',
+            ];
+        }else{
+            return [
+                'Student ID' => 'required',
+                'Name' =>['required', new StudentNameRule()],
+//                'Assessment' => 'required',
+                'Grade' => 'required',
+                'Nationality' => 'nullable',
+                'Grade Name' => 'nullable',
+                'SEN' => 'required|in:1,0',
+                'G&T' => 'required|in:1,0',
+                'Arab' => 'required|in:1,0',
+                'Date Of Birth' => 'nullable',
+                'Gender' => 'required|in:1,2',
+                'Citizen' => 'required|in:1,0',
             ];
         }
     }

@@ -96,7 +96,20 @@ class StudentImportController extends Controller
 
         //upload file
         $upload_file = uploadNewFile($file, '/student-import-files');
+
         $update = isset($data['update']);
+        $delete = isset($data['delete']);
+
+        if ($update) {
+            $update = true;
+            $delete = false;
+        } elseif ($delete) {
+            $update = false;
+            $delete = true;
+        } else {
+            $update = false;
+            $delete = false;
+        }
 
         //save file data
         $create_file = StudentImportFile::query()->create([
@@ -110,7 +123,7 @@ class StudentImportController extends Controller
         ]);
 
         //import students
-        $student_import = new StudentImport($create_file, $update);
+        $student_import = new StudentImport($create_file, $update,$delete);
         Excel::import($student_import, public_path($create_file->path));
 
 
@@ -118,6 +131,7 @@ class StudentImportController extends Controller
         $file_data = [
             'row_count' => $student_import->getRowsCount(),
             'updated_row_count' => $student_import->getUpdatedRowsCount(),
+            'deleted_row_count' => $student_import->getDeletedRowsCount(),
             'failed_row_count' => $student_import->getFailedRowCount(),
         ];
 

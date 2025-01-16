@@ -78,6 +78,7 @@
             <th class="text-start">{{t('File Name')}}</th>
             <th class="text-start">{{t('Rows Count')}}</th>
             <th class="text-start">{{t('Updated Rows Count')}}</th>
+            <th class="text-start">{{t('Deleted Rows Count')}}</th>
             <th class="text-start">{{t('Failed Rows Count')}}</th>
             <th class="text-start">{{t('School Name')}}</th>
             <th class="text-start">{{t('Year')}}</th>
@@ -135,6 +136,7 @@
             {data: 'original_file_name', name: 'original_file_name'},
             {data: 'row_count', name: 'row_count'},
             {data: 'updated_row_count', name: 'updated_row_count'},
+            {data: 'deleted_row_count', name: 'deleted_row_count'},
             {data: 'failed_row_count', name: 'failed_row_count'},
             {data: 'school_name', name: 'school_name'},
             {data: 'year', name: 'year'},

@@ -206,8 +206,11 @@ class StudentController extends Controller
             $other_students = Student::query()->where('email', $student->email)->where('id', '!=', $student->id)->get();
             if ($other_students->count() > 0) {
                 return $this->sendError(t('Cannot Restore Student Before Email Already Exist'), 402);
+            }else{
+                $student->restore();
+                return $this->sendResponse(null, t('Successfully Restored'));
             }
-            return $this->sendResponse(null, t('Successfully Restored'));
+
         }
         return $this->sendError(t('Student Not Restored'), 402);
     }

@@ -27,7 +27,8 @@ class ImportStudentRequest extends FormRequest
            'school_id'=>'required|exists:schools,id',
            'year_id'=>'required|exists:years,id',
            'students_file'=>'required|file|mimes:xlsx',
-           'update'=>'nullable'
+           'update'=>'nullable',
+           'delete'=>'nullable'
         ];
     }
     public function messages()

@@ -567,7 +567,7 @@
                             <table class="table small m-0">
                                 <thead>
                                 <tr>
-                                    <th class="main-th"> {{re('Assessment')}} ({{re('Citizen')}})</th>
+                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}})</th>
                                     <th class="below-td"> {{re('Below')}}</th>
                                     <th class="inline-td"> {{re('Inline')}}</th>
                                     <th class="above-td"> {{re('Above')}}</th>
@@ -594,6 +594,85 @@
                     @foreach($arab_grade->local as $round)
                         <div class="col-4">
                             <div id="arab_{{$key}}_local_{{strtolower($round->round)}}"></div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="row text-center justify-content-center mt-5">
+                    <div class="col-11 ">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}}) - {{re('Boys')}}</th>
+                                    <th class="below-td"> {{re('Below')}}</th>
+                                    <th class="inline-td"> {{re('Inline')}}</th>
+                                    <th class="above-td"> {{re('Above')}}</th>
+                                    <th class="main-th"> {{re('Total')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($arab_grade->local_boys as $round)
+                                    <tr class="text-center">
+                                        <td>{{ $round->round }}</td>
+                                        <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
+                                        <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
+                                        <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
+                                        <td>{{ $round->total }}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    @foreach($arab_grade->local_boys as $round)
+                        <div class="col-4">
+                            <div id="arab_{{$key}}_local_boys_{{strtolower($round->round)}}"></div>
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+            <span class="number-page">{{$pageNum++}}</span>
+        </div>
+        <div class="page">
+            <div class="subpage-w">
+                <div class="row text-center justify-content-center mt-5">
+                    <div class="col-11 ">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} ({{re('Emarati')}}) - {{re('Girls')}}</th>
+                                    <th class="below-td"> {{re('Below')}}</th>
+                                    <th class="inline-td"> {{re('Inline')}}</th>
+                                    <th class="above-td"> {{re('Above')}}</th>
+                                    <th class="main-th"> {{re('Total')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($arab_grade->local_girls as $round)
+                                    <tr class="text-center">
+                                        <td>{{ $round->round }}</td>
+                                        <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
+                                        <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
+                                        <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
+                                        <td>{{ $round->total }}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    @foreach($arab_grade->local_girls as $round)
+                        <div class="col-4">
+                            <div id="arab_{{$key}}_local_girls_{{strtolower($round->round)}}"></div>
                         </div>
                     @endforeach
                 </div>
@@ -1133,7 +1212,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1188,7 +1270,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1243,7 +1328,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1297,7 +1385,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1532,7 +1623,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1587,7 +1681,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1642,7 +1739,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1696,7 +1796,10 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',
@@ -1750,7 +1853,124 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
+
+                    },
+                    borderRadiusTopLeft: '20%',
+                    borderRadiusTopRight: '20%',
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    size: '110%'
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '{{re('Browser share')}}',
+                innerSize: '65%',
+                data: [
+                    {name: '{{re('below')}}', y: {{$round->below->percentage}}, color: "#EA5455"},
+                    {name: '{{re('inline')}}', y: {{$round->inline->percentage}}, color: "#F0DE36"},
+                    {name: '{{re('above')}}', y: {{$round->above->percentage}}, color: "#28C76F"},
+                ]
+            }]
+        });
+        chart.setSize(null, 250);
+        @endforeach
+        @foreach($arab_grade->local_boys as $round)
+        var chart = Highcharts.chart('arab_{{$key}}_local_boys_{{strtolower($round->round)}}', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: '{{re($round->round)}}',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 85,
+            },
+            tooltip: {
+                enabled: false // This disables tooltips
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        },
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
+
+                    },
+                    borderRadiusTopLeft: '20%',
+                    borderRadiusTopRight: '20%',
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    size: '110%'
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: '{{re('Browser share')}}',
+                innerSize: '65%',
+                data: [
+                    {name: '{{re('below')}}', y: {{$round->below->percentage}}, color: "#EA5455"},
+                    {name: '{{re('inline')}}', y: {{$round->inline->percentage}}, color: "#F0DE36"},
+                    {name: '{{re('above')}}', y: {{$round->above->percentage}}, color: "#28C76F"},
+                ]
+            }]
+        });
+        chart.setSize(null, 250);
+        @endforeach
+        @foreach($arab_grade->local_girls as $round)
+        var chart = Highcharts.chart('arab_{{$key}}_local_girls_{{strtolower($round->round)}}', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: '{{re($round->round)}}',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 85,
+            },
+            tooltip: {
+                enabled: false // This disables tooltips
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        },
+                        formatter: function() {
+                    // إذا كانت القيمة صفر، نرجع سلسلة فارغة
+                    return this.y === 0 ? '' : this.percentage.toFixed(1) + '%';
+                }
 
                     },
                     borderRadiusTopLeft: '20%',

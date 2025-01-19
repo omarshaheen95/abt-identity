@@ -68,12 +68,16 @@ class AttainmentReport
             $ordered_rounds[] = $this->rounds[$round_key];
         }
 
-        if ($student_type == 1 || $student_type == 0) {
-            $arab_grades = $this->processSubject( 1, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+        if ($student_type == 1) {
+            $arab_grades = $this->processSubject( 2, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
-        if ($student_type == 2 || $student_type == 0) {
+        if ($student_type == 2) {
             $non_arab_grades = $this->processSubject( 0, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+        }
+
+        if ($student_type == 0) {
+            $arab_grades = $this->processSubject( 0, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
         $rounds = $ordered_rounds;
@@ -86,7 +90,7 @@ class AttainmentReport
             $title = re('Attainment Report Summary') . '-' . $this->school->name;
             return view('general.reports.attainment.report-summary', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects'));
         }
-        return view('general.reports.attainment.report', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects'));
+        return view('general.reports.attainment.report', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
     }
 
     private function processSubject($is_arabic, $school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $rounds)

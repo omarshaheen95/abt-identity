@@ -86,7 +86,7 @@ class AttainmentCombinedReport
 
 
 //        dd($arab_grades, $non_arab_grades);
-        return view('general.reports.attainment.combined', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects'));
+        return view('general.reports.attainment.combined', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
     }
 
     private function processSubject($is_arabic, $school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $rounds)

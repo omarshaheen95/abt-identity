@@ -456,7 +456,13 @@ class AttainmentReport
                 }
             }
 
-            $student_type = $is_arabic ? re('For Arabs'): re('For Non-Arabs');
+            if ($is_arabic == 1) {
+                $student_type = re('For Arabs');
+            } elseif ($is_arabic == 2) {
+                $student_type = re('For Non-Arabs');
+            } else {
+                $student_type = re('For Arabs And Non-Arabs');
+            }
             $result[$grade] = (object)[
                 'title' => re('Grade') . ' ' . $grade . '/' . re('Year') . ' ' . ($grade + 1) . ' ' . $student_type,
                 'grade' => $grade,

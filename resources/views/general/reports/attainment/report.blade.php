@@ -252,6 +252,7 @@
 @php
     $pageNum = 4;
 @endphp
+@if($student_type == 1 || $student_type == 0)
 @foreach($arab_grades as $key => $arab_grade)
     @if($arab_grade->total)
         <div class="page">
@@ -360,7 +361,7 @@
                                     <table class="table small m-0">
                                         <thead>
                                         <tr>
-                                            <th class="main-th"> {{re('Assessment')}} ({{$skill->name}})</th>
+                                            <th class="main-th"> {{re('Assessment')}} ({{re($skill->name)}})</th>
                                             <th class="below-td"> {{re('Below')}}</th>
                                             <th class="inline-td"> {{re('Inline')}}</th>
                                             <th class="above-td"> {{re('Above')}}</th>
@@ -682,6 +683,8 @@
         </div>
     @endif
 @endforeach
+@endif
+@if($student_type == 2)
 @foreach($non_arab_grades as $key => $non_arab_grade)
     @if($non_arab_grade->total)
         <div class="page">
@@ -790,7 +793,7 @@
                                     <table class="table small m-0">
                                         <thead>
                                         <tr>
-                                            <th class="main-th"> {{re('Assessment')}} ({{$skill->name}})</th>
+                                            <th class="main-th"> {{re('Assessment')}} ({{re($skill->name)}})</th>
                                             <th class="below-td"> {{re('Below')}}</th>
                                             <th class="inline-td"> {{re('Inline')}}</th>
                                             <th class="above-td"> {{re('Above')}}</th>
@@ -991,6 +994,7 @@
         </div>
     @endif
 @endforeach
+@endif
 
 
 <script src="{{ asset('assets_v1/plugins/global/jquery.min.js') }}" type="text/javascript"></script>
@@ -1004,6 +1008,7 @@
         Highcharts.setOptions({
             colors: ['#d50000', '#ffc107', '#00c853', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
         });
+        @if($student_type == 2)
         @foreach($non_arab_grades as $key => $non_arab_grade)
         @if($non_arab_grade->total)
         Highcharts.chart("non_arab_{{$key}}_general_rounds", {
@@ -1415,6 +1420,8 @@
 
         @endif
         @endforeach
+        @endif
+        @if($student_type == 1 || $student_type == 0)
         @foreach($arab_grades as $key => $arab_grade)
         @if($arab_grade->total)
         Highcharts.chart("arab_{{$key}}_general_rounds", {
@@ -1997,6 +2004,7 @@
 
         @endif
         @endforeach
+        @endif
     });
 </script>
 

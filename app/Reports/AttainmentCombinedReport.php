@@ -69,12 +69,16 @@ class AttainmentCombinedReport
             $ordered_rounds[] = $this->rounds[$round_key];
         }
 
-        if ($student_type == 1 || $student_type == 0) {
+        if ($student_type == 1) {
             $arab_grades = $this->processSubject(1, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
-        if ($student_type == 2 || $student_type == 0) {
-            $non_arab_grades = $this->processSubject(0, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+        if ($student_type == 2) {
+            $non_arab_grades = $this->processSubject(2, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+        }
+
+        if ($student_type == 0) {
+            $arab_grades = $this->processSubject(0, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
         $rounds = $ordered_rounds;
@@ -82,7 +86,7 @@ class AttainmentCombinedReport
 
 
 //        dd($arab_grades, $non_arab_grades);
-        return view('general.reports.attainment.combined', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects'));
+        return view('general.reports.attainment.combined', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
     }
 
     private function processSubject($is_arabic, $school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $rounds)
@@ -98,6 +102,8 @@ class AttainmentCombinedReport
         $boys_grade_rounds = [];
         $girls_grade_rounds = [];
         $local_grade_rounds = [];
+        $boys_local_grade_rounds = [];
+        $girls_local_grade_rounds = [];
         $skills_rounds = [];
 
 
@@ -201,7 +207,7 @@ class AttainmentCombinedReport
                             $sen_below_count++;
                         }
                     }
-                    if ($student->arab) {
+                    if ($student->citizen) {
                         $local_round_total++;
                         if ($assessment->total >= $above_condition->from && $assessment->total <= $above_condition->to) {
                             $local_above_count++;
@@ -403,42 +409,48 @@ class AttainmentCombinedReport
                     ],
                 ];
                 $boys_local_grade_rounds[$round] = (object)[
-                        'round' => $round,
-                        'total' => $local_boys_round_total,
-                        'above' => (object)[
-                            'count' => $boys_local_above_count,
-                            'percentage' => $local_boys_round_total > 0 ? round(($boys_local_above_count / $local_boys_round_total) * 100, 2) : 0,
-                        ],
-                        'inline' => (object)[
-                            'count' => $boys_local_inline_count,
-                            'percentage' => $local_boys_round_total > 0 ? round(($boys_local_inline_count / $local_boys_round_total) * 100, 2) : 0,
-                        ],
-                        'below' => (object)[
-                            'count' => $boys_local_below_count,
-                            'percentage' => $local_boys_round_total > 0 ? round(($boys_local_below_count / $local_boys_round_total) * 100, 2) : 0,
-                        ],
-                    ];
-                    $girls_local_grade_rounds[$round] = (object)[
-                        'round' => $round,
-                        'total' => $local_girls_round_total,
-                        'above' => (object)[
-                            'count' => $girls_local_above_count,
-                            'percentage' => $local_girls_round_total > 0 ? round(($girls_local_above_count / $local_girls_round_total) * 100, 2) : 0,
-                        ],
-                        'inline' => (object)[
-                            'count' => $girls_local_inline_count,
-                            'percentage' => $local_girls_round_total > 0 ? round(($girls_local_inline_count / $local_girls_round_total) * 100, 2) : 0,
-                        ],
-                        'below' => (object)[
-                            'count' => $girls_local_below_count,
-                            'percentage' => $local_girls_round_total > 0 ? round(($girls_local_below_count / $local_girls_round_total) * 100, 2) : 0,
-                        ],
-                    ];
+                    'round' => $round,
+                    'total' => $local_boys_round_total,
+                    'above' => (object)[
+                        'count' => $boys_local_above_count,
+                        'percentage' => $local_boys_round_total > 0 ? round(($boys_local_above_count / $local_boys_round_total) * 100, 2) : 0,
+                    ],
+                    'inline' => (object)[
+                        'count' => $boys_local_inline_count,
+                        'percentage' => $local_boys_round_total > 0 ? round(($boys_local_inline_count / $local_boys_round_total) * 100, 2) : 0,
+                    ],
+                    'below' => (object)[
+                        'count' => $boys_local_below_count,
+                        'percentage' => $local_boys_round_total > 0 ? round(($boys_local_below_count / $local_boys_round_total) * 100, 2) : 0,
+                    ],
+                ];
+                $girls_local_grade_rounds[$round] = (object)[
+                    'round' => $round,
+                    'total' => $local_girls_round_total,
+                    'above' => (object)[
+                        'count' => $girls_local_above_count,
+                        'percentage' => $local_girls_round_total > 0 ? round(($girls_local_above_count / $local_girls_round_total) * 100, 2) : 0,
+                    ],
+                    'inline' => (object)[
+                        'count' => $girls_local_inline_count,
+                        'percentage' => $local_girls_round_total > 0 ? round(($girls_local_inline_count / $local_girls_round_total) * 100, 2) : 0,
+                    ],
+                    'below' => (object)[
+                        'count' => $girls_local_below_count,
+                        'percentage' => $local_girls_round_total > 0 ? round(($girls_local_below_count / $local_girls_round_total) * 100, 2) : 0,
+                    ],
+                ];
                 $skills_rounds[$round] = $skill_attainments;
             }
         }
 
-        $student_type = $is_arabic ? re('For Arabs') : re('For Non-Arabs');
+        if ($is_arabic == 1) {
+            $student_type = re('For Arabs');
+        } elseif ($is_arabic == 2) {
+            $student_type = re('For Non-Arabs');
+        } else {
+            $student_type = re('For Arabs And Non-Arabs');
+        }
         return (object)[
             'title' => re('Grade') . ' ' . array_first($grades) . '/' . re('Year') . ' ' . (array_first($grades) + 1) . ' ' . re('To') . ' ' . re('Grade') . ' ' . array_last($grades) . '/' . re('Year') . ' ' . (array_last($grades) + 1) . ' ' . $student_type,
             'grades' => $grades,

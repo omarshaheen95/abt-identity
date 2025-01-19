@@ -41,7 +41,9 @@ class AppServiceProvider extends ServiceProvider
                 ->when(!$include_g_t, function (Builder $query) {
                     $query->where('g_t', 0);
                 })
-                ->where('arab', $arab);
+                ->when($arab != 0, function (Builder $query) use ($arab) {
+                    $query->where('arab', $arab!=2);
+                });
         });
     }
 

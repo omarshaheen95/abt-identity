@@ -252,7 +252,7 @@
 @php
     $pageNum = 4;
 @endphp
-    @if($arab_grades->total)
+    @if(($student_type == 1 || $student_type == 0) && $arab_grades->total)
         <div class="page">
             <div class="subpage-w">
                 <div class="row text-center justify-content-center">
@@ -359,7 +359,7 @@
                                     <table class="table small m-0">
                                         <thead>
                                         <tr>
-                                            <th class="main-th"> {{re('Assessment')}} ({{$skill->name}})</th>
+                                            <th class="main-th"> {{re('Assessment')}} ({{re($skill->name)}})</th>
                                             <th class="below-td"> {{re('Below')}}</th>
                                             <th class="inline-td"> {{re('Inline')}}</th>
                                             <th class="above-td"> {{re('Above')}}</th>
@@ -679,7 +679,7 @@
             <span class="number-page">{{$pageNum++}}</span>
         </div>
     @endif
-    @if($non_arab_grades->total)
+    @if($student_type == 2 && $non_arab_grades->total)
         <div class="page">
             <div class="subpage-w">
                 <div class="row text-center justify-content-center">
@@ -786,7 +786,7 @@
                                     <table class="table small m-0">
                                         <thead>
                                         <tr>
-                                            <th class="main-th"> {{re('Assessment')}} ({{$skill->name}})</th>
+                                            <th class="main-th"> {{re('Assessment')}} ({{re($skill->name)}})</th>
                                             <th class="below-td"> {{re('Below')}}</th>
                                             <th class="inline-td"> {{re('Inline')}}</th>
                                             <th class="above-td"> {{re('Above')}}</th>
@@ -999,7 +999,7 @@
         Highcharts.setOptions({
             colors: ['#d50000', '#ffc107', '#00c853', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
         });
-        @if($non_arab_grades->total)
+        @if($student_type == 2 && $non_arab_grades->total)
         Highcharts.chart("non_arab_general_rounds", {
             chart: {
                 type: 'column',
@@ -1408,7 +1408,7 @@
         @endforeach
 
         @endif
-        @if($arab_grades->total)
+        @if(($student_type == 1 || $student_type == 0) && $arab_grades->total)
         Highcharts.chart("arab_general_rounds", {
             chart: {
                 type: 'column',

@@ -68,12 +68,16 @@ class AttainmentReport
             $ordered_rounds[] = $this->rounds[$round_key];
         }
 
-        if ($student_type == 1 || $student_type == 0) {
+        if ($student_type == 1) {
             $arab_grades = $this->processSubject( 1, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
-        if ($student_type == 2 || $student_type == 0) {
-            $non_arab_grades = $this->processSubject( 0, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+        if ($student_type == 2) {
+            $non_arab_grades = $this->processSubject( 2, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+        }
+
+        if ($student_type == 0) {
+            $arab_grades = $this->processSubject( 0, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
         $rounds = $ordered_rounds;
@@ -84,9 +88,9 @@ class AttainmentReport
 
         if ($this->request->get('summary', false)) {
             $title = re('Attainment Report Summary') . '-' . $this->school->name;
-            return view('general.reports.attainment.report-summary', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects'));
+            return view('general.reports.attainment.report-summary', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
         }
-        return view('general.reports.attainment.report', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects'));
+        return view('general.reports.attainment.report', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
     }
 
     private function processSubject($is_arabic, $school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $rounds)
@@ -213,7 +217,7 @@ class AttainmentReport
                                 $sen_below_count++;
                             }
                         }
-                        if ($student->arab) {
+                        if ($student->citizen) {
                             $local_round_total++;
                             if ($assessment->total >= $above_condition->from && $assessment->total <= $above_condition->to) {
                                 $local_above_count++;
@@ -452,7 +456,13 @@ class AttainmentReport
                 }
             }
 
-            $student_type = $is_arabic ? re('For Arabs'): re('For Non-Arabs');
+            if ($is_arabic == 1) {
+                $student_type = re('For Arabs');
+            } elseif ($is_arabic == 2) {
+                $student_type = re('For Non-Arabs');
+            } else {
+                $student_type = re('For Arabs And Non-Arabs');
+            }
             $result[$grade] = (object)[
                 'title' => re('Grade') . ' ' . $grade . '/' . re('Year') . ' ' . ($grade + 1) . ' ' . $student_type,
                 'grade' => $grade,

@@ -252,6 +252,7 @@
 @php
     $pageNum = 4;
 @endphp
+@if($student_type == 1 || $student_type == 0)
 @foreach($arab_grades as $key => $arab_grade)
     @if($arab_grade->total)
         <div class="page">
@@ -608,6 +609,8 @@
 
     @endif
 @endforeach
+@endif
+@if($student_type == 2)
 @foreach($non_arab_grades as $key => $non_arab_grade)
     @if($non_arab_grade->total)
         <div class="page">
@@ -875,6 +878,7 @@
 
     @endif
 @endforeach
+@endif
 
 
 <script src="{{ asset('assets_v1/plugins/global/jquery.min.js') }}" type="text/javascript"></script>

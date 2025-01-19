@@ -361,7 +361,7 @@
                                     <table class="table small m-0">
                                         <thead>
                                         <tr>
-                                            <th class="main-th"> {{re('Assessment')}} ({{$skill->name}})</th>
+                                            <th class="main-th"> {{re('Assessment')}} ({{re($skill->name)}})</th>
                                             <th class="below-td"> {{re('Below')}}</th>
                                             <th class="inline-td"> {{re('Inline')}}</th>
                                             <th class="above-td"> {{re('Above')}}</th>
@@ -793,7 +793,7 @@
                                     <table class="table small m-0">
                                         <thead>
                                         <tr>
-                                            <th class="main-th"> {{re('Assessment')}} ({{$skill->name}})</th>
+                                            <th class="main-th"> {{re('Assessment')}} ({{re($skill->name)}})</th>
                                             <th class="below-td"> {{re('Below')}}</th>
                                             <th class="inline-td"> {{re('Inline')}}</th>
                                             <th class="above-td"> {{re('Above')}}</th>

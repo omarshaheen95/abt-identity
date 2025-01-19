@@ -48,6 +48,9 @@
                     <input type="file" class="form-control" name="students_file">
                 </div>
             </div>
+
+
+
             <div class="form-group row mb-2">
                 <label class="col-3 col-form-label">{{t('Update Students in file')}}</label>
                 <div class="col-6">
@@ -56,6 +59,18 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group row mb-2">
+                <label class="col-3 col-form-label">{{t('Delete Students in file by ID')}}</label>
+                <div class="col-6">
+                    <div class="form-check form-check-custom form-check-solid form-check-lg mt-2">
+                        <input class="form-check-input" type="checkbox" value="1" name="delete" id="flexCheckboxLg"/>
+                    </div>
+                </div>
+            </div>
+
+
+
             <div class="d-flex align-items-center">
                 <h5 class="m-0 mr-2">{{t('Example File')}} :
                 </h5>

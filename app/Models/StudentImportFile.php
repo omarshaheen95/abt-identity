@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class StudentImportFile extends Model
 { use SoftDeletes;
-    protected $fillable = ['school_id','year_id','original_file_name',
-        'file_name','row_count','failed_row_count','path','status','delete_with_user','error','failures'];
+    protected $fillable = [
+        'school_id','year_id','original_file_name',
+        'updated_row_count','deleted_row_count','failed_row_count',
+        'file_name','row_count','path','status','delete_with_user','error','failures'];
 
     //search scope
     public function scopeSearch(Builder $query, Request $request)

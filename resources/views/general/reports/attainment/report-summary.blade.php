@@ -11,13 +11,13 @@
     @if(app()->getLocale() == 'ar')
         <link href="{{ asset('assets_v1/plugins/bootstrap-5.0.2/css/bootstrap.rtl.css') }}" rel="stylesheet"
               type="text/css"/>
-        <link href="{{ asset('assets_v1/plugins/print/css/print.rtl.css') }}" rel="stylesheet" type="text/css"/>
-        <link href="{{ asset('assets_v1/plugins/print/css/report.rtl.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/print.rtl.css') }}?v={{time()}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/report.rtl.css') }}?v={{time()}}" rel="stylesheet" type="text/css"/>
     @else
         <link href="{{ asset('assets_v1/plugins/bootstrap-5.0.2/css/bootstrap.min.css') }}" rel="stylesheet"
               type="text/css"/>
-        <link href="{{ asset('assets_v1/plugins/print/css/print.css') }}?v=1" rel="stylesheet" type="text/css"/>
-        <link href="{{ asset('assets_v1/plugins/print/css/report.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/print.css') }}?v={{time()}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/report.css') }}?v={{time()}}" rel="stylesheet" type="text/css"/>
     @endif
 
     <link rel="shortcut icon"

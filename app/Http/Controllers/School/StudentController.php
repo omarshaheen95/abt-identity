@@ -41,11 +41,10 @@ class StudentController extends Controller
                     return $student->year->name;
                 })
                 ->addColumn('level', function ($student) {
-                    $year_name = $student->year->name;
-                    $grade = $student->grade;
-                    $arab = $student->arab ? 'Arab' : 'NonArab';
-
-                    return $year_name . ' - ' . 'Grade ' . $grade . ' - ' . $arab;
+                    $year_name = $student->level->year->name;
+                    $grade = $student->level->grade;
+                    $arab = $student->level->arab ? 'Arab' : 'NonArab';
+                    return $year_name . ' - ' . 'Grade -' . $grade . ' - ' . $arab;
                 })
                 ->addColumn('actions', function ($row) {
                     return $row->action_buttons;

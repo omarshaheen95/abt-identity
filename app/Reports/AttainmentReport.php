@@ -69,11 +69,11 @@ class AttainmentReport
         }
 
         if ($student_type == 1) {
-            $arab_grades = $this->processSubject( 2, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+            $arab_grades = $this->processSubject( 1, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
         if ($student_type == 2) {
-            $non_arab_grades = $this->processSubject( 0, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
+            $non_arab_grades = $this->processSubject( 2, $this->school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $ordered_rounds);
         }
 
         if ($student_type == 0) {

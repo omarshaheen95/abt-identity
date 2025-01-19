@@ -207,7 +207,7 @@ class AttainmentCombinedReport
                             $sen_below_count++;
                         }
                     }
-                    if ($student->arab) {
+                    if ($student->citizen) {
                         $local_round_total++;
                         if ($assessment->total >= $above_condition->from && $assessment->total <= $above_condition->to) {
                             $local_above_count++;

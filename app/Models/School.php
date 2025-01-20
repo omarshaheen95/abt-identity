@@ -70,7 +70,7 @@ class School extends Authenticatable
                 $query->where(function (Builder $query) use ($name) {
                     $name = \Str::lower($name);
                     $query->where(DB::raw('LOWER(name->"$.ar")'), 'like', '%' . $name . '%')
-                        ->orWhere(DB::raw('LOWER(name->"$.en")'), 'like', '%' . $name . '%');
+                        ->orWhere(DB::raw('LOWER(name->"$.en")'), 'like', '%' .  strtolower($name) . '%');
                 });
             })->when($email = $request->get('email', false), function (Builder $query) use ($email) {
                 $query->where('email', $email);

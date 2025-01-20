@@ -132,7 +132,7 @@ class StudentTerm extends Model
             })
             ->when($name = $request->get('student_name', false), function (Builder $query) use ($name) {
                 $query->whereHas('student',function (Builder $query) use ($name) {
-                    $query->where(DB::raw('LOWER(name)'), 'like', '%' . $name . '%');
+                    $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($name) . '%');
                 });
             }) ->when($student_id = $request->get('student_id', false), function (Builder $query) use ($student_id) {
                 $query->whereHas('student',function (Builder $query) use ($student_id) {

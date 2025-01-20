@@ -37,7 +37,7 @@ class Student extends Authenticatable
         return $query
             ->when($name = $request->get('name', false), function (Builder $query) use ($name) {
                 $query->where(function (Builder $query) use ($name) {
-                    $query->where(DB::raw('LOWER(name)'), 'like', '%' . $name . '%');
+                    $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($name) . '%');
                 });
             })->when($id = $request->get('id'), function (Builder $query) use ($id) {
                 $query->where('id', $id);

@@ -47,7 +47,7 @@
                                         {{$bg_color}}
                                         @endif
                                     @endif
-                                    " for="tf-option-{{$question->id}}-1">
+                                    " for="tf-option-{{$question->id}}-1-{{auth()->id()}}">
                                 <span> <img src="{{asset('web_assets/img/true.svg')}}" alt=""></span>
                                 <span class="text"> {{$term->level->arab?'صح':'True'}} </span>
                             </label>
@@ -69,7 +69,7 @@
                                     @endif
 
                                     @endif
-                                " for="tf-option-{{$question->id}}-2">
+                                " for="tf-option-{{$question->id}}-2-{{auth()->id()}}">
                                 <span> <img src="{{asset('web_assets/img/false.svg')}}" alt=""></span>
                                 <span class="text"> {{$term->level->arab?'خطأ':'False'}} </span>
                             </label>

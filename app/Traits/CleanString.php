@@ -17,6 +17,16 @@ trait CleanString
     protected $cleanAttributes = ['name'];
 
     /**
+     * Initialize the trait.
+     *
+     * @return void
+     */
+    public function initializeCleanString()
+    {
+        $this->cleanAttributes = ['name'];
+    }
+
+    /**
      * Boot the trait.
      *
      * @return void
@@ -35,7 +45,7 @@ trait CleanString
      */
     protected function cleanStrings()
     {
-        foreach ($this->cleanAttributes as $attribute) {
+        foreach ($this->getCleanAttributes() as $attribute) {
             if (isset($this->attributes[$attribute])) {
                 $this->attributes[$attribute] = $this->cleanStringValue($this->attributes[$attribute]);
             }
@@ -61,12 +71,22 @@ trait CleanString
     }
 
     /**
+     * Get the attributes that should be cleaned.
+     *
+     * @return array
+     */
+    public function getCleanAttributes()
+    {
+        return $this->cleanAttributes;
+    }
+
+    /**
      * Set the attributes that should be cleaned.
      *
      * @param array|string $attributes
      * @return $this
      */
-    public function setCleanAttributes($attributes)
+    public function cleanAttributes($attributes)
     {
         $this->cleanAttributes = is_array($attributes) ? $attributes : func_get_args();
 

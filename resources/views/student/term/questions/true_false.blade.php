@@ -35,7 +35,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input d-none" type="radio"
                                    name="questions[{{$question->id}}][answer]"
-                                   id="tf-option-{{$question->id}}-1" value="1" onclick="saveResult()"
+                                   id="tf-option-{{$question->id}}-1-{{auth()->id()}}" value="1" onclick="saveResult()"
                                 {{isset($correct_mode)&&isset($question->result)&&$question->result->result==1?'checked':''}}>
 
                             <label @if(isset($correct_mode)) onclick="$(this).removeClass('{{$bg_color}}')"
@@ -55,7 +55,7 @@
                         <div class="form-check form-check-inline ">
                             <input class="form-check-input d-none" type="radio"
                                    name="questions[{{$question->id}}][answer]"
-                                   id="tf-option-{{$question->id}}-2" value="0" onclick="saveResult()"
+                                   id="tf-option-{{$question->id}}-2-{{auth()->id()}}" value="0" onclick="saveResult()"
                                 {{isset($correct_mode)&&isset($question->result)&&$question->result->result==0?'checked':''}}>
 
                             <label @if(isset($correct_mode)) onclick="$(this).removeClass('{{$bg_color}}')"

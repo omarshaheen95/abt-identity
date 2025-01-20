@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Notifications\StudentResetPassword;
+use App\Traits\CleanString;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Student extends Authenticatable
 {
-    use Notifiable, SoftDeletes,CascadeSoftDeletes, LogsActivity;
+    use Notifiable, SoftDeletes,CascadeSoftDeletes, LogsActivity, CleanString;
     protected static $logAttributes = ['id_number', 'name', 'email', 'school_id', 'level_id', 'year_id', 'grade_name',
         'gender', 'sen', 'g_t', 'arab', 'citizen'];
     protected static $recordEvents = ['updated', 'deleted'];

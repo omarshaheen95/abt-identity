@@ -35,9 +35,15 @@ class Student extends Authenticatable
     public function scopeSearch(Builder $query, Request $request)
     {
         return $query
-            ->when($name = $request->get('name', false), function (Builder $query) use ($name) {
-                $query->where(function (Builder $query) use ($name) {
-                    $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($name) . '%');
+            ->when($name = $request->get('student_name', false), function (Builder $query) use ($name) {
+                $name = strtolower($name); // Convert input to lowercase
+                $keywords = explode(' ', $name); // Split input into words
+                $query->whereHas('student', function (Builder $query) use ($keywords) {
+                    $query->where(function (Builder $subQuery) use ($keywords) {
+                        foreach ($keywords as $keyword) {
+                            $subQuery->orWhere(DB::raw('LOWER(name)'), 'like', '%' . $keyword . '%');
+                        }
+                    });
                 });
             })->when($id = $request->get('id'), function (Builder $query) use ($id) {
                 $query->where('id', $id);

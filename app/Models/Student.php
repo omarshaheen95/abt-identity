@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Notifications\StudentResetPassword;
-use App\Traits\CleanString;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,16 +18,16 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Student extends Authenticatable
 {
-    use Notifiable, SoftDeletes,CascadeSoftDeletes, LogsActivity, CleanString;
+    use Notifiable, SoftDeletes,CascadeSoftDeletes, LogsActivity;
     protected static $logAttributes = ['id_number', 'name', 'email', 'school_id', 'level_id', 'year_id', 'grade_name',
-        'gender', 'sen','g_t', 'arab', 'citizen'];
+        'gender', 'sen', 'g_t', 'arab', 'citizen'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
     protected $fillable = [
-       'name', 'email', 'password', 'school_id', 'year_id', 'level_id', 'nationality', 'grade_name',
-        'arab', 'sen','g_t', 'gender','demo' ,'demo_data' ,'dob','citizen','file_id', 'id_number', 'lang', 'last_login', 'last_login_info'
+        'name', 'email', 'password', 'school_id', 'year_id', 'level_id', 'nationality', 'grade_name',
+        'arab', 'sen', 'g_t', 'gender', 'demo', 'demo_data', 'dob', 'citizen', 'file_id', 'id_number', 'lang', 'last_login', 'last_login_info'
     ];
     protected $cascadeDeletes = ['student_terms'];
 
@@ -47,10 +46,8 @@ class Student extends Authenticatable
     public function scopeSearch(Builder $query, Request $request)
     {
         return $query
-            ->when($name = $request->get('name', false), function (Builder $query) use ($name) {
-                $query->where(function (Builder $query) use ($name) {
-                    $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($name) . '%');
-                });
+            ->when($value = $request->get('name'), function (Builder $query) use ($value) {
+                $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($value) . '%');
             })->when($id = $request->get('id'), function (Builder $query) use ($id) {
                 $query->where('id', $id);
             })->when($gender = $request->get('gender', false), function (Builder $query) use ($gender) {

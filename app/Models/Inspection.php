@@ -48,7 +48,7 @@ class Inspection extends Authenticatable
         return $query
             ->when($name = $request->get('name', false), function (Builder $query) use ($name) {
                 $query->where(function (Builder $query) use ($name) {
-                    $query->where(DB::raw('LOWER(name)'), 'like', '%' . $name . '%');
+                    $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($name) . '%');
                 });
             })->when($email = $request->get('email', false), function (Builder $query) use ($email) {
                 $query->where('email', $email);

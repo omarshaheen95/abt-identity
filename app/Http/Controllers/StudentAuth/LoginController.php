@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Hesto\MultiAuth\Traits\LogsoutGuard;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -66,7 +67,7 @@ class LoginController extends Controller
     public function studentLogin(Request $request)
     {
         $request->validate(['username'=>'required|email']);
-        $student = Student::query()->where('email',$request['username'])->first();
+        $student = Student::query()->where(DB::raw('LOWER(email)'), strtolower($request->username))->first();
         if ($student){
             Auth::guard('student')->login($student);
             return redirect()->route('student.home');

@@ -18,16 +18,17 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Student extends Authenticatable
 {
-    use Notifiable, SoftDeletes,CascadeSoftDeletes, LogsActivity;
+    use Notifiable, SoftDeletes, CascadeSoftDeletes, LogsActivity;
+
     protected static $logAttributes = ['id_number', 'name', 'email', 'school_id', 'level_id', 'year_id', 'grade_name',
-        'gender', 'sen','g_t', 'arab', 'citizen'];
+        'gender', 'sen', 'g_t', 'arab', 'citizen'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
     protected $fillable = [
-       'name', 'email', 'password', 'school_id', 'year_id', 'level_id', 'nationality', 'grade_name',
-        'arab', 'sen','g_t', 'gender','demo' ,'demo_data' ,'dob','citizen','file_id', 'id_number', 'lang', 'last_login', 'last_login_info'
+        'name', 'email', 'password', 'school_id', 'year_id', 'level_id', 'nationality', 'grade_name',
+        'arab', 'sen', 'g_t', 'gender', 'demo', 'demo_data', 'dob', 'citizen', 'file_id', 'id_number', 'lang', 'last_login', 'last_login_info'
     ];
     protected $cascadeDeletes = ['student_terms'];
 
@@ -40,16 +41,8 @@ class Student extends Authenticatable
     public function scopeSearch(Builder $query, Request $request)
     {
         return $query
-            ->when($name = $request->get('student_name', false), function (Builder $query) use ($name) {
-                $name = strtolower($name); // Convert input to lowercase
-                $keywords = explode(' ', $name); // Split input into words
-                $query->whereHas('student', function (Builder $query) use ($keywords) {
-                    $query->where(function (Builder $subQuery) use ($keywords) {
-                        foreach ($keywords as $keyword) {
-                            $subQuery->orWhere(DB::raw('LOWER(name)'), 'like', '%' . $keyword . '%');
-                        }
-                    });
-                });
+            ->when($value = $request->get('name'), function (Builder $query) use ($value) {
+                $query->where('name', 'LIKE', '%' . $value . '%');
             })->when($id = $request->get('id'), function (Builder $query) use ($id) {
                 $query->where('id', $id);
             })->when($gender = $request->get('gender', false), function (Builder $query) use ($gender) {
@@ -60,15 +53,15 @@ class Student extends Authenticatable
                 $query->where('id_number', $id_number);
             })->when($school_id = $request->get('school_id', false), function (Builder $query) use ($school_id) {
                 $query->where('school_id', $school_id);
-            })->when(!is_array($request->get('level_id', false)) ? $level_id = $request->get('level_id', false): $level_id = false, function (Builder $query) use ($level_id) {
+            })->when(!is_array($request->get('level_id', false)) ? $level_id = $request->get('level_id', false) : $level_id = false, function (Builder $query) use ($level_id) {
                 $query->where('level_id', $level_id);
-            })->when(is_array($request->get('level_id', [])) ? $level_id = $request->get('level_id', []): $level_id = [], function (Builder $query) use ($level_id) {
+            })->when(is_array($request->get('level_id', [])) ? $level_id = $request->get('level_id', []) : $level_id = [], function (Builder $query) use ($level_id) {
                 $query->whereIn('level_id', $level_id);
             })->when($year_id = $request->get('year_id', false), function (Builder $query) use ($year_id) {
                 $query->whereRelation('level', 'year_id', $year_id);
             })->when($grade = $request->get('grade', false), function (Builder $query) use ($grade) {
-                $query->whereHas('level',function (Builder $query) use ($grade) {
-                    is_array($grade)?$query->whereIn('grade', $grade):$query->where('grade', $grade);
+                $query->whereHas('level', function (Builder $query) use ($grade) {
+                    is_array($grade) ? $query->whereIn('grade', $grade) : $query->where('grade', $grade);
                 });
             })->when($year_id = $request->get('student_year_id', false), function (Builder $query) use ($year_id) {
                 $query->where('year_id', $year_id);
@@ -76,56 +69,56 @@ class Student extends Authenticatable
                 $query->where('file_id', $value);
             })->when($created_at = $request->get('created_at', false), function (Builder $query) use ($created_at) {
                 $query->whereDate('created_at', $created_at);
-            })->when($value = $request->get('row_id',[]),function (Builder $query) use ($value){
+            })->when($value = $request->get('row_id', []), function (Builder $query) use ($value) {
                 $query->whereIn('id', $value);
-            })->when($value = $request->get('class',false),function (Builder $query) use ($value){
-                $query->whereRelation('level','grade','=',$value);
-            })->when($value = $request->get('deleted_at',false),function (Builder $query) use ($value){
-                if ($value == 1){
+            })->when($value = $request->get('class', false), function (Builder $query) use ($value) {
+                $query->whereRelation('level', 'grade', '=', $value);
+            })->when($value = $request->get('deleted_at', false), function (Builder $query) use ($value) {
+                if ($value == 1) {
                     $query->whereNull('deleted_at');
-                }else{
+                } else {
                     $query->whereNotNull('deleted_at')->withTrashed();
                 }
-            })->when($value = $request->get('orderBy', 'latest'), function (Builder $query) use ($value){
-                $query->when($value == 'latest', function (Builder $query) use ($value){
+            })->when($value = $request->get('orderBy', 'latest'), function (Builder $query) use ($value) {
+                $query->when($value == 'latest', function (Builder $query) use ($value) {
                     $query->latest();
-                })->when($value == 'name', function (Builder $query) use ($value){
+                })->when($value == 'name', function (Builder $query) use ($value) {
                     $query->orderBy('name');
-                })->when($value == 'level', function (Builder $query) use ($value){
+                })->when($value == 'level', function (Builder $query) use ($value) {
                     $query->orderBy('level_id');
-                })->when($value == 'section', function (Builder $query) use ($value){
+                })->when($value == 'section', function (Builder $query) use ($value) {
                     $query->orderBy('grade_name');
-                })->when($value == 'arab', function (Builder $query) use ($value){
+                })->when($value == 'arab', function (Builder $query) use ($value) {
                     $query->orderBy('arab')->orderBy('level_id');
                 });
-            })->when($value = $request->get('orderBy2', 'latest'), function (Builder $query) use ($value){
-                $query->when($value == 'latest', function (Builder $query) use ($value){
+            })->when($value = $request->get('orderBy2', 'latest'), function (Builder $query) use ($value) {
+                $query->when($value == 'latest', function (Builder $query) use ($value) {
                     $query->latest();
-                })->when($value == 'name', function (Builder $query) use ($value){
+                })->when($value == 'name', function (Builder $query) use ($value) {
                     $query->orderBy('name');
-                })->when($value == 'level', function (Builder $query) use ($value){
+                })->when($value == 'level', function (Builder $query) use ($value) {
                     $query->orderBy('level_id');
-                })->when($value == 'section', function (Builder $query) use ($value){
+                })->when($value == 'section', function (Builder $query) use ($value) {
                     $query->orderBy('grade_name');
-                })->when($value == 'arab', function (Builder $query) use ($value){
+                })->when($value == 'arab', function (Builder $query) use ($value) {
                     $query->orderBy('arab')->orderBy('level_id');
                 });
             })->when($value = $request->get('sen'), function (Builder $query) use ($value) {
-                $query->where('sen', $value!=2);
+                $query->where('sen', $value != 2);
             })->when($value = $request->get('g_t'), function (Builder $query) use ($value) {
-                $query->where('g_t', $value!=2);
+                $query->where('g_t', $value != 2);
             })->when($value = $request->get('citizen', false), function (Builder $query) use ($value) {
-                $query->where('citizen', $value!=2);
+                $query->where('citizen', $value != 2);
             })->when($value = $request->get('arab_status', false), function (Builder $query) use ($value) {
-                $query->where('arab', $value!=2);
-            })->when($value = $request->get('class_name',[]),function (Builder $query) use ($value){
+                $query->where('arab', $value != 2);
+            })->when($value = $request->get('class_name', []), function (Builder $query) use ($value) {
                 $query->whereIn('grade_name', $value);
-            })->when($value = $request->get('grade_name',false),function (Builder $query) use ($value){
+            })->when($value = $request->get('grade_name', false), function (Builder $query) use ($value) {
                 $query->where('grade_name', $value);
-            })->when($value= $request->get('start_date',false),function (Builder $query) use ($value){
-                $query->whereDate('created_at', '>=',$value);
-            })->when($value= $request->get('end_date',false),function (Builder $query) use ($value){
-                $query->whereDate('created_at', '<=',$value);
+            })->when($value = $request->get('start_date', false), function (Builder $query) use ($value) {
+                $query->whereDate('created_at', '>=', $value);
+            })->when($value = $request->get('end_date', false), function (Builder $query) use ($value) {
+                $query->whereDate('created_at', '<=', $value);
             });
     }
 
@@ -133,53 +126,55 @@ class Student extends Authenticatable
     {
         $this->notify(new StudentResetPassword($token));
     }
+
     public function getDemoDataAttribute($value)
     {
         return json_decode($value);
     }
+
     protected function setDemoDataAttribute($value)
     {
         $this->attributes['demo_data'] = json_encode($value);
     }
 
-    public function login_sessions(){
-        return $this->morphMany(LoginSession::class,'model');
+    public function login_sessions()
+    {
+        return $this->morphMany(LoginSession::class, 'model');
     }
+
     //actions buttons
 
     public function getActionButtonsAttribute()
     {
-        $actions=[];
-        if (\request()->is('manager/*')){
-            if ($this->deleted_at && Auth::guard('manager')->user()->hasDirectPermission('restore deleted students')){
-                    return '<button  onclick="restore('.$this->id.')" class="btn btn-warning d-flex justify-content-center align-items-center h-35px w-90px btn_restore">' . t('Restore') . '</button>';
-            }else{
-                $actions =  [
-                    ['key'=>'edit','name'=>t('Edit'),'route'=>route('manager.student.edit', $this->id),'permission'=>'edit students'],
-                    ['key' => 'login', 'name' => t('Card'), 'route' => route('manager.student-card', $this->id), 'permission' =>'export students cards'],
-                    ['key'=>'login','name'=>t('Login'),'route'=>route('manager.student.student-login', $this->id),'permission'=>'student login'],
-                    ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete students'],
+        $actions = [];
+        if (\request()->is('manager/*')) {
+            if ($this->deleted_at && Auth::guard('manager')->user()->hasDirectPermission('restore deleted students')) {
+                return '<button  onclick="restore(' . $this->id . ')" class="btn btn-warning d-flex justify-content-center align-items-center h-35px w-90px btn_restore">' . t('Restore') . '</button>';
+            } else {
+                $actions = [
+                    ['key' => 'edit', 'name' => t('Edit'), 'route' => route('manager.student.edit', $this->id), 'permission' => 'edit students'],
+                    ['key' => 'login', 'name' => t('Card'), 'route' => route('manager.student-card', $this->id), 'permission' => 'export students cards'],
+                    ['key' => 'login', 'name' => t('Login'), 'route' => route('manager.student.student-login', $this->id), 'permission' => 'student login'],
+                    ['key' => 'delete', 'name' => t('Delete'), 'route' => $this->id, 'permission' => 'delete students'],
                 ];
-                return view('general.action_menu')->with('actions',$actions);
+                return view('general.action_menu')->with('actions', $actions);
             }
-        }
-        elseif (\request()->is('school/*')){
+        } elseif (\request()->is('school/*')) {
             $student_login = \Auth::guard('school')->user()->student_login;
-            $actions =  [
-                ['key'=>'edit','name'=>t('Edit'),'route'=>route('school.student.edit', $this->id)],
+            $actions = [
+                ['key' => 'edit', 'name' => t('Edit'), 'route' => route('school.student.edit', $this->id)],
                 ['key' => 'login', 'name' => t('Card'), 'route' => route('school.student-card', $this->id)],
-                $student_login?['key' => 'login', 'name' => t('Login'), 'route' => route('school.student.student-login', $this->id)]:null,
+                $student_login ? ['key' => 'login', 'name' => t('Login'), 'route' => route('school.student.student-login', $this->id)] : null,
             ];
 
-        }elseif (\request()->is('inspection/*')){
-            $actions =  [
-                ['key'=>'login','name'=>t('Login'),'route'=>route('inspection.student.student-login', $this->id)],
+        } elseif (\request()->is('inspection/*')) {
+            $actions = [
+                ['key' => 'login', 'name' => t('Login'), 'route' => route('inspection.student.student-login', $this->id)],
             ];
         }
-        return view('general.action_menu')->with('actions',$actions);
+        return view('general.action_menu')->with('actions', $actions);
 
     }
-
 
 
     //relations
@@ -198,8 +193,9 @@ class Student extends Authenticatable
         return $this->belongsTo(Level::class);
     }
 
-    public function student_terms():HasMany{
-        return $this->hasMany(StudentTerm::class,'student_id','id')->with('term');
+    public function student_terms(): HasMany
+    {
+        return $this->hasMany(StudentTerm::class, 'student_id', 'id')->with('term');
     }
 
 

@@ -34,7 +34,7 @@ class Student extends Authenticatable
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->setCleanAttributes(['name', 'email', 'grade_name', 'nationality', 'id_number']);
+        $this->cleanAttributes(['name', 'email', 'grade_name', 'nationality', 'id_number']);
     }
 
     public function setEmailAttribute($value)

@@ -31,6 +31,11 @@ class Student extends Authenticatable
     ];
     protected $cascadeDeletes = ['student_terms'];
 
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower($value);
+    }
+
     //search scope
     public function scopeSearch(Builder $query, Request $request)
     {

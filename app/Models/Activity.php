@@ -46,7 +46,7 @@ class Activity extends Model implements ActivityContract
             }elseif (class_basename($this->subject_type)  == 'Term') {
                 return route('manager.term.edit', $this->subject_id);
             }elseif (class_basename($this->subject_type) == 'StudentTerm') {
-                return route('manager.student_term.show', $this->subject_id);
+                return route('manager.student_term.edit', $this->subject_id);
             }elseif (class_basename($this->subject_type) == 'MarkingRequest') {
                 return route('manager.marking_requests.edit', $this->subject_id);
             } else {

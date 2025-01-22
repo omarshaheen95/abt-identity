@@ -16,6 +16,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}" />
+    <meta name="google" content="notranslate">
 
     @yield('pre-style')
     @if($student->level->arab)
@@ -96,7 +97,39 @@
 <script src="{{asset('web_assets/js/jquery-ui.js')}}"></script>
 <script src="{{asset('web_assets/js/custom.js')}}"></script>
 <script src="{{asset('web_assets/js/jquery.ui.touch-punch.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        'use strict';
+        // تعطيل الزر الأيمن
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('keydown', function (e) {
+            // تعطيل مفتاح F12
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+            // تعطيل النسخ باستخدام CTRL+C
+            if (e.ctrlKey && e.key === 'c') {
+                e.preventDefault();
+            }
+            // تعطيل CTRL+U
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+            }
+        });
 
+        // تعطيل النسخ عن طريق التحديد
+        document.addEventListener('copy', function (e) {
+            e.preventDefault();
+        });
+
+        // تعطيل تحديد النص
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
+    });
+</script>
 
 @yield('script')
 

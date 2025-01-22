@@ -9,7 +9,7 @@
     @endphp
 @endif
     <!DOCTYPE html>
-<html lang="{{app()->getlocale()}}" dir="{{direction()}}">
+<html lang="{{app()->getlocale()}}" dir="{{direction()}}" translate="no">
 <head>
 
     <meta charset="utf-8">
@@ -17,6 +17,7 @@
     <meta content='ABT' name='keywords'>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google" content="notranslate">
 
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -178,6 +179,37 @@
     $('.count').countUp({
         'time': 2000,
         'delay': 15
+    });
+    $(document).ready(function () {
+        'use strict';
+        // تعطيل الزر الأيمن
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('keydown', function (e) {
+            // تعطيل مفتاح F12
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+            // تعطيل النسخ باستخدام CTRL+C
+            if (e.ctrlKey && e.key === 'c') {
+                e.preventDefault();
+            }
+            // تعطيل CTRL+U
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+            }
+        });
+
+        // تعطيل النسخ عن طريق التحديد
+        document.addEventListener('copy', function (e) {
+            e.preventDefault();
+        });
+
+        // تعطيل تحديد النص
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
     });
 </script>
 

@@ -10,6 +10,7 @@ use App\Models\Level;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Year;
+use App\Reports\StudentReport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -170,6 +171,12 @@ class StudentController extends Controller
     {
         Auth::guard('student')->loginUsingId($id);
         return redirect()->route('student.home');
+    }
+
+    public function studentReport($id)
+    {
+        $report = new StudentReport($id);
+        return $report->report();
     }
 
     public function getSectionsByYear(Request $request)

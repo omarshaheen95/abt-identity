@@ -156,7 +156,8 @@ class Student extends Authenticatable
                 $actions =  [
                     ['key'=>'edit','name'=>t('Edit'),'route'=>route('manager.student.edit', $this->id),'permission'=>'edit students'],
                     ['key' => 'login', 'name' => t('Card'), 'route' => route('manager.student-card', $this->id), 'permission' =>'export students cards'],
-                    ['key'=>'login','name'=>t('Login'),'route'=>route('manager.student.student-login', $this->id),'permission'=>'student login'],
+                    ['key'=>'login','name'=>t('Login'),'route'=>route('manager.student.student-lo\gin', $this->id),'permission'=>'student login'],
+                    ['key'=>'login','name'=>t('Student Report'),'route'=>route('manager.student.student-report', $this->id),'permission'=>'student login'],
                     ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete students'],
                 ];
                 return view('general.action_menu')->with('actions',$actions);

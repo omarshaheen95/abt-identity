@@ -20,34 +20,22 @@
         <div class="mb-5">
             <div class="d-grid">
                 <ul class="nav nav-tabs flex-nowrap text-nowrap">
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0 active"
-                            data-bs-toggle="tab" href="#kt_tab_pane_0">{{$subjects[0]['name']}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                           data-bs-toggle="tab" href="#kt_tab_pane_1">{{$subjects[1]['name']}}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                           data-bs-toggle="tab" href="#kt_tab_pane_2">{{$subjects[2]['name']}}</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0"
-                           data-bs-toggle="tab" href="#kt_tab_pane_3">{{$subjects[3]['name']}}</a>
-                    </li>
+                    @foreach($subjects as $subject)
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0 @if($loop->index == 0) active @endif"
+                               data-bs-toggle="tab" href="#kt_tab_pane_{{$subject->id}}">{{$subject->name}}</a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
 
         <div class="tab-content" id="myTabContent">
             @foreach($subjects as $subject)
-                <div class="tab-pane fade {{$loop->index==0?'show active':''}}" id="kt_tab_pane_{{$loop->index}}" role="tabpanel">
+                <div class="tab-pane fade {{$loop->index==0?'show active':''}}" id="kt_tab_pane_{{$subject->id}}" role="tabpanel">
                     @php
-                      $questions_by_subject = $questions->where('subject',$subject['value'])
-                     @endphp
+                        $questions_by_subject = $questions->where('subject_id',$subject->id)
+                    @endphp
                     @foreach($questions_by_subject as $question)
                         <input type="hidden" name="standards[{{ $question->id }}][mark]" value="{{$question->mark}}">
                         <div class="form-group row align-items-center">
@@ -88,7 +76,7 @@
 
         let DELETE_OPTION_URL = "{{route('manager.term.delete-question-option')}}"
         let DELETE_QUESTION_FILE_URL = "{{route('manager.term.delete-question-file')}}"
-        let DELETE_OPTION_IMAGE_URL = "{{route('manager.term.delete-match-option-image')}}"
+        let DELETE_OPTION_IMAGE_URL = "{{route('manager.term.delete-option-image')}}"
 
     </script>
     <script src="{{asset('assets_v1/js/manager/questions_management/questions.js')}}"></script>

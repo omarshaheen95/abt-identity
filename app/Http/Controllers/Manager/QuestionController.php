@@ -529,6 +529,10 @@ class QuestionController extends Controller
 
     public function updateQuestionStandards($year)
     {
+//        $terms = Term::query()->whereHas('question', function ($query) {
+//            $query->where('type', 'matching');
+//        })->whereRelation('level','year_id', $year)->get()->pluck('id');
+//        dd($terms);
         $question_standards = new QuestionStandardService($year);
         //arabs standards
         $question_standards->setQuestionsStandards(1);

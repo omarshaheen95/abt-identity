@@ -295,7 +295,7 @@
     </div>
     <span class="number-page">3</span>
 </div>
-<<div class="page">
+<div class="page">
     <div class="subpage-w">
         <div class="row">
             <div class="col-md-12 text-center">

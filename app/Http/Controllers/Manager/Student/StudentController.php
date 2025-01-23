@@ -269,4 +269,46 @@ class StudentController extends Controller
         return redirect($data->url);
     }
 
+    public function pdfReports(Request $request)
+    {
+        $request->validate([
+            'school_id' => 'required',
+            'grade' => 'required|max:1|min:1',
+        ],[
+            'grade.max' => t('Must be select one grade'),
+            'grade.min' => t('Must be select one grade'),
+        ]);
+
+        $school_id = $request->get('school_id');
+
+        $students = Student::with(['level.year','year'])
+            ->where('school_id', $school_id)
+            ->search($request)
+            ->select(['id', 'name as student_name', 'id_number as std_id'])
+            ->get()->values()->toArray();
+
+        $client = new \GuzzleHttp\Client([
+            'timeout'  => 36000,
+        ]);
+
+        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
+            'form_params' => [
+                'platform' => 'abt-identity',
+                'studentid' => $students,
+            ],
+        ]);
+        $data = json_decode($res->getBody());
+        $url = $data->url;
+        $fileContent = file_get_contents($url);
+        if ($fileContent === false) {
+            throw new \Exception('Unable to download file');
+        }else{
+            return response($fileContent, 200, [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'inline; filename="reports.zip"'
+            ]);
+        }
+        return redirect($data->url);
+    }
+
 }

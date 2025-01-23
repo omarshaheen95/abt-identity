@@ -603,8 +603,8 @@
                     name: '{{ $term_data->term }}',
                     data: [
                             {{ $term_data->mark_step1->mark }},
-                            {{ $term_data->mark_step1->mark }},
-                            {{ $term_data->mark_step1->mark }},
+                            {{ $term_data->mark_step2->mark }},
+                            {{ $term_data->mark_step3->mark }},
                     ]@if(app()->getLocale()=='ar').reverse()@endif,
                 },
                 @endforeach
@@ -685,7 +685,6 @@
 
 
         });
-
     });
 </script>
 

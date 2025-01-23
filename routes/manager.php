@@ -78,6 +78,9 @@ Route::group([], function () {
     Route::post('term/question/delete-file', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteQuestionFile'])->name('term.delete-question-file');
     Route::post('term/question/delete-option-image', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteOptionImageRequest'])->name('term.delete-option-image');
 
+    //Question Standards
+    Route::get('update_questions_standards/{year}', [\App\Http\Controllers\Manager\QuestionController::class, 'updateQuestionStandards'])->name('term.update-questions-standards');
+
     //Question File
     Route::resource('question-file', \App\Http\Controllers\Manager\QuestionFileController::class)->except(['destroy', 'edit', 'update']);
     Route::delete('question-file/delete', [\App\Http\Controllers\Manager\QuestionFileController::class, 'destroy'])->name('question-file.destroy');
@@ -109,11 +112,14 @@ Route::group([], function () {
     Route::delete('delete-student', [\App\Http\Controllers\Manager\Student\StudentController::class, 'delete'])->name('student.delete');
     Route::post('restore-student/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'restoreStudent'])->name('student.student-restore');
     Route::get('student-login/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentLogin'])->name('student.student-login');
+    Route::get('student-report/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentReport'])->name('student.student-report');
     Route::post('student-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentExport'])->name('student.student-export');
     Route::post('student-marks-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentMarksExport'])->name('student.student-marks-export');
     Route::get('students-cards-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentsCards'])->name('student.student-cards-export');
     Route::get('student/{id}/card', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCard'])->name('student-card');
     Route::post('students-cards-by-section', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCardBySections'])->name('student.students-cards-by-section');
+    Route::post('/pdfReports', [\App\Http\Controllers\Manager\Student\StudentController::class,'pdfReports'])->name('reports.pdfReports');
+
 
     //Copy Terms
     Route::get('copy_term', [\App\Http\Controllers\Manager\TermController::class, 'copyTermsView'])->name('term.copy_term_view');

@@ -14,6 +14,7 @@ use App\Models\SortQuestion;
 use App\Models\Subject;
 use App\Models\Term;
 use App\Models\TFQuestion;
+use App\Services\QuestionStandardService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -524,6 +525,17 @@ class QuestionController extends Controller
     {
         $result = uploadNewFile($file,$path);
         return $result['path'];
+    }
+
+    public function updateQuestionStandards($year)
+    {
+        $question_standards = new QuestionStandardService($year);
+        //arabs standards
+        $question_standards->setQuestionsStandards(1);
+        //non arabs standards
+        $question_standards->setQuestionsStandards(0);
+
+        return 'Done';
     }
 
 

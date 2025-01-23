@@ -54,4 +54,9 @@ class QuestionStandard extends Model
         });
     }
 
+    public function studentTermStandards()
+    {
+        return $this->hasMany(StudentTermStandard::class);
+    }
+
 }

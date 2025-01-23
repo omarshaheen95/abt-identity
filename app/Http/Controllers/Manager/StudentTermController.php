@@ -68,7 +68,7 @@ class StudentTermController extends Controller
                 })
                 ->addColumn('grade_name', function ($row) {
                     $grade = $row->term->level->grade;
-                    return 'Grade: ' . $grade . ' - ' . 'Section: '.$row->student->grade_name??'-';
+                    return 'Grade-' . $grade . ' - ' . 'Section-'.$row->student->grade_name??'-';
                 }) ->addColumn('school', function ($row) {
                     return $row->student->school->name??'-';
                 })

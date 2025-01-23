@@ -140,7 +140,7 @@
              <th class="text-start">{{t('Name')}}</th>
              <th class="text-start">{{t('Email')}}</th>
              <th class="text-start">{{t('School')}}</th>
-             <th class="text-start">{{t('Grade & Section')}}</th>
+             <th class="text-start">{{t('Grade')}}</th>
              <th class="text-start">{{t('Year')}}</th>
              <th class="text-start">{{t('Round')}}</th>
             @if(request('status')=='corrected')

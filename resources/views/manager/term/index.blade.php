@@ -47,6 +47,15 @@
                data-col-index="0"/>
     </div>
     <div class="col-3 mb-2">
+        <label>{{t('Grade')}} :</label>
+        <select name="grade" id="grade" class="form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Grade')}}">
+            <option></option>
+            @for($i=1; $i<=12; $i++)
+                <option value="{{$i}}">{{$i}}</option>
+            @endfor
+        </select>
+    </div>
+    <div class="col-3 mb-2">
         <label class="mb-1">{{t('Round')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Round')}}" name="round">
             <option></option>
@@ -56,6 +65,7 @@
 
         </select>
     </div>
+
     <div class="col-3 mb-2">
         <label class="mb-1">{{t('Year')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id" id="year_id">

@@ -66,6 +66,10 @@ class Term extends Model
                 $query->where('id', $value);
             })->when($value = $request->get('active', false), function (Builder $query) use ($value) {
                 $query->where('active', !($value == '2'));
+            })->when($value = $request->get('grade', false), function (Builder $query) use ($value) {
+                $query->whereHas('level', function ($query) use ($value) {
+                    $query->where('grade', $value);
+                });
             });
     }
 

@@ -68,8 +68,8 @@ class StudentTermController extends Controller
                 })
                 ->addColumn('grade_name', function ($row) {
                     $html = '<div class="d-flex flex-column">';
-                    $html .= '<div class="d-flex"><span class="badge badge-primary">' . t('Section') . '</span> <span>' . $row->student->grade_name . '</span></div></div>';
-                    $html .= '<div class="d-flex"><span class="badge badge-primary">' . t('Grade') . '</span> <span>' . $row->term->level->grade . '</span></div></div>';
+                    $html .= '<div class="mb-1"><span class="badge badge-info">' . t('Grade') . '</span> <span>' . $row->term->level->grade . '</span></div></div>';
+                    $html .= '<div class="mb-1"><span class="badge badge-info">' . t('Section') . '</span> <span>' . $row->student->grade_name . '</span></div></div>';
                     $html.='</div>';
                     return $html;
                 }) ->addColumn('school', function ($row) {

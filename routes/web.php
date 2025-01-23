@@ -59,25 +59,25 @@ Route::group(['prefix' => 'student'], function () {
     Route::post('/login', [\App\Http\Controllers\StudentAuth\LoginController::class, 'studentLogin']);
     Route::post('/logout', [\App\Http\Controllers\StudentAuth\LoginController::class, 'logout'])->name('student.logout');
 });
-Route::get('cache', function(){
-    \Illuminate\Support\Facades\Artisan::call('cache:clear');
-    \Illuminate\Support\Facades\Artisan::call('config:cache');
-});
-Route::get('migrate', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate');
-});
-Route::get('migrate-fresh', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate:refresh');
-});
-Route::get('rollback', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate:rollback');
-});
-Route::get('seed', function () {
-    \Illuminate\Support\Facades\Artisan::call('db:seed');
-});
-Route::get('view', function () {
-    \Illuminate\Support\Facades\Artisan::call('view:clear');
-});
+//Route::get('cache', function(){
+//    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+//    \Illuminate\Support\Facades\Artisan::call('config:cache');
+//});
+//Route::get('migrate', function () {
+//    \Illuminate\Support\Facades\Artisan::call('migrate');
+//});
+//Route::get('migrate-fresh', function () {
+//    \Illuminate\Support\Facades\Artisan::call('migrate:refresh');
+//});
+//Route::get('rollback', function () {
+//    \Illuminate\Support\Facades\Artisan::call('migrate:rollback');
+//});
+//Route::get('seed', function () {
+//    \Illuminate\Support\Facades\Artisan::call('db:seed');
+//});
+//Route::get('view', function () {
+//    \Illuminate\Support\Facades\Artisan::call('view:clear');
+//});
 
 Route::get('lang/{locale}', function ($locale) {
     session(['lang' => $locale]);
@@ -99,3 +99,5 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('switch-language');
 
 Route::get('student-cards', 'App\Http\Controllers\School\StudentController@studentsCards')->name('student.cards');
+Route::get('user/{id}/report', 'App\Http\Controllers\GeneralController@studentReport');
+

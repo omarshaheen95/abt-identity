@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\Response;
 use App\Models\Level;
 use App\Models\Term;
+use App\Reports\StudentReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GeneralController extends Controller
 {
@@ -34,5 +36,11 @@ class GeneralController extends Controller
             $html .= '<option value="' . $row->id . '">' . $row->name . '</option>';
         }
         return Response::respondSuccess(Response::SUCCESS, $html);
+    }
+
+    public function studentReport($id)
+    {
+        $report = new StudentReport($id);
+        return $report->report();
     }
 }

@@ -26,6 +26,7 @@
 
             @can('export students marks')
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{route('manager.student.student-marks-export')}}')">{{t('Export Student Marks')}}</a></li>
+                    <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route(getGuard().".reports.pdfReports") }}')">{{t('Students Bulk Reports')}}</a></li>
             @endcan
             @can('export students cards')
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>

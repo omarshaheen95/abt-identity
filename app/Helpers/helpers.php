@@ -1,6 +1,8 @@
 <?php
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
+
 //use LaravelFCM\Message\PayloadNotificationBuilder;
 //use LaravelFCM\Message\PayloadDataBuilder;
 //use LaravelFCM\Message\Topics;
@@ -11,20 +13,21 @@ use Illuminate\Support\Str;
 function grades()
 {
     return [
-        (object)['id' => 1, 'name' => t('Grade'). ' 1'],
-        (object)['id' => 2, 'name' => t('Grade'). ' 2'],
-        (object)['id' => 3, 'name' => t('Grade'). ' 3'],
-        (object)['id' => 4, 'name' => t('Grade'). ' 4'],
-        (object)['id' => 5, 'name' => t('Grade'). ' 5'],
-        (object)['id' => 6, 'name' => t('Grade'). ' 6'],
-        (object)['id' => 7, 'name' => t('Grade'). ' 7'],
-        (object)['id' => 8, 'name' => t('Grade'). ' 8'],
-        (object)['id' => 9, 'name' => t('Grade'). ' 9'],
-        (object)['id' => 10, 'name' => t('Grade'). ' 10'],
-        (object)['id' => 11, 'name' => t('Grade'). ' 11'],
-        (object)['id' => 12, 'name' => t('Grade'). ' 12'],
-        ];
+        (object)['id' => 1, 'name' => t('Grade') . ' 1'],
+        (object)['id' => 2, 'name' => t('Grade') . ' 2'],
+        (object)['id' => 3, 'name' => t('Grade') . ' 3'],
+        (object)['id' => 4, 'name' => t('Grade') . ' 4'],
+        (object)['id' => 5, 'name' => t('Grade') . ' 5'],
+        (object)['id' => 6, 'name' => t('Grade') . ' 6'],
+        (object)['id' => 7, 'name' => t('Grade') . ' 7'],
+        (object)['id' => 8, 'name' => t('Grade') . ' 8'],
+        (object)['id' => 9, 'name' => t('Grade') . ' 9'],
+        (object)['id' => 10, 'name' => t('Grade') . ' 10'],
+        (object)['id' => 11, 'name' => t('Grade') . ' 11'],
+        (object)['id' => 12, 'name' => t('Grade') . ' 12'],
+    ];
 }
+
 function getGuard()
 {
     $guard = 'web';
@@ -34,11 +37,12 @@ function getGuard()
         $guard = 'school';
     } elseif (request()->is('inspection/*')) {
         $guard = 'inspection';
-    }elseif (request()->is('student/*')) {
+    } elseif (request()->is('student/*')) {
         $guard = 'student';
     }
     return $guard;
 }
+
 function settingCache($key)
 {
     //Cache::forget('settings');
@@ -46,10 +50,10 @@ function settingCache($key)
         return \App\Models\Setting::get();
     });
 
-    if ($cache){
-        return $cache->where('key',$key)->pluck('value')->first() ;
+    if ($cache) {
+        return $cache->where('key', $key)->pluck('value')->first();
     }
-    return null ;
+    return null;
 }
 
 function uploadFile($file, $path = '')
@@ -69,18 +73,18 @@ function uploadFile($file, $path = '')
     return $data;
 }
 
-function uploadNewFile($file, $path ,bool $new_name=true)
+function uploadNewFile($file, $path, bool $new_name = true)
 {
     $file_original_name = $file->getClientOriginalName();
     $file_new_name = Str::random(27) . '.' . $file->getClientOriginalExtension();
 //    $path = $file->storeAs($path, $new_name?$file_new_name:$file_original_name, 'public');
-    $directory ='uploads' . '/' . $path.'/'.date("Y").'/'.date("m").'/'.date("d");
+    $directory = 'uploads' . '/' . $path . '/' . date("Y") . '/' . date("m") . '/' . date("d");
     $destination = public_path($directory);
-    $file->move($destination , $file_new_name);
-    return ['name'=>$new_name?$file_new_name:$file_original_name,'path'=>$directory.DIRECTORY_SEPARATOR.$file_new_name];
+    $file->move($destination, $file_new_name);
+    return ['name' => $new_name ? $file_new_name : $file_original_name, 'path' => $directory . DIRECTORY_SEPARATOR . $file_new_name];
 }
 
- function deleteFile($path = '/questions', string $disk = 'public')
+function deleteFile($path = '/questions', string $disk = 'public')
 {
     return Storage::disk($disk)->delete($path);
 }
@@ -97,16 +101,17 @@ function set_locale()
 
 function t($key, $placeholder = [], $locale = null)
 {
-    return translation('translation',$key, $placeholder = [], $locale );
+    return translation('translation', $key, $placeholder = [], $locale);
 }
 
-function re($key, $placeholder = [], $locale = null){
-     return translation('report',$key, $placeholder = [], $locale = null);
-}
-
-function translation($group,$key, $placeholder = [], $locale = null)
+function re($key, $placeholder = [], $locale = null)
 {
-    if (is_null($locale)){
+    return translation('report', $key, $placeholder = [], $locale = null);
+}
+
+function translation($group, $key, $placeholder = [], $locale = null)
+{
+    if (is_null($locale)) {
         $locale = config('app.locale');
     }
     $key = trim($key);
@@ -136,13 +141,14 @@ function translation($group,$key, $placeholder = [], $locale = null)
 function sysDomain()
 {
     $host = request()->getHost();
-    if(strpos($host, 'www') !== false){
+    if (strpos($host, 'www') !== false) {
         return $host;
-    } else{
-        return 'www.'.$host;
+    } else {
+        return 'www.' . $host;
     }
 
 }
+
 function f($key, $placeholder = [], $locale = null)
 {
 
@@ -563,10 +569,10 @@ function schoolsCountry()
 
 function getRounds()
 {
-    return['september', 'february', 'may'];
+    return ['september', 'february', 'may'];
 }
 
-function camelCaseText($text,$replace='_'):string
+function camelCaseText($text, $replace = '_'): string
 {
     return Str::title(str_replace($replace, ' ', $text));
 }
@@ -610,18 +616,82 @@ function judgement($below, $inline, $above)
 
 function getSubjectAttainment($subject_data, $subjects, $responseTypeText = 1)
 {
-   $subject = $subjects->where('id', $subject_data->subject_id)->first();
-   $below = (object)$subject->marks_range['below'];
-   $inline = (object)$subject->marks_range['inline'];
-   $above = (object)$subject->marks_range['above'];
+    $subject = $subjects->where('id', $subject_data->subject_id)->first();
+    $below = (object)$subject->marks_range['below'];
+    $inline = (object)$subject->marks_range['inline'];
+    $above = (object)$subject->marks_range['above'];
 
-   if ($subject_data->mark >= $below->from && $subject_data->mark <= $below->to) {
-       return $responseTypeText ? 'Below' : 1;
-   } elseif ($subject_data->mark >= $inline->from && $subject_data->mark <= $inline->to) {
-       return $responseTypeText ? 'Inline' : 2;
-   } elseif ($subject_data->mark >= $above->from && $subject_data->mark <= $above->to) {
-         return $responseTypeText ? 'Above' : 3;
-   } else{
-       return $responseTypeText ? 'Unknown' : 0;
-   }
+    if ($subject_data->mark >= $below->from && $subject_data->mark <= $below->to) {
+        return $responseTypeText ? 'Below' : 1;
+    } elseif ($subject_data->mark >= $inline->from && $subject_data->mark <= $inline->to) {
+        return $responseTypeText ? 'Inline' : 2;
+    } elseif ($subject_data->mark >= $above->from && $subject_data->mark <= $above->to) {
+        return $responseTypeText ? 'Above' : 3;
+    } else {
+        return $responseTypeText ? 'Unknown' : 0;
+    }
 }
+
+function getProgressText($startPoint, $subTotalMarks)
+{
+    $progress = getProgress($startPoint, $subTotalMarks);
+    if ($progress == 1) {
+        return 'Better than expected progress';
+    } elseif ($progress == 0) {
+        return 'Expected progress';
+    } else {
+        return 'Below expected progress';
+    }
+}
+
+function getProgress($startPoint, $subTotalMarks)
+{
+    if ($startPoint >= 80) {
+        if ($subTotalMarks > -5) {
+            return 1;
+        } elseif ($subTotalMarks <= -5 && $subTotalMarks >= -10) {
+            return 0;
+        } else {
+            return -1;
+        }
+    } elseif ($startPoint >= 60) {
+        if ($subTotalMarks > 5) {
+            return 1;
+        } elseif ($subTotalMarks >= 0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    } else {
+        if ($subTotalMarks > 10) {
+            return 1;
+        } elseif ($subTotalMarks >= 5) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+}
+
+function encryptStudentId($studentId)
+{
+    $encryptionKey = 'abt-assessment@,com';
+    $method = 'AES-256-CBC';
+    $ivLength = openssl_cipher_iv_length($method);
+    $iv = openssl_random_pseudo_bytes($ivLength);
+    $encrypted = openssl_encrypt($studentId, $method, $encryptionKey, 0, $iv);
+    return base64_encode($iv . $encrypted);
+}
+
+function decryptStudentId($encryptedStudentId)
+{
+    $encryptionKey = 'abt-assessment@,com';
+    $method = 'AES-256-CBC';
+    $ivLength = openssl_cipher_iv_length($method);
+    $encryptedStudentId = base64_decode($encryptedStudentId);
+    $iv = substr($encryptedStudentId, 0, $ivLength);
+    $encrypted = substr($encryptedStudentId, $ivLength);
+    return openssl_decrypt($encrypted, $method, $encryptionKey, 0, $iv);
+}
+
+

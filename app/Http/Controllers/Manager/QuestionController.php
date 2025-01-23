@@ -527,13 +527,9 @@ class QuestionController extends Controller
         return $result['path'];
     }
 
-    public function updateQuestionStandards()
+    public function updateQuestionStandards($year)
     {
-//        $terms = Term::query()->whereHas('question', function ($query) {
-//            $query->whereDoesntHave('question_standard');
-//        })->whereRelation('level', 'year_id', 2)->get();
-//        dd($terms);
-        $question_standards = new QuestionStandardService(1);
+        $question_standards = new QuestionStandardService($year);
         //arabs standards
         $question_standards->setQuestionsStandards(1);
         //non arabs standards

@@ -533,7 +533,7 @@ class QuestionController extends Controller
 //            $query->whereDoesntHave('question_standard');
 //        })->whereRelation('level', 'year_id', 2)->get();
 //        dd($terms);
-        $question_standards = new QuestionStandardService(2);
+        $question_standards = new QuestionStandardService(1);
         //arabs standards
         $question_standards->setQuestionsStandards(1);
         //non arabs standards

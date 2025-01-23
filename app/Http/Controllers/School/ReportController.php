@@ -16,8 +16,6 @@ use App\Reports\AttainmentReport;
 
 class ReportController extends Controller
 {
-
-
     public function preAttainmentReport()
     {
         $title = t('Attainment Report');

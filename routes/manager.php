@@ -78,6 +78,9 @@ Route::group([], function () {
     Route::post('term/question/delete-file', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteQuestionFile'])->name('term.delete-question-file');
     Route::post('term/question/delete-option-image', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteOptionImageRequest'])->name('term.delete-option-image');
 
+    //Question Standards
+    Route::get('update_questions_standards', [\App\Http\Controllers\Manager\QuestionController::class, 'updateQuestionStandards'])->name('term.update-questions-standards');
+
     //Question File
     Route::resource('question-file', \App\Http\Controllers\Manager\QuestionFileController::class)->except(['destroy', 'edit', 'update']);
     Route::delete('question-file/delete', [\App\Http\Controllers\Manager\QuestionFileController::class, 'destroy'])->name('question-file.destroy');

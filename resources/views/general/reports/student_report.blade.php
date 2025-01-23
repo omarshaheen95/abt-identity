@@ -396,6 +396,135 @@
 @php
     $pageCounter = 7;
 @endphp
+@foreach($terms as $term)
+        <div class="page">
+            <div class="subpage-w">
+                <div class="row text-center justify-content-center">
+                    <div class="col-12">
+                        <h5 class="section-title">{{re('The assessment Outcomes & Moderation (Culture)')}}</h5>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <div class="table-container">
+                            <table class="table table-standards">
+                                <thead>
+                                <tr>
+
+                                    <th class="main-th standard" style="width:40px;"> {{re('Question Number')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('Question score')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('Student score')}}</th>
+                                    <th class="main-th standard"> {{re('The assessment Outcomes')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('Internal')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('External')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($standards as $standard)
+                                    @if($standard->question->term_id == $term->term_id && $standard->question->subject_id == 1)
+                                        <tr>
+                                            <td class="standard">{{ $loop->iteration }}</td>
+                                            <td class="standard">{{ $standard->mark }}</td>
+                                            <td class="standard">{{ optional($standard->studentTermStandards->first())->mark ?? 0 }}</td>
+                                            <td class="standard">{{ $standard->standard }}</td>
+                                            <td class="standard">{{ $standard->student_in_level }} %</td>
+                                            <td class="standard">{{$standard->student_in_system}} %</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row text-center justify-content-center mt-5">
+                    <div class="col-12">
+                        <h5 class="section-title">{{re('The assessment Outcomes & Moderation (Values)')}}</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-container">
+                            <table class="table table-standards">
+                                <thead>
+                                <tr>
+
+                                    <th class="main-th standard" style="width:40px;"> {{re('Question Number')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('Question score')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('Student score')}}</th>
+                                    <th class="main-th standard"> {{re('The assessment Outcomes')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('Internal')}}</th>
+                                    <th class="main-th standard" style="width:40px;"> {{re('External')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($standards as $standard)
+                                    @if($standard->question->term_id == $term->term_id && $standard->question->subject_id == 2)
+                                        <tr>
+                                            <td class="standard">{{ $loop->iteration }}</td>
+                                            <td class="standard">{{ $standard->mark }}</td>
+                                            <td class="standard">{{ optional($standard->studentTermStandards->first())->mark ?? 0 }}</td>
+                                            <td class="standard">{{ $standard->standard }}</td>
+                                            <td class="standard">{{ $standard->student_in_level }} %</td>
+                                            <td class="standard">{{$standard->student_in_system}} %</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="number-page">{{$pageCounter++}}</span>
+        </div>
+        <div class="page">
+            <div class="subpage-w">
+                    <div class="row text-center justify-content-center">
+                        <div class="col-12">
+                            <h5 class="section-title">{{re('The assessment Outcomes & Moderation (Citizenship)')}}</h5>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <div class="table-container">
+                                <table class="table table-standards">
+                                    <thead>
+                                    <tr>
+
+                                        <th class="main-th standard" style="width:40px;"> {{re('Question Number')}}</th>
+                                        <th class="main-th standard" style="width:40px;"> {{re('Question score')}}</th>
+                                        <th class="main-th standard" style="width:40px;"> {{re('Student score')}}</th>
+                                        <th class="main-th standard"> {{re('The assessment Outcomes')}}</th>
+                                        <th class="main-th standard" style="width:40px;"> {{re('Internal')}}</th>
+                                        <th class="main-th standard" style="width:40px;"> {{re('External')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($standards as $standard)
+                                        @if($standard->question->term_id == $term->term_id && $standard->question->subject_id == 3)
+                                            <tr>
+                                                <td class="standard">{{ $loop->iteration }}</td>
+                                                <td class="standard">{{ $standard->mark }}</td>
+                                                <td class="standard">{{ optional($standard->studentTermStandards->first())->mark ?? 0 }}</td>
+                                                <td class="standard">{{ $standard->standard }}</td>
+                                                <td class="standard">{{ $standard->student_in_level }} %</td>
+                                                <td class="standard">{{$standard->student_in_system}} %</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <span class="number-page">{{$pageCounter++}}</span>
+        </div>
+@endforeach
+
 <script src="{{ asset('assets_v1/plugins/global/jquery.min.js') }}" type="text/javascript"></script>
 <script>
     $(function () {

@@ -127,16 +127,24 @@ function validation(){
 
 //-----------------------------------------------------------------------------
 function examFormSubmit(){
-    if (validation()){
+    if (window.location.href.includes('manager')){
         $("#submit-term").modal("hide");
         $("#exam-form").addClass("d-none");
         $("#save-form").removeClass("d-none");
         $("#exams").submit();
     }else {
-        $("#submit-term").modal("hide");
-        showToastify("You must answered for all questions", "error");
+        if (validation()){
+            $("#submit-term").modal("hide");
+            $("#exam-form").addClass("d-none");
+            $("#save-form").removeClass("d-none");
+            $("#exams").submit();
+        }else {
+            $("#submit-term").modal("hide");
+            showToastify("You must answered for all questions", "error");
 
+        }
     }
+
 }
 
 

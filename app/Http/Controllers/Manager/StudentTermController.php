@@ -572,7 +572,6 @@ class StudentTermController extends Controller
 
     }
 
-
     public function restore($id){
         $student_term = StudentTerm::query()->where('id',$id)->withTrashed()->first();
 

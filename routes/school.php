@@ -35,6 +35,7 @@ Route::get('levelGrades', [\App\Http\Controllers\School\SettingController::class
 Route::resource('scheduling',\App\Http\Controllers\School\SchedulingController::class);
 
 Route::get('students_terms/{type}', [\App\Http\Controllers\School\TermController::class, 'index'])->name('students-terms');
+Route::get('student_term/{id}/certificate', [\App\Http\Controllers\GeneralController::class,'certificate'])->name('student-term.certificate');
 
 Route::get('students_not_submitted_terms',  [\App\Http\Controllers\School\TermController::class, 'studentsNotSubmittedTerms'])->name('term.students-not-submitted-terms');
 Route::post('students_not_submitted_terms/export', [\App\Http\Controllers\School\TermController::class, 'studentsNotSubmittedTermsExport'])->name('term.students-not-submitted-terms-export');

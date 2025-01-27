@@ -86,11 +86,18 @@ class StudentTerm extends Model
 
     public function getActionDataAttribute()
     {
+        $actions=[];
+
         if ($this->deleted_at && Auth::guard('manager')->user()->hasDirectPermission('restore deleted students terms')) {
                 return '<button  onclick="restore(' . $this->id . ')" class="btn btn-warning d-flex justify-content-center align-items-center h-35px w-90px btn_restore">' . t('Restore') . '</button>';
         } else if (Auth::guard('manager')->user()->hasDirectPermission('edit students terms')) {
-            return '<a target="_blank" href="' . route('manager.student_term.edit', $this->id) . '" class="btn btn-success d-flex justify-content-center align-items-center h-35px w-90px">' . t('Correct') . '</a>';
+            $actions[] = ['key'=>'edit','name'=>t('Correct'),'route'=>route('manager.student_term.edit', $this->id),'permission'=>'edit students terms'];
         }
+        if ($this->corrected && $this->total>=90){
+            $actions[] = ['key'=>'blank','name'=>t('Certificate'),'route'=>route(getGuard().'.student-term.certificate', $this->id)];
+        }
+
+        return view('general.action_menu')->with('actions',$actions);
 
     }
 

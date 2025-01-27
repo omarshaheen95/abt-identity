@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
 Route::group([], function () {
-
+Route::get('cer',function (){
+    return view('general.certificate.certificate');
+});
     Route::get('/home', [\App\Http\Controllers\Manager\SettingController::class,'home'])->name('home');
 
     //Set Local
@@ -150,6 +152,7 @@ Route::group([], function () {
     Route::delete('delete-student-term', [\App\Http\Controllers\Manager\StudentTermController::class, 'deleteStudentTerm'])->name('student.delete-student-term');
     Route::post('restore-student-term/{id}', [\App\Http\Controllers\Manager\StudentTermController::class, 'restore'])->name('student-term-restore');
     Route::post('auto_correct_student_term', [\App\Http\Controllers\Manager\StudentTermController::class, 'autoCorrect'])->name('auto-correct-student-term');
+    Route::get('student_term/{id}/certificate', [\App\Http\Controllers\GeneralController::class,'certificate'])->name('student-term.certificate');
 
     //Activity Log Controller
     Route::get('activity-log', [\App\Http\Controllers\Manager\ActivityLogController::class, 'index'])->name('activity-log.index');

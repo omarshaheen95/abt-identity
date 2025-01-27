@@ -48,7 +48,9 @@ class TermController extends Controller
                     }
                         return '<a><span class="badge badge-success">'.t('Corrected').'</span></a>';
                 })
-
+                ->addColumn('actions', function ($row) {
+                    return $row->action_data;
+                })
                 ->make();
         }
         $years = Year::query()->get();

@@ -50,7 +50,7 @@
                         <span class="menu-title">{{t('Assessments Scheduling')}}</span>
                     </a>
                 </div>
-                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('school/students_terms*')?'here show':''}}">
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('school/student_term*')?'here show':''}}">
                                            <span class="menu-link">
                                                 <span class="menu-icon">
                                                 <i class="ki-duotone ki-note-2 fs-2">
@@ -67,7 +67,7 @@
                     <div class="menu-sub menu-sub-accordion">
 
                             <div class="menu-item">
-                                <a class="menu-link @if(Request::is('school/students_terms/corrected') )active @endif" href="{{ route('school.students-terms',['type'=>'corrected']) }}">
+                                <a class="menu-link @if(Request::is('school/student_term/corrected') )active @endif" href="{{ route('school.students-terms',['type'=>'corrected']) }}">
 													<span class="menu-bullet">
 														<span class="bullet bullet-dot"></span>
 													</span>
@@ -77,7 +77,7 @@
 
 
                         <div class="menu-item">
-                                <a class="menu-link @if(Request::is('school/students_terms/uncorrected') )active @endif" href="{{ route('school.students-terms',['type'=>'uncorrected']) }}">
+                                <a class="menu-link @if(Request::is('school/student_term/uncorrected') )active @endif" href="{{ route('school.students-terms',['type'=>'uncorrected']) }}">
 													<span class="menu-bullet">
 														<span class="bullet bullet-dot"></span>
 													</span>

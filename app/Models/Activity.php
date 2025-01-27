@@ -130,42 +130,43 @@ class Activity extends Model implements ActivityContract
     {
         $request = \request();
         return $query
-            ->when($value = $request->get('causedByManager', false), function (Builder $query) use ($value) {
-                $query->where('causer_type', Manager::class)
-                    ->where('causer_id', $value);
-            })
-            ->when($value = $request->get('causedBySchool', false), function (Builder $query) use ($value) {
-                $query->where('causer_type', School::class)
-                    ->where('causer_id', $value);
+            ->when($value = $request->get('causer_type', false), function (Builder $query) use ($value) {
+                $query->where('causer_type', $value);
+            })->when($value = $request->get('causer_id', false), function (Builder $query) use ($value) {
+                $query->where('causer_id', $value);
+            })->when($value = $request->get('subject_type', false), function (Builder $query) use ($value) {
+                $query->where('subject_type', $value);
+            })->when($value = $request->get('subject_id', false), function (Builder $query) use ($value) {
+                $query->where('subject_id', $value);
             })
             ->when($value = $request->get('email', false), function (Builder $query) use ($value) {
-            $query->where(function (Builder $query) use ($value){
-                $query->whereHasMorph('causer', [Manager::class], function (Builder $query) use ($value) {
-                    $query->where('email', 'like', "%{$value}%");
-                })->orWhereHasMorph('causer', [School::class], function (Builder $query) use ($value) {
-                    $query->where('email', 'like', "%{$value}%");
-                })->orWhereHasMorph('causer', [Inspection::class], function (Builder $query) use ($value) {
-                    $query->where('email', 'like', "%{$value}%");
+                $query->where(function (Builder $query) use ($value){
+                    $query->whereHasMorph('causer', [Manager::class], function (Builder $query) use ($value) {
+                        $query->where('email', 'like', "%{$value}%");
+                    })->orWhereHasMorph('causer', [School::class], function (Builder $query) use ($value) {
+                        $query->where('email', 'like', "%{$value}%");
+                    })->orWhereHasMorph('causer', [Inspection::class], function (Builder $query) use ($value) {
+                        $query->where('email', 'like', "%{$value}%");
+                    });
                 });
-            });
-        })->when($value = $request->get('name', false), function (Builder $query) use ($value) {
-            $query->where(function (Builder $query) use ($value){
-                $query->whereHasMorph('causer', [Manager::class], function (Builder $query) use ($value) {
-                    $query->where('name', 'like', "%{$value}%");
-                })->orWhereHasMorph('causer', [School::class], function (Builder $query) use ($value) {
-                    $query->where('name', 'like', "%{$value}%");
-                })->orWhereHasMorph('causer', [Inspection::class], function (Builder $query) use ($value) {
-                    $query->where('name', 'like', "%{$value}%");
+            })->when($value = $request->get('name', false), function (Builder $query) use ($value) {
+                $query->where(function (Builder $query) use ($value){
+                    $query->whereHasMorph('causer', [Manager::class], function (Builder $query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    })->orWhereHasMorph('causer', [School::class], function (Builder $query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    })->orWhereHasMorph('causer', [Inspection::class], function (Builder $query) use ($value) {
+                        $query->where('name', 'like', "%{$value}%");
+                    });
                 });
+            })->when($value = $request->get('type', false), function ($query) use ($value) {
+                $query->where('description', $value);
+            })->when($value = $request->get('date_start', false), function ($query) use ($value) {
+                $query->whereDate('created_at', '>=', Carbon::parse($value));
+            })->when($value = $request->get('date_end', false), function ($query) use ($value) {
+                $query->whereDate('created_at', '<=', Carbon::parse($value));
+            })->when($value = $request->get('row_id', []), function (Builder $query) use ($value) {
+                $query->whereIn('id', $value);
             });
-        })->when($value = $request->get('type', false), function ($query) use ($value) {
-            $query->where('description', $value);
-        })->when($value = $request->get('date_start', false), function ($query) use ($value) {
-            $query->whereDate('created_at', '>=', Carbon::parse($value));
-        })->when($value = $request->get('date_end', false), function ($query) use ($value) {
-            $query->whereDate('created_at', '<=', Carbon::parse($value));
-        })->when($value = $request->get('row_id', []), function (Builder $query) use ($value) {
-            $query->whereIn('id', $value);
-        });
     }
 }

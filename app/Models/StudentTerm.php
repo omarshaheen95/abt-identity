@@ -92,15 +92,18 @@ class StudentTerm extends Model
         }
 
         if ($this->corrected){
-            $actions=[];
-           if (getGuard()=='manager') {
+            if (getGuard()=='manager'){
+                $actions=[];
                 $actions[] = ['key'=>'edit','name'=>t('Correct'),'route'=>route('manager.student_term.edit', $this->id),'permission'=>'edit students terms'];
+                if ($this->total>=90){
+                    $actions[] = ['key'=>'blank','name'=>t('Certificate'),'route'=>route(getGuard().'.student-term.certificate', $this->id)];
+                }
+                return view('general.action_menu')->with('actions',$actions);
+            }else{
+                if ($this->total>=90){
+                    return '<a target="_blank" href="' . route(getGuard().'.student-term.certificate', $this->id) . '" class="btn btn-primary btn-sm">' . t('Certificate') . '</a>';
+                }
             }
-            if ($this->total>=90){
-                $actions[] = ['key'=>'blank','name'=>t('Certificate'),'route'=>route(getGuard().'.student-term.certificate', $this->id)];
-            }
-            return view('general.action_menu')->with('actions',$actions);
-
         }else if (Auth::guard('manager')->user()->hasDirectPermission('edit students terms')) {
                 return '<a target="_blank" href="' . route('manager.student_term.edit', $this->id) . '" class="btn btn-success d-flex justify-content-center align-items-center h-35px w-90px">' . t('Correct') . '</a>';
         }

@@ -695,3 +695,18 @@ function decryptStudentId($encryptedStudentId)
 }
 
 
+function getAllModels() {
+    $modelsPath = app_path('Models');
+    $modelFiles = \Illuminate\Support\Facades\File::allFiles($modelsPath);
+    $modelNames = [];
+
+    foreach ($modelFiles as $file) {
+        $relativePath = $file->getRelativePathname();
+        $className = 'App\\Models\\' . str_replace(['/', '.php'], ['\\', ''], $relativePath);
+        if (class_exists($className)) {
+            $modelNames[] = $className;
+        }
+    }
+
+    return $modelNames;
+}

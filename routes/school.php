@@ -53,4 +53,5 @@ Route::get('pre-attainment-report', [\App\Http\Controllers\School\ReportControll
 Route::get('attainment-report', [\App\Http\Controllers\School\ReportController::class, 'attainmentReport'])->name('report.attainment');
 
 
+Route::post('/pdfCertificates', [\App\Http\Controllers\GeneralController::class,'pdfCertificates'])->name('reports.pdfCertificates');
 

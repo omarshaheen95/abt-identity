@@ -120,6 +120,9 @@
         <ul class="dropdown-menu">
             @can('export students terms')
                 <li><a class="dropdown-item" href="#!" onclick="excelExport('{{route('manager.student-term.export')}}')">{{t('Export')}}</a></li>
+                @if(request('status')=='corrected')
+                    <li><a class="dropdown-item " href="#!" onclick="excelExport('{{route('manager.reports.pdfCertificates')}}')">{{t('Export Certificates')}}</a></li>
+                @endif
             @endcan
             @can('auto correct students terms')
                 <li id="li_correct_rows"><a class="dropdown-item text-success " href="#!" onclick="autoCorrect()">{{t('Auto Correct')}}</a></li>

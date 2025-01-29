@@ -13,6 +13,9 @@
             {{t('Actions')}}
         </button>
         <ul class="dropdown-menu">
+            @if(request('type')=='corrected')
+            <li><a class="dropdown-item " href="#!" onclick="excelExport('{{route('school.reports.pdfCertificates')}}')">{{t('Export Certificates')}}</a></li>
+            @endif
         </ul>
     </div>
 

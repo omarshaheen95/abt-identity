@@ -9,6 +9,7 @@ use App\Http\Requests\School\StudentRequest;
 use App\Models\Level;
 use App\Models\School;
 use App\Models\Student;
+use App\Models\StudentTerm;
 use App\Models\Year;
 use App\Reports\StudentReport;
 use Carbon\Carbon;
@@ -261,6 +262,20 @@ class StudentController extends Controller
             ]);
         }
         return redirect($data->url);
+    }
+
+    function webCertificate($id)
+    {
+        $lang = \request()->get('language', 'en');
+        app()->setLocale($lang);
+        $student_term = StudentTerm::with('student.level')
+            ->where('id',$id)
+            ->where('total','>=',90)
+            ->firstOrFail();
+        $name = $student_term->student->name;
+        $grade = $student_term->student->level->grade;
+        $mark = $student_term->total;
+        return view('general.certificate.web_certificate',compact('name','grade','mark'));
     }
 
 }

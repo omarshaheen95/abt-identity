@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
 
 :root {
-    --primary-color: #ffba27;
+    --primary-color: #E96565;
     --text-color: #000;
 }
 
@@ -63,7 +63,7 @@ body {
 }
 
 .header-logos img:last-child {
-    width: 30%;
+    width: 22%;
     height: auto;
 }
 
@@ -191,14 +191,12 @@ body {
     margin: 1rem auto 0;
 }
 
-
 @page {
     size: A4 landscape;
     margin: 0;
 }
 
 @media print {
-
     body {
         padding: 0;
         margin: 0;
@@ -216,8 +214,5 @@ body {
 
     .certificate-content {
         height: 209mm;
-    }
-    .print-button {
-        display: none !important;
     }
 }

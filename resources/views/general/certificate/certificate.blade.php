@@ -80,10 +80,10 @@
                 <div class="signature-block">
                     <span class="signature-title">{{$signature_2}}</span>
                     <span class="signature-name">{{$signature_3}}</span>
-                    <img src="{{asset('assets_v1/certificate/img/seo_signature.svg')}}" style="width: 45%;" alt="Signature">
+                    <img src="{{asset('assets_v1/certificate/img/seo_signature.png')}}" style="height: 50px;" alt="Signature">
                 </div>
                 <div class="signature-block">
-                    <img src="{{asset('assets_v1/certificate/img/signature.svg')}}" alt="Signature">
+                    <img src="{{asset('assets_v1/certificate/img/signature.png')}}" style="height: 90px;" alt="Signature">
                 </div>
                 <div class="signature-block">
                     <span class="signature-title">{{$date}}</span>

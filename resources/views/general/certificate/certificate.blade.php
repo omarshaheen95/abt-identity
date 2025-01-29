@@ -41,7 +41,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate Awarded to {{$name}}</title>
     <link rel="shortcut icon" href="{{asset('logo_min.svg')}}" type="image/x-icon">
-    <link rel="stylesheet" href="{{asset('assets_v1/certificate/certificate.css')}}">
+    <link rel="stylesheet" href="{{asset('assets_v1/certificate/style.css')}}">
     <style>
         .print-button {
             position: fixed;

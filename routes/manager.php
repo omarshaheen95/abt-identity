@@ -8,20 +8,20 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
 Route::group([], function () {
-Route::get('cer',function (){
-    return view('general.certificate.certificate');
-});
-    Route::get('/home', [\App\Http\Controllers\Manager\SettingController::class,'home'])->name('home');
+    Route::get('cer', function () {
+        return view('general.certificate.certificate');
+    });
+    Route::get('/home', [\App\Http\Controllers\Manager\SettingController::class, 'home'])->name('home');
 
     //Set Local
-    Route::get('lang/{local}', [\App\Http\Controllers\Manager\SettingController::class,'lang'])->name('switch-language');
+    Route::get('lang/{local}', [\App\Http\Controllers\Manager\SettingController::class, 'lang'])->name('switch-language');
 
     //Settings Management
-    Route::get('settings', [\App\Http\Controllers\Manager\SettingController::class,'settings'])->name('settings.general');
-    Route::post('settings', [\App\Http\Controllers\Manager\SettingController::class,'updateSettings'])->name('settings.updateSettings');
+    Route::get('settings', [\App\Http\Controllers\Manager\SettingController::class, 'settings'])->name('settings.general');
+    Route::post('settings', [\App\Http\Controllers\Manager\SettingController::class, 'updateSettings'])->name('settings.updateSettings');
     //Statistics Route
-    Route::post('statistics/student_login_data',  [\App\Http\Controllers\Manager\SettingController::class,'studentLoginData'])->name('statistics.student_login_data');
-    Route::post('statistics/assessments_data',  [\App\Http\Controllers\Manager\SettingController::class,'assessmentsData'])->name('statistics.assessments_data');
+    Route::post('statistics/student_login_data', [\App\Http\Controllers\Manager\SettingController::class, 'studentLoginData'])->name('statistics.student_login_data');
+    Route::post('statistics/assessments_data', [\App\Http\Controllers\Manager\SettingController::class, 'assessmentsData'])->name('statistics.assessments_data');
 
     //School
     Route::resource('school', SchoolController::class)->except(['destroy']);
@@ -52,8 +52,8 @@ Route::get('cer',function (){
     Route::post('update-password', [\App\Http\Controllers\Manager\ManagerController::class, 'updatePassword'])->name('update-password');
 
     //text translation
-    Route::get('text_translation', [TextTranslationController::class,'index'])->name('text_translation.index');
-    Route::post('update_translation/{lang}/{file}', [TextTranslationController::class,'updateTranslations'])->name('text_translation.update');
+    Route::get('text_translation', [TextTranslationController::class, 'index'])->name('text_translation.index');
+    Route::post('update_translation/{lang}/{file}', [TextTranslationController::class, 'updateTranslations'])->name('text_translation.update');
 
     //Level
     Route::resource('level', \App\Http\Controllers\Manager\LevelController::class)->except(['destroy']);
@@ -66,7 +66,6 @@ Route::get('cer',function (){
     //Year
     Route::resource('year', \App\Http\Controllers\Manager\YearController::class)->except(['destroy']);
     Route::delete('delete-year', [\App\Http\Controllers\Manager\YearController::class, 'deleteYear'])->name('year.delete');
-
 
 
     Route::get('term/{id}/questions_structure', [\App\Http\Controllers\Manager\QuestionController::class, 'showQuestionsStructure'])->name('term.questions-structure');
@@ -93,7 +92,7 @@ Route::get('cer',function (){
     Route::resource('term', \App\Http\Controllers\Manager\TermController::class)->except(['destroy']);
     Route::post('term-export', [\App\Http\Controllers\Manager\TermController::class, 'export'])->name('term.export');
     Route::delete('delete-term', [\App\Http\Controllers\Manager\TermController::class, 'deleteTerm'])->name('term.delete');
-    Route::get('terms_questions',[\App\Http\Controllers\Manager\TermController::class, 'termsQuestions'] )->name('term.terms-questions');
+    Route::get('terms_questions', [\App\Http\Controllers\Manager\TermController::class, 'termsQuestions'])->name('term.terms-questions');
     Route::post('terms_questions_export', [\App\Http\Controllers\Manager\TermController::class, 'termsQuestionsExport'])->name('term.terms-questions-export');
     Route::get('terms_names/{level}', [\App\Http\Controllers\Manager\TermController::class, 'termsNames'])->name('term.terms-names');
     Route::get('students_not_submitted_terms', [\App\Http\Controllers\Manager\TermController::class, 'studentsNotSubmittedTerms'])->name('term.students-not-submitted-terms');
@@ -120,7 +119,7 @@ Route::get('cer',function (){
     Route::get('students-cards-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentsCards'])->name('student.student-cards-export');
     Route::get('student/{id}/card', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCard'])->name('student-card');
     Route::post('students-cards-by-section', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCardBySections'])->name('student.students-cards-by-section');
-    Route::post('/pdfReports', [\App\Http\Controllers\Manager\Student\StudentController::class,'pdfReports'])->name('reports.pdfReports');
+    Route::post('/pdfReports', [\App\Http\Controllers\Manager\Student\StudentController::class, 'pdfReports'])->name('reports.pdfReports');
 
 
     //Copy Terms
@@ -130,7 +129,7 @@ Route::get('cer',function (){
     //get levels by year
     Route::get('get-sections', [\App\Http\Controllers\Manager\Student\StudentController::class, 'getSectionsByYear'])->name('student.get-sections');
 
-    Route::resource('students_files_import',\App\Http\Controllers\Manager\Student\StudentImportController::class)->except(['destroy']);
+    Route::resource('students_files_import', \App\Http\Controllers\Manager\Student\StudentImportController::class)->except(['destroy']);
     Route::delete('delete-student-import', [\App\Http\Controllers\Manager\Student\StudentImportController::class, 'delete'])->name('students_files_import.delete');
     Route::get('student-import-error/{id}', [\App\Http\Controllers\Manager\Student\StudentImportController::class, 'showError'])->name('students_files_import.error');
     Route::get('students_files_import/{id}/export_cards', [\App\Http\Controllers\Manager\Student\StudentImportController::class, 'exportCards'])->name('students_files_import.export_cards');
@@ -145,14 +144,14 @@ Route::get('cer',function (){
     Route::delete('marking_requests', [\App\Http\Controllers\Manager\MarkingRequestController::class, 'destroy'])->name('marking_requests.destroy');
 
     //StudentTerm
-    Route::resource('student_term', \App\Http\Controllers\Manager\StudentTermController::class)->except(['destroy','index','show']);
-    Route::get('student_term/{status}',[\App\Http\Controllers\Manager\StudentTermController::class,'index'])->name('student_term.index');
+    Route::resource('student_term', \App\Http\Controllers\Manager\StudentTermController::class)->except(['destroy', 'index', 'show']);
+    Route::get('student_term/{status}', [\App\Http\Controllers\Manager\StudentTermController::class, 'index'])->name('student_term.index');
     Route::post('update-student-term/{id}', [\App\Http\Controllers\Manager\StudentTermController::class, 'updateTerm'])->name('student.update-student-term');
     Route::post('student-terms-export', [\App\Http\Controllers\Manager\StudentTermController::class, 'studentsTermsExport'])->name('student-term.export');
     Route::delete('delete-student-term', [\App\Http\Controllers\Manager\StudentTermController::class, 'deleteStudentTerm'])->name('student.delete-student-term');
     Route::post('restore-student-term/{id}', [\App\Http\Controllers\Manager\StudentTermController::class, 'restore'])->name('student-term-restore');
     Route::post('auto_correct_student_term', [\App\Http\Controllers\Manager\StudentTermController::class, 'autoCorrect'])->name('auto-correct-student-term');
-    Route::get('student_term/{id}/certificate', [\App\Http\Controllers\GeneralController::class,'certificate'])->name('student-term.certificate');
+    Route::get('student_term/{id}/certificate', [\App\Http\Controllers\GeneralController::class, 'certificate'])->name('student-term.certificate');
 
     //Activity Log Controller
     Route::get('activity-log', [\App\Http\Controllers\Manager\ActivityLogController::class, 'index'])->name('activity-log.index');
@@ -162,12 +161,12 @@ Route::get('cer',function (){
     //Login Sessions
     Route::resource('login_sessions', \App\Http\Controllers\Manager\LoginSessionController::class);
 
-    Route::get('seed',function (){
-       Artisan::call('db:seed --class PermissionsTableSeeder');
+    Route::get('seed', function () {
+        Artisan::call('db:seed --class PermissionsTableSeeder');
         //Artisan::call('db:seed --class SettingsTableSeeder');
 
         $all_manager_permission = Permission::query()
-            ->where('guard_name','manager')->get()->pluck('name')->toArray();
+            ->where('guard_name', 'manager')->get()->pluck('name')->toArray();
         Auth::guard('manager')->user()->syncPermissions($all_manager_permission);
         return redirect()->route('manager.home');
 
@@ -175,24 +174,24 @@ Route::get('cer',function (){
 
     Route::get('get-levels-by-year/{id}', [\App\Http\Controllers\GeneralController::class, 'levelsByYear'])->name('get-levels-by-year');
     Route::get('get-terms-by-level/{id}', [\App\Http\Controllers\GeneralController::class, 'termsByLevel'])->name('get-terms-by-level');
-    Route::get('copy_structure', function (){
+
+    Route::get('copy_structure', function () {
         $terms = \App\Models\Term::query()->with(['question', 'level'])
             ->whereRelation('level', 'year_id', 2)->get();
-        $arabs = $terms->filter(function ($value){
+        $arabs = $terms->filter(function ($value) {
             return $value->level->arab == 1;
         });
-        $non_arabs = $terms->filter(function ($value){
+        $non_arabs = $terms->filter(function ($value) {
             return $value->level->arab == 0;
         });
-        foreach ($arabs as $term){
-            $non_arab_term = $non_arabs->filter(function ($value) use ($term){
+        foreach ($arabs as $term) {
+            $non_arab_term = $non_arabs->filter(function ($value) use ($term) {
                 return $value->level->grade == $term->level->grade;
             })->first();
-            if ($non_arab_term)
-            {
+            if ($non_arab_term) {
                 $non_arab_term->question()->delete();
                 //replicate questions for non arab term
-                foreach ($term->question as $question){
+                foreach ($term->question as $question) {
                     $new_question = $question->replicate();
                     $new_question->term_id = $non_arab_term->id;
                     $new_question->content = null;
@@ -206,5 +205,8 @@ Route::get('cer',function (){
         }
         return 'done';
     })->name('copy_structure');
+
+    Route::post('/pdfCertificates', [\App\Http\Controllers\GeneralController::class,'pdfCertificates'])->name('reports.pdfCertificates');
+
 });
 

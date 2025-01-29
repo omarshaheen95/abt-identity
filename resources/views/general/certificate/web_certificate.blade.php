@@ -42,42 +42,6 @@
     <title>Certificate Awarded to {{$name}}</title>
     <link rel="shortcut icon" href="{{asset('logo_min.svg')}}" type="image/x-icon">
     <link rel="stylesheet" href="{{asset('assets_v1/certificate/certificate.css')}}">
-    <style>
-        .print-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #2563eb; /* blue-600 */
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
-
-        .print-button:hover {
-            background-color: #1d4ed8; /* blue-700 */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .print-button svg {
-            width: 24px;
-            height: 24px;
-            color: white;
-        }
-        @media print {
-            .print-button {
-                display: none !important;
-            }
-        }
-    </style>
 </head>
 <body>
 <div class="page">
@@ -131,16 +95,5 @@
         </div>
     </div>
 </div>
-
-<button
-    onclick="window.print()"
-    class="print-button"
->
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="6 9 6 2 18 2 18 9"></polyline>
-        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-        <rect x="6" y="14" width="12" height="8"></rect>
-    </svg>
-</button>
 </body>
 </html>

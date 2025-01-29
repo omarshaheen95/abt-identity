@@ -40,16 +40,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate Awarded to {{$name}}</title>
-    <link rel="shortcut icon" href="{{asset('logo_min.svg')}}" type="image/x-icon">
-    <link rel="stylesheet" href="{{asset('assets_v1/certificate/style.css')}}">
+    <link rel="shortcut icon" href="{{asset('logo_min.svg')}}?v={{time()}}" type="image/x-icon">
+    <link rel="stylesheet" href="{{asset('assets_v1/certificate/style.css')}}?v={{time()}}">
 </head>
 <body>
 <div class="page">
-    <img class="page-border" src="{{asset('assets_v1/certificate/img/border.svg')}}" alt="Certificate Border">
+    <img class="page-border" src="{{asset('assets_v1/certificate/img/border.svg')}}?v={{time()}}" alt="Certificate Border">
     <div class="certificate-content">
         <div class="header-logos">
-            <img src="{{asset('assets_v1/certificate/img/achievement_'.$local.'.svg')}}" alt="Injaz Logo">
-            <img src="{{asset('logo.svg')}}" alt="Company Logo">
+            <img src="{{asset('assets_v1/certificate/img/achievement_'.$local.'.svg')}}?v={{time()}}" alt="Injaz Logo">
+            <img src="{{asset('logo.svg')}}?v={{time()}}" alt="Company Logo">
         </div>
 
         <h1 class="certificate-title">{{$title}}</h1>
@@ -80,10 +80,10 @@
                 <div class="signature-block">
                     <span class="signature-title">{{$signature_2}}</span>
                     <span class="signature-name">{{$signature_3}}</span>
-                    <img src="{{asset('assets_v1/certificate/img/seo_signature.png')}}" style="height: 50px;" alt="Signature">
+                    <img src="{{asset('assets_v1/certificate/img/seo_signature.png')}}?v={{time()}}" style="height: 50px;" alt="Signature">
                 </div>
                 <div class="signature-block">
-                    <img src="{{asset('assets_v1/certificate/img/signature.png')}}" style="height: 90px;" alt="Signature">
+                    <img src="{{asset('assets_v1/certificate/img/signature.png')}}?v={{time()}}" style="height: 90px;" alt="Signature">
                 </div>
                 <div class="signature-block">
                     <span class="signature-title">{{$date}}</span>
@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            <img class="logos" src="{{asset('assets_v1/certificate/img/logos_group.svg')}}?v=1" alt="Logos">
+            <img class="logos" src="{{asset('assets_v1/certificate/img/logos_group.svg')}}?v={{time()}}" alt="Logos">
         </div>
     </div>
 </div>

@@ -591,6 +591,7 @@ class StudentTermController extends Controller
              MatchQuestionResult::query()->where('student_term_id',$id)->withTrashed()->update(['deleted_at' => null]);
              SortQuestionResult::query()->where('student_term_id',$id)->withTrashed()->update(['deleted_at' => null]);
              ArticleQuestionResult::query()->where('student_term_id',$id)->withTrashed()->update(['deleted_at' => null]);
+             FillBlankAnswer::query()->where('student_term_id',$id)->withTrashed()->update(['deleted_at' => null]);
              StudentTermStandard::query()->where('student_term_id',$id)->withTrashed()->update(['deleted_at' => null]);
             return $this->sendResponse(null, t('Successfully Restored'));
         }else{

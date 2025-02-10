@@ -11,7 +11,7 @@
             </div>
             <div class="header">
                 <div class="pic">
-                    <img src="{{asset('web_assets/img/login-student.svg')}}" alt="">
+                    <img src="{{asset('assets_v1/auth_css/img/login-student.svg')}}" alt="">
                 </div>
                 <h1 class="title">{{t('Inspection Sign In')}}</h1>
             </div>

@@ -4,9 +4,6 @@
 @endsection
 @section('content')
     <section>
-        <div class="pic">
-            <img src="{{asset('web_assets/img/bg-auth.svg')}}" alt="">
-        </div>
         <div class="form">
             <div class="form-card">
                 <form id="login-form" action="/school/login" method="POST" class="needs-validation" novalidate>

@@ -8,7 +8,7 @@
 
     <!-- Bootstrap CSS v5.0.2 -->
     <link rel="stylesheet" href="{{asset('assets_v1/lib/bootstrap-5.0.2/css/bootstrap.rtl.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets_v1/auth_css/custom.css')}}">
+    <link rel="stylesheet" href="{{asset('assets_v1/auth_css/custom.css')}}?v={{time()}}">
     <link rel="stylesheet" href="{{asset('assets_v1/auth_css/responsive.css')}}">
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}" />
     <meta name="google" content="notranslate">

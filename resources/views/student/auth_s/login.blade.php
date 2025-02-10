@@ -17,7 +17,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
-    <link href="{{asset('web_assets/css/custom.css')}}?v=2" rel="stylesheet">
+    <link href="{{asset('web_assets/css/custom.css')}}?v={{time()}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/responsive.css')}}?v=2" rel="stylesheet">
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}" />
 

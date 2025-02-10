@@ -18,7 +18,7 @@
             </div>
             <div class="header">
                 <div class="pic">
-                    <img src="{{asset('web_assets/img/forget-password.svg')}}" alt="">
+                    <img src="{{asset('assets_v1/auth_css/img/forget-password.svg')}}" alt="">
                 </div>
                 <h1 class="title">{{t('Reset Password')}}</h1>
                 <h2 class="info">{{t('Please enter our registered email')}}</h2>

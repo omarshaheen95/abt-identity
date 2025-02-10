@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <div class="d-flex">
                                 <label for="" class="form-label"> {{t('Password')}} </label>
-                                <a class="ms-auto" href="/school/password/reset" style="color: #7E44B2;font-size: 13px">{{t('Reset Password')}}</a>
+                                <a class="ms-auto" href="/school/password/reset" style="color:#068241;font-size: 13px">{{t('Reset Password')}}</a>
                             </div>
                             <div class="form-control-icon">
                                 <div class="icon">
@@ -76,16 +76,10 @@
                             </button>
                         </div>
                         <div class="sign-in-other">
-                            <a href="/inspection/login">
+                            <a href="/inspection/login" style="max-width: 100%">
                                 <div class="icon">
                                     <img src="{{asset('web_assets/img/teacher.svg')}}" alt="teacher">
                                     <span class="text ms-2"> {{t('Inspection Login')}} </span>
-                                </div>
-                            </a>
-                            <a href="/school/login">
-                                <div class="icon">
-                                    <img src="{{asset('web_assets/img/school.svg')}}" alt="teacher">
-                                    <span class="text ms-2">{{t('School Login')}} </span>
                                 </div>
                             </a>
                         </div>

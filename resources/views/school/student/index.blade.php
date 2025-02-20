@@ -186,7 +186,7 @@
             $.ajax({
                 url: '/school/get-sections',
                 data: {
-                    id: year_id,
+                    year_id: year_id,
                 },
                 type: 'GET',
                 dataType: 'json',

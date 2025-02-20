@@ -1,0 +1,4 @@
+<svg id="close" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle id="Background" cx="24" cy="24" r="24" fill="#f5f5f5"/>
+  <path id="Mask" d="M7.831,1.305V7.831H1.305a1.305,1.305,0,1,0,0,2.611H7.831v6.525a1.305,1.305,0,0,0,2.611,0V10.441h6.525a1.305,1.305,0,0,0,0-2.611H10.441V1.305a1.305,1.305,0,0,0-2.611,0Z" transform="translate(37.92 24) rotate(135)" fill="#2a2a43" stroke="#eaeaea" stroke-width="0.5"/>
+</svg>

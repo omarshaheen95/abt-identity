@@ -209,14 +209,14 @@ main{
     height: 100%;
 }
 .login-page section .form{
-    padding-inline-start: 380px;
+    /*padding-inline-start: 380px;*/
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .login-page section .form .form-card{
-    max-width: 531px;
+    /*max-width: 531px;*/
     width: 100%;
     margin: auto;
     background-color: #fff;

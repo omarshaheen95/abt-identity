@@ -983,7 +983,7 @@
         width: 100%;
         min-height: calc(100vh - 120px);
         background-color: var(--theme);
-        background-image: url(../img/login-head.svg);
+        background-image: url(../auth_css/img/login-head.svg);
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;

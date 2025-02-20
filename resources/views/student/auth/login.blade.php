@@ -10,7 +10,7 @@
             </div>
             <div class="header">
                 <div class="pic">
-                    <img src="{{asset('web_assets/img/login-school.svg')}}" alt="">
+                    <img src="{{asset('assets_v1/auth_css/img/login-school.svg')}}" alt="">
                 </div>
                 <h1 class="title"> دخول الطالب | Student Log in</h1>
                 @if (count($errors) > 0)

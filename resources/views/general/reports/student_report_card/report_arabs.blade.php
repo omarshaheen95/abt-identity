@@ -91,10 +91,10 @@
                         <tbody>
                         @foreach($student_terms as $d_term)
                             <tr>
-                                <td>{{ $d_term->term->month }} {{ re('Round') }}</td>
+                                <td>{{ $d_term->term->round }} {{ re('Round') }}</td>
                                 @foreach($subjects as $subject)
                                     @php
-                                        $skill_mark = collect($term->subjects_marks)->firstWhere('subject_id', $subject->id)->mark;
+                                        $skill_mark = collect($d_term->subjects_marks)->firstWhere('subject_id', $subject->id)->mark;
                                         $category = $subject->getCategoryForMark($skill_mark)
                                     @endphp
                                     <td>

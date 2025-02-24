@@ -23,7 +23,16 @@ class Subject extends Model
     {
         return $this->hasMany(Question::class, 'subject_id');
     }
+    public function getCategoryForMark($mark)
+    {
+        foreach ($this->marks_range as $category => $range) {
+            if ($mark >= $range['from'] && $mark <= $range['to']) {
+                return $category;
+            }
+        }
 
+        return null;
+    }
     public function scopeSearch(Builder $query, Request $request)
     {
         return $query

@@ -104,7 +104,7 @@ class StudentTerm extends Model
                     return '<a target="_blank" href="' . route(getGuard().'.student-term.certificate', $this->id) . '" class="btn btn-primary btn-sm">' . t('Certificate') . '</a>';
                 }
             }
-        }else if (Auth::guard('manager')->user()->hasDirectPermission('edit students terms')) {
+        }else if (Auth::guard('manager')->check() && Auth::guard('manager')->user()->hasDirectPermission('edit students terms')) {
                 return '<a target="_blank" href="' . route('manager.student_term.edit', $this->id) . '" class="btn btn-success d-flex justify-content-center align-items-center h-35px w-90px">' . t('Correct') . '</a>';
         }
 

@@ -88,7 +88,9 @@
                 <th class="text-start">{{t('Total')}}</th>
             @endif
             <th class="text-start">{{t('Status')}}</th>
+            @if(request('type')=='corrected')
             <th class="text-start">{{t('Actions')}}</th>
+            @endif
         </tr>
         </thead>
     </table>
@@ -113,7 +115,9 @@
             {data: 'total', name: 'total'},
             @endif
             {data: 'status', name: 'status'},
+            @if(request('type')=='corrected')
             {data: 'actions', name: 'actions'},
+            @endif
         ];
         var CREATED_ROW = function(row, data, dataIndex) {
             if (data.student.sen) {

@@ -230,7 +230,7 @@ class StudentController extends Controller
         $school_id = Auth::guard('school')->user()->id;
 
         $students = Student::with(['level.year','year'])
-            ->where('school_id', $school_id)->filter()
+            ->where('school_id', $school_id)->search($request)
             ->select(['id', 'name as student_name', 'id_number as std_id'])->get()->values()->toArray();
 //        dd($students);
 

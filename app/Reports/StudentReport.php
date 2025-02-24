@@ -237,7 +237,7 @@ class StudentReport
     {
         $student = Student::query()->with(['level'])->findOrFail($this->student_id);
         $subjects = Subject::query()->get();
-        if ($student->school->type == "Indian") {
+        if ($student->school->curriculum_type == "Indian") {
             $months = [0 => 'May', 1 => 'September', 2 => 'February'];
         } else {
             $months = [0 => 'September', 1 => 'February', 2 => 'May'];
@@ -246,13 +246,13 @@ class StudentReport
         $student_terms = StudentTerm::query()->with(['term', 'term.level'])->where('student_id', $this->student_id)->where('corrected', 1)->get();
 
         $studentTermFirst = $student_terms->filter(function ($value, $key) use ($months){
-            return $value->term->month == $months[0];
+            return $value->term->round == $months[0];
         })->first();
         $studentTermSecond = $student_terms->filter(function ($value, $key) use ($months){
-            return $value->term->month == $months[1];
+            return $value->term->round == $months[1];
         })->first();
         $studentTermThird = $student_terms->filter(function ($value, $key) use ($months){
-            return $value->term->month == $months[2];
+            return $value->term->round == $months[2];
         })->first();
 
         if ($studentTermFirst && $studentTermSecond && $studentTermThird)
@@ -316,7 +316,7 @@ class StudentReport
             }
         }
 
-        return view('general.reports.student_report_card.report_arabs', compact('student','subjects', 'student_terms'));
+        return view('general.reports.student_report_card', compact('student','subjects', 'student_terms'));
 
 //        if ($student->level->year_id >= 4 && $student->level->arab == 0) {
 //            $new_non_arabs = true;

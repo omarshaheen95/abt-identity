@@ -233,4 +233,129 @@ class StudentReport
         return view('general.reports.student_report', $reportData)->render();
     }
 
+    public function studentReportCard()
+    {
+        $student = Student::query()->with(['level'])->findOrFail($this->student_id);
+        $subjects = Subject::query()->get();
+        if ($student->school->type == "Indian") {
+            $months = [0 => 'May', 1 => 'September', 2 => 'February'];
+        } else {
+            $months = [0 => 'September', 1 => 'February', 2 => 'May'];
+        }
+
+        $student_terms = StudentTerm::query()->with(['term', 'term.level'])->where('student_id', $this->student_id)->where('corrected', 1)->get();
+
+        $studentTermFirst = $student_terms->filter(function ($value, $key) use ($months){
+            return $value->term->month == $months[0];
+        })->first();
+        $studentTermSecond = $student_terms->filter(function ($value, $key) use ($months){
+            return $value->term->month == $months[1];
+        })->first();
+        $studentTermThird = $student_terms->filter(function ($value, $key) use ($months){
+            return $value->term->month == $months[2];
+        })->first();
+
+        if ($studentTermFirst && $studentTermSecond && $studentTermThird)
+        {
+            $studentTermFirst->progress = 'Starting point for the current year';
+            $studentTermFirst->progress_class = 'starting';
+            if ($studentTermFirst && $studentTermSecond) {
+                $total_mark_2 = $studentTermSecond->total;
+                $total_mark_1 = $studentTermFirst->total;
+                $total_mar_result = $total_mark_2 - $total_mark_1;
+                $studentTermSecond->progress = getProgressText($total_mark_2, $total_mar_result);
+                $studentTermSecond->progress_class = strtolower(explode(' ', $studentTermSecond->progress)[0]);
+            }
+            if ($studentTermSecond && $studentTermThird) {
+                $total_mark_3 = $studentTermThird->total;
+                $total_mark_2 = $studentTermSecond->total;
+                $total_mar_result = $total_mark_3 - $total_mark_2;
+                $studentTermThird->progress = getProgressText($total_mark_2, $total_mar_result);
+                $studentTermThird->progress_class = strtolower(explode(' ', $studentTermThird->progress)[0]);
+            }
+        }else{
+            if ($studentTermSecond && $studentTermThird) {
+                $studentTermSecond->progress = 'Starting point for the current year';
+                $studentTermSecond->progress_class = 'starting';
+                $total_mark_2 = $studentTermThird->total;
+                $total_mark_1 = $studentTermSecond->total;
+                $total_mar_result = $total_mark_2 - $total_mark_1;
+                $studentTermThird->progress = getProgressText($total_mark_2, $total_mar_result);
+                $studentTermThird->progress_class = strtolower(explode(' ', $studentTermThird->progress)[0]);
+            } elseif ($studentTermFirst && $studentTermSecond) {
+                $studentTermFirst->progress = 'Starting point for the current year';
+                $studentTermFirst->progress_class = 'starting';
+                $total_mark_2 = $studentTermSecond->total;
+                $total_mark_1 = $studentTermFirst->total;
+                $total_mar_result = $total_mark_2 - $total_mark_1;
+                $studentTermSecond->progress = getProgressText($total_mark_2, $total_mar_result);
+                $studentTermSecond->progress_class = strtolower(explode(' ', $studentTermSecond->progress)[0]);
+            } elseif ($studentTermFirst && $studentTermThird) {
+                $studentTermFirst->progress = 'Starting point for the current year';
+                $studentTermFirst->progress_class = 'starting';
+                $total_mark_2 = $studentTermThird->total;
+                $total_mark_1 = $studentTermFirst->total;
+                $total_mar_result = $total_mark_2 - $total_mark_1;
+                $studentTermThird->progress = getProgressText($total_mark_2, $total_mar_result);
+                $studentTermThird->progress_class = strtolower(explode(' ', $studentTermThird->progress)[0]);
+            }else{
+                if ($studentTermFirst)
+                {
+                    $studentTermFirst->progress = 'Starting point for the current year';
+                    $studentTermFirst->progress_class = 'starting';
+                }
+                if ($studentTermSecond)
+                {
+                    $studentTermSecond->progress = 'Starting point for the current year';
+                    $studentTermSecond->progress_class = 'starting';
+                }
+                if ($studentTermThird) {
+                    $studentTermThird->progress = 'Starting point for the current year';
+                    $studentTermThird->progress_class = 'starting';
+                }
+            }
+        }
+
+//        $names = array();
+//        $marks = array();
+//        $full_marks = array();
+//        $data_term = array();
+//        $full_data_term = array();
+//        $data_term = array();
+//        foreach ($student_terms as $term) {
+//            foreach ($subjects as $key => $subject) {
+//                ${"countQ" . ($key + 1)} = (object)collect($term->subjects_marks)->firstWhere('subject_id', $subject->id);
+//            }
+//            $arab_status = $student->level->arab;
+//            $arab_status = $arab_status == 1 ? re('for Arabs') : re('for Non Arabs');
+//            $term_name = re($term->term->round) . ' ' . re('Grade') . ' ' . $term->term->level->grade . ' ' . $arab_status;
+//
+//            $marks[] = array($countQ1, $countQ2, $countQ3, $term_name);
+//            array_push($full_marks,array($countQ1+$countQ2+$countQ3+$countQ4,$term->Term->en_name));
+//            $data_term[] = (object)['skill1' => $countQ1, 'skill2' => $countQ2, 'skill3' => $countQ3];
+//            $progress_name = $terms_progress[$term->term->round];
+//
+//            $full_data_term[] = (object)[
+//                'total' => $term->total,
+//                'mark_step1' => $countQ1,
+//                'mark_step2' => $countQ2,
+//                'mark_step3' => $countQ3,
+//                'round_name' => $term->term->round,
+//                'expectation' => $term->expectations,
+//                'term' => $term_name,
+//                'progress' => $progress_name,
+//                'progress_class' => explode(' ', strtolower($progress_name))[0],
+//            ];
+//            $names[] = $term->term->name;
+//            $full_marks[] = $term->total;
+//        }
+
+        if ($student->level->year_id >= 4 && $student->level->arab == 0) {
+            $new_non_arabs = true;
+            return view('general.reports.student_report_card.report_non_arabs', compact('student', 'subjects', 'student_terms', 'new_non_arabs'));
+        } else {
+            return view('general.reports.student_report_card.report_arabs', compact('student','subjects', 'student_terms'));
+        }
+    }
+
 }

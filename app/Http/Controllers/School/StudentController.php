@@ -221,6 +221,11 @@ class StudentController extends Controller
         $report = new StudentReport($id, Auth::guard('school')->user()->id);
         return $report->report();
     }
+    public function studentReportCard($id)
+    {
+        $report = new StudentReport($id, Auth::guard('school')->user()->id);
+        return $report->studentReportCard();
+    }
 
     public function pdfReports(Request $request)
     {

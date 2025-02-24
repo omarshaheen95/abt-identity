@@ -90,6 +90,7 @@
                         </thead>
                         <tbody>
                         @foreach($student_terms as $d_term)
+                            @dd(collect($d_term->subjects_marks))
                             <tr>
                                 <td>{{ $d_term->term->round }} {{ re('Round') }}</td>
                                 @foreach($subjects as $subject)

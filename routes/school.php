@@ -29,6 +29,7 @@ Route::post('students-cards-by-section', [\App\Http\Controllers\School\StudentCo
 Route::get('student-report/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReport'])->name('student.student-report');
 Route::get('student-report-card/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReportCard'])->name('student.report-card');
 Route::post('/pdfReports', [\App\Http\Controllers\School\StudentController::class,'pdfReports'])->name('reports.pdfReports');
+Route::post('/pdfReportsCards', [\App\Http\Controllers\School\StudentController::class,'pdfReportsCards'])->name('reports.pdfReportsCards');
 
 
 

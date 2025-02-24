@@ -215,6 +215,54 @@ class StudentController extends Controller
         }
         return redirect($data->url);
     }
+    public function pdfReportsCards(Request $request)
+    {
+        $request->validate([
+            'year_id' => 'required',
+            'level_id' => 'required|array|min:1|max:1',
+        ], [
+            'year_id.required' => 'The year field is required.',
+            'level_id.required' => 'The level field is required.',
+            'level_id.min' => 'The level must be at least 1.',
+            'level_id.max' => 'The level may not be greater than 1.',
+        ]);
+
+        $school_id = Auth::guard('school')->user()->id;
+
+        $students = Student::with(['level.year','year'])
+            ->where('school_id', $school_id)->filter()
+            ->select(['id', 'name as student_name', 'id_number as std_id'])->get()->values()->toArray();
+//        dd($students);
+
+        if (count($students) == 0) {
+            return $this->sendError(t('No students found'), 404);
+        }
+
+        $client = new \GuzzleHttp\Client([
+            'timeout'  => 36000,
+        ]);
+
+        $data = ['report_type' => 1, 'report_card' => true];
+        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
+            'form_params' => [
+                'platform' => 'abt-identity',
+                'studentid' => $students,
+                'data' => $data,
+            ],
+        ]);
+        $data = json_decode($res->getBody());
+        $url = $data->url;
+        $fileContent = file_get_contents($url);
+        if ($fileContent === false) {
+            throw new \Exception('Unable to download file');
+        }else{
+            return response($fileContent, 200, [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'inline; filename="reports.zip"'
+            ]);
+        }
+        return redirect($data->url);
+    }
 
     public function studentReport($id)
     {

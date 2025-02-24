@@ -316,46 +316,14 @@ class StudentReport
             }
         }
 
-//        $names = array();
-//        $marks = array();
-//        $full_marks = array();
-//        $data_term = array();
-//        $full_data_term = array();
-//        $data_term = array();
-//        foreach ($student_terms as $term) {
-//            foreach ($subjects as $key => $subject) {
-//                ${"countQ" . ($key + 1)} = (object)collect($term->subjects_marks)->firstWhere('subject_id', $subject->id);
-//            }
-//            $arab_status = $student->level->arab;
-//            $arab_status = $arab_status == 1 ? re('for Arabs') : re('for Non Arabs');
-//            $term_name = re($term->term->round) . ' ' . re('Grade') . ' ' . $term->term->level->grade . ' ' . $arab_status;
-//
-//            $marks[] = array($countQ1, $countQ2, $countQ3, $term_name);
-//            array_push($full_marks,array($countQ1+$countQ2+$countQ3+$countQ4,$term->Term->en_name));
-//            $data_term[] = (object)['skill1' => $countQ1, 'skill2' => $countQ2, 'skill3' => $countQ3];
-//            $progress_name = $terms_progress[$term->term->round];
-//
-//            $full_data_term[] = (object)[
-//                'total' => $term->total,
-//                'mark_step1' => $countQ1,
-//                'mark_step2' => $countQ2,
-//                'mark_step3' => $countQ3,
-//                'round_name' => $term->term->round,
-//                'expectation' => $term->expectations,
-//                'term' => $term_name,
-//                'progress' => $progress_name,
-//                'progress_class' => explode(' ', strtolower($progress_name))[0],
-//            ];
-//            $names[] = $term->term->name;
-//            $full_marks[] = $term->total;
-//        }
+        return view('general.reports.student_report_card.report_arabs', compact('student','subjects', 'student_terms'));
 
-        if ($student->level->year_id >= 4 && $student->level->arab == 0) {
-            $new_non_arabs = true;
-            return view('general.reports.student_report_card.report_non_arabs', compact('student', 'subjects', 'student_terms', 'new_non_arabs'));
-        } else {
-            return view('general.reports.student_report_card.report_arabs', compact('student','subjects', 'student_terms'));
-        }
+//        if ($student->level->year_id >= 4 && $student->level->arab == 0) {
+//            $new_non_arabs = true;
+//            return view('general.reports.student_report_card.report_non_arabs', compact('student', 'subjects', 'student_terms', 'new_non_arabs'));
+//        } else {
+//            return view('general.reports.student_report_card.report_arabs', compact('student','subjects', 'student_terms'));
+//        }
     }
 
 }

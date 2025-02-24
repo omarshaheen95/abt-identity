@@ -168,6 +168,7 @@ class Student extends Authenticatable
             $actions =  [
                 ['key'=>'edit','name'=>t('Edit'),'route'=>route('school.student.edit', $this->id)],
                 ['key' => 'login', 'name' => t('Card'), 'route' => route('school.student-card', $this->id)],
+                ['key' => 'student_card_report','target' => '_blank', 'name' => t('Student Report Card'), 'route' => route('school.student.report-card', $this->id)],
                 $student_login?['key' => 'login', 'name' => t('Login'), 'route' => route('school.student.student-login', $this->id)]:null,
             ];
 

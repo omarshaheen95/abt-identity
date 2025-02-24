@@ -95,10 +95,12 @@
                                 @foreach($subjects as $subject)
                                     @php
                                         $skill_mark = collect($term->subjects_marks)->firstWhere('subject_id', $subject->id)->mark;
+                                        $category = $subject->getCategoryForMark($skill_mark)
                                     @endphp
-{{--                                    <td><span--}}
-{{--                                            class="text-{{strtolower(skillMarkJugAttribute($skill_mark))}}">{{ $skill_mark }}</span>--}}
-{{--                                        / {{$subject->mark}}</td>--}}
+                                    <td>
+                                        <span
+                                            class="text-{{strtolower($category)}}">{{ $skill_mark }}</span>
+                                        / {{$subject->mark}}</td>
                                 @endforeach
                             </tr>
                         @endforeach

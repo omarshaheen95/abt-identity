@@ -1,75 +1,96 @@
+/* Comprehensive fix for print.css */
 body, html {
-    width: 210mm;
-    height: 297mm;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     padding: 0;
     -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 * {
     box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-body {
-    -webkit-print-color-adjust: exact;
 }
 
 .page {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     width: 210mm;
-    height: 297mm; /* Exact A4 height */
-    padding: 13mm;
-    margin: 10mm; /* Center the page */
+    min-height: 297mm;
+    height: auto;
+    padding: 13mm 13mm 25mm 13mm; /* Extra padding at bottom for footer */
+    margin: 0 auto;
     background: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    border: 1px solid #D3D3D3; /* Add visible border */
+    border: 1px solid #D3D3D3;
 }
 
 .subpage-w {
-    flex: 1; /* Ensures content expands to fill space */
+    width: 100%;
+    height: auto;
+    position: relative;
 }
 
 .footer {
+    position: absolute;
+    bottom: 13mm;
+    right: 13mm;
+    left: 13mm;
+    width: calc(100% - 26mm);
     text-align: center;
-    margin-top: auto; /* Pushes footer to the bottom */
 }
 
 .number-page {
     position: absolute;
-    bottom: 40px;
-    left: 50px;
+    bottom: 5mm;
+    left: 13mm;
 }
 
 @page {
     size: A4;
-    margin: 0; /* Remove default margins for print */
+    margin: 0;
 }
 
 @media print {
     html, body {
         width: 210mm;
         height: 297mm;
+        margin: 0;
+        padding: 0;
     }
 
     .page {
         margin: 0;
-        border: initial;
-        border-radius: initial;
-        width: initial;
+        border: none;
+        width: 210mm;
         min-height: initial;
-        box-shadow: initial;
+        height: 297mm;
+        box-shadow: none;
         background: #fff !important;
+        overflow: hidden;
+        page-break-after: avoid;
+    }
+
+    /* Prevent page breaks inside critical elements */
+    table {
+        page-break-inside: avoid;
+    }
+
+    tr, td, th {
+        page-break-inside: avoid;
+    }
+
+    /* Avoid orphaned headers */
+    h1, h2, h3, h4, h5 {
+        page-break-after: avoid;
+    }
+
+    /* No breaking before footer */
+    .footer {
+        page-break-before: avoid;
+    }
+
+    /* If there are multiple pages in the document */
+    .page:not(:last-child) {
         page-break-after: always;
     }
-
-    .footer {
-        position: relative;
-        bottom: 0;
-    }
 }
-
-

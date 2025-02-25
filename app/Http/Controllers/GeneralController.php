@@ -42,6 +42,11 @@ class GeneralController extends Controller
 
     public function studentReport($id)
     {
+        if (\request()->get('report_card', 1))
+        {
+            $report = new StudentReport($id);
+            return $report->studentReportCard();
+        }
         $report = new StudentReport($id);
         return $report->report();
     }

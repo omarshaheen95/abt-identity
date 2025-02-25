@@ -18,6 +18,7 @@ body, html {
     flex-direction: column;
     width: 210mm;
     min-height: 297mm; /* Changed from fixed height to min-height */
+    height: 297mm; /* Set exact height for A4 */
     padding: 13mm;
     margin: 0 auto; /* Center the page */
     background: #fff;
@@ -31,13 +32,15 @@ body, html {
     flex: 1;
     display: flex;
     flex-direction: column;
+    overflow: hidden; /* Prevents content overflow */
 }
 
 .footer {
-    margin-top: auto; /* Pushes footer to the bottom */
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    position: absolute;
+    bottom: 13mm; /* Match the page padding */
+    left: 13mm;
+    right: 13mm;
+    width: calc(100% - 26mm); /* Account for left and right padding */
     page-break-before: avoid; /* Prevent page break before footer */
 }
 
@@ -64,12 +67,22 @@ body, html {
         margin: 0;
         border: initial;
         border-radius: initial;
-        width: initial;
-        min-height: initial;
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
         box-shadow: initial;
         background: #fff !important;
-        page-break-after: avoid !important;
+        page-break-after: always !important;
         page-break-inside: avoid !important;
+        position: relative;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 13mm;
+        left: 13mm;
+        right: 13mm;
+        width: calc(100% - 26mm);
     }
 
     /* Prevent page breaks inside critical elements */

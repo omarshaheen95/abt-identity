@@ -1,4 +1,4 @@
-/* Updated print.css */
+/* Comprehensive fix for print.css */
 body, html {
     width: 100%;
     height: 100%;
@@ -14,40 +14,35 @@ body, html {
 
 .page {
     position: relative;
-    display: flex;
-    flex-direction: column;
     width: 210mm;
-    min-height: 297mm; /* Changed from fixed height to min-height */
-    height: 297mm; /* Set exact height for A4 */
-    padding: 13mm;
-    margin: 0 auto; /* Center the page */
+    min-height: 297mm;
+    height: auto;
+    padding: 13mm 13mm 25mm 13mm; /* Extra padding at bottom for footer */
+    margin: 0 auto;
     background: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     border: 1px solid #D3D3D3;
-    page-break-after: avoid; /* Prevent page break after */
-    page-break-before: avoid; /* Prevent page break before */
 }
 
 .subpage-w {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Prevents content overflow */
+    width: 100%;
+    height: auto;
+    position: relative;
 }
 
 .footer {
     position: absolute;
-    bottom: 13mm; /* Match the page padding */
+    bottom: 13mm;
     left: 13mm;
     right: 13mm;
-    width: calc(100% - 26mm); /* Account for left and right padding */
-    page-break-before: avoid; /* Prevent page break before footer */
+    width: calc(100% - 26mm);
+    text-align: center;
 }
 
 .number-page {
     position: absolute;
-    bottom: 40px;
-    right: 50px;
+    bottom: 5mm;
+    right: 13mm;
 }
 
 @page {
@@ -57,48 +52,45 @@ body, html {
 
 @media print {
     html, body {
-        width: 100%;
-        height: 100%;
+        width: 210mm;
+        height: 297mm;
         margin: 0;
         padding: 0;
     }
 
     .page {
         margin: 0;
-        border: initial;
-        border-radius: initial;
+        border: none;
         width: 210mm;
+        min-height: initial;
         height: 297mm;
-        min-height: 297mm;
-        box-shadow: initial;
+        box-shadow: none;
         background: #fff !important;
-        page-break-after: always !important;
-        page-break-inside: avoid !important;
-        position: relative;
-    }
-
-    .footer {
-        position: absolute;
-        bottom: 13mm;
-        left: 13mm;
-        right: 13mm;
-        width: calc(100% - 26mm);
+        overflow: hidden;
+        page-break-after: avoid;
     }
 
     /* Prevent page breaks inside critical elements */
-    table, tr, td, th {
-        page-break-inside: avoid !important;
+    table {
+        page-break-inside: avoid;
+    }
+
+    tr, td, th {
+        page-break-inside: avoid;
     }
 
     /* Avoid orphaned headers */
-    h1, h2, h3, h4, h5, h6 {
-        page-break-after: avoid !important;
+    h1, h2, h3, h4, h5 {
+        page-break-after: avoid;
     }
 
-    /* Clear floats to prevent layout issues */
-    .row::after {
-        content: "";
-        display: table;
-        clear: both;
+    /* No breaking before footer */
+    .footer {
+        page-break-before: avoid;
+    }
+
+    /* If there are multiple pages in the document */
+    .page:not(:last-child) {
+        page-break-after: always;
     }
 }

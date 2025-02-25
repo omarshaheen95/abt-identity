@@ -15,7 +15,6 @@ body {
     -webkit-print-color-adjust: exact;
 }
 
-
 .page {
     position: relative;
     display: flex;

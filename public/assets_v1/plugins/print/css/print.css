@@ -1,41 +1,44 @@
+/* Updated print.css */
 body, html {
-    width: 210mm;
-    height: 297mm;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    margin: 0;
     padding: 0;
     -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 * {
     box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-body {
-    -webkit-print-color-adjust: exact;
 }
 
 .page {
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     width: 210mm;
-    height: 297mm; /* Exact A4 height */
+    min-height: 297mm; /* Changed from fixed height to min-height */
     padding: 13mm;
-    margin: 10mm; /* Center the page */
+    margin: 0 auto; /* Center the page */
     background: #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    border: 1px solid #D3D3D3; /* Add visible border */
+    border: 1px solid #D3D3D3;
+    page-break-after: avoid; /* Prevent page break after */
+    page-break-before: avoid; /* Prevent page break before */
 }
 
 .subpage-w {
-    flex: 1; /* Ensures content expands to fill space */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .footer {
-    text-align: center;
     margin-top: auto; /* Pushes footer to the bottom */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    page-break-before: avoid; /* Prevent page break before footer */
 }
 
 .number-page {
@@ -46,13 +49,15 @@ body {
 
 @page {
     size: A4;
-    margin: 0; /* Remove default margins for print */
+    margin: 0;
 }
 
 @media print {
     html, body {
-        width: 210mm;
-        height: 297mm;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
 
     .page {
@@ -63,13 +68,24 @@ body {
         min-height: initial;
         box-shadow: initial;
         background: #fff !important;
-        page-break-after: always;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
     }
 
-    .footer {
-        position: relative;
-        bottom: 0;
+    /* Prevent page breaks inside critical elements */
+    table, tr, td, th {
+        page-break-inside: avoid !important;
+    }
+
+    /* Avoid orphaned headers */
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid !important;
+    }
+
+    /* Clear floats to prevent layout issues */
+    .row::after {
+        content: "";
+        display: table;
+        clear: both;
     }
 }
-
-

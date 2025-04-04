@@ -379,62 +379,60 @@ class TermController extends Controller
             ->withCount('question')
             ->get();
 
+        dd($from_terms, $to_terms);
+
         $from_terms->each(function ($term) use ($data, $to_terms) {
             $to_term = $to_terms->where('level.grade', $term->level->grade)->first();
-            if (!$to_term)
-            {
-                dd($term->level->grade);
-            }
-//            if ($to_term && $to_term->question_count == 0) {
-//                if ($data['with_questions'] == 1) {
-//                    foreach ($term->question as $question) {
-//                        $new_question = $question->replicate();
-//                        $new_question->term_id = $to_term->id;
-//                        $new_question->content = null;
-//                        $new_question->image = null;
-//                        $new_question->audio = null;
-//                        $new_question->question_reader = null;
-//                        $new_question->save();
-//                        if ($data['with_standards'] == 1) {
-////                            foreach ($question->question_standard as $standard) {
-//                                $standard = $question->question_standard;
-//                                $new_standard = $standard->replicate();
-//                                $new_standard->question_id = $new_question->id;
-//                                $new_standard->save();
-////                            }
+            if ($to_term && $to_term->question_count == 0) {
+                if ($data['with_questions'] == 1) {
+                    foreach ($term->question as $question) {
+                        $new_question = $question->replicate();
+                        $new_question->term_id = $to_term->id;
+                        $new_question->content = null;
+                        $new_question->image = null;
+                        $new_question->audio = null;
+                        $new_question->question_reader = null;
+                        $new_question->save();
+                        if ($data['with_standards'] == 1) {
+//                            foreach ($question->question_standard as $standard) {
+                                $standard = $question->question_standard;
+                                $new_standard = $standard->replicate();
+                                $new_standard->question_id = $new_question->id;
+                                $new_standard->save();
+//                            }
+                        }
+//                        switch ($question->type)
+//                        {
+//                            case 1:
+//                                $new_option = $question->tf_question->replicate();
+//                                $new_option->question_id = $new_question->id;
+//                                $new_option->save();
+//                                break;
+//                            case 2:
+//                                foreach ($question->option_question as $option) {
+//                                    $new_option = $option->replicate();
+//                                    $new_option->question_id = $new_question->id;
+//                                    $new_option->save();
+//                                }
+//                                break;
+//                            case 3:
+//                                foreach ($question->match_question as $match) {
+//                                    $new_option = $match->replicate();
+//                                    $new_option->question_id = $new_question->id;
+//                                    $new_option->save();
+//                                }
+//                                break;
+//                            case 4:
+//                                foreach ($question->sort_question as $sort) {
+//                                    $new_option = $sort->replicate();
+//                                    $new_option->question_id = $new_question->id;
+//                                    $new_option->save();
+//                                }
+//                                break;
 //                        }
-////                        switch ($question->type)
-////                        {
-////                            case 1:
-////                                $new_option = $question->tf_question->replicate();
-////                                $new_option->question_id = $new_question->id;
-////                                $new_option->save();
-////                                break;
-////                            case 2:
-////                                foreach ($question->option_question as $option) {
-////                                    $new_option = $option->replicate();
-////                                    $new_option->question_id = $new_question->id;
-////                                    $new_option->save();
-////                                }
-////                                break;
-////                            case 3:
-////                                foreach ($question->match_question as $match) {
-////                                    $new_option = $match->replicate();
-////                                    $new_option->question_id = $new_question->id;
-////                                    $new_option->save();
-////                                }
-////                                break;
-////                            case 4:
-////                                foreach ($question->sort_question as $sort) {
-////                                    $new_option = $sort->replicate();
-////                                    $new_option->question_id = $new_question->id;
-////                                    $new_option->save();
-////                                }
-////                                break;
-////                        }
-//                    }
-//                }
-//            }
+                    }
+                }
+            }
         });
 
         return redirect()->back()->with('message', t('Assessments copied successfully'));

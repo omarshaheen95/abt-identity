@@ -380,10 +380,11 @@ class TermController extends Controller
             ->withCount('question')
             ->get();
 
-        dd($from_terms->where('question_count', '>', 0), $to_terms->where('question_count', '>', 0));
 
         $from_terms->each(function ($term) use ($data, $to_terms) {
-            $to_term = $to_terms->where('level.grade', $term->level->grade)->first();
+            $to_term = $to_terms->where('level.grade', $term->level->grade)
+                ->where('level.arab', $term->level->arab)
+                ->first();
             if ($to_term && $to_term->question_count == 0) {
                 if ($data['with_questions'] == 1) {
                     foreach ($term->question as $question) {

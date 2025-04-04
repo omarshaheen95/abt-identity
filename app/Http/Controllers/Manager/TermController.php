@@ -334,7 +334,7 @@ class TermController extends Controller
             ->when($data['with_standards'] == 1, function (Builder $query) {
                 $query->with(['question.question_standard']);
             })
-            ->where('question_count', '>', 0)
+
             ->get();
         if ($data['with_terms'] == 1) {
             foreach ($from_terms as $from_term) {
@@ -378,10 +378,9 @@ class TermController extends Controller
                 $query->with(['question.question_standard']);
             })
             ->withCount('question')
-            ->where('question_count', '>', 0)
             ->get();
 
-        dd($from_terms, $to_terms);
+        dd($from_terms->where('question_count', '>', 0), $to_terms->where('question_count', '>', 0));
 
         $from_terms->each(function ($term) use ($data, $to_terms) {
             $to_term = $to_terms->where('level.grade', $term->level->grade)->first();

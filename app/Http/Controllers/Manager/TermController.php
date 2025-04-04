@@ -403,35 +403,35 @@ class TermController extends Controller
                                 $new_standard->save();
 //                            }
                         }
-//                        switch ($question->type)
-//                        {
-//                            case 1:
-//                                $new_option = $question->tf_question->replicate();
-//                                $new_option->question_id = $new_question->id;
-//                                $new_option->save();
-//                                break;
-//                            case 2:
-//                                foreach ($question->option_question as $option) {
-//                                    $new_option = $option->replicate();
-//                                    $new_option->question_id = $new_question->id;
-//                                    $new_option->save();
-//                                }
-//                                break;
-//                            case 3:
-//                                foreach ($question->match_question as $match) {
-//                                    $new_option = $match->replicate();
-//                                    $new_option->question_id = $new_question->id;
-//                                    $new_option->save();
-//                                }
-//                                break;
-//                            case 4:
-//                                foreach ($question->sort_question as $sort) {
-//                                    $new_option = $sort->replicate();
-//                                    $new_option->question_id = $new_question->id;
-//                                    $new_option->save();
-//                                }
-//                                break;
-//                        }
+                        switch ($question->type)
+                        {
+                            case 1:
+                                $new_option = $question->tf_question->replicate();
+                                $new_option->question_id = $new_question->id;
+                                $new_option->save();
+                                break;
+                            case 2:
+                                foreach ($question->option_question as $option) {
+                                    $new_option = $option->replicate();
+                                    $new_option->question_id = $new_question->id;
+                                    $new_option->save();
+                                }
+                                break;
+                            case 3:
+                                foreach ($question->match_question as $match) {
+                                    $new_option = $match->replicate();
+                                    $new_option->question_id = $new_question->id;
+                                    $new_option->save();
+                                }
+                                break;
+                            case 4:
+                                foreach ($question->sort_question as $sort) {
+                                    $new_option = $sort->replicate();
+                                    $new_option->question_id = $new_question->id;
+                                    $new_option->save();
+                                }
+                                break;
+                        }
                     }
                 }
             }

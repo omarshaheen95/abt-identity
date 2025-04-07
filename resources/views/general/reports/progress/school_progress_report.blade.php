@@ -284,7 +284,7 @@
         <div class="subpage-w">
             <div class="row text-center justify-content-center">
                 <div class="col-12">
-                    <h5 class="section-title">{{$arab_page->title}} - {{$year->year}}</h5>
+                    <h5 class="section-title">{{$arab_page->title}}</h5>
                 </div>
             </div>
             <div class="row text-center justify-content-center my-5">

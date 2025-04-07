@@ -16,7 +16,7 @@
                 <select name="year_id" id="year_id" class="form-select assessment-year" data-control="select2" data-placeholder="{{t('Select Year')}}" data-allow-clear="true">
                     <option></option>
                     @foreach($years as $year)
-                        <option value="{{ $year->id }}">{{ $year->year }}</option>
+                        <option value="{{ $year->id }}">{{ $year->name }}</option>
                     @endforeach
                 </select>
             </div>

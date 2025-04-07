@@ -27,55 +27,30 @@
     <script src="{{ asset('assets_v1/plugins/print/js/new_highcharts.js') }}"></script>
     <script src="{{ asset('assets_v1/plugins/print/js/highcharts-more.js') }}"></script>
     <script src="{{ asset('assets_v1/plugins/print/js/rounded-corners.js') }}"></script>
+    <style>
+        .report-date {
+            top: 64% !important;
+            left: 27% !important;
+        }
+
+        .student-name {
+            top: 50% !important;
+            left: 20% !important;
+            color: #EC2028
+        }
+    </style>
 </head>
 <body>
-<div class="page">
+<div class="page p-0">
     <div class="subpage-w">
-        <div class="row align-items-center">
-            <div class="col-6 justify-content-center text-left">
-                <img src="{{asset('assets_v1/media/svg/abt-logo.svg')}}" width="75%"
-                     alt="">
-
-            </div>
-            <div class="col-6  justify-content-center text-center">
-                <img src="{{!settingCache('logo')? asset('assets_v1/media/svg/Identity Logo.svg?v1'):asset(settingCache('logo'))}}"
-                     width="100%"
-                     alt="">
-            </div>
-        </div>
-        <div class="row text-center justify-content-center mt-5">
-            <div class="col-6">
-                <h3 class="main-color">{{re('Identity Benchmark Test')}}</h3>
-                <h3 class="sub-color">{{re('Student Report')}}</h3>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <img src="{{asset('assets_v1/media/reports/student_report_1_page.svg')}}"
-                     style="max-height: 300px; width: 50%" alt="">
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <h5>{{re('The Curriculum')}} : {{re($student->school->curriculum_type)}}</h5>
-                <h5>{{re('Release Date')}} : {{now()->format('Y-m-d')}}</h5>
-                <h5>www.abt-assessments.com</h5>
-                <h5>support@abt-assessments.com</h5>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-12 text-center">
-                @if($student->gender == 1)
-                    {!! QrCode::color(0, 166, 255)->size(120)->generate(sysDomain()."/student-report?token=".encryptStudentId($student->id)); !!}
-                @else
-                    {!! QrCode::color(255, 0, 194)->size(120)->generate(sysDomain()."/student-report?token=".encryptStudentId($student->id)); !!}
-                @endif
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <img src="{{asset('assets_v1/media/reports/footer-logos.svg')}}?v=1" width="100%" alt="">
-            </div>
+        <div class="position-relative">
+            <img src="{{ asset("assets_v1/media/reports/covers/student_".$lang.".svg") }}" class="w-100" alt="">
+            <h4 class="position-absolute student-name m-3 text-black w-50 text-center fw-bold">
+                {{ $student->name }}
+            </h4>
+            <h4 class="position-absolute report-date m-3 text-black">
+                {{ re('Report issue date') }} : {{ date('d/m/Y') }}
+            </h4>
         </div>
     </div>
 </div>

@@ -46,20 +46,14 @@ class SchoolProgressReport
         }
 
 
-        $arr_date = explode("/", $year->year);
+        $arr_date = explode("/", $year->name);
         $start = $arr_date[0];
         $end = $arr_date[1];
         if ($school->school_type == "Indian") {
-            $from = date($start . '-04-01 0:0:0');
-            $to = date($end . '-03-31 0:0:0');
-            $months = ['May', 'September', 'February'];
             $months_num = ['May', 'September', 'February'];
 
             $custom_year = $year_id - 1;
         } else {
-            $from = date($start . '-08-01 0:0:0');
-            $to = date($end . '-07-30 0:0:0');
-            $months = ['September', 'February', 'May'];
             $months_num = ['September', 'February', 'May'];
 
             $custom_year = $year_id;
@@ -187,7 +181,7 @@ class SchoolProgressReport
                         $total_mark_1 = $studentTermSept->total_result;
                         $total_mar_result = $total_mark_2 - $total_mark_1;
 
-                        $progressRate = getProgress($total_mark_1, $total_mar_result, $report_type);
+                        $progressRate = getProgress($total_mark_1, $total_mar_result);
 
                         if ($progressRate == 1) {
                             $above_expected++;
@@ -462,7 +456,7 @@ class SchoolProgressReport
                         $total_mark_3 = $studentTermMay->total_result;
                         $total_mar_result = $total_mark_3 - $total_mark_2;
 
-                        $progressRate = getProgress($total_mark_2, $total_mar_result, $report_type);
+                        $progressRate = getProgress($total_mark_2, $total_mar_result);
 
                         if ($progressRate == 1) {
                             $above_expected++;
@@ -736,7 +730,7 @@ class SchoolProgressReport
                         $total_mark_1 = $studentTermSept->total_result;
                         $total_mar_result = $total_mark_3 - $total_mark_1;
 
-                        $progressRate = getProgress($total_mark_1, $total_mar_result, $report_type);
+                        $progressRate = getProgress($total_mark_1, $total_mar_result);
 
                         if ($progressRate == 1) {
                             $above_expected++;
@@ -1018,7 +1012,7 @@ class SchoolProgressReport
         }
 
 
-        return view('general.reports.school_progress_report', compact('arab_pages', 'school','type', 'sub_title', 'year', 'report_type', 'rounds', 'steps'));
+        return view('general.reports.progress.school_progress_report', compact('arab_pages', 'school','type', 'sub_title', 'year', 'rounds', 'steps'));
 
     }
 }

@@ -42,7 +42,7 @@ class ReportController extends Controller
     {
         $years = Year::query()->get();
         $title = t('THE PROGRESS WITHIN THE ACADEMIC YEAR');
-        return view('general.reports.progress.school_progress_report', compact('years','title'));
+        return view('general.reports.progress.pre_progress_report', compact('years','title'));
     }
 
     public function progressReport(Request $request)

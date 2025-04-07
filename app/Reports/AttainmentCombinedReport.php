@@ -51,7 +51,7 @@ class AttainmentCombinedReport
     {
 
         $school = $this->school;
-        $title = re('Attainment Report') . '-' . $this->school->name;
+        $title = re('The Combined Report') . '-' . $this->school->name;
         $grades = $this->request->get('grades', []);
         $year = $this->request->get('year_id', null);
 

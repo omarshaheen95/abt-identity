@@ -525,7 +525,7 @@
                         <table class="table small m-0">
                             <thead>
                             <tr>
-                                <th class="main-th"> {{sysNationality()}}</th>
+                                <th class="main-th"> {{re('Emarati')}}</th>
                                 <th class="below-td"> {{re('Below expected')}}</th>
                                 <th class="inline-td"> {{re('Expected progress')}}</th>
                                 <th class="above-td"> {{re('Better than expected')}}</th>
@@ -558,7 +558,7 @@
                         <table class="table small m-0">
                             <thead>
                             <tr>
-                                <th class="main-th"> {{sysNationality()}} {{re('Boys')}}</th>
+                                <th class="main-th"> {{re('Emarati')}} {{re('Boys')}}</th>
                                 <th class="below-td"> {{re('Below expected')}}</th>
                                 <th class="inline-td"> {{re('Expected progress')}}</th>
                                 <th class="above-td"> {{re('Better than expected')}}</th>
@@ -591,7 +591,7 @@
                         <table class="table small m-0">
                             <thead>
                             <tr>
-                                <th class="main-th"> {{sysNationality()}} {{re('Girls')}}</th>
+                                <th class="main-th"> {{re('Emarati')}} {{re('Girls')}}</th>
                                 <th class="below-td"> {{re('Below expected')}}</th>
                                 <th class="inline-td"> {{re('Expected progress')}}</th>
                                 <th class="above-td"> {{re('Better than expected')}}</th>

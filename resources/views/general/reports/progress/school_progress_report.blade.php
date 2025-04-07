@@ -29,9 +29,9 @@
 </head>
 <style>
     @if(app()->getLocale()=='ar')
-    .report-date{top:73%!important; left: 11%!important;}
+    .report-date{top:60%!important; left: 10%!important;}
     @else
-    .report-date{top:73%!important; right: 11%!important;}
+    .report-date{top:60%!important; right: 12%!important;}
     @endif
 </style>
 <body>

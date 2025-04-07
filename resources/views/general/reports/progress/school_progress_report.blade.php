@@ -28,47 +28,19 @@
     <script src="{{ asset('assets_v1/plugins/print/js/rounded-corners.js') }}"></script>
 </head>
 <body>
-<div class="page">
+@if(app()->getLocale()=='ar')
+    .report-date{top:73%!important; left: 11%!important;}
+@else
+    .report-date{top:73%!important; right: 11%!important;}
+@endif
+<div class="page p-0">
     <div class="subpage-w">
-        <div class="row align-items-center">
-            <div class="col-6 justify-content-center text-left">
-                <img src="{{asset('assets_v1/media/svg/abt-logo.svg')}}" width="75%"
-                     alt="">
+        <div class="position-relative">
+            <img src="{{ asset('assets_v1/media/reports/covers/progress_'.$lang.'.svg') }}" class="w-100" alt="">
 
-            </div>
-            <div class="col-6  justify-content-center text-center">
-                <img src="{{!settingCache('logo')? asset('assets_v1/media/svg/Identity Logo.svg?v1'):asset(settingCache('logo'))}}"
-                     width="100%"
-                     alt="">
-            </div>
-        </div>
-        <div class="row text-center justify-content-center mt-5">
-            <div class="col-11 mt-3">
-                <h3 class="sub-color">The Attainment Report</h3>
-            </div>
-            <div class="col-12">
-                <h3 class="sub-color">تقرير التحصيل</h3>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-12 text-center">
-                <img src="{{asset('assets_v1/media/reports/attainment_report_1_page.svg')}}"
-                     style="max-height: 350px; width: 50%" alt="">
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <h4 class="main-color my-2">{{$school->name}}</h4>
-                <h4 class="main-color my-2">{{$year->name}} </h4>
-                <h5>{{t('Release Date')}} : {{now()->format('Y-m-d')}}</h5>
-                <h5>www.abt-assessments.com</h5>
-                <h5>support@abt-assessments.com</h5>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12 text-center">
-                <img src="{{asset('assets_v1/media/reports/footer-logos.svg')}}?v=1" width="100%" alt="">
-            </div>
+            <h4 class="position-absolute report-date m-3 text-black">
+                {{ re('Report issue date') }} : {{ date('d/m/Y') }}
+            </h4>
         </div>
     </div>
 </div>

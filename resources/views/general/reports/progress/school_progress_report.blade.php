@@ -359,7 +359,7 @@
                                 <td class="">{{ $arab_page->septProgress['total'] }}
                                 </td>
                                 @php
-                                    $data = judgementProgress($arab_page->septProgress['below_ratio'],$arab_page->septProgress['inline_ratio'],$arab_page->septProgress['above_ratio']);
+                                    $data = judgement($arab_page->septProgress['below_ratio'],$arab_page->septProgress['inline_ratio'],$arab_page->septProgress['above_ratio']);
                                 @endphp
                                 <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                             </tr>
@@ -377,7 +377,7 @@
                                 <td class="">{{ $arab_page->febProgressData['total'] }}
                                 </td>
                                 @php
-                                    $data = judgementProgress($arab_page->febProgressData['below_ratio'],$arab_page->febProgressData['inline_ratio'],$arab_page->febProgressData['above_ratio']);
+                                    $data = judgement($arab_page->febProgressData['below_ratio'],$arab_page->febProgressData['inline_ratio'],$arab_page->febProgressData['above_ratio']);
                                 @endphp
                                 <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                             </tr>
@@ -395,7 +395,7 @@
                                 <td class="">{{ $arab_page->mayProgressData['total'] }}
                                 </td>
                                 @php
-                                    $data = judgementProgress($arab_page->mayProgressData['below_ratio'],$arab_page->mayProgressData['inline_ratio'],$arab_page->mayProgressData['above_ratio']);
+                                    $data = judgement($arab_page->mayProgressData['below_ratio'],$arab_page->mayProgressData['inline_ratio'],$arab_page->mayProgressData['above_ratio']);
                                 @endphp
                                 <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                             </tr>
@@ -442,7 +442,7 @@
                                     <td>{{ $round['above'] }} {{re('Student')}} = {{ $round['above_ratio'] }}%</td>
                                     <td>{{ $round['total'] }}</td>
                                     @php
-                                        $data = judgementProgress($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
+                                        $data = judgement($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
                                     @endphp
                                     <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                                 </tr>
@@ -475,7 +475,7 @@
                                     <td>{{ $round['above'] }} {{re('Student')}} = {{ $round['above_ratio'] }}%</td>
                                     <td>{{ $round['total'] }}</td>
                                     @php
-                                        $data = judgementProgress($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
+                                        $data = judgement($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
                                     @endphp
                                     <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                                 </tr>
@@ -508,7 +508,7 @@
                                     <td>{{ $round['above'] }} {{re('Student')}} = {{ $round['above_ratio'] }}%</td>
                                     <td>{{ $round['total'] }}</td>
                                     @php
-                                        $data = judgementProgress($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
+                                        $data = judgement($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
                                     @endphp
                                     <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                                 </tr>
@@ -542,7 +542,7 @@
                                     <td>{{ $round['above'] }} {{re('Student')}} = {{ $round['above_ratio'] }}%</td>
                                     <td>{{ $round['total'] }}</td>
                                     @php
-                                        $data = judgementProgress($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
+                                        $data = judgement($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
                                     @endphp
                                     <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                                 </tr>
@@ -575,7 +575,7 @@
                                     <td>{{ $round['above'] }} {{re('Student')}} = {{ $round['above_ratio'] }}%</td>
                                     <td>{{ $round['total'] }}</td>
                                     @php
-                                        $data = judgementProgress($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
+                                        $data = judgement($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
                                     @endphp
                                     <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                                 </tr>
@@ -608,7 +608,7 @@
                                     <td>{{ $round['above'] }} {{re('Student')}} = {{ $round['above_ratio'] }}%</td>
                                     <td>{{ $round['total'] }}</td>
                                     @php
-                                        $data = judgementProgress($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
+                                        $data = judgement($round['below_ratio'],$round['inline_ratio'],$round['above_ratio']);
                                     @endphp
                                     <td > <span class="{{str_replace(' ', '-', strtolower($data['level']))}}-badge">{{$data['level']}}</span></td>
                                 </tr>

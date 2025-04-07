@@ -42,7 +42,7 @@
             <img src="{{ asset('assets_v1/media/reports/covers/identity_'.$lang.'_combined_attainment.svg')}}" class="w-100" alt="">
 
             <h4 class="position-absolute report-date m-3 text-black">
-                {{'Report issue date') }} : {{ date('d/m/Y') }}
+                {{re('Report issue date') }} : {{ date('d/m/Y') }}
             </h4>
         </div>
     </div>

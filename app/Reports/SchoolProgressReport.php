@@ -970,11 +970,11 @@ class SchoolProgressReport
 
             if ($student_terms->count()) {
                 $arab_pages[$grade] = (object)[
-                    'title' => "Grade $grade $sub_title Progress - $year->year",
+                    'title' => "Grade $grade $sub_title Progress - $year->name",
                     'septProgress' => $septProgressData,
                     'febProgressData' => $febProgressData,
                     'mayProgressData' => $mayProgressData,
-                    'summary_title' => "Summary Grade $grade $sub_title Progress - $year->year",
+                    'summary_title' => "Summary Grade $grade $sub_title Progress - $year->name",
                     'maleProgressData' => (object)[
                         $rounds[0] => $septMaleProgressData,
                         $rounds[1] => $febMaleProgressData,

@@ -88,7 +88,7 @@ class SchoolProgressReport
                         $query->where('arab', $type);
                     })
                     ->where('year_id', $custom_year);
-            })->where('month', strtolower($months_num[0]))->get();
+            })->where('round', strtolower($months_num[0]))->get();
             //February
             $february_terms = Term::query()->whereHas('level', function (Builder $query) use ($grade, $year, $type) {
                 $query->where('grade', $grade)
@@ -96,7 +96,7 @@ class SchoolProgressReport
                         $query->where('arab', $type);
                     })
                     ->where('year_id', $year->id);
-            })->where('month', strtolower($months_num[1]))->get();
+            })->where('round', strtolower($months_num[1]))->get();
             //May
             $may_terms = Term::query()->whereHas('level', function (Builder $query) use ($grade, $year, $type) {
                 $query->where('grade', $grade)
@@ -104,7 +104,7 @@ class SchoolProgressReport
                         $query->where('arab', $type);
                     })
                     ->where('year_id', $year->id);
-            })->where('month', strtolower($months_num[2]))->get();
+            })->where('round', strtolower($months_num[2]))->get();
 
             $sept_student_terms = StudentTerm::query()->with(['student'])
                 ->whereHas('student', function (Builder $query) use ($school) {

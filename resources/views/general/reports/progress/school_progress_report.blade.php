@@ -254,7 +254,7 @@
         <div class="row justify-content-center mt-3 mb-5">
             <div class="col-6 text-center">
                 <div class="image-container">
-                    <img src="{{asset($school->image)}}" alt="">
+                    <img src="{{asset($school->logo)}}" alt="">
                 </div>
             </div>
         </div>
@@ -271,55 +271,12 @@
 
 
     </div>
-    <span class="number-page">5</span>
+    <span class="number-page">4</span>
 </div>
 
-<div class="page">
-    <div class="subpage-w">
-        <div class="row text-center">
-            <h2 class="sub-color">{{re('Islamic Education Benchmark Test')}}</h2>
-            <h5 class="main-color">{{re('Is.B.T – Islamic Benchmark Test is a High-quality online assessment')}} <br /> {{re('for Islamic
-                Education')}}.</h5>
-        </div>
-        <div class="row mt-5 justify-content-center">
-            <div class="col-10">
-                <h5 class="main-color">{{re('There are two versions of the assessment')}}:</h5>
-            </div>
-            <div class="col-10">
-                <ul>
-                    <li class="mt-3 fw-500"><span class="main-color fw-bold">{{re('Arabic')}}</span> {{re('version for Arabs students')}}
-                    </li>
-                    <li class="mt-3 fw-500"><span class="main-color fw-bold">{{re('English')}}</span> {{re('version for Non-Arabs students')}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="row mt-5 justify-content-center">
-            <div class="col-10">
-                <h5 class="main-color">{{re('Islamic Benchmark Test covers all the six elements of Islamic')}}:</h5>
-            </div>
-            <div class="col-10">
-                <ul>
-                    <li class="mt-3 fw-500">{{re('The Holy Quran and Hadeeth')}}</li>
-                    <li class="mt-3 fw-500">{{re('Islamic values and Principles')}}</li>
-                    <li class="mt-3 fw-500">{{re('Islamic law and Etiquettes')}}</li>
-                    <li class="mt-3 fw-500">{{re('Seerah and Islamic figures')}}</li>
-                    <li class="mt-3 fw-500">{{re('Faith')}}</li>
-                    <li class="mt-3 fw-500">{{re('Identity and Belonging')}}</li>
-                </ul>
-            </div>
-        </div>
-        <div class="row mt-5 justify-content-center">
-            <div class="col-10">
-                <img src="{{asset('assets_v1/media/reports/subjects.svg')}}" alt="" width="100%">
-            </div>
-        </div>
-    </div>
-    <span class="number-page">6</span>
-</div>
 
 @php
-    $pageNum = 6;
+    $pageNum = 5;
 @endphp
 
 @foreach($arab_pages as $key => $arab_page)

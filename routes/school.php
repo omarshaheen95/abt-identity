@@ -54,6 +54,9 @@ Route::get('get-sections', [\App\Http\Controllers\School\StudentController::clas
 Route::get('pre-attainment-report', [\App\Http\Controllers\School\ReportController::class, 'preAttainmentReport'])->name('report.pre-attainment');
 Route::get('attainment-report', [\App\Http\Controllers\School\ReportController::class, 'attainmentReport'])->name('report.attainment');
 
+Route::get('pre-progress-report', [\App\Http\Controllers\School\ReportController::class, 'preProgressReport'])->name('report.pre-progress');
+Route::get('progress-report', [\App\Http\Controllers\School\ReportController::class, 'progressReport'])->name('report.progress');
+
 
 Route::post('/pdfCertificates', [\App\Http\Controllers\GeneralController::class,'pdfCertificates'])->name('reports.pdfCertificates');
 

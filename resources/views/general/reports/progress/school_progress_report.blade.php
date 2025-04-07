@@ -58,7 +58,7 @@
         </div>
         <div class="row mt-5">
             <div class="col-12 text-center">
-                <h4 class="main-color my-2">{{$school->name}} {{ count($sections) > 0 ? " - (".implode(',', $sections).")" . ' Sections':'' }}</h4>
+                <h4 class="main-color my-2">{{$school->name}}</h4>
                 <h4 class="main-color my-2">{{$year->name}} </h4>
                 <h5>{{t('Release Date')}} : {{now()->format('Y-m-d')}}</h5>
                 <h5>www.abt-assessments.com</h5>

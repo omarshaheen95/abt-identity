@@ -177,8 +177,8 @@ class SchoolProgressReport
                         ->first();
 
                     if ($studentTermSept && $studentTermFeb) {
-                        $total_mark_2 = $studentTermFeb->total_result;
-                        $total_mark_1 = $studentTermSept->total_result;
+                        $total_mark_2 = $studentTermFeb->total;
+                        $total_mark_1 = $studentTermSept->total;
                         $total_mar_result = $total_mark_2 - $total_mark_1;
 
                         $progressRate = getProgress($total_mark_1, $total_mar_result);
@@ -452,8 +452,8 @@ class SchoolProgressReport
                         ->first();
 
                     if ($studentTermFeb && $studentTermMay) {
-                        $total_mark_2 = $studentTermFeb->total_result;
-                        $total_mark_3 = $studentTermMay->total_result;
+                        $total_mark_2 = $studentTermFeb->total;
+                        $total_mark_3 = $studentTermMay->total;
                         $total_mar_result = $total_mark_3 - $total_mark_2;
 
                         $progressRate = getProgress($total_mark_2, $total_mar_result);
@@ -726,8 +726,8 @@ class SchoolProgressReport
                         ->first();
 
                     if ($studentTermSept && $studentTermMay) {
-                        $total_mark_3 = $studentTermMay->total_result;
-                        $total_mark_1 = $studentTermSept->total_result;
+                        $total_mark_3 = $studentTermMay->total;
+                        $total_mark_1 = $studentTermSept->total;
                         $total_mar_result = $total_mark_3 - $total_mark_1;
 
                         $progressRate = getProgress($total_mark_1, $total_mar_result);

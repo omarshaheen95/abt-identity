@@ -27,12 +27,15 @@
     <script src="{{ asset('assets_v1/plugins/print/js/highcharts-more.js') }}"></script>
     <script src="{{ asset('assets_v1/plugins/print/js/rounded-corners.js') }}"></script>
 </head>
-<body>
-@if(app()->getLocale()=='ar')
+<style>
+    @if(app()->getLocale()=='ar')
     .report-date{top:73%!important; left: 11%!important;}
-@else
+    @else
     .report-date{top:73%!important; right: 11%!important;}
-@endif
+    @endif
+</style>
+<body>
+
 <div class="page p-0">
     <div class="subpage-w">
         <div class="position-relative">

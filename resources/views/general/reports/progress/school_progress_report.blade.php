@@ -22,7 +22,7 @@
 
     <link rel="shortcut icon"
           href="{{!settingCache('logo_min')? asset('assets_v1/media/svg/logo-min.svg'):asset(settingCache('logo_min'))}}"/>
-    <title>{{re('The School Progress Report')}} - {{$school->name}}</title>
+    <title>{{re('The progress within the academic year')}} - {{$school->name}}</title>
     <script src="{{ asset('assets_v1/plugins/print/js/new_highcharts.js') }}"></script>
     <script src="{{ asset('assets_v1/plugins/print/js/highcharts-more.js') }}"></script>
     <script src="{{ asset('assets_v1/plugins/print/js/rounded-corners.js') }}"></script>

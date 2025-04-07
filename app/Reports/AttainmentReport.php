@@ -50,7 +50,7 @@ class AttainmentReport
     {
 
         $school = $this->school;
-        $title = re('Attainment Report') . '-' . $this->school->name;
+        $title = re('The attainment Report') . '-' . $this->school->name;
         $grades = $this->request->get('grades', []);
         $year = $this->request->get('year_id', null);
 
@@ -87,7 +87,7 @@ class AttainmentReport
 
 
         if ($this->request->get('summary', false)) {
-            $title = re('Attainment Report Summary') . '-' . $this->school->name;
+            $title = re('Attainment Summary') . '-' . $this->school->name;
             return view('general.reports.attainment.report-summary', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
         }
         return view('general.reports.attainment.report', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));

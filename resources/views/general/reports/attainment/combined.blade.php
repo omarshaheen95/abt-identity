@@ -39,10 +39,10 @@
 <div class="page p-0">
     <div class="subpage-w">
         <div class="position-relative">
-            <img src="{{ asset('assets_v1/media/reports/covers/combined_progress_'.$lang.'.svg') }}" class="w-100" alt="">
+            <img src="{{ asset('assets_v1/media/reports/covers/identity_'.$lang.'_combined_attainment.svg')}}" class="w-100" alt="">
 
             <h4 class="position-absolute report-date m-3 text-black">
-                {{ re('Report issue date') }} : {{ date('d/m/Y') }}
+                {{'Report issue date') }} : {{ date('d/m/Y') }}
             </h4>
         </div>
     </div>

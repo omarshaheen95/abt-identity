@@ -66,13 +66,13 @@
 
                                             @switch($type)
                                                 @case('true_false')
-                                                    <div class="head">{{$term->level->arab != 1 ? 'True Or False Questions' : 'أسئلة صح أو خطأ :اجب بصح أم خطأ'}} </div>
+                                                    <div class="head">{{$term->level->arab != 1 ? 'Put a (✔) for the correct statement and a (✘) for the incorrect one:' : 'ضَعْ عَلَامَةَ (✔) أَمَامَ ٱلْعِبَارَةِ ٱلصَّحِيحَةِ، وَعَلَامَةَ (✘) أَمَامَ ٱلْعِبَارَةِ ٱلْخَاطِئَةِ:'}} </div>
                                                     @break
                                                 @case('multiple_choice')
-                                                    <div class="head">{{$term->level->arab != 1 ? 'Multiple Choice Questions' : 'أسئلة اختر من متعدد : قم باختيار الإجابة الصحيحة'}} </div>
+                                                    <div class="head">{{$term->level->arab != 1 ? 'Choose the correct answer from the options below :' : 'ٱخْتَرِ ٱلْإِجَابَةَ ٱلصَّحِيحَةَ مِمَّا يَأْتِي:'}} </div>
                                                     @break
                                                 @case('fill_blank')
-                                                    <div class="head">{{$term->level->arab != 1 ? 'Fill blank Questions : Put the answer in the appropriate blank' : 'أسئلة أكمل الفراغ : ضع الإجابة المناسبة بالفراغ المناسب'}} </div>
+                                                    <div class="head">{{$term->level->arab != 1 ? 'Complete the following blanks with the appropriate word.' : 'أكملِ الفراغاتِ الآتيةَ بالكلمةِ المناسبةِ.'}} </div>
                                                     @break
                                             @endswitch
 

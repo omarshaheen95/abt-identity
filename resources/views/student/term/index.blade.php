@@ -115,10 +115,10 @@
 
                                                 @switch($type)
                                                     @case('true_false')
-                                                        <div class="head">{{$term->level->arab != 1 ? 'Put a (True) in front of the correct statement and a (False) in front of the incorrect statement:' : 'اختر كلمة (صواب) أَمَامَ العِبَارَةِ الصَّحِيحَةِ وكلمة (خطأ) أَمَامَ العِبَارَةِ غَيْرِ الصَّحِيحَةِ:'}} </div>
+                                                        <div class="head">{{$term->level->arab != 1 ? 'Put a (✔) for the correct statement and a (✘) for the incorrect one:' : 'ضَعْ عَلَامَةَ (✔) أَمَامَ ٱلْعِبَارَةِ ٱلصَّحِيحَةِ، وَعَلَامَةَ (✘) أَمَامَ ٱلْعِبَارَةِ ٱلْخَاطِئَةِ:'}} </div>
                                                         @break
                                                     @case('multiple_choice')
-                                                        <div class="head">{{$term->level->arab != 1 ? 'Choose the correct answer from the following options:' : 'اِخْتَرِ الإجَابَةَ الصَّحِيحَةَ مِنْ بَيْنِ الاخْتِيَارَاتِ الآتِيَةِ:'}} </div>
+                                                        <div class="head">{{$term->level->arab != 1 ? 'Choose the correct answer from the options below :' : 'ٱخْتَرِ ٱلْإِجَابَةَ ٱلصَّحِيحَةَ مِمَّا يَأْتِي:'}} </div>
                                                         @break
                                                     @case('fill_blank')
                                                         <div class="head">{{$term->level->arab != 1 ? 'Complete the following blanks with the appropriate word.' : 'أكملِ الفراغاتِ الآتيةَ بالكلمةِ المناسبةِ.'}} </div>

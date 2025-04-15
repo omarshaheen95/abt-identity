@@ -43,6 +43,11 @@ function getGuard()
     return $guard;
 }
 
+function guardIs($guard)
+{
+    return getGuard() == $guard;
+}
+
 function settingCache($key)
 {
     //Cache::forget('settings');

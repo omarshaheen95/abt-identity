@@ -68,7 +68,17 @@
                     </div>
 
 
-
+                <div class="menu-item">
+                    <a class="menu-link @if(Request::is('inspection/pre-attainment*')||Request::is('inspection/pre-attainment/*'))active @endif" href="{{ route('inspection.report.pre-attainment') }}">
+                                <span class="menu-icon">
+												<i class="ki-duotone ki-document fs-2">
+                                                 <i class="path1"></i>
+                                                 <i class="path2"></i>
+                                                </i>
+											</span>
+                        <span class="menu-title">{{t('Attainment Report')}}</span>
+                    </a>
+                </div>
             </div>
 
 

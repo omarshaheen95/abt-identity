@@ -39,3 +39,10 @@ Route::get('levelGrades', function (Request $request) {
     }
     return response()->json(['html' => $html]);
 })->name('level.levelGrades');
+
+
+// Attainment Report Routes
+Route::get('pre-attainment-report', [\App\Http\Controllers\Inspection\ReportController::class, 'preAttainmentReport'])->name('report.pre-attainment');
+Route::get('attainment-report', [\App\Http\Controllers\Inspection\ReportController::class, 'attainmentReport'])->name('report.attainment');
+
+Route::get('get-sections', [\App\Http\Controllers\School\StudentController::class, 'getSectionsByYear'])->name('get-sections');

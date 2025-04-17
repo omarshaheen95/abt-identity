@@ -94,7 +94,7 @@ class LevelController extends Controller
         {
             if ($level->terms_count > 0)
             {
-                return $this->sendError(t('Level '.$level->name.' containing terms cannot be deleted'));
+                return $this->sendError(t('Level containing terms cannot be deleted').'('.$level->name.')');
             }else{
                 Student::query()->where('level_id', $level->id)->update([
                     'level_id' => null,

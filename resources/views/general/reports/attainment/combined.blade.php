@@ -39,7 +39,7 @@
 <div class="page p-0">
     <div class="subpage-w">
         <div class="position-relative">
-            <img src="{{ asset('assets_v1/media/reports/covers/combined_attainment_'.$lang.'.svg')}}" class="w-100" alt="">
+            <img src="{{ asset('assets_v1/media/reports/covers/combined_attainmnet'.$lang.'.svg')}}" class="w-100" alt="">
 
             <h4 class="position-absolute report-date m-3 text-black">
                 {{re('Report issue date') }} : {{ date('d/m/Y') }}

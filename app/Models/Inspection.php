@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\InspectionResetPassword;
 use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -39,6 +40,11 @@ class Inspection extends Authenticatable
     public function inspection_schools():HasMany
     {
         return $this->hasMany(InspectionSchool::class);
+    }
+
+    public function schools():BelongsToMany
+    {
+        return $this->belongsToMany(School::class, 'inspection_schools', 'inspection_id', 'school_id');
     }
     public function login_sessions(){
         return $this->morphMany(LoginSession::class,'model');

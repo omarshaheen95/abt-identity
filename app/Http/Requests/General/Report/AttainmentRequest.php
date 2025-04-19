@@ -19,8 +19,12 @@ class AttainmentRequest extends FormRequest
             'sections' => 'nullable|array',
             'student_type' => 'required',
             'grades' => 'required|array',
-            'school_id' => 'required|exists:schools,id',
         ];
+        if (guardIs('school')){
+            $rules['school_id'] = 'required|exists:schools,id';
+        }else{
+            $rules['school_id'] = 'nullable';
+        }
         return $rules;
     }
 

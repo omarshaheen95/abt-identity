@@ -106,7 +106,7 @@ class SchoolController extends Controller
         foreach ($schools as $school)
         {
             if ($school->students_count > 0) {
-                return $this->sendError(t('Can not delete '.$school->name.' because there are students in it please delete students first'));
+                return $this->sendError(t('Can not delete school because there are students in it please delete students first').'(' .$school->name.')');
             }else{
                 $school->delete();
             }

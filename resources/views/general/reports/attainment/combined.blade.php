@@ -645,7 +645,7 @@
                 <div class="row text-center justify-content-center mt-3">
                     @foreach($arab_grades->local_girls as $round)
                         <div class="col-4">
-                            <div id="arab_local_boys_{{strtolower($round->round)}}"></div>
+                            <div id="arab_local_girls_{{strtolower($round->round)}}"></div>
                         </div>
                     @endforeach
                 </div>

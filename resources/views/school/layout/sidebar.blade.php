@@ -140,6 +140,17 @@
                         <span class="menu-title">{{t('Attainment Report')}}</span>
                     </a>
                 </div>
+                <div class="menu-item">
+                    <a class="menu-link @if(Request::is('school/pre-progress-report')||Request::is('school/pre-progress-report/*'))active @endif" href="{{ route('school.report.pre-progress') }}">
+                                <span class="menu-icon">
+												<i class="ki-duotone ki-document fs-2">
+                                                 <i class="path1"></i>
+                                                 <i class="path2"></i>
+                                                </i>
+											</span>
+                        <span class="menu-title">{{t('The progress within the academic year report')}}</span>
+                    </a>
+                </div>
 
             </div>
 

@@ -611,9 +611,9 @@ function judgement($below, $inline, $above)
         $data['color'] = '#26C281';
         $data['bg_color'] = '#26C281';
     } else {
-        $data['level'] = 'Weak';
-        $data['color'] = '#F00';
-        $data['bg_color'] = '#F00';
+        $data['level'] = '-';
+        $data['color'] = '#000';
+        $data['bg_color'] = '#FFF';
     }
 
     return $data;

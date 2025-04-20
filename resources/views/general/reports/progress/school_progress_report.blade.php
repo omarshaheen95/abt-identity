@@ -39,7 +39,12 @@
 <div class="page p-0">
     <div class="subpage-w">
         <div class="position-relative">
-            <img src="{{ asset('assets_v1/media/reports/covers/progress_'.$lang.'.svg') }}" class="w-100" alt="">
+            @if($report_type == 'progress')
+                <img src="{{ asset('assets_v1/media/reports/covers/progress_'.$lang.'.svg') }}" class="w-100" alt="">
+            @else
+                <img src="{{ asset('assets_v1/media/reports/covers/combined_progress_'.$lang.'.svg') }}" class="w-100" alt="">
+            @endif
+
 
             <h4 class="position-absolute report-date m-3 text-black">
                 {{ re('Report issue date') }} : {{ date('d/m/Y') }}
@@ -556,8 +561,7 @@
     </div>
 @endforeach
 
-<script src="{{ asset('assets_v1/js/jquery.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('assets_panel/js/bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets_v1/plugins/global/jquery.min.js') }}" type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->
 
 

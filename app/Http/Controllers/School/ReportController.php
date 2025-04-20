@@ -53,7 +53,11 @@ class ReportController extends Controller
         ]);
         $school = Auth::guard('school')->user();
 
-        $report = new \App\Reports\SchoolProgressReport($request, $school);
+        if ($request->get('combined', 0)) {
+            $report = new \App\Reports\SchoolCombinedProgressReport($request, $school);
+        }else{
+            $report = new \App\Reports\SchoolProgressReport($request, $school);
+        }
         return $report->report();
     }
 }

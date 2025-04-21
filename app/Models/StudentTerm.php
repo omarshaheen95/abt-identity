@@ -205,10 +205,16 @@ class StudentTerm extends Model
             })->when($value = $request->get('end_date', false), function ($query) use ($value) {
                 $query->whereDate('created_at', '<=', Carbon::parse($value));
             })
-            ->when($duplicated = $request->get('duplicated', false) == 1, function (Builder $query){
-                //get all student terms that have the same student_id and term_id
-                $query->groupBy('student_id')
-                    ->havingRaw('count(*) > 1');
+            ->when($duplicated = $request->get('duplicated', false) == 1, function (Builder $query) {
+                $duplicateIds = DB::table('student_terms')
+                    ->select('student_id')
+                    ->whereNull('deleted_at')
+                    ->groupBy('student_id')
+                    ->havingRaw('count(*) > 1')
+                    ->pluck('student_id')
+                    ->toArray();
+
+                $query->whereIn('student_id', $duplicateIds);
             });
     }
 

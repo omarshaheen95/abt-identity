@@ -42,7 +42,7 @@ table.DataTable({
     // DOM Layout settings
 
 
-    lengthMenu: [5, 10, 25, 50],
+    lengthMenu: [5, 10, 25, 50, 100, 200],
 
     pageLength: 10,
 

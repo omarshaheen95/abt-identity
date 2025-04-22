@@ -218,7 +218,7 @@
     <div class="subpage-w">
         <div class="row">
             <div class="col-md-12 text-center">
-                <img src="{{ asset("assets_v1/media/reports/identity_domains.svg") }}?v=2" width="90%"/>
+                <img src="{{ asset("assets_v1/media/reports/identity_domains.svg") }}?v=3" width="90%"/>
             </div>
         </div>
     </div>

@@ -44,7 +44,7 @@
 <div class="page p-0">
     <div class="subpage-w">
         <div class="position-relative">
-            <img src="{{ asset("assets_v1/media/reports/covers/student_".$lang.".svg") }}" class="w-100" alt="">
+            <img src="{{ asset("assets_v1/media/reports/covers/student_".$lang.".svg") }}?v1" class="w-100" alt="">
             <h2 class="position-absolute student-name m-3 text-black w-50 text-center fw-bold">
                 {{ $student->name }}
             </h2>
@@ -274,7 +274,7 @@
     <div class="subpage-w">
         <div class="row">
             <div class="col-md-12 text-center">
-                <img src="{{ asset("assets_v1/media/reports/identity_domains.svg") }}?v=2" width="90%"/>
+                <img src="{{ asset("assets_v1/media/reports/identity_domains.svg") }}?v=3" width="90%"/>
             </div>
         </div>
     </div>

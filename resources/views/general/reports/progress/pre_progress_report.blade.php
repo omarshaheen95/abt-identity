@@ -9,7 +9,7 @@
 @endpush
 @section('content')
     <form id="form-report" action="{{route('school.report.progress')}}">
-
+        <input type="hidden" name="combined" id="combined" value="0">
         <div class="row">
             <div class="col-12 mb-2">
                 <label class="form-label">{{t('Year')}} :</label>
@@ -55,9 +55,13 @@
             <div class="row my-5">
                 <div class="separator separator-content my-4"></div>
                 <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary get-report">
+                    <button data-combined="0" type="button" data-route="{{route('school.report.progress')}}" class="btn btn-primary get-report">
                         <span class="spinner-border spinner-border-sm d-none"></span>
                         <span class="text">{{t('Get Report')}}</span>
+                    </button>
+                    <button data-combined="1" type="button" data-route="{{route('school.report.progress')}}" class="btn btn-primary get-report ms-2">
+                        <span class="spinner-border spinner-border-sm d-none"></span>
+                        <span class="text">{{t('Get Combined Report')}}</span>
                     </button>
                 </div>
             </div>
@@ -70,10 +74,15 @@
         $(document).ready(function () {
             $('#form-report').submit(function (e) {
                 e.preventDefault();
-                var route = $(this).attr('action');
+            });
+            $('.get-report').click(function (e) {
+                e.preventDefault();
+                var route = $(this).data('route');
+                $('#combined').val($(this).data('combined'));
                 var formData = $("#form-report").serialize();
                 window.open(route + '?' + formData, "_blank");
             });
+
             $(document).on('change', "input:checkbox", function () {
                 if ($(this).val() === "all_levels") {
                     $('input[name="grades[]"]').prop('checked', this.checked);

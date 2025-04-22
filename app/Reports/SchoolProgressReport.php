@@ -30,7 +30,6 @@ class SchoolProgressReport
     {
         $school = $this->school;
         $year_id = $this->request->get('year_id', false);
-        $report_type = $this->request->get('report_type', false);
         $type = $this->request->get('student_type', false);
         $grades = $this->request->get('grades', []);
         $year = Year::query()->findOrFail($year_id);
@@ -71,16 +70,6 @@ class SchoolProgressReport
         foreach ($grades as $grade) {
             $general_rounds = [];
             $student_terms = collect();
-
-            //All terms
-            $all_terms = Term::query()->whereHas('level', function (Builder $query) use ($grade, $year_id, $type) {
-                $query->where('grade', $grade)
-                    ->when($type != 2, function (Builder $query) use ($type) {
-                        $query->where('arab', $type);
-                    })
-                    ->where('year_id', $year_id);
-            })->get();
-
             //September
             $september_terms = Term::query()->whereHas('level', function (Builder $query) use ($grade, $custom_year, $type) {
                 $query->where('grade', $grade)
@@ -112,8 +101,6 @@ class SchoolProgressReport
                 })
                 ->whereIn('term_id', $september_terms->pluck('id'))
                 ->where('corrected', 1)
-//                ->where('created_at', '<=', $to)
-//                ->where('created_at', '>=', $from)
                 ->get();
 
             $feb_student_terms = StudentTerm::query()->with(['student'])
@@ -122,8 +109,6 @@ class SchoolProgressReport
                 })
                 ->whereIn('term_id', $february_terms->pluck('id'))
                 ->where('corrected', 1)
-//                ->where('created_at', '<=', $to)
-//                ->where('created_at', '>=', $from)
                 ->get();
 
             $may_student_terms = StudentTerm::query()->with(['student'])
@@ -132,8 +117,6 @@ class SchoolProgressReport
                 })
                 ->whereIn('term_id', $may_terms->pluck('id'))
                 ->where('corrected', 1)
-//                ->where('created_at', '<=', $to)
-//                ->where('created_at', '>=', $from)
                 ->get();
 
 
@@ -142,7 +125,6 @@ class SchoolProgressReport
                 ->merge($feb_student_terms->pluck('student_id')->unique())
                 ->merge($may_student_terms->pluck('student_id')->unique())
                 ->unique();
-//            $student_terms = $all_student_terms->pluck('student_id')->unique();
 
             if ($sept_student_terms->count() && $feb_student_terms->count()) {
                 $above_expected = 0;
@@ -1011,8 +993,8 @@ class SchoolProgressReport
 
         }
 
-
-        return view('general.reports.progress.school_progress_report', compact('arab_pages', 'school','type', 'sub_title', 'year', 'rounds', 'steps'));
+        $report_type = 'progress';
+        return view('general.reports.progress.school_progress_report', compact('arab_pages', 'school','type', 'sub_title', 'year', 'rounds', 'steps', 'report_type'));
 
     }
 }

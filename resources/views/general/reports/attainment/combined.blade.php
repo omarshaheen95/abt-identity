@@ -39,7 +39,7 @@
 <div class="page p-0">
     <div class="subpage-w">
         <div class="position-relative">
-            <img src="{{ asset('assets_v1/media/reports/covers/identity_'.$lang.'_combined_attainment.svg')}}" class="w-100" alt="">
+            <img src="{{ asset('assets_v1/media/reports/covers/combined_attainmnet_'.$lang.'.svg')}}" class="w-100" alt="">
 
             <h4 class="position-absolute report-date m-3 text-black">
                 {{re('Report issue date') }} : {{ date('d/m/Y') }}
@@ -218,7 +218,7 @@
     <div class="subpage-w">
         <div class="row">
             <div class="col-md-12 text-center">
-                <img src="{{ asset("assets_v1/media/reports/identity_domains.svg") }}?v=2" width="90%"/>
+                <img src="{{ asset("assets_v1/media/reports/identity_domains.svg") }}?v=3" width="90%"/>
             </div>
         </div>
     </div>
@@ -645,7 +645,7 @@
                 <div class="row text-center justify-content-center mt-3">
                     @foreach($arab_grades->local_girls as $round)
                         <div class="col-4">
-                            <div id="arab_local_boys_{{strtolower($round->round)}}"></div>
+                            <div id="arab_local_girls_{{strtolower($round->round)}}"></div>
                         </div>
                     @endforeach
                 </div>

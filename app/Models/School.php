@@ -69,7 +69,7 @@ class School extends Authenticatable
             ->when($name = $request->get('name', false), function (Builder $query) use ($name) {
                 $query->where(function (Builder $query) use ($name) {
                     $name = \Str::lower($name);
-                    $query->where(DB::raw('LOWER(name->"$.ar")'), 'like', '%' . $name . '%')
+                    $query->where(DB::raw('LOWER(name->"$.ar")'), 'like', '%' . strtolower($name) . '%')
                         ->orWhere(DB::raw('LOWER(name->"$.en")'), 'like', '%' .  strtolower($name) . '%');
                 });
             })->when($email = $request->get('email', false), function (Builder $query) use ($email) {

@@ -121,8 +121,10 @@
             <div class="col-12 d-flex justify-content-end">
                 <button data-summary="0" data-combined="0"  type="button" class="get-report btn btn-primary me-5"
                         data-route="{{route(getGuard().'.report.attainment')}}">{{t('The Attainment')}}</button>
-                <button data-summary="1" data-combined="0"  type="button" class="get-report btn btn-primary me-5"
-                        data-route="{{route(getGuard().'.report.attainment')}}">{{t('The Attainment Summary')}}</button>
+
+{{--                <button data-summary="1" data-combined="0"  type="button" class="get-report btn btn-primary me-5"--}}
+{{--                        data-route="{{route(getGuard().'.report.attainment')}}">{{t('The Attainment Summary')}}</button>--}}
+{{--              --}}
                 <button data-summary="0" data-combined="1" type="button" class="get-report btn btn-primary "
                         data-route="{{route(getGuard().'.report.attainment')}}">{{t('The Combined Report')}}</button>
             </div>

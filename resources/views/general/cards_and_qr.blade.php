@@ -57,11 +57,11 @@
 
                                     <div class="col-5 mt-1 d-flex justify-content-end p-0 pe-1">
                                         @if($std->gender == 'boy')
-                                            {!! QrCode::color(0, 166, 255)->size(100)->generate(sysDomain()."/student/login?username=".$std->email); !!}
+                                            {!! QrCode::color(0, 166, 255)->size(100)->generate("https://abt-identity.com/student/login?username=".$std->email); !!}
                                         @elseif($std->gender == 'girl')
-                                            {!! QrCode::color(255, 0, 194)->size(100)->generate(sysDomain()."/student/login?username=".$std->email); !!}
+                                            {!! QrCode::color(255, 0, 194)->size(100)->generate("https://abt-identity.com/student/login?username=".$std->email); !!}
                                         @else
-                                            {!! QrCode::color(197, 65, 141)->size(100)->generate(sysDomain()."/student/login?username=".$std->email);!!}
+                                            {!! QrCode::color(197, 65, 141)->size(100)->generate("https://abt-identity.com/student/login?username=".$std->email);!!}
                                         @endif
                                     </div>
                                 </div>

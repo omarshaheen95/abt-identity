@@ -29,9 +29,9 @@
 </head>
 <style>
     @if(app()->getLocale()=='ar')
-    .report-date{top:74%!important; left: 11%!important;}
+    .report-date{top:70%!important; left: 11%!important;}
     @else
-    .report-date{top:74%!important; right: 11%!important;}
+    .report-date{top:70%!important; right: 11%!important;}
     @endif
 </style>
 <body>
@@ -41,9 +41,16 @@
         <div class="position-relative">
             <img src="{{ asset('assets_v1/media/reports/covers/combined_attainmnet_'.$lang.'.svg')}}" class="w-100" alt="">
 
-            <h4 class="position-absolute report-date m-3 text-black">
-                {{re('Report issue date') }} : {{ date('d/m/Y') }}
-            </h4>
+            <div class="position-absolute report-date m-3 text-black">
+                <div class="d-flex flex-column align-items-center gap-2">
+                    <h4>
+                        {{$school->name}}
+                    </h4>
+                    <h4>
+                        {{re('Report issue date') }} : {{ date('d/m/Y') }}
+                    </h4>
+                </div>
+            </div>
         </div>
     </div>
 </div>

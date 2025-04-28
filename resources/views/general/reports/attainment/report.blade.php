@@ -261,7 +261,7 @@
                                 <tbody>
                                 @foreach($arab_grade->rounds as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -296,7 +296,7 @@
                                 <tbody>
                                 @foreach($arab_grade->rounds as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Students')}}
                                             <br/>
                                             <span class="text-danger">{{ $round->below->percentage }} %</span>
@@ -317,7 +317,7 @@
                                             / {{ $arab_grade->total }} {{re('Students')}}
                                             <br/>
                                             <span
-                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ re($rowData['level']) }}</span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -356,7 +356,7 @@
                                             @foreach($skills_round as $skill_round)
                                                 @if($skill_round->skill_id == $skill->id)
                                                     <tr class="text-center">
-                                                        <td>{{ $round }}</td>
+                                                        <td>{{ re($round) }}</td>
                                                         <td class="back-t">{{ $skill_round->below }}
                                                             {{re('Student')}}
                                                         </td>
@@ -405,7 +405,7 @@
                                 <tbody>
                                 @foreach($arab_grade->boys as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -442,7 +442,7 @@
                                 <tbody>
                                 @foreach($arab_grade->girls as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -483,7 +483,7 @@
                                 <tbody>
                                 @foreach($arab_grade->sen as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -520,7 +520,7 @@
                                 <tbody>
                                 @foreach($arab_grade->g_t as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -561,7 +561,7 @@
                                 <tbody>
                                 @foreach($arab_grade->local as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -598,7 +598,7 @@
                                 <tbody>
                                 @foreach($arab_grade->local_boys as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -640,7 +640,7 @@
                                 <tbody>
                                 @foreach($arab_grade->local_girls as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -693,7 +693,7 @@
                                 <tbody>
                                 @foreach($non_arab_grade->rounds as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -728,7 +728,7 @@
                                 <tbody>
                                 @foreach($non_arab_grade->rounds as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Students')}}
                                             <br/>
                                             <span class="text-danger">{{ $round->below->percentage }} %</span>
@@ -749,7 +749,7 @@
                                             / {{ $non_arab_grade->total }} {{re('Students')}}
                                             <br/>
                                             <span
-                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ re($rowData['level']) }}</span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -788,7 +788,7 @@
                                             @foreach($skills_round as $skill_round)
                                                 @if($skill_round->skill_id == $skill->id)
                                                     <tr class="text-center">
-                                                        <td>{{ $round }}</td>
+                                                        <td>{{ re($round) }}</td>
                                                         <td class="back-t">{{ $skill_round->below }}
                                                             {{re('Student')}}
                                                         </td>
@@ -837,7 +837,7 @@
                                 <tbody>
                                 @foreach($non_arab_grade->boys as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -874,7 +874,7 @@
                                 <tbody>
                                 @foreach($non_arab_grade->girls as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -915,7 +915,7 @@
                                 <tbody>
                                 @foreach($non_arab_grade->sen as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -952,7 +952,7 @@
                                 <tbody>
                                 @foreach($non_arab_grade->g_t as $round)
                                     <tr class="text-center">
-                                        <td>{{ $round->round }}</td>
+                                        <td>{{ re($round->round) }}</td>
                                         <td class="back-t">{{ $round->below->count }} {{re('Student')}}</td>
                                         <td class="back-a">{{ $round->inline->count }} {{re('Student')}}</td>
                                         <td class="back-m">{{ $round->above->count }} {{re('Student')}}</td>
@@ -1007,7 +1007,7 @@
             xAxis: {
                 categories: [
                     @foreach($non_arab_grade->rounds as $round)
-                        "{{$round->round}}",
+                        "{{ re($round->round) }}",
                     @endforeach
                 ],
                 crosshair: true,
@@ -1420,7 +1420,7 @@
             xAxis: {
                 categories: [
                     @foreach($arab_grade->rounds as $round)
-                        "{{$round->round}}",
+                        "{{ re($round->round) }}",
                     @endforeach
                 ],
                 crosshair: true,

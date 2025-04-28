@@ -598,4 +598,37 @@ class StudentTermController extends Controller
             return $this->sendError( t('Student Term Not Restored'),402);
         }
     }
+
+    public function deleteDuplicateStudentTerm(Request $request)
+    {
+        $request->validate([
+            'year_id' => 'required|exists:years,id',
+        ]);
+
+        $student_terms = StudentTerm::query()
+            ->search($request)
+            ->get();
+
+        foreach ($student_terms as $student_term){
+            $has_term = StudentTerm::query()
+                ->where('term_id',$student_term->term_id)
+                ->where('student_id',$student_term->student_id)
+                ->get();
+            if ($has_term->count() > 1){
+                $has_term->shift();
+                foreach ($has_term as $term){
+                    $term->delete();
+                    //delete result
+                    TFQuestionResult::query()->where('student_term_id',$term->id)->delete();
+                    OptionQuestionResult::query()->where('student_term_id',$term->id)->delete();
+                    MatchQuestionResult::query()->where('student_term_id',$term->id)->delete();
+                    SortQuestionResult::query()->where('student_term_id',$term->id)->delete();
+                    ArticleQuestionResult::query()->where('student_term_id',$term->id)->delete();
+                    FillBlankAnswer::query()->where('student_term_id',$term->id)->delete();
+                    StudentTermStandard::query()->where('student_term_id',$term->id)->delete();
+                }
+            }
+        }
+        return $this->sendResponse(null, t('Duplicate Student Terms Deleted Successfully'));
+    }
 }

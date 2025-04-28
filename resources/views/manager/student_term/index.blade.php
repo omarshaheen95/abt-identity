@@ -129,6 +129,7 @@
             @endcan
             @can('delete students terms')
                 <li id="li_delete_rows"><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
+                <li id="li_duplicate_rows"><a class="dropdown-item text-success " href="#!" onclick="deleteDuplicate()">{{t('Delete Duplicate')}}</a></li>
             @endcan
         </ul>
     </div>
@@ -222,6 +223,39 @@
             $.ajax({
                 type: "POST",
                 url: '{{route('manager.auto-correct-student-term')}}', // get the route value
+                data: data,
+                success:function (result) {
+                    hideLoadingModal()
+                    toastr.success(result.message)
+                    table.DataTable().draw(false);
+                },
+                error:function (error) {
+                    hideLoadingModal()
+                    toastr.error(error.responseJSON.message)
+                }
+            })
+        }
+        function deleteDuplicate() {
+            let data = {
+                '_token': '{{csrf_token()}}',
+            }
+            let row_id = [];
+            $("input:checkbox[name='rows[]']:checked").each(function () {
+                row_id.push($(this).val());
+            });
+
+            var frm_data = $('#filter').serializeArray();
+            if (frm_data){
+                $.each(frm_data, function (key, val) {
+                    data[val.name] = val.value;
+                });
+            }
+            data['row_id'] = row_id
+
+            showLoadingModal();
+            $.ajax({
+                type: "POST",
+                url: '{{route('manager.student-term.delete-duplicate-student-term')}}', // get the route value
                 data: data,
                 success:function (result) {
                     hideLoadingModal()

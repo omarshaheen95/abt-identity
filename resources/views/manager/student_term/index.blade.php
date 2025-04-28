@@ -129,7 +129,7 @@
             @endcan
             @can('delete students terms')
                 <li id="li_delete_rows"><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
-                <li id="li_duplicate_rows"><a class="dropdown-item text-success " href="#!" onclick="deleteDuplicate()">{{t('Delete Duplicate')}}</a></li>
+                <li id="li_duplicate_rows"><a class="dropdown-item text-danger " href="#!" onclick="deleteDuplicate()">{{t('Delete Duplicate')}}</a></li>
             @endcan
         </ul>
     </div>

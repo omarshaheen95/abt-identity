@@ -191,7 +191,7 @@ class SchoolProgressReport
                                 $female_below_expected++;
                             }
                         }
-                        if ($studentTermSept->student->uae_student == 1) {
+                        if ($studentTermSept->student->citizen == 1) {
                             if ($progressRate == 1) {
                                 $uae_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -200,7 +200,7 @@ class SchoolProgressReport
                                 $uae_below_expected++;
                             }
                         }
-                        if ($studentTermSept->student->sen_student == 1) {
+                        if ($studentTermSept->student->sen == 1) {
                             if ($progressRate == 1) {
                                 $sen_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -210,7 +210,7 @@ class SchoolProgressReport
                             }
                         }
 
-                        if ($studentTermSept->student->uae_student == 1 && $studentTermSept->student->gender == 'boy') {
+                        if ($studentTermSept->student->citizen == 1 && $studentTermSept->student->gender == 'boy') {
                             if ($progressRate == 1) {
                                 $uae_male_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -219,7 +219,7 @@ class SchoolProgressReport
                                 $uae_male_below_expected++;
                             }
                         }
-                        if ($studentTermSept->student->uae_student == 1 && $studentTermSept->student->gender == 'girl') {
+                        if ($studentTermSept->student->citizen == 1 && $studentTermSept->student->gender == 'girl') {
                             if ($progressRate == 1) {
                                 $uae_female_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -466,7 +466,7 @@ class SchoolProgressReport
                                 $female_below_expected++;
                             }
                         }
-                        if ($studentTermFeb->student->uae_student == 1) {
+                        if ($studentTermFeb->student->citizen == 1) {
                             if ($progressRate == 1) {
                                 $uae_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -475,7 +475,7 @@ class SchoolProgressReport
                                 $uae_below_expected++;
                             }
                         }
-                        if ($studentTermFeb->student->sen_student == 1) {
+                        if ($studentTermFeb->student->sen == 1) {
                             if ($progressRate == 1) {
                                 $sen_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -485,7 +485,7 @@ class SchoolProgressReport
                             }
                         }
 
-                        if ($studentTermFeb->student->uae_student == 1 && $studentTermFeb->student->gender == 'boy') {
+                        if ($studentTermFeb->student->citizen == 1 && $studentTermFeb->student->gender == 'boy') {
                             if ($progressRate == 1) {
                                 $uae_male_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -494,7 +494,7 @@ class SchoolProgressReport
                                 $uae_male_below_expected++;
                             }
                         }
-                        if ($studentTermFeb->student->uae_student == 1 && $studentTermFeb->student->gender == 'girl') {
+                        if ($studentTermFeb->student->citizen == 1 && $studentTermFeb->student->gender == 'girl') {
                             if ($progressRate == 1) {
                                 $uae_female_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -740,7 +740,7 @@ class SchoolProgressReport
                                 $female_below_expected++;
                             }
                         }
-                        if ($studentTermSept->student->uae_student == 1) {
+                        if ($studentTermSept->student->citizen == 1) {
                             if ($progressRate == 1) {
                                 $uae_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -749,7 +749,7 @@ class SchoolProgressReport
                                 $uae_below_expected++;
                             }
                         }
-                        if ($studentTermSept->student->sen_student == 1) {
+                        if ($studentTermSept->student->sen == 1) {
                             if ($progressRate == 1) {
                                 $sen_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -759,7 +759,7 @@ class SchoolProgressReport
                             }
                         }
 
-                        if ($studentTermSept->student->uae_student == 1 && $studentTermSept->student->gender == 'boy') {
+                        if ($studentTermSept->student->citizen == 1 && $studentTermSept->student->gender == 'boy') {
                             if ($progressRate == 1) {
                                 $uae_male_above_expected++;
                             } elseif ($progressRate == 0) {
@@ -768,7 +768,7 @@ class SchoolProgressReport
                                 $uae_male_below_expected++;
                             }
                         }
-                        if ($studentTermSept->student->uae_student == 1 && $studentTermSept->student->gender == 'girl') {
+                        if ($studentTermSept->student->citizen == 1 && $studentTermSept->student->gender == 'girl') {
                             if ($progressRate == 1) {
                                 $uae_female_above_expected++;
                             } elseif ($progressRate == 0) {

@@ -44,7 +44,7 @@
 <div class="page p-0">
     <div class="subpage-w">
         <div class="position-relative">
-            <img src="{{ asset("assets_v1/media/reports/covers/student_".$lang.".svg") }}?v1" class="w-100" alt="">
+            <img src="{{ asset("assets_v1/media/reports/covers/student_".$lang.".svg") }}?v2" class="w-100" alt="">
             <h2 class="position-absolute student-name m-3 text-black w-50 text-center fw-bold">
                 {{ $student->name }}
             </h2>

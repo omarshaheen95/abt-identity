@@ -62,8 +62,8 @@ class StudentMarksExport implements WithMapping, Responsable, WithHeadings, From
     public function headings(): array
     {
         $headers = [
-            'Name',
             'ID',
+            'Name',
             'School',
             'Grade',
             'Grade Name',

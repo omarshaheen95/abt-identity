@@ -19,11 +19,13 @@ class SchoolCombinedProgressReport
     public $request;
     public $start;
     public $end;
+    public $total_students;
 
     public function __construct(Request $request, $school)
     {
         $this->school = $school;
         $this->request = $request;
+        $this->total_students = 0;
     }
 
     public function report()
@@ -123,6 +125,8 @@ class SchoolCombinedProgressReport
             ->merge($feb_student_terms->pluck('student_id')->unique())
             ->merge($may_student_terms->pluck('student_id')->unique())
             ->unique();
+
+        $this->total_students += $student_terms->count();
 
         if ($sept_student_terms->count() && $feb_student_terms->count()) {
             $above_expected = 0;
@@ -992,7 +996,31 @@ class SchoolCombinedProgressReport
 
         $report_type = 'combined';
 
-        return view('general.reports.progress.school_progress_report', compact('arab_pages', 'school', 'type', 'sub_title', 'year', 'rounds', 'steps', 'first_grade', 'last_grade', 'report_type'));
+        $students_type = '';
+        switch ($type) {
+            case 0:
+            {
+                $students_type = re('Arab And Non Arab');
+                break;
+            }
+            case 1:
+            {
+                $students_type = re('Arab');
+                break;
+            }
+            case 2:
+            {
+                $students_type = re('Non Arab');
+                break;
+            }
+        }
+        $info_page = [
+            'total_students' => $this->total_students,
+            'year' => $year->name,
+            'grades' => implode(',', $grades),
+            'student_type' => $students_type,
+        ];
+        return view('general.reports.progress.school_progress_report', compact('arab_pages','info_page', 'school', 'type', 'sub_title', 'year', 'rounds', 'steps', 'first_grade', 'last_grade', 'report_type'));
 
     }
 }

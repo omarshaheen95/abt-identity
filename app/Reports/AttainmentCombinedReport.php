@@ -8,17 +8,10 @@ WhatsApp +972592554320
 namespace App\Reports;
 
 use App\Helpers\Constant;
-use App\Models\Assessment;
-use App\Models\Round;
 use App\Models\School;
-use App\Models\SchoolGradeRange;
-use App\Models\SchoolHiddenSkill;
-use App\Models\SchoolSkillRange;
-use App\Models\Skill;
 use App\Models\Student;
 use App\Models\StudentTerm;
 use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\Year;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -30,6 +23,7 @@ class AttainmentCombinedReport
     public $rounds;
     public $rounds_key;
     public $school;
+    public $total_students;
 
     public function __construct(Request $request)
     {
@@ -45,6 +39,8 @@ class AttainmentCombinedReport
             $this->rounds_key = Constant::ROUNDS_KEY;
         }
         $this->rounds = Constant::ROUNDS;
+        $this->total_students = 0;
+
     }
 
     public function report()
@@ -83,10 +79,36 @@ class AttainmentCombinedReport
 
         $rounds = $ordered_rounds;
         $year = Year::query()->findOrFail($year);
-
+        $students_type = '';
+        switch ($student_type) {
+            case 0:
+            {
+                $students_type = re('Arab And Non Arab');
+                break;
+            }
+            case 1:
+            {
+                $students_type = re('Arab');
+                break;
+            }
+            case 2:
+            {
+                $students_type = re('Non Arab');
+                break;
+            }
+        }
+        $info_page = [
+            'total_students' => $this->total_students,
+            'year' => $year->name,
+            'grades' => implode(',', $grades),
+            'sections' => implode(',', $sections),
+            'student_type' => $students_type,
+            'sen' => $include_sen?re('Included'):re('Not Included'),
+            'g&t' => $include_g_t?re('Included'):re('Not Included'),
+        ];
 
 //        dd($arab_grades, $non_arab_grades);
-        return view('general.reports.attainment.combined', compact('school', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
+        return view('general.reports.attainment.combined', compact('school','info_page', 'title', 'non_arab_grades', 'arab_grades', 'rounds', 'grades', 'year', 'sections', 'include_g_t', 'include_sen', 'subjects', 'student_type'));
     }
 
     private function processSubject($is_arabic, $school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $rounds)
@@ -113,6 +135,8 @@ class AttainmentCombinedReport
             })
             ->where('corrected', 1)
             ->with(['student']);
+
+        $this->total_students += $base_assessments_query->count();
 
         $above_condition = (object)[
             'from' => 70,

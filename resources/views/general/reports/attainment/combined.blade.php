@@ -29,9 +29,9 @@
 </head>
 <style>
     @if(app()->getLocale()=='ar')
-    .report-date{top:70%!important; left: 11%!important;}
+    .report-date{top:73%!important; left: 11%!important;}
     @else
-    .report-date{top:70%!important; right: 11%!important;}
+    .report-date{top:73%!important; right: 11%!important;}
     @endif
 </style>
 <body>
@@ -41,16 +41,9 @@
         <div class="position-relative">
             <img src="{{ asset('assets_v1/media/reports/covers/combined_attainmnet_'.$lang.'.svg')}}" class="w-100" alt="">
 
-            <div class="position-absolute report-date m-3 text-black">
-                <div class="d-flex flex-column align-items-center gap-2">
-                    <h4>
-                        {{$school->name}}
-                    </h4>
-                    <h4>
-                        {{re('Report issue date') }} : {{ date('d/m/Y') }}
-                    </h4>
-                </div>
-            </div>
+            <h4 class="position-absolute report-date m-3 text-black">
+                {{ re('Report issue date') }} : {{ date('d/m/Y') }}
+            </h4>
         </div>
     </div>
 </div>
@@ -231,8 +224,58 @@
     </div>
     <span class="number-page">3</span>
 </div>
+
+<div class="page">
+    <div class="subpage-w d-flex flex-column justify-content-center">
+        <div class="row justify-content-center">
+            <div class="col-6 text-center">
+                <div class="image-container">
+                    <img src="{{asset($school->logo)}}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-10 text-center">
+                <div class="table-container">
+                    <table class="table m-0">
+                        <tr>
+                            <td class="main-td w-25 py-2">{{re('School Name')}}</td>
+                            <td class="">{{$school->name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td w-25 py-2">{{re('Academic Year')}}</td>
+                            <td class="">{{$info_page['year']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Total Students')}}</td>
+                            <td class="">{{$info_page['total_students']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Students Type')}}</td>
+                            <td class="">{{$info_page['student_type']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Grades')}}</td>
+                            <td class="">{{$info_page['grades']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('SEN Students')}}</td>
+                            <td class="">{{$info_page['sen']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('G&T Students')}}</td>
+                            <td class="">{{$info_page['g&t']}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="number-page">4</span>
+</div>
+
 @php
-    $pageNum = 4;
+    $pageNum = 5;
 @endphp
     @if(($student_type == 1 || $student_type == 0) && $arab_grades->total)
         <div class="page">

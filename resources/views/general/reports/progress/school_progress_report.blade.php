@@ -231,14 +231,7 @@
 </div>
 <div class="page">
     <div class="subpage-w">
-        <div class="row justify-content-center mt-3 mb-5">
-            <div class="col-6 text-center">
-                <div class="image-container">
-                    <img src="{{asset($school->logo)}}" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center  mt-5">
+        <div class="row justify-content-center  mt-4">
             <div class="col-10 text-center">
                 <h4 class="main-color">{{re('In this report, we analyse the below points')}}</h4>
             </div>
@@ -254,9 +247,49 @@
     <span class="number-page">4</span>
 </div>
 
+<div class="page">
+    <div class="subpage-w d-flex flex-column justify-content-center">
+        <div class="row justify-content-center">
+            <div class="col-6 text-center">
+                <div class="image-container">
+                    <img src="{{asset($school->logo)}}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-10 text-center">
+                <div class="table-container">
+                    <table class="table m-0">
+                        <tr>
+                            <td class="main-td w-25 py-2">{{re('School Name')}}</td>
+                            <td class="">{{$school->name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td w-25 py-2">{{re('Academic Year')}}</td>
+                            <td class="">{{$info_page['year']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Total Students')}}</td>
+                            <td class="">{{$info_page['total_students']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Students Type')}}</td>
+                            <td class="">{{$info_page['student_type']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Grades')}}</td>
+                            <td class="">{{$info_page['grades']}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="number-page">5</span>
+</div>
 
 @php
-    $pageNum = 5;
+    $pageNum = 6;
 @endphp
 
 @foreach($arab_pages as $key => $arab_page)

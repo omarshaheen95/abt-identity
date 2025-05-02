@@ -246,10 +246,7 @@
                             <td class="main-td w-25 py-2">{{re('Academic Year')}}</td>
                             <td class="">{{$info_page['year']}}</td>
                         </tr>
-                        <tr>
-                            <td class="main-td py-2">{{re('Total Students')}}</td>
-                            <td class="">{{$info_page['total_students']}}</td>
-                        </tr>
+
                         <tr>
                             <td class="main-td py-2">{{re('Students Type')}}</td>
                             <td class="">{{$info_page['student_type']}}</td>
@@ -266,14 +263,96 @@
                             <td class="main-td py-2">{{re('G&T Students')}}</td>
                             <td class="">{{$info_page['g&t']}}</td>
                         </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Issue Date')}}</td>
+                            <td class="">{{date('Y-m-d')}}</td>
+                        </tr>
                     </table>
                 </div>
             </div>
         </div>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-10 text-center">
+                <div class="table-container">
+                    <table class="table small m-0">
+                        <thead>
+                        <tr>
+                            <th>
+                                {{re('Category')}}
+                            </th>
+                            <th>
+                                {{re('Students have assessments')}}
+                            </th>
+                            <th>
+                                {{re('Students not have assessments')}}
+                            </th>
+                            <th>
+                                {{re('Total')}}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <td class="sub-td w-25 py-2">{{re('Total')}}</td>
+                            <td class="">{{$info_page['have_term_total_students']}}</td>
+                            <td class="">{{$info_page['total_students']  - $info_page['have_term_total_students']}}</td>
+                            <td class="">{{$info_page['total_students']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td w-25 py-2">{{re('Boys')}}</td>
+                            <td class="">{{$info_page['have_term_boys_count']}}</td>
+                            <td class="">{{$info_page['boys_count']  - $info_page['have_term_boys_count']}}</td>
+                            <td class="">{{$info_page['boys_count']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td py-2">{{re('Girls')}}</td>
+                            <td class="">{{$info_page['have_term_girls_count']}}</td>
+                            <td class="">{{$info_page['girls_count']  - $info_page['have_term_girls_count']}}</td>
+                            <td class="">{{$info_page['girls_count']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td py-2">{{re('SEN')}}</td>
+                            <td class="">{{$info_page['have_term_sen_count']}}</td>
+                            <td class="">{{$info_page['sen_count']  - $info_page['have_term_sen_count']}}</td>
+                            <td class="">{{$info_page['sen_count']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td py-2">{{re('G&T')}}</td>
+                            <td class="">{{$info_page['have_term_g_t_count']}}</td>
+                            <td class="">{{$info_page['g_t_count']  - $info_page['have_term_g_t_count']}}</td>
+                            <td class="">{{$info_page['g_t_count']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td py-2">{{re('Non-Citizen')}}</td>
+                            <td class="">{{$info_page['have_term_non_citizen_count']}}</td>
+                            <td class="">{{$info_page['non_citizen_count']  - $info_page['have_term_non_citizen_count']}}</td>
+                            <td class="">{{$info_page['non_citizen_count']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td py-2">{{re('Citizen')}}</td>
+                            <td class="">{{$info_page['have_term_citizen_count']}}</td>
+                            <td class="">{{$info_page['citizen_count']  - $info_page['have_term_citizen_count']}}</td>
+                            <td class="">{{$info_page['citizen_count']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td py-2">{{re('Citizen Boys')}}</td>
+                            <td class="">{{$info_page['have_term_citizen_boys_count']}}</td>
+                            <td class="">{{$info_page['citizen_boys_count']  - $info_page['have_term_citizen_boys_count']}}</td>
+                            <td class="">{{$info_page['citizen_boys_count']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="sub-td py-2">{{re('Citizen Girls')}}</td>
+                            <td class="">{{$info_page['have_term_citizen_girls_count']}}</td>
+                            <td class="">{{$info_page['citizen_girls_count']  - $info_page['have_term_citizen_girls_count']}}</td>
+                            <td class="">{{$info_page['citizen_girls_count']}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
     <span class="number-page">4</span>
 </div>
-
 @php
     $pageNum = 5;
 @endphp

@@ -277,16 +277,16 @@
                     <table class="table small m-0">
                         <thead>
                         <tr>
-                            <th>
+                            <th style="border: solid 1px #cdcdce !important;">
                                 {{re('Category')}}
                             </th>
-                            <th>
+                            <th style="border: solid 1px #cdcdce !important;">
                                 {{re('Students have assessments')}}
                             </th>
-                            <th>
+                            <th style="border: solid 1px #cdcdce !important;">
                                 {{re('Students not have assessments')}}
                             </th>
-                            <th>
+                            <th style="border: solid 1px #cdcdce !important;">
                                 {{re('Total')}}
                             </th>
                         </tr>

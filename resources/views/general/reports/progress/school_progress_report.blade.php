@@ -269,16 +269,16 @@
                             <td class="">{{$info_page['year']}}</td>
                         </tr>
                         <tr>
-                            <td class="main-td py-2">{{re('Total Students')}}</td>
-                            <td class="">{{$info_page['total_students']}}</td>
-                        </tr>
-                        <tr>
                             <td class="main-td py-2">{{re('Students Type')}}</td>
                             <td class="">{{$info_page['student_type']}}</td>
                         </tr>
                         <tr>
                             <td class="main-td py-2">{{re('Grades')}}</td>
                             <td class="">{{$info_page['grades']}}</td>
+                        </tr>
+                        <tr>
+                            <td class="main-td py-2">{{re('Issue Date')}}</td>
+                            <td class="">{{date('Y-m-d')}}</td>
                         </tr>
                     </table>
                 </div>

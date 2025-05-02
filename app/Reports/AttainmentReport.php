@@ -8,17 +8,10 @@ WhatsApp +972592554320
 namespace App\Reports;
 
 use App\Helpers\Constant;
-use App\Models\Assessment;
-use App\Models\Round;
 use App\Models\School;
-use App\Models\SchoolGradeRange;
-use App\Models\SchoolHiddenSkill;
-use App\Models\SchoolSkillRange;
-use App\Models\Skill;
 use App\Models\Student;
 use App\Models\StudentTerm;
 use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\Year;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -30,7 +23,7 @@ class AttainmentReport
     public $rounds;
     public $rounds_key;
     public $school;
-    public $total_students;
+    public $info_page;
     public function __construct(Request $request)
     {
         $this->request = $request;
@@ -45,7 +38,26 @@ class AttainmentReport
             $this->rounds_key = Constant::ROUNDS_KEY;
         }
         $this->rounds = Constant::ROUNDS;
-        $this->total_students = 0;
+        $this->info_page = [
+            'have_term_total_students' => 0,
+            'have_term_boys_count' => 0,
+            'have_term_girls_count' => 0,
+            'have_term_sen_count' => 0,
+            'have_term_g_t_count' => 0,
+            'have_term_non_citizen_count' => 0,
+            'have_term_citizen_count' => 0,
+            'have_term_citizen_boys_count' => 0,
+            'have_term_citizen_girls_count' => 0,
+            'total_students' => 0,
+            'boys_count' => 0,
+            'girls_count' => 0,
+            'sen_count' => 0,
+            'g_t_count' => 0,
+            'non_citizen_count' => 0,
+            'citizen_count' => 0,
+            'citizen_boys_count' => 0,
+            'citizen_girls_count' => 0,
+        ];
     }
 
     public function report()
@@ -103,15 +115,16 @@ class AttainmentReport
                 break;
             }
         }
-        $info_page = [
-            'total_students' => $this->total_students,
+        $info_page_data = [
             'year' => $year->name,
             'grades' => implode(',', $grades),
             'sections' => implode(',', $sections),
             'student_type' => $students_type,
-            'sen' => $include_sen?re('Included'):re('Not Included'),
-            'g&t' => $include_g_t?re('Included'):re('Not Included'),
+            'sen' => $include_sen ? re('Included') : re('Not Included'),
+            'g&t' => $include_g_t ? re('Included') : re('Not Included'),
         ];
+
+        $info_page = array_merge($info_page_data, $this->info_page);
 
 
         if ($this->request->get('summary', false)) {
@@ -124,6 +137,89 @@ class AttainmentReport
     private function processSubject($is_arabic, $school, $subjects, $grades, $year, $sections, $include_sen, $include_g_t, $rounds)
     {
         $result = [];
+        $this->info_page['have_term_total_students'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->count();
+        $this->info_page['have_term_boys_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'gender', 'boy')->count();
+        $this->info_page['have_term_girls_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'gender', 'girl')->count();
+        $this->info_page['have_term_sen_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'sen', 1)->count();
+        $this->info_page['have_term_g_t_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'g_t', 1)->count();
+        $this->info_page['have_term_non_citizen_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'citizen', 0)->count();
+        $this->info_page['have_term_citizen_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'citizen', 1)->count();
+        $this->info_page['have_term_citizen_boys_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'gender', 'boy')->whereRelation('student', 'citizen', 1)->count();
+        $this->info_page['have_term_citizen_girls_count'] = StudentTerm::query()
+            ->whereHas('student', function (Builder $query) use ($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic) {
+                $query->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic);
+            })
+            ->where('corrected', 1)
+            ->whereRelation('student', 'gender', 'girl')->whereRelation('student', 'citizen', 1)->count();
+
+        $this->info_page['total_students'] = Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->count();
+        $this->info_page['boys_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('gender', 'boy')->count();
+        $this->info_page['girls_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('gender', 'girl')->count();
+        $this->info_page['sen_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('sen', 1)->count();
+        $this->info_page['g_t_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('g_t', 1)->count();
+        $this->info_page['non_citizen_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('citizen', 0)->count();
+        $this->info_page['citizen_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('citizen', 1)->count();
+        $this->info_page['citizen_boys_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('gender', 'boy')->where('citizen', 1)->count();
+        $this->info_page['citizen_girls_count'] += Student::query()
+            ->withConditions($school, $grades, $year, $sections, $include_sen, $include_g_t, $is_arabic)
+            ->where('gender', 'girl')->where('citizen', 1)->count();
+
         foreach ($grades as $grade) {
             $total = Student::query()
                 ->withConditions($school, $grade, $year, $sections, $include_sen, $include_g_t, $is_arabic)

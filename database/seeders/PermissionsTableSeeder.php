@@ -133,16 +133,11 @@ class PermissionsTableSeeder extends Seeder
 
         ];
 
-        // Disable foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Permission::truncate();
-        // Enable foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         //insert permissions
         foreach ($permissions as $permission)
         {
-            Permission::query()->updateOrCreate($permission, $permission);
+            Permission::query()->firstOrCreate(['name'=>$permission['name'],'guard_name'=>$permission['guard_name']], $permission);
         }
 
 

@@ -165,11 +165,13 @@ class Student extends Authenticatable
         }
         elseif (\request()->is('school/*')){
             $student_login = \Auth::guard('school')->user()->student_login;
+            $allow_reports = auth()->guard('school')->user()->allow_reports;
+
             $actions =  [
                 ['key'=>'edit','name'=>t('Edit'),'route'=>route('school.student.edit', $this->id)],
                 ['key' => 'login', 'name' => t('Card'), 'route' => route('school.student-card', $this->id)],
-                ['key' => 'student_report','target' => '_blank', 'name' => t('Student Report'), 'route' => route('school.student.student-report', $this->id)],
-                ['key' => 'student_card_report','target' => '_blank', 'name' => t('Student Report Card'), 'route' => route('school.student.report-card', $this->id)],
+                $allow_reports?['key' => 'student_report','target' => '_blank', 'name' => t('Student Report'), 'route' => route('school.student.student-report', $this->id)]:null,
+                $allow_reports?['key' => 'student_card_report','target' => '_blank', 'name' => t('Student Report Card'), 'route' => route('school.student.report-card', $this->id)]:null,
                 $student_login?['key' => 'login', 'name' => t('Login'), 'route' => route('school.student.student-login', $this->id)]:null,
             ];
 

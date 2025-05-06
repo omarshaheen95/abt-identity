@@ -27,7 +27,7 @@ class School extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info',
-        'available_year_id'
+        'available_year_id','allow_reports'
         ];
     protected $cascadeDeletes = ['students','school_grades', 'inspections_school'];
 

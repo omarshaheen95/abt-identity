@@ -18,8 +18,11 @@
     <link href="{{asset('assets_v1/css/style.bundle.css')}}?v={{time()}}" rel="stylesheet" type="text/css"/>
 @endif
 <style>
-    .formula-preview{
-        overflow:scroll;
+    /*style to disable item menu sidebar */
+    .menu-item-disabled {
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.5;
     }
 </style>
 @yield('style')

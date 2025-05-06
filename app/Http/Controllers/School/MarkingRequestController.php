@@ -38,23 +38,25 @@ class MarkingRequestController extends Controller
     public function  create(){
         $years = Year::query()->get();
         return view('school.marking_requests.edit',compact('years'));
-     }
+    }
 
-     public function store(\App\Http\Requests\MarkingRequestRequest $request){
+    public function store(\App\Http\Requests\MarkingRequestRequest $request){
         $data = $request->validated();
-        $data['school_id'] = Auth::guard('school')->user()->id;
+        $school = Auth::guard('school')->user();
+        $data['school_id'] = $school->id;
         MarkingRequest::query()->create($data);
+        $school->update(['allow_reports' => 0]);
 //         if (!is_null($data['email'])) {
 //             Mail::to($data['email'])->send(new MarkingRequestMail($data));
 //         }
         return redirect()->route('school.marking_requests.index')->with('message', 'Successfully Added');
-     }
+    }
 
-     public function edit($id){
-         $marking_request = MarkingRequest::query()->find($id);
-         $years = Year::query()->get();
-         return view('school.marking_requests.edit',compact('marking_request','years'));
-     }
+    public function edit($id){
+        $marking_request = MarkingRequest::query()->find($id);
+        $years = Year::query()->get();
+        return view('school.marking_requests.edit',compact('marking_request','years'));
+    }
 
     public function update(\App\Http\Requests\MarkingRequestRequest $request, $id){
         $data = $request->validated();
@@ -74,7 +76,7 @@ class MarkingRequestController extends Controller
     public function getCompletedTermsTotal(Request $request){
         $request->validate(['round'=>'required']);
 
-       $student =  Student::query()->whereHas('level', function ($query) use ($request) {
+        $student =  Student::query()->whereHas('level', function ($query) use ($request) {
             $query->whereIn('grade', $request->get('grades',[]))
                 ->where('year_id',$request->get('year_id'))
             ;

@@ -129,8 +129,8 @@
                         <span class="menu-title">{{t('Students & Marks')}}</span>
                     </a>
                 </div>
-                <div class="menu-item">
-                    <a class="menu-link @if(Request::is('school/pre-attainment-report')||Request::is('school/pre-attainment-report/*'))active @endif" href="{{ route('school.report.pre-attainment') }}">
+                <div class="menu-item {{!auth()->guard('school')->user()->allow_reports?'menu-item-disabled':''}}">
+                    <a class="menu-link @if(Request::is('school/pre-attainment-report')||Request::is('school/pre-attainment-report/*'))active @endif" href="{{ auth()->guard('school')->user()->allow_reports?route('school.report.pre-attainment'):'#'}}">
                                 <span class="menu-icon">
 												<i class="ki-duotone ki-document fs-2">
                                                  <i class="path1"></i>
@@ -140,8 +140,8 @@
                         <span class="menu-title">{{t('Attainment Report')}}</span>
                     </a>
                 </div>
-                <div class="menu-item">
-                    <a class="menu-link @if(Request::is('school/pre-progress-report')||Request::is('school/pre-progress-report/*'))active @endif" href="{{ route('school.report.pre-progress') }}">
+                <div class="menu-item {{!auth()->guard('school')->user()->allow_reports?'menu-item-disabled':''}}">
+                    <a class="menu-link @if(Request::is('school/pre-progress-report')||Request::is('school/pre-progress-report/*'))active @endif" href="{{  auth()->guard('school')->user()->allow_reports?route('school.report.pre-progress'):'#' }}">
                                 <span class="menu-icon">
 												<i class="ki-duotone ki-document fs-2">
                                                  <i class="path1"></i>

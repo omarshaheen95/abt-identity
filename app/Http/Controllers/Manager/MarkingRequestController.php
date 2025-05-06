@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Manager\RequestMarkingRequest;
 use App\Http\Requests\MarkingRequestRequest;
 use App\Mail\MarkingRequestMail;
 use App\Models\MarkingRequest;
@@ -75,7 +74,9 @@ class MarkingRequestController extends Controller
     public function store(MarkingRequestRequest $request)
     {
         $data = $request->validated();
-        $marking_request = MarkingRequest::query()->create($data);
+        MarkingRequest::query()->create($data);
+        $school = School::query()->findOrFail($data['school_id']);
+        $school->update(['allow_reports' => 0]);
         return redirect()->route('manager.marking_requests.index')->with('message', t('Marking Request Created Successfully'));
     }
 
@@ -99,6 +100,17 @@ class MarkingRequestController extends Controller
         $data = $request->validated();
         $marking_request = MarkingRequest::query()->findOrFail($id);
         $marking_request->update($data);
+        $marking_requests = MarkingRequest::query()->where('school_id', $data['school_id'])
+            ->where('status', '<>', 'Completed')->where('status', '<>', 'Rejected')->count();
+        if ($marking_requests > 0) {
+            $marking_request->school->update([
+                'allow_reports' => 0,
+            ]);
+        } else {
+            $marking_request->school->update([
+                'allow_reports' => 1,
+            ]);
+        }
         if ($marking_request->wasChanged('status')) {
             if (!is_null($marking_request->email)) {
                 Mail::to($marking_request->email)->send(new MarkingRequestMail($marking_request));

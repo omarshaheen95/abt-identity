@@ -69,6 +69,7 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'edit schools','guard_name'=>'manager','group'=>'schools'],
             ['name' => 'delete schools','guard_name'=>'manager','group'=>'schools'],
             ['name' => 'export schools','guard_name'=>'manager','group'=>'schools'],
+            ['name' => 'edit reports status','guard_name'=>'manager','group'=>'schools'],
             ['name' => 'school terms scheduling','guard_name'=>'manager','group'=>'schools'],
             ['name' => 'schools general scheduling','guard_name'=>'manager','group'=>'schools'],
             ['name' => 'school login','guard_name'=>'manager','group'=>'schools'],

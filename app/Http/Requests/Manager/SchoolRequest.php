@@ -40,6 +40,9 @@ class SchoolRequest extends FormRequest
             $rules['email'] = 'required|email|unique:schools,email,{$id},id,deleted_at,NULL';
             $rules["password"] = 'required|min:6';
         }
+        if (\Auth::guard('manager')->user()->hasDirectPermission('edit reports status')) {
+            $rules['allow_reports'] = 'nullable|boolean';
+        }
         foreach(\Config::get('app.languages') as $locale)
         {
             $rules["name.$locale"] = 'required';

@@ -152,24 +152,37 @@
         <div class="row mt-5">
             <div class="col-lg-2">
                 <div class="form-check form-switch form-check-custom form-check-solid">
-                    <input class="form-check-input" type="checkbox" value="1" id="flexSwitchDefault"
+                    <input class="form-check-input" type="checkbox" value="1" id="active"
                            {{ isset($school) && $school->active == 1 ? 'checked' :'' }} name="active"
                     />
-                    <label class="form-check-label" for="flexSwitchDefault">
+                    <label class="form-check-label" for="active">
                         {{t('Activation')}}
                     </label>
                 </div>
             </div>
             <div class="col-lg-2">
                 <div class="form-check form-switch form-check-custom form-check-solid">
-                    <input class="form-check-input" type="checkbox" value="1" id="flexSwitchDefault"
+                    <input class="form-check-input" type="checkbox" value="1" id="student_login"
                            {{ isset($school) && $school->student_login == 1 ? 'checked' :'' }} name="student_login"
                     />
-                    <label class="form-check-label" for="flexSwitchDefault">
+                    <label class="form-check-label" for="student_login">
                         {{t('Student Login')}}
                     </label>
                 </div>
             </div>
+
+            @can('edit reports status')
+                <div class="col-lg-2">
+                    <div class="form-check form-switch form-check-custom form-check-solid">
+                        <input class="form-check-input" type="checkbox" value="1" id="allow_reports_switch"
+                            {{ isset($school) && $school->allow_reports == 1 ? 'checked' :'' }}
+                        />
+                        <label class="form-check-label" for="allow_reports_switch">
+                            {{t('Allow Reports')}}
+                        </label>
+                    </div>
+                </div>
+            @endcan
         </div>
 
         <div class="row my-5">
@@ -180,7 +193,7 @@
                 @endisset
             </div>
             <div class="col-6 d-flex justify-content-end">
-                <button type="submit"
+                <button id="btn-submit" type="button"
                         class="btn btn-primary">{{ isset($school) ? t('Update'):t('Create') }}</button>&nbsp;
             </div>
 
@@ -194,6 +207,16 @@
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}?v=1"></script>
     {!! JsValidator::formRequest(\App\Http\Requests\Manager\SchoolRequest::class, '#form_data'); !!}
     <script>
-        var avatar5 = new KTImageInput('kt_image_5');
+        //var avatar5 = new KTImageInput('kt_image_5');
+        $('#btn-submit').click(function () {
+            let form = $('#form_data');
+
+            @can('edit reports status')
+            let allowReport = $('#allow_reports_switch').prop('checked') ? 1 : 0;
+            form.append(`<input type="hidden" name="allow_reports" value="${allowReport}"/>`);
+            @endcan
+
+            form.submit()
+        })
     </script>
 @endsection

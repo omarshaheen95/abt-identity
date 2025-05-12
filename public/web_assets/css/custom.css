@@ -873,11 +873,10 @@ form.disabled{
     padding: 20px;
 }
 .form-check-input {
-    width: 25px;
-    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
     margin-top: 0;
     margin-inline-end: 14px;
-    border-color: #D9D9DC;
     box-shadow: none;
     border: 3px solid rgb(5 3 3 / 25%);
 }

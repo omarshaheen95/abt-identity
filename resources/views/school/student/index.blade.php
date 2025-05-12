@@ -188,7 +188,7 @@
         $('#year_id').on('change',function () {
             let year_id = $(this).val()
             $.ajax({
-                url: '/school/get-sections',
+                url: '{{route('school.get-sections')}}',
                 data: {
                     year_id: year_id,
                 },

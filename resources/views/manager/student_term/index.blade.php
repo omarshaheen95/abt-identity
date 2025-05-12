@@ -20,13 +20,6 @@
     </div>
 
     <div class="col-3 mb-2">
-        <label class="mb-1">{{t('Grade Name')}}:</label>
-        <input type="text" name="grade_name" class="form-control datatable-input"
-               placeholder="{{t('Grade Name')}}" data-col-index="1"/>
-    </div>
-
-
-    <div class="col-3 mb-2">
         <label class="mb-1">{{t('School')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select School')}}" name="school_id">
             <option></option>
@@ -46,6 +39,13 @@
             @endforeach
         </select>
     </div>
+
+    <div class="col-lg-3 mb-2">
+        <label>{{t('Class Name')}} :</label>
+        <select  id="class_name" name="grade_name[]" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Class Name')}}" data-allow-clear="true" multiple="multiple">
+        </select>
+    </div>
+
     <div class="col-lg-3 mb-2">
         <label>{{t('Grade')}} :</label>
         <select name="grade[]" multiple class="form-select direct-value" data-control="select2" data-allow-clear="true"
@@ -315,6 +315,25 @@
                 }
             });
         }
+        $('#year_id').on('change',function () {
+            let year_id = $(this).val()
+            let school_id = $('select[name="school_id"]').val()
+            $.ajax({
+                url: '{{route('manager.student.get-sections')}}',
+                data: {
+                    id: year_id,
+                    school_id:school_id
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#class_name').empty();
+                    $.each(data, function (key, value) {
+                        $('#class_name').append(value);
+                    });
+                }
+            });
+        })
     </script>
     <script src="{{asset('assets_v1/js/datatable.js')}}?v={{time()}}"></script>
     <script src="{{asset('assets_v1/js/manager/models/general.js')}}?v1"></script>

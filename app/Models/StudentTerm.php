@@ -104,9 +104,12 @@ class StudentTerm extends Model
                     return '<a target="_blank" href="' . route(getGuard().'.student-term.certificate', $this->id) . '" class="btn btn-primary btn-sm">' . t('Certificate') . '</a>';
                 }
             }
-        }else if (Auth::guard('manager')->check() && Auth::guard('manager')->user()->hasDirectPermission('edit students terms')) {
+        }else if (getGuard()=='manager') {
+            if (Auth::guard('manager')->user()->hasDirectPermission('edit students terms')){
                 return '<a target="_blank" href="' . route('manager.student_term.edit', $this->id) . '" class="btn btn-success d-flex justify-content-center align-items-center h-35px w-90px">' . t('Correct') . '</a>';
+            }
         }
+        return null;
 
     }
 
@@ -164,7 +167,7 @@ class StudentTerm extends Model
                 });
             })->when($grade_name = $request->get('grade_name', false), function (Builder $query) use ($grade_name) {
                 $query->whereHas('student',function (Builder $query) use ($grade_name) {
-                    $query->where('grade_name', $grade_name);
+                    is_array($grade_name)?$query->whereIn('grade_name', $grade_name):$query->where('grade_name', $grade_name);
                 });
             })->when($school_id = $request->get('school_id', false), function (Builder $query) use ($school_id) {
                 $query->whereRelation('student.school',function (Builder $query) use ($school_id) {

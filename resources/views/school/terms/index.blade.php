@@ -38,18 +38,18 @@
        </div>
 
         <div class="col-3 mb-2">
-        <div class="form-group">
-            <label class="mb-1">{{t('Grade name')}}:</label>
-            <input type="text" class="form-control" id="" value="" name="grade_name" placeholder="{{t('Grade name')}}">
-        </div>
-    </div>
-        <div class="col-3 mb-2">
             <label class="mb-1">{{t('Year')}}:</label>
             <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id" id="year_id">
                 <option></option>
                 @foreach($years as $year)
                     <option value="{{$year->id}}">{{$year->name}}</option>
                 @endforeach
+            </select>
+        </div>
+
+        <div class="col-lg-3 mb-2">
+            <label>{{t('Class Name')}} :</label>
+            <select name="grade_name[]" id="class_name" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Class Name')}}" multiple data-allow-clear="true">
             </select>
         </div>
 
@@ -127,6 +127,23 @@
                 $(row).css('background-color','#fff0b0');
             }
         }
+        $('#year_id').on('change',function () {
+            let year_id = $(this).val()
+            $.ajax({
+                url: '{{route('school.get-sections')}}',
+                data: {
+                    year_id: year_id,
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#class_name').empty();
+                    $.each(data, function (key, value) {
+                        $('#class_name').append(value);
+                    });
+                }
+            });
+        })
     </script>
     <script src="{{asset('assets_v1/js/datatable.js')}}?v={{time()}}"></script>
     <script src="{{asset('assets_v1/js/school/general.js')}}"></script>

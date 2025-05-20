@@ -23,11 +23,10 @@ class MarkingRequestRequest extends FormRequest
 
         ];
 
-        if (getGuard()=='manager') {
-            $rules['status'] = 'required';
-        }
+
         if (\Request::is('manager/*')&&\Auth::guard('manager')->user()){
             $rules['school_id'] = ['required', 'integer'];
+            $rules['status'] = ['required', 'in:Pending,Accepted,In Progress,Completed,Rejected'];
         }else{
             $rules['confirm']='required';
         }

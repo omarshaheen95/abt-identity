@@ -216,7 +216,9 @@
             form.append(`<input type="hidden" name="allow_reports" value="${allowReport}"/>`);
             @endcan
 
-            form.submit()
+            if (form.valid()){
+                form.submit()
+            }
         })
     </script>
 @endsection

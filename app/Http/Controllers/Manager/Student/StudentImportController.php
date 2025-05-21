@@ -219,7 +219,7 @@ class StudentImportController extends Controller
                     return Carbon::parse($row->created_at)->toDateString();
                 })
                 ->addColumn('data', function ($row) use ($levels) {
-                    $inputs  = ['Name', 'Student ID','Grade', 'Nationality', 'Grade Name', 'SEN', 'G&T', 'Arab', 'Date Of Birth', 'Gender', 'Citizen'];
+                    $inputs  = ['Name', 'Student ID','Grade', 'Nationality', 'Grade Name', 'SEN', 'G&T', 'Arab', 'Date Of Birth', 'Gender', 'Citizen', 'Assessment'];
                     $inputs_with_values = [];
                     foreach ($inputs as $input) {
                         $row_input_value = array_filter($row->data['inputs'], function ($item) use ($input) {

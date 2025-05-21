@@ -214,7 +214,31 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
             }else{
                 $row['Assessment'] = $assessment->id;
             }
-
+            $student = Student::query()
+                ->where('id_number', $row['Student ID'])
+                ->where('school_id', $this->file->school_id)
+                ->where('year_id', $this->file->year_id)
+                ->latest()
+                ->first();
+            //check if student added before
+            if ($student){
+                $this->failures[$this->row_num][] = 'The student is present and has been added before , ID Number:'.$row['Student ID'];
+                $data_errors = ['The student has been added before, ID Number:'.$row['Student ID']];
+                $data['errors'] = $data_errors;
+                $data['inputs'] = [];
+                foreach ($row as $key => $value) {
+                    //check if not number
+                    if (!is_numeric($key)) {
+                        $data['inputs'][] = ['key' => $key, 'value' => $value];
+                    }
+                }
+                $this->file->logs()->create([
+                    'row_num' => $this->row_num,
+                    'data' => $data,
+                ]);
+                $this->failed_row_count++;
+                return null;
+            }
             $student = Student::query()->create([
                 'id_number' => $row['Student ID'],
                 'name' => $full_name,

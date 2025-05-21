@@ -66,6 +66,14 @@ trait CleanString
         // Remove duplicate spaces
         $value = preg_replace('/\s+/', ' ', $value);
 
+        // If value starts with =, +, -, @, or ', prefix it with a single quote
+        // Also check for any patterns that might be formula-like
+        if (in_array($value[0], ['=', '+', '-', '@', "'", '=']) || preg_match('/\=[+\-@]/', $value))
+        {
+            // Add a single quote at the beginning to escape the formula
+            $value = "'" . $value;
+        }
+
         // Trim spaces from start and end
         return trim($value);
     }

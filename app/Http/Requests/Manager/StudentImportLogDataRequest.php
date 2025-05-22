@@ -19,7 +19,7 @@ class StudentImportLogDataRequest extends FormRequest
             'student' => 'array|required',
             'student.*.row_num' => 'required',
             'student.*.name' => ['required','regex:/^[a-zA-Z0-9_.\s-]*$/u','max:255'],
-            'student.*.student_id' => 'required|string|max:255',
+            'student.*.student_id' => 'required|string|max:255|unique:students,id_number,NULL,id,deleted_at,NULL',
             'student.*.nationality' => 'nullable',
             'student.*.date_of_birth' => 'required',
             'student.*.gender' => 'required|in:1,2',

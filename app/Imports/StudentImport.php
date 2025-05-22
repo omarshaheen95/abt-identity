@@ -232,6 +232,9 @@ class StudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadingRo
                         $data['inputs'][] = ['key' => $key, 'value' => $value];
                     }
                 }
+                //Add the latest file id in student
+                $student->update(['file_id' => $this->file->id]);
+
                 $this->file->logs()->create([
                     'row_num' => $this->row_num,
                     'data' => $data,

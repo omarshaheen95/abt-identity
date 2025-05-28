@@ -28,8 +28,8 @@ class LogMessageJob implements ShouldQueue
     }
 
     public function handle(): void {
-        $token = env('TELEGRAM_BOT_TOKEN', '7204627160:AAFBry-YE65Ntg0ijk0K4TJl5ghRYO6qrBI');
-        $chatId = env('TELEGRAM_CHAT_ID', "-4542490273");
+        $token = config('app.telegram_bot_token');
+        $chatId = config('app.telegram_channel_id');
 
         try {
             $client = new \GuzzleHttp\Client([

@@ -50,15 +50,11 @@ function guardIs($guard)
 
 function settingCache($key)
 {
-    //Cache::forget('settings');
-    $cache = \Illuminate\Support\Facades\Cache::remember('settings', 60 * 48, function () {
-        return \App\Models\Setting::get();
+    $cache = Cache::remember('settings', 60 * 48, function () {
+        return \App\Models\Setting::query()->get()->pluck('value', 'key')->all();
     });
 
-    if ($cache) {
-        return $cache->where('key', $key)->pluck('value')->first();
-    }
-    return null;
+    return $cache[$key] ?? null;
 }
 
 function uploadFile($file, $path = '')

@@ -23,7 +23,7 @@
                         <div class="image-input-wrapper w-125px h-125px" style="background-image: url({{asset($school->logo)}})"></div>
 
                     @else
-                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/new_assets/media/svg/avatars/blank.svg)"></div>
+                        <div class="image-input-wrapper w-125px h-125px" style="background-image: url(/assets_v1/media/svg/avatars/blank.svg)"></div>
                     @endif
 
                     <!--begin::Edit button-->

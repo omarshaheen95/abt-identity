@@ -1,14 +1,5 @@
 <!doctype html>
-@if(!empty(\Session::get('lang')))
-    @php
-        \App::setLocale(Session::get('lang'));
-    @endphp
-@else
-    @php
-        \App::setLocale('ar');
-    @endphp
-@endif
-<html lang="ar" dir="rtl">
+<html lang="{{app()->getLocale()}}" dir="{{app()->getLocale()=='ar'?'rtl':'ltr'}}">
 
 <head>
     <title>My Identity Assessment | @yield('title')</title>
@@ -16,10 +7,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+    @if(app()->getLocale()=='ar')
+        <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">
+    @else
+        <link href="{{asset('web_assets/css/bootstrap.min.css')}}" rel="stylesheet">
+    @endif
     <link href="{{asset('web_assets/css/custom.css')}}?v={{time()}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/responsive.css')}}" rel="stylesheet">
-
+    <style>
+        @font-face {
+            font-family:AlmaraiBold;
+            src: url({{asset('assets_v1/fonts/Almarai/Almarai-Bold.ttf')}});
+        }
+        @font-face {
+            font-family:Almarai;
+            src: url({{asset('assets_v1/fonts/Almarai/Almarai-Regular.ttf')}});
+        }
+        body{
+            font-family: "Almarai" !important;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--dark-color);
+        }
+        .title{
+            font-family: "Almarai" !important;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>

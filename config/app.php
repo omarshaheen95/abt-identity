@@ -57,7 +57,8 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
-
+    'telegram_bot_token' => null,
+    'telegram_channel_id' =>null,
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -196,6 +197,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        \App\Providers\SettingServiceProvider::class,
 
     ],
 

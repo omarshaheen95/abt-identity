@@ -12,7 +12,7 @@
     @section('charts')
         <div class="row gy-5 g-xl-10">
             <div class="col-sm-6 col-xl-2 mb-xl-10">
-                <div class="card h-lg-100" style="background-color: #67308F;background-image:url('/new_assets/media/svg/shapes/wave-bg-red.svg')">
+                <div class="card h-lg-100" style="background-color: #67308F;background-image:url('/assets_v1/media/svg/shapes/wave-bg-red.svg')">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between align-items-start flex-column px-2 py-8">
                         <!--begin::Icon-->
@@ -46,7 +46,7 @@
             </div>
 
             <div class="col-sm-6 col-xl-2 mb-xl-10">
-                <div class="card h-lg-100" style="background-color: #F1416C;background-image:url('/new_assets/media/svg/shapes/wave-bg-red.svg')">
+                <div class="card h-lg-100" style="background-color: #F1416C;background-image:url('/assets_v1/media/svg/shapes/wave-bg-red.svg')">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between align-items-start flex-column px-2 py-8">
                         <!--begin::Icon-->
@@ -82,7 +82,7 @@
             </div>
 
             <div class="col-sm-6 col-xl-2 mb-xl-10">
-                <div class="card h-lg-100" style="background-color: #f141bf;background-image:url('/new_assets/media/svg/shapes/wave-bg-red.svg')">
+                <div class="card h-lg-100" style="background-color: #f141bf;background-image:url('/assets_v1/media/svg/shapes/wave-bg-red.svg')">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between align-items-start flex-column px-2 py-8">
                         <!--begin::Icon-->
@@ -118,7 +118,7 @@
             </div>
 
             <div class="col-sm-6 col-xl-2 mb-xl-10">
-                <div class="card h-lg-100" style="background-color: #1da2b7;background-image:url('/new_assets/media/svg/shapes/wave-bg-red.svg')">
+                <div class="card h-lg-100" style="background-color: #1da2b7;background-image:url('/assets_v1/media/svg/shapes/wave-bg-red.svg')">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between align-items-start flex-column px-2 py-8">
                         <!--begin::Icon-->
@@ -153,7 +153,7 @@
             </div>
 
             <div class="col-sm-6 col-xl-2 mb-xl-10">
-                <div class="card h-lg-100" style="background-color: #ff8640;background-image:url('/new_assets/media/svg/shapes/wave-bg-red.svg')">
+                <div class="card h-lg-100" style="background-color: #ff8640;background-image:url('/assets_v1/media/svg/shapes/wave-bg-red.svg')">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between align-items-start flex-column px-2 py-8">
                         <!--begin::Icon-->
@@ -186,7 +186,7 @@
             </div>
 
             <div class="col-sm-6 col-xl-2 mb-xl-10">
-                <div class="card h-lg-100" style="background-color: #2db77a;background-image:url('/new_assets/media/svg/shapes/wave-bg-red.svg')">
+                <div class="card h-lg-100" style="background-color: #2db77a;background-image:url('/assets_v1/media/svg/shapes/wave-bg-red.svg')">
                     <!--begin::Body-->
                     <div class="card-body d-flex justify-content-between align-items-start flex-column px-2 py-8">
                         <!--begin::Icon-->

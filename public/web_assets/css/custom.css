@@ -39,6 +39,9 @@ ul,ol{
 a, a:hover{
     text-decoration: none;
 }
+.text-theme{
+    color: var(--science-color);
+}
 main{
     min-height: 100vh;
 }
@@ -84,7 +87,7 @@ main{
     right: -70%;
 }
 .header .logo{
-    width: 150px;
+    width: 240px;
 }
 .header .lang{
     font-size: 18px;
@@ -268,7 +271,7 @@ main{
 .form .form-control-icon{
     position: relative;
 }
-.form .form-control-icon .icon{
+[dir='rtl'] .form .form-control-icon .icon{
     position: absolute;
     display: flex;
     align-items: center;
@@ -278,6 +281,16 @@ main{
     top: 0;
     right: 0;
 }
+[dir='ltr'] .form .form-control-icon .icon{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 65px;
+    height: 65px;
+    top: 0;
+    left: 0;
+}
 .form .form-control-icon .form-control{
     border-radius: 20px;
     min-height: 65px;
@@ -285,12 +298,19 @@ main{
     box-shadow: none;
     color: var(--dark-color);
 }
-.form .form-control-icon .form-control[type=email],
+[dir='rtl'] .form .form-control-icon .form-control[type=email],
 .form .form-control-icon .form-control[type=number],
 .form .form-control-icon .form-control[type=tel],
 .form .form-control-icon .form-control[type=url]{
     padding-inline-start: 1rem;
     padding-inline-end: 65px;
+}
+[dir='ltr'] .form .form-control-icon .form-control[type=email],
+.form .form-control-icon .form-control[type=number],
+.form .form-control-icon .form-control[type=tel],
+.form .form-control-icon .form-control[type=url]{
+    padding-inline-start: 65px;
+    padding-inline-end: 1rem;
 }
 form.disabled{
     pointer-events: none;

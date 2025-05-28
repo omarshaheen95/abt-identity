@@ -1,12 +1,12 @@
 @extends('school.layout.auth')
 @section('title')
-    {{t('Manager Login')}}
+    {{t('Login')}}
 @endsection
 @section('content')
     <section>
         <div class="form">
             <div class="form-card">
-                <form id="login-form" action="/manager/login" method="POST" class="needs-validation" novalidate>
+                <form id="login-form" action="/school/login" method="POST" class="needs-validation" novalidate>
                     <input type="hidden" id="browserInfo" name="browserInfo">
                     @csrf
                     <div class="header">
@@ -27,7 +27,7 @@
                         </a>
                     </div>
                     <div class="info">
-                        <h1 class="title">{{t('Manager Login')}} </h1>
+                        <h1 class="title">{{t('School Login')}} </h1>
                     </div>
                     <div class="body">
                         <div class="form-group">
@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <div class="d-flex">
                                 <label for="" class="form-label"> {{t('Password')}} </label>
-                                <a class="ms-auto text-theme" href="/manager/password/reset" style="font-size: 13px">{{t('Reset Password')}}</a>
+                                <a class="ms-auto" href="/school/password/reset" style="color:#068241;font-size: 13px">{{t('Reset Password')}}</a>
                             </div>
                             <div class="form-control-icon">
                                 <div class="icon">
@@ -75,14 +75,14 @@
                                 <span class="text"> {{t('Login')}} </span>
                             </button>
                         </div>
-{{--                        <div class="sign-in-other">--}}
-{{--                            <a href="/inspection/login" style="max-width: 100%">--}}
-{{--                                <div class="icon">--}}
-{{--                                    <img src="{{asset('web_assets/img/teacher.svg')}}" alt="teacher">--}}
-{{--                                    <span class="text ms-2"> {{t('Inspection Login')}} </span>--}}
-{{--                                </div>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
+                        <div class="sign-in-other">
+                            <a href="/inspection/login" style="max-width: 100%">
+                                <div class="icon">
+                                    <img src="{{asset('web_assets/img/teacher.svg')}}" alt="teacher">
+                                    <span class="text ms-2"> {{t('Inspection Login')}} </span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -90,5 +90,5 @@
     </section>
 @endsection
 @section('script')
-    <script src="{{asset('assets_v1/js/browserInfo.js')}}"></script>
+    <script src="{{asset('js/browserInfo.js')}}"></script>
 @endsection

@@ -1,6 +1,6 @@
 
 <!--begin::Javascript-->
-<script>var hostUrl = "new_assets/";</script>
+<script>var hostUrl = "assets_v1/";</script>
 
 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 <script src="{{asset('assets_v1/plugins/global/plugins.bundle.js')}}"></script>

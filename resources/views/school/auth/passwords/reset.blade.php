@@ -1,12 +1,9 @@
 @extends('school.layout.auth')
 @section('title')
-    {{t('Login')}}
+    {{t('School Reset Password')}}
 @endsection
 @section('content')
     <section>
-        <div class="pic">
-            <img src="{{asset('web_assets/img/bg-auth.svg')}}" alt="">
-        </div>
         <div class="form">
             <div class="form-card">
                 <form id="login-form" action="{{ url('/school/password/reset') }} " method="POST" class="needs-validation" novalidate>
@@ -33,6 +30,11 @@
                         <h1 class="title">{{t('Reset Password')}} </h1>
                     </div>
                     <div class="body">
+                        @if (session('status'))
+                            <div class="alert alert-success fs-6">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label for="" class="form-label">{{t('Email')}} </label>
                             <div class="form-control-icon">

@@ -1,12 +1,9 @@
 @extends('school.layout.auth')
 @section('title')
-    {{t('Reset Password')}}
+    {{t('School Reset Password')}}
 @endsection
 @section('content')
     <section>
-        <div class="pic">
-            <img src="{{asset('web_assets/img/bg-auth.svg')}}" alt="">
-        </div>
         <div class="form">
             <div class="form-card">
 
@@ -33,8 +30,18 @@
                         <h1 class="title">{{t('Reset Password')}} </h1>
                     </div>
                     <div class="body">
+                        @if (session('status'))
+                            <div class="alert alert-success fs-6">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <div class="form-group">
-                            <label for="" class="form-label">{{t('Email')}} </label>
+                            <label for="password" class="form-label d-block">
+                                <div class="d-flex justify-content-between">
+                                    <span>{{t('Email')}}</span>
+                                    <a href="/school/login" class="text-theme">{{t('Login')}}</a>
+                                </div>
+                            </label>
                             <div class="form-control-icon">
                                 <div class="icon">
                                     <svg id="Icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">

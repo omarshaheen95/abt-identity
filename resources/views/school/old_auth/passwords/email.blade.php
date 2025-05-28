@@ -1,13 +1,16 @@
 @extends('school.layout.auth')
 @section('title')
-    {{t('Manager Reset Password')}}
+    {{t('Reset Password')}}
 @endsection
 @section('content')
     <section>
+        <div class="pic">
+            <img src="{{asset('web_assets/img/bg-auth.svg')}}" alt="">
+        </div>
         <div class="form">
             <div class="form-card">
 
-                <form id="login-form"  action="{{ url('/manager/password/email') }}" method="POST" class="needs-validation" novalidate>
+                <form id="login-form"  action="{{ url('/school/password/email') }}" method="POST" class="needs-validation" novalidate>
                     @csrf
                     <div class="header">
                         @if(app()->getLocale() == "ar")
@@ -22,7 +25,7 @@
                         <a href="/" class="logo">
                                 <img class="img-fluid" alt="Logo" src="{{!settingCache('logo')? asset('logo.svg'):asset(settingCache('logo'))}}" />
                         </a>
-                        <a href="/manager/login" class="back">
+                        <a href="/school/login" class="back">
                             <img src="{{asset('web_assets/img/close.svg')}}" class="img-fluid" alt="close">
                         </a>
                     </div>
@@ -30,18 +33,8 @@
                         <h1 class="title">{{t('Reset Password')}} </h1>
                     </div>
                     <div class="body">
-                        @if (session('status'))
-                            <div class="alert alert-success fs-6">
-                                {{ session('status') }}
-                            </div>
-                        @endif
                         <div class="form-group">
-                            <label for="password" class="form-label d-block">
-                                <div class="d-flex justify-content-between">
-                                    <span>{{t('Email')}}</span>
-                                    <a href="/manager/login" class="text-theme">{{t('Login')}}</a>
-                                </div>
-                            </label>
+                            <label for="" class="form-label">{{t('Email')}} </label>
                             <div class="form-control-icon">
                                 <div class="icon">
                                     <svg id="Icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">

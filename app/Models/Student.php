@@ -21,14 +21,14 @@ class Student extends Authenticatable
 {
     use Notifiable, SoftDeletes,CascadeSoftDeletes, LogsActivity, CleanString;
     protected static $logAttributes = ['id_number', 'name', 'email', 'school_id', 'level_id', 'year_id', 'grade_name',
-        'gender', 'sen', 'g_t', 'arab', 'citizen'];
+        'gender', 'sen', 'g_t', 'arab', 'citizen','assessment_opened'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
     protected $fillable = [
         'name', 'email', 'password', 'school_id', 'year_id', 'level_id', 'nationality', 'grade_name',
-        'arab', 'sen', 'g_t', 'gender', 'demo', 'demo_data', 'dob', 'citizen', 'file_id', 'id_number', 'lang', 'last_login', 'last_login_info'
+        'arab', 'sen', 'g_t', 'gender', 'demo', 'demo_data','assessment_opened', 'dob', 'citizen', 'file_id', 'id_number', 'lang', 'last_login', 'last_login_info'
     ];
     protected $cascadeDeletes = ['student_terms'];
 

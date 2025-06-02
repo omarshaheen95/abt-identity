@@ -120,6 +120,7 @@ Route::group([], function () {
     Route::get('student/{id}/card', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCard'])->name('student-card');
     Route::post('students-cards-by-section', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCardBySections'])->name('student.students-cards-by-section');
     Route::post('/pdfReports', [\App\Http\Controllers\Manager\Student\StudentController::class, 'pdfReports'])->name('reports.pdfReports');
+    Route::post('student_terms_open_time', [\App\Http\Controllers\Manager\Student\StudentController::class,'studentsTermsTime'])->name('student.open_term_time');
 
 
     //Copy Terms

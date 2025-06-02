@@ -32,6 +32,7 @@
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route("manager.student.students-cards-by-section") }}')">{{t('Cards By Section')}}</a>
             @endcan
+            <li><a class="dropdown-item d-none checked-visible" href="#!" onclick="autoOpenTime()">{{t('Open Time Assessment')}}</a></li>
 
             @can('delete students')
                 <li id="li_delete_rows"><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
@@ -269,7 +270,31 @@
                }
            })
        }
+        //open assessment
+        function autoOpenTime() {
+            var row_id = [];
+            $("input:checkbox[name='rows[]']:checked").each(function () {
+                row_id.push($(this).val());
+            });
 
+            $.ajax({
+                type: "POST",
+                url: '{{route('manager.student.open_term_time')}}', // get the route value
+                data: {
+                    '_token': '{{csrf_token()}}',
+                    'row_id': row_id,
+                },
+
+                success: function (result) {
+                    toastr.success(result.message);
+                    table.DataTable().draw(false);
+
+                },
+                error: function (error) {
+                    toastr.error(error.responseJSON.message)
+                }
+            })
+        }
     </script>
     <script src="{{asset('assets_v1/js/datatable.js')}}?v={{time()}}"></script>
     <script src="{{asset('assets_v1/js/manager/models/student.js')}}"></script>

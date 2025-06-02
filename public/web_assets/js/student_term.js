@@ -153,24 +153,56 @@ $(document).ready(function () {
     /*---------------------------------------------------
         timer
     ---------------------------------------------------*/
-    let clock = $('#clock');
-    if (clock.length > 0 && typeof TIME !== 'undefined' && TIME) {
-        var qnt = TIME,
-            val = (qnt * 60 * 1000),
-            selectedDate = new Date().valueOf() + val;
+    //function to add minutes to the current time
+    function addMinutes(date, minutes) {
+        var new_time = new Date(date.getTime() + minutes*60000);
+        return new_time.valueOf()
+    }
 
-        clock.countdown(selectedDate.toString())
+    if (typeof STORAGE_KEY !=='undefined' && typeof REMIND_TIME !=='undefined' && typeof MAIN_TIME !=='undefined' && typeof studentIsDemo !=='undefined'){
+        //check spent_time in local storage if it exists and has a value
+        if(window.localStorage.getItem(STORAGE_KEY) !== null && !studentIsDemo)
+        {
+            var spend_time = window.localStorage.getItem(STORAGE_KEY);
+            //console.log('spent times: ' + spend_time);
+            //minus spent time from the main time
+            REMIND_TIME = MAIN_TIME - spend_time;
+        }else{
+            REMIND_TIME = MAIN_TIME;
+        }
+
+        addMinutes(new Date(), REMIND_TIME);
+        //console.log(addMinutes(new Date(), REMIND_TIME));
+
+        var selectedDate = addMinutes(new Date(), REMIND_TIME);
+
+        var spent_time = 0;
+        var last_spent = 0;
+
+        $('#clock').countdown(selectedDate.toString())
             .on('update.countdown', function (event) {
                 var format = '%H:%M:%S';
                 $(this).html(event.strftime(format));
                 $("#timer-ago").val(event.strftime(format));
-                //localStorage.setItem("timer_val", event.offset.totalSeconds);
+                //calculate spent time by seconds and convert it to minutes
+                last_spent = MAIN_TIME - event.offset.minutes
+                if(last_spent !== spent_time)
+                {
+                    //save spent time in local storage
+                    spent_time = last_spent;
+                    //window.localStorage.setItem(STORAGE_KEY, last_spent);
+                    console.log('spent time: ' + last_spent);
+                }
+
             })
             .on('finish.countdown', function (event) {
-                $(this).parent().addClass('disabled').html('This Time has expired!');
+                $(this).parent().addClass('disabled').html('The assessment time has expired!');
                 showToastify("The Time has expired!", "error");
-            });
+                //reset the time in local storage
+                // window.localStorage.removeItem(STORAGE_KEY);
+                // $('#term_form').submit();
 
+            });
     }
 
 

@@ -78,6 +78,8 @@ class TermController extends Controller
             }
 
         }
+        $assessment_opened = $student->assessment_opened;
+        $student->update(['assessment_opened' => 1]);
 
         $questions = Question::with(['option_question', 'match_question', 'sort_question','fill_blank_question'])
             ->where('term_id', $id)->get();
@@ -87,7 +89,7 @@ class TermController extends Controller
         $subjects = Subject::all();
         $marks = '100';
 
-        return view('student.term.index', compact('student', 'term', 'questions', 'questions_count', 'marks', 'subjects'));
+        return view('student.term.index', compact('student','assessment_opened', 'term', 'questions', 'questions_count', 'marks', 'subjects'));
     }
 
     public function termLeave()

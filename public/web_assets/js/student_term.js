@@ -190,8 +190,8 @@ $(document).ready(function () {
                 {
                     //save spent time in local storage
                     spent_time = last_spent;
-                    //window.localStorage.setItem(STORAGE_KEY, last_spent);
-                    console.log('spent time: ' + last_spent);
+                    window.localStorage.setItem(STORAGE_KEY, last_spent);
+                    //console.log('spent time: ' + last_spent);
                 }
 
             })

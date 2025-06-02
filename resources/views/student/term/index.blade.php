@@ -188,7 +188,14 @@
         @endif
     </script>
     <script>
-        let TIME = "40";
+        var MAIN_TIME = 40;
+        var REMIND_TIME = 40;
+        var studentIsDemo = {{ $student->demo }};
+        var STORAGE_KEY = 'spent_time_{{$student->id}}_{{$term->id}}';
+
+        @if(isset($assessment_opened) && !$assessment_opened)
+        localStorage.removeItem(STORAGE_KEY);
+        @endif
     </script>
     <script src="{{asset('web_assets/js/student_term.js')}}?v={{time()}}"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>

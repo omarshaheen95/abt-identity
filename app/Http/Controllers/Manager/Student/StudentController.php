@@ -23,7 +23,7 @@ class StudentController extends Controller
     {
         $this->middleware('permission:show students')->only('index');
         $this->middleware('permission:add students')->only(['create', 'store']);
-        $this->middleware('permission:edit students')->only(['edit', 'update']);
+        $this->middleware('permission:edit students')->only(['edit', 'update','studentsTermsTime']);
         $this->middleware('permission:delete students')->only('delete');
         $this->middleware('permission:export students')->only('studentExport');
         $this->middleware('permission:export students marks')->only('studentMarksExport');
@@ -204,7 +204,18 @@ class StudentController extends Controller
         return response()->json(['html' => $html]);
     }
 
-
+    public function studentsTermsTime(Request $request)
+    {
+        $request->validate([
+            'row_id'=>'required|array|min:1',
+        ],[
+            'row_id.required'=>t('Please Select at least one student'),
+        ]);
+        $students = Student::query()->search($request)->update([
+            'assessment_opened' => 0,
+        ]);
+        return $this->sendResponse($request->all(), t('Assessments Updated Successfully for Students : ' . $students));
+    }
     public function restoreStudent($id)
     {
         $student = Student::query()->where('id', $id)->withTrashed()->first();

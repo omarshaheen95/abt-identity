@@ -42,7 +42,7 @@ class SettingsTableSeeder extends Seeder
             ['name' => 'reCAPTCHA secret key', 'key' => 'captcha_secret_key', 'value' => null, 'type' => 'text', 'group' => 'captcha'],
             ['name' => 'reCAPTCHA site key', 'key' => 'captcha_site_key', 'value' => null, 'type' => 'text', 'group' => 'captcha'],
             //Assessments
-            ['name' => 'Submit Assessment When Timeout', 'key' => 'submit_when_timeout', 'value' => null, 'type' => 'checkbox', 'group' => 'assessment'],
+            ['name' => 'Submit Assessment When Timeout', 'key' => 'submit_when_timeout', 'value' => 1, 'type' => 'checkbox', 'group' => 'assessment'],
 
         ];
 

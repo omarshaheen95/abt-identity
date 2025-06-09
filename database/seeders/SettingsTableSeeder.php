@@ -41,6 +41,9 @@ class SettingsTableSeeder extends Seeder
             //Captcha
             ['name' => 'reCAPTCHA secret key', 'key' => 'captcha_secret_key', 'value' => null, 'type' => 'text', 'group' => 'captcha'],
             ['name' => 'reCAPTCHA site key', 'key' => 'captcha_site_key', 'value' => null, 'type' => 'text', 'group' => 'captcha'],
+            //Assessments
+            ['name' => 'Submit Assessment When Timeout', 'key' => 'submit_when_timeout', 'value' => null, 'type' => 'checkbox', 'group' => 'assessment'],
+
         ];
 
         $rows = Setting::query()->get();

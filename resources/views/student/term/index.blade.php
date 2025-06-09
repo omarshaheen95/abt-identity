@@ -192,6 +192,7 @@
         var REMIND_TIME = 40;
         var studentIsDemo = {{ $student->demo }};
         var STORAGE_KEY = 'spent_time_{{$student->id}}_{{$term->id}}';
+        var SUBMIT_ASSESSMENT_WHEN_TIMEOUT = {{settingCache('submit_when_timeout')??0}};
 
         @if(isset($assessment_opened) && !$assessment_opened)
         localStorage.removeItem(STORAGE_KEY);

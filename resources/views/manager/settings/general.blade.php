@@ -117,15 +117,16 @@
                                                 @break
 
                                             @case('radio')
-                                                <div class="d-flex flex-wrap gap-5 mt-2">
+                                                <div class="d-flex gap-5 ">
                                                     <div class="form-check form-check-custom form-check-solid">
                                                         <input class="form-check-input" type="radio"
                                                                name="settings[{{ $setting->key }}]"
                                                                value="1"
                                                                id="{{ $setting->key }}_enabled"
+                                                               style="height: 23px; width: 23px"
                                                             {{ $setting->value == '1' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="{{ $setting->key }}_enabled">
-                                                            {{ t('enabled') }}
+                                                            {{ t('Enabled') }}
                                                         </label>
                                                     </div>
                                                     <div class="form-check form-check-custom form-check-solid">
@@ -133,9 +134,10 @@
                                                                name="settings[{{ $setting->key }}]"
                                                                value="0"
                                                                id="{{ $setting->key }}_disabled"
+                                                               style="height: 23px; width: 23px"
                                                             {{ $setting->value == '0' ? 'checked' : '' }}>
                                                         <label class="form-check-label" for="{{ $setting->key }}_disabled">
-                                                            {{ t('disabled') }}
+                                                            {{ t('Disabled') }}
                                                         </label>
                                                     </div>
                                                 </div>
@@ -143,13 +145,13 @@
 
                                             @case('checkbox')
                                                 <div class="form-check form-check-custom form-check-solid">
-                                                    <input class="form-check-input" type="checkbox"
+                                                    <input class="form-check-input c-checkbox" type="checkbox"
                                                            name="settings[{{ $setting->key }}]"
                                                            value="1"
                                                            id="{{ $setting->key }}_checkbox"
                                                         {{ $setting->value == '1' ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="{{ $setting->key }}_checkbox">
-                                                        {{ t('enabled') }}
+                                                        {{ $setting->value == '1'?t('Enabled'):t('Disabled') }}
                                                     </label>
                                                 </div>
                                                 @break
@@ -213,6 +215,29 @@
                 if (fileName) {
                     $(this).next('.custom-file-label').text(fileName);
                 }
+            });
+
+            $('.c-checkbox').change(function () {
+                var label = $(this).next('label');
+                if (this.checked) {
+                    label.text('{{ t("Enabled") }}');
+                } else {
+                    label.text('{{ t("Disabled") }}');
+                }
+            });
+
+            // Handle checkbox values on form submit
+            $('#form_data').on('submit', function() {
+                $('input[type="checkbox"].c-checkbox').each(function() {
+                    if (!this.checked) {
+                        // Create a hidden input with value 0 for unchecked checkboxes
+                        $('<input>').attr({
+                            type: 'hidden',
+                            name: this.name,
+                            value: '0'
+                        }).appendTo($(this).closest('form'));
+                    }
+                });
             });
         });
     </script>

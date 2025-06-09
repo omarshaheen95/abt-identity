@@ -126,22 +126,26 @@ function validation(){
 }
 
 //-----------------------------------------------------------------------------
-function examFormSubmit(){
+function examFormSubmit(with_validation=true){
     if (window.location.href.includes('manager')){
         $("#submit-term").modal("hide");
         $("#exam-form").addClass("d-none");
         $("#save-form").removeClass("d-none");
         $("#exams").submit();
     }else {
-        if (validation()){
-            $("#submit-term").modal("hide");
+        let valid = true;
+        if (with_validation){
+            valid = validation();
+        }
+
+        $("#submit-term").modal("hide");
+
+        if (valid){
             $("#exam-form").addClass("d-none");
             $("#save-form").removeClass("d-none");
             $("#exams").submit();
         }else {
-            $("#submit-term").modal("hide");
             showToastify("You must answered for all questions", "error");
-
         }
     }
 
@@ -200,7 +204,9 @@ $(document).ready(function () {
                 showToastify("The Time has expired!", "error");
                 //reset the time in local storage
                 // window.localStorage.removeItem(STORAGE_KEY);
-                // $('#term_form').submit();
+                if (typeof SUBMIT_ASSESSMENT_WHEN_TIMEOUT !=='undefined' && SUBMIT_ASSESSMENT_WHEN_TIMEOUT){
+                    examFormSubmit(false)
+                }
 
             });
     }

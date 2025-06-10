@@ -1,33 +1,4 @@
 
-//cache result in session
-function saveResult(id) {
-    // let value = $('#'+id).val()
-    // sessionStorage.setItem(id,value)
-    sessionStorage.clear()
-    $('input[type="radio"]:checked').each(function(index,item){
-        sessionStorage.setItem(item.id,'1')
-    });
-    $("input[type='text'], textarea").each(function(index,item){
-        if($(this).val()){
-            sessionStorage.setItem(item.id,$(this).val())
-        }
-    });
-}
-
-function getAndSetResults() {
-    $('input[type="radio"]').each(function(index,item){
-        let result = sessionStorage.getItem(item.id)
-        if (result){
-            $(this).attr('checked', 1);
-        }
-    });
-    $("input[type='text'], textarea").each(function(index,item){
-        let result = sessionStorage.getItem(item.id)
-        if (result){
-            $(this).val(result)
-        }
-    });
-}
 
 //show or hide file or textarea input
 function showArticleQTextarea(question_id){

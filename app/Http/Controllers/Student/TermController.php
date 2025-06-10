@@ -89,6 +89,8 @@ class TermController extends Controller
         $subjects = Subject::all();
         $marks = '100';
 
+        app()->setLocale($term->level->arab?'ar':'en');
+
         return view('student.term.index', compact('student','assessment_opened', 'term', 'questions', 'questions_count', 'marks', 'subjects'));
     }
 
@@ -120,6 +122,7 @@ class TermController extends Controller
                         'corrected_by' => null,
                     ]
                 ]);
+                $student->update(['assessment_opened' => 0]);
 
                 foreach ($request['questions'] as $key => $question) {
                     switch ($question['type']) {

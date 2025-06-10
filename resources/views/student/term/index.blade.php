@@ -25,19 +25,91 @@
     <link href="{{asset('web_assets/css/custom2.css')}}?v{{time()}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/exam_questions.css')}}?v{{time()}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}?v={{time()}}">
-        <style>
-            #keyboardInputLayout {
-                direction: ltr !important;
-            }
+    <style>
+        #keyboardInputLayout {
+            direction: ltr !important;
+        }
 
-            #keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td {
-                font: normal 30px 'Lucida Console', monospace;
-            }
+        #keyboardInputMaster tbody tr td div#keyboardInputLayout table tbody tr td {
+            font: normal 30px 'Lucida Console', monospace;
+        }
 
-            .keyboardInputInitiator {
-                width: 50px
-            }
-        </style>
+        .keyboardInputInitiator {
+            width: 50px
+        }
+
+        /* Cache indicator styles */
+        #cache-indicator {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0,118,164,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 9999;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Recovery notice styles */
+        .recovery-notice {
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            border-right: none;
+            font-size: 14px;
+        }
+
+        /* RTL support for recovery notice */
+        [dir="rtl"] .recovery-notice {
+            border-left: none;
+            border-right: 4px solid #2196f3;
+        }
+
+        .recovery-notice p {
+            margin-bottom: 0;
+        }
+
+        .recovery-notice strong {
+            color: #0d47a1;
+        }
+
+        .alert.alert-info {
+            background-color: #e3f2fd;
+            border: 1px solid #bbdefb;
+            color: #0d47a1;
+        }
+
+        .alert.alert-info i {
+            color: #1976d2;
+            margin-right: 5px;
+            margin-left: 0;
+        }
+
+        /* RTL support for alert icon */
+        [dir="rtl"] .alert.alert-info i {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+
+        /* Emergency save indicator */
+        #emergency-save-indicator {
+            position: fixed;
+            bottom: 50px;
+            right: 10px;
+            background-color: rgba(220, 53, 69, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 9999;
+            display: none;
+        }
+    </style>
 
 @endsection
 
@@ -47,12 +119,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="header-card">
-                        <div class="info">
+                        <div class="info" dir="rtl">
                             <div class="exam-details ar">
                                 <ul>
                                     <li>  عدد الأسئلة {{$questions_count}}  .</li>
                                     <li> يجب الإجابة على جميع الأسئلة. </li>
                                     <li> .مجموعة الدرجات {{$marks}} درجة</li>
+                                    <li> سيتم حفط الإجابات بشكل تلقائي على المتصفح</li>
+
                                 </ul>
                             </div>
                             <div class="exam-timer">
@@ -67,19 +141,15 @@
                                     <div id="clock">00:59:49</div>
                                     <input type="hidden" id="timer-ago" value="00:59:49">
                                 </div>
-                                @if(isset($term->show_calculator) && $term->show_calculator)
-                                    <a href="#!" onclick="openCalculator()">
-                                        <span>
-                                            <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 2H8C5.24 2 3 4.24 3 7V17C3 19.76 5.24 22 8 22H16C18.76 22 21 19.76 21 17V7C21 4.24 18.76 2 16 2ZM8.86 18.63C8.67 18.82 8.42 18.92 8.16 18.92C7.89 18.92 7.64 18.82 7.45 18.63C7.26 18.44 7.15 18.19 7.15 17.92C7.15 17.66 7.26 17.4 7.45 17.21C7.54 17.12 7.65 17.05 7.77 17C8.02 16.9 8.29 16.9 8.54 17C8.6 17.02 8.66 17.05 8.71 17.09C8.77 17.12 8.82 17.17 8.86 17.21C9.05 17.4 9.16 17.66 9.16 17.92C9.16 18.19 9.05 18.44 8.86 18.63ZM7.15 13.92C7.15 13.79 7.18 13.66 7.23 13.54C7.28 13.41 7.35 13.31 7.45 13.21C7.68 12.98 8.03 12.87 8.35 12.94C8.41 12.95 8.48 12.97 8.54 13C8.6 13.02 8.66 13.05 8.71 13.09C8.77 13.12 8.82 13.17 8.86 13.21C8.95 13.31 9.03 13.41 9.08 13.54C9.13 13.66 9.15 13.79 9.15 13.92C9.15 14.19 9.05 14.44 8.86 14.63C8.67 14.82 8.42 14.92 8.16 14.92C8.02 14.92 7.89 14.89 7.77 14.84C7.65 14.79 7.54 14.72 7.45 14.63C7.26 14.44 7.15 14.19 7.15 13.92ZM12.86 18.63C12.77 18.72 12.66 18.79 12.54 18.84C12.42 18.89 12.29 18.92 12.15 18.92C11.89 18.92 11.64 18.82 11.45 18.63C11.26 18.44 11.15 18.19 11.15 17.92C11.15 17.85 11.16 17.79 11.17 17.72C11.19 17.66 11.21 17.6 11.23 17.54C11.26 17.48 11.29 17.42 11.32 17.36C11.36 17.31 11.4 17.26 11.45 17.21C11.54 17.12 11.65 17.05 11.77 17C12.14 16.85 12.58 16.93 12.86 17.21C13.05 17.4 13.15 17.66 13.15 17.92C13.15 18.19 13.05 18.44 12.86 18.63ZM12.86 14.63C12.67 14.82 12.42 14.92 12.15 14.92C11.89 14.92 11.64 14.82 11.45 14.63C11.26 14.44 11.15 14.19 11.15 13.92C11.15 13.66 11.26 13.4 11.45 13.21C11.82 12.84 12.49 12.84 12.86 13.21C12.95 13.31 13.03 13.41 13.08 13.54C13.13 13.66 13.15 13.79 13.15 13.92C13.15 14.19 13.05 14.44 12.86 14.63ZM9 10.46C7.97 10.46 7.12 9.62 7.12 8.58V7.58C7.12 6.55 7.96 5.7 9 5.7H15C16.03 5.7 16.88 6.54 16.88 7.58V8.58C16.88 9.61 16.04 10.46 15 10.46H9ZM16.86 18.63C16.67 18.82 16.42 18.92 16.15 18.92C16.02 18.92 15.89 18.89 15.77 18.84C15.65 18.79 15.54 18.72 15.45 18.63C15.26 18.44 15.16 18.19 15.16 17.92C15.16 17.66 15.26 17.4 15.45 17.21C15.72 16.93 16.17 16.85 16.54 17C16.66 17.05 16.77 17.12 16.86 17.21C17.05 17.4 17.15 17.66 17.15 17.92C17.15 18.19 17.05 18.44 16.86 18.63ZM17.08 14.3C17.03 14.42 16.96 14.53 16.86 14.63C16.67 14.82 16.42 14.92 16.15 14.92C15.89 14.92 15.64 14.82 15.45 14.63C15.26 14.44 15.15 14.19 15.15 13.92C15.15 13.66 15.26 13.4 15.45 13.21C15.82 12.84 16.49 12.84 16.86 13.21C17.05 13.4 17.16 13.66 17.16 13.92C17.16 14.05 17.13 14.18 17.08 14.3Z" fill="#ffffff"></path> </g></svg>
-                                        </span>
-                                    </a>
-                                @endif
+
                             </div>
                             <div class="exam-details en">
                                 <ul>
                                     <li> No. of questions is {{$questions_count}}. </li>
                                     <li> All questions must be answered . </li>
                                     <li> The total marks is {{$marks}}. </li>
+                                    <li> Your answers are automatically saved in your browser. </li>
+
                                 </ul>
                             </div>
 
@@ -88,9 +158,22 @@
                 </div>
 
             </div>
-            <form id="exams" action="{{route('student.term-save', ['id'=>$term->id])}}"  method="post" enctype="multipart/form-data">
+            <form id="exams" action="{{route('student.term-save', ['id'=>$term->id])}}" data-term-id="{{$term->id}}" data-student-id="{{$student->id}}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="started_at" value="{{now()}}">
                 @csrf
+                @if(app()->getLocale()=='en')
+                    <div class="recovery-notice mb-4">
+                        <p><strong>Note:</strong> Your answers are automatically saved in your browser. You can continue later from where you left off.</p>
+                        <p class="mb-0"><small>For file uploads and voice recordings, you will need to upload/record again if you leave the assessment.</small></p>
+                        <p class="mb-0"><small><strong>Emergency Save:</strong> Press Ctrl+Space to save your assessment without validation (use only if experiencing issues).</small></p>
+                    </div>
+                @else
+                    <div class="recovery-notice mb-4">
+                        <p><strong>ملاحظة:</strong> سيتم حفظ إجاباتك تلقائيًا في متصفحك. يمكنك المتابعة لاحقًا من حيث توقفت.</p>
+                        <p class="mb-0"><small>بالنسبة لرفع الملفات، ستحتاج إلى رفعها مرة أخرى إذا غادرت الاختبار.</small></p>
+                        <p class="mb-0"><small><strong>حفظ طارئ: </strong>اضغط على Ctrl+Space لحفظ اختبارك من دون  التحقق (استخدمه فقط في حالة مواجهة مشكلات).</small></p>
+                    </div>
+                @endif
                 <div class="mb-5">
                     <div class="">
                         <ul class="nav d-flex gap-4 justify-content-center">
@@ -168,6 +251,7 @@
 <!--exam confirm modal-->
 @include('student.term.parts.submit-term-modal', compact('term'))
 @include('student.term.parts.leave-term-modal', compact('term'))
+@include('student.term.parts.emergency-save-modal')
 
 
 
@@ -176,14 +260,8 @@
 @section('script')
     <script>
         @if($term->level->arab)
-        @php
-            app()->setLocale('ar')
-        @endphp
         $('html').attr('lang', 'ar').attr('dir', 'rtl');
         @else
-        @php
-            app()->setLocale('en')
-        @endphp
         $('html').attr('lang', 'en').attr('dir', 'ltr');
         @endif
     </script>
@@ -202,6 +280,8 @@
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>
+    <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>
+    <script src="{{asset('web_assets/js/assessment_cache.js')}}"></script>
     <script>
         getAndSetResults() //cache results
     </script>

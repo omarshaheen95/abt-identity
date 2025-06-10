@@ -250,7 +250,23 @@ $(document).ready(function () {
         $("#leave-term-modal").modal("show");
     });
 
+    //Emergency Save --------------------------------------------------------------------------------------------
+    // Emergency save keyboard shortcut (Ctrl+Space)
+    $(document).keydown(function(e) {
+        if (e.ctrlKey && e.keyCode === 32) {
+            e.preventDefault();
+            $('#emergency-save-modal').modal('show');
+        }
+    });
 
+    // Emergency save button click
+    $('#confirm-emergency-save').on('click', function() {
+        $('#emergency-save-modal').modal('hide');
+        $('#emergency-save-indicator').fadeIn(200);
+        setTimeout(function() {
+            examFormSubmit(false); // Submit without validation
+        }, 500);
+    });
 
     /*---------------------------------------------------
         word count

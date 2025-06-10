@@ -98,37 +98,41 @@
 <script src="{{asset('web_assets/js/custom.js')}}"></script>
 <script src="{{asset('web_assets/js/jquery.ui.touch-punch.js')}}"></script>
 <script>
-    $(document).ready(function () {
-        'use strict';
-        // تعطيل الزر الأيمن
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-        document.addEventListener('keydown', function (e) {
-            // تعطيل مفتاح F12
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-            // تعطيل النسخ باستخدام CTRL+C
-            if (e.ctrlKey && e.key === 'c') {
-                e.preventDefault();
-            }
-            // تعطيل CTRL+U
-            if (e.ctrlKey && e.key === 'u') {
-                e.preventDefault();
-            }
-        });
+      $(document).ready(function () {
+          'use strict';
+          if (!['127.0.0.1', 'localhost'].includes(window.location.hostname)) {
 
-        // تعطيل النسخ عن طريق التحديد
-        document.addEventListener('copy', function (e) {
-            e.preventDefault();
-        });
+              // تعطيل الزر الأيمن
+              document.addEventListener('contextmenu', function (e) {
+                  e.preventDefault();
+              });
+              document.addEventListener('keydown', function (e) {
+                  // تعطيل مفتاح F12
+                  if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                      e.preventDefault();
+                  }
+                  // تعطيل النسخ باستخدام CTRL+C
+                  if (e.ctrlKey && e.key === 'c') {
+                      e.preventDefault();
+                  }
+                  // تعطيل CTRL+U
+                  if (e.ctrlKey && e.key === 'u') {
+                      e.preventDefault();
+                  }
+              });
 
-        // تعطيل تحديد النص
-        document.addEventListener('selectstart', function (e) {
-            e.preventDefault();
-        });
-    });
+              // تعطيل النسخ عن طريق التحديد
+              document.addEventListener('copy', function (e) {
+                  e.preventDefault();
+              });
+
+              // تعطيل تحديد النص
+              document.addEventListener('selectstart', function (e) {
+                  e.preventDefault();
+              });
+          }
+      });
+
 </script>
 
 @yield('script')

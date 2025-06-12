@@ -95,12 +95,12 @@ class StudentTerm extends Model
             if (getGuard()=='manager'){
                 $actions=[];
                 $actions[] = ['key'=>'edit','name'=>t('Correct'),'route'=>route('manager.student_term.edit', $this->id),'permission'=>'edit students terms'];
-                if ($this->total>=90){
+                if ($this->total >= $this->student->school->certificate_mark) {
                     $actions[] = ['key'=>'blank','name'=>t('Certificate'),'route'=>route(getGuard().'.student-term.certificate', $this->id)];
                 }
                 return view('general.action_menu')->with('actions',$actions);
             }else{
-                if ($this->total>=90){
+                if ($this->total >= $this->student->school->certificate_mark) {
                     return '<a target="_blank" href="' . route(getGuard().'.student-term.certificate', $this->id) . '" class="btn btn-primary btn-sm">' . t('Certificate') . '</a>';
                 }
             }

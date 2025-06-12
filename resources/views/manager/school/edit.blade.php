@@ -146,6 +146,12 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="col-lg-4 mb-2">
+                    <label class="form-label mb-1">{{t('Certificate Mark')}} :</label>
+                    <input name="certificate_mark" type="number" placeholder="{{t('Certificate Mark')}}"
+                           class="form-control"
+                           value="{{ isset($school) ? $school->certificate_mark : old("certificate_mark") }}"/>
+                </div>
 
         </div>
 

@@ -55,7 +55,9 @@ class GeneralController extends Controller
     {
         $student_term = StudentTerm::with('student.level')
             ->where('id', $id)
-            ->where('total', '>=', 90)
+            ->whereHas('student.school', function ($query) {
+                $query->whereRaw('student_terms.total >= schools.certificate_mark');
+            })
             ->search($request)->firstOrFail();
         $name = $student_term->student->name;
         $grade = $student_term->student->level->grade;
@@ -88,7 +90,9 @@ class GeneralController extends Controller
 
         $students_term = StudentTerm::query()
             ->with(['student'])
-            ->where('total', '>=', 90)
+            ->whereHas('student.school', function ($query) {
+                $query->whereRaw('student_terms.total >= schools.certificate_mark');
+            })
             ->search($request)
             ->latest()
             ->get()

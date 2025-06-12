@@ -20,13 +20,13 @@ use Spatie\Translatable\HasTranslations;
 class School extends Authenticatable
 {
     use Notifiable, SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id'];
+    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
     protected $fillable = [
-        'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info',
+        'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info', 'certificate_mark',
         'available_year_id','allow_reports'
         ];
     protected $cascadeDeletes = ['students','school_grades', 'inspections_school'];

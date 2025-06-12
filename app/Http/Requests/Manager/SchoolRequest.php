@@ -31,6 +31,7 @@ class SchoolRequest extends FormRequest
             'country' => 'required',
             'curriculum_type' => 'required',
             'available_year_id' => 'required',
+            'certificate_mark'=> 'required|numeric|min:40|max:100',
         ];
         if (Route::currentRouteName() == 'manager.school.edit' || Route::currentRouteName() == 'manager.school.update') {
             $school = $this->route('school');

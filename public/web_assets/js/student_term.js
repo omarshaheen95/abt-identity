@@ -1,33 +1,4 @@
 
-//cache result in session
-function saveResult(id) {
-    // let value = $('#'+id).val()
-    // sessionStorage.setItem(id,value)
-    sessionStorage.clear()
-    $('input[type="radio"]:checked').each(function(index,item){
-        sessionStorage.setItem(item.id,'1')
-    });
-    $("input[type='text'], textarea").each(function(index,item){
-        if($(this).val()){
-            sessionStorage.setItem(item.id,$(this).val())
-        }
-    });
-}
-
-function getAndSetResults() {
-    $('input[type="radio"]').each(function(index,item){
-        let result = sessionStorage.getItem(item.id)
-        if (result){
-            $(this).attr('checked', 1);
-        }
-    });
-    $("input[type='text'], textarea").each(function(index,item){
-        let result = sessionStorage.getItem(item.id)
-        if (result){
-            $(this).val(result)
-        }
-    });
-}
 
 //show or hide file or textarea input
 function showArticleQTextarea(question_id){
@@ -250,7 +221,23 @@ $(document).ready(function () {
         $("#leave-term-modal").modal("show");
     });
 
+    //Emergency Save --------------------------------------------------------------------------------------------
+    // Emergency save keyboard shortcut (Ctrl+Space)
+    $(document).keydown(function(e) {
+        if (e.ctrlKey && e.keyCode === 32) {
+            e.preventDefault();
+            $('#emergency-save-modal').modal('show');
+        }
+    });
 
+    // Emergency save button click
+    $('#confirm-emergency-save').on('click', function() {
+        $('#emergency-save-modal').modal('hide');
+        $('#emergency-save-indicator').fadeIn(200);
+        setTimeout(function() {
+            examFormSubmit(false); // Submit without validation
+        }, 500);
+    });
 
     /*---------------------------------------------------
         word count

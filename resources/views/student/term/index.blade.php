@@ -164,7 +164,7 @@
                 @if(app()->getLocale()=='en')
                     <div class="recovery-notice mb-4">
                         <p><strong>Note:</strong> Your answers are automatically saved in your browser. You can continue later from where you left off.</p>
-                        <p class="mb-0"><small>For file uploads and voice recordings, you will need to upload/record again if you leave the assessment.</small></p>
+                        <p class="mb-0"><small>For file uploads, you will need to upload again if you leave the assessment.</small></p>
                         <p class="mb-0"><small><strong>Emergency Save:</strong> Press Ctrl+Space to save your assessment without validation (use only if experiencing issues).</small></p>
                     </div>
                 @else

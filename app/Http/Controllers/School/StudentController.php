@@ -323,7 +323,9 @@ class StudentController extends Controller
         app()->setLocale($lang);
         $student_term = StudentTerm::with('student.level')
             ->where('id',$id)
-            ->where('total','>=',90)
+            ->whereHas('student.school', function ($query) {
+                $query->whereRaw('student_terms.total >= schools.certificate_mark');
+            })
             ->firstOrFail();
         $name = $student_term->student->name;
         $grade = $student_term->student->level->grade;

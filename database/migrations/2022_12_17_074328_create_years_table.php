@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->nullable();
-            $table->boolean('default');
+            $table->boolean('default')->default(false)->comment('Is this the default year?');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -29,7 +29,7 @@ class TermController extends Controller
         }
         if ($request->ajax()) {
             $request['school_id'] = \Auth::guard('school')->user()->id;
-            $rows = StudentTerm::with(['student','term'])->search($request)->latest();
+            $rows = StudentTerm::with(['student.school','term'])->search($request)->latest();
             return DataTables::make($rows)
                 ->escapeColumns([])
                 ->addColumn('term', function ($row) {

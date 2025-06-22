@@ -55,6 +55,7 @@
                 <option value="created">{{t('Created')}}</option>
                 <option value="updated">{{t('Update')}}</option>
                 <option value="deleted">{{t('Delete')}}</option>
+                <option value="other">{{t('Other')}}</option>
             </select>
         </div>
 
@@ -78,18 +79,18 @@
 @section('content')
     <div class="row">
         <table class="table table-row-bordered gy-5" id="datatable">
-                        <thead>
-                        <tr class="fw-semibold fs-6 text-gray-800">
-                            <th class="text-start"></th>
-                            <th class="text-start">{{t('Causer ')}}</th>
-                            <th class="text-start">{{t('Subject')}}</th>
-                            <th class="text-start">{{t('Type')}}</th>
-                            <th class="text-start">{{t('Action Date')}}</th>
-                            <th class="text-start">{{t('Actions')}}</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
+            <thead>
+            <tr class="fw-semibold fs-6 text-gray-800">
+                <th class="text-start"></th>
+                <th class="text-start">{{t('Causer ')}}</th>
+                <th class="text-start">{{t('Subject')}}</th>
+                <th class="text-start">{{t('Type')}}</th>
+                <th class="text-start">{{t('Action Date')}}</th>
+                <th class="text-start">{{t('Actions')}}</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
 
 @endsection
 

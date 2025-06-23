@@ -41,7 +41,7 @@ class ActivityLogController extends Controller
                         {
                             return class_basename($row->subject_type) . '<br> <a href="'.$row->action_route.'">' . t('Show') . '</a>';
                         }else{
-                            return class_basename($row->subject_type). '<br> <a href="'.$row->action_route.'">' . t('Show') . '</a>';
+                            return class_basename($row->subject_type);
                         }
                     }
                 })

@@ -153,17 +153,25 @@ class Activity extends Model implements ActivityContract
             $routeSegment = \Str::kebab($subjectType);
 
             //All Routes Cases
-            // Try the route with the exact plural form //with (s)
+            // Try the route with the exact plural form with kebab-case (with s)
             $routes[] = "manager.{$routeSegment}.edit";
 
-            //without (s)
-            $routes[] = 'manager.'.substr($subjectType, 0, -1).'.edit';
+            // Try kebab-case without (s)
+            $routes[] = 'manager.' . substr($routeSegment, 0, strrpos($routeSegment, '-')) . substr($routeSegment, strrpos($routeSegment, '-')) . '.edit';
 
             // Try with simple lowercase plural with (s) like students
             $routes[] = 'manager.' . strtolower($subjectType) . '.edit';
 
             // Try with simple lowercase plural without (s) like student
             $routes[] = 'manager.' . strtolower(substr($subjectType, 0, -1)) . '.edit';
+
+            //Try with snake_case plural (with s) like user_profiles
+            $routes[] = 'manager.' . \Str::snake($subjectType) . '.edit';
+
+            //Try with snake_case singular (without s) like user_profile
+            $routes[] = 'manager.' . \Str::snake(substr($subjectType, 0, -1)) . '.edit';
+
+            //Excluded routes
 
             foreach ($routes as $route) {
                 if (\Route::has($route)) {

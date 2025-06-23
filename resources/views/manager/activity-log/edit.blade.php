@@ -81,7 +81,7 @@
                 <th scope="col" colspan="3">
                     <div class="d-flex justify-content-between">
                         <div>
-                            {{t('Subject')}}: {!!$activity->clickable_subject_type!!}
+                            {{t('Subject')}}: <a href="{{$activity->action_route}}">{{class_basename($activity->subject_type)}}</a>
                         </div>
                         <div>
                             {{t('ID')}}: {{ $activity->subject_id}}

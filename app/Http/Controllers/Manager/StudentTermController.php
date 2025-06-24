@@ -42,6 +42,8 @@ class StudentTermController extends Controller
         $this->middleware('permission:delete students terms')->only('deleteStudentTerm');
         $this->middleware('permission:restore deleted students terms')->only('restore');
         $this->middleware('permission:auto correct students terms')->only('autoCorrect');
+        $this->middleware('permission:show upgrade terms')->only('upgradeStudentTermView');
+        $this->middleware('permission:upgrade terms')->only('upgradeStudentTerm');
     }
 
     public function index(Request $request,$status)

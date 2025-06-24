@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Exports\StudentTermExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\UpgradeStudentTermRequest;
 use App\Models\ArticleQuestionResult;
 use App\Models\FillBlankAnswer;
 use App\Models\MatchQuestionResult;
@@ -19,19 +20,22 @@ use App\Models\Subject;
 use App\Models\Term;
 use App\Models\TFQuestionResult;
 use App\Models\Year;
+use App\Services\CorrectionService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Yajra\DataTables\Facades\DataTables;
 
 class StudentTermController extends Controller
 {
+    protected $correctionService;
 
-
-    public function __construct()
+    public function __construct(CorrectionService $correctionService)
     {
+        $this->correctionService = $correctionService;
         $this->middleware('permission:show students terms')->only('index');
         $this->middleware('permission:edit students terms')->only(['edit','updateTerm']);
         $this->middleware('permission:restore deleted students terms')->only('restore');
@@ -633,4 +637,129 @@ class StudentTermController extends Controller
         }
         return $this->sendResponse(null, t('Duplicate Student Terms Deleted Successfully'));
     }
+
+    public function upgradeStudentTermView(Request $request)
+    {
+        $title = 'Upgrade Downgrade Student Term';
+        $schools = School::query()->where('active', 1)->orderBy('name')->get();
+        $years = Year::query()->orderBy('id')->get();
+        $grades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        return view('manager.term.upgrade_student_terms', compact('schools', 'years', 'title', 'grades'));
+    }
+
+    public function upgradeStudentTerm(UpgradeStudentTermRequest $request)
+    {
+        $data = $request->validated();
+        $students_terms = StudentTerm::query()
+            ->with(['student.school', 'term'])
+            ->whereHas('student', function (Builder $query) use ($data) {
+                $query->where('school_id', $data['school_id']);
+            })
+            ->whereHas('term', function (Builder $query) use ($data) {
+                $query->where('round', $data['month'])
+                    ->whereHas('level', function (Builder $query) use ($data) {
+                        $query->where('year_id', $data['year_id']);
+                        $query->when($data['arab'] != 2, function ($query) use ($data) {
+                            $query->where('arab', $data['arab']);
+                        });
+                        $query->whereIn('grade', $data['grades']);
+                    });
+            })
+            ->where('total', '>=', $data['from_total_result'])
+            ->where('total', '<=', $data['to_total_result'])
+            ->when(isset($data['update_date']) && !is_null($data['update_date']), function ($query) use ($data) {
+                $query->where('updated_at', $data['update_operator'], $data['update_date']);
+            })
+            ->where('corrected', 1)
+            ->inRandomOrder()
+//            ->limit(1)
+            ->get();
+
+        if (isset($request['check_counts']) && $request['check_counts'] == 1) {
+            return $this->sendResponse('Students Count is ' . $students_terms->count(), t('Student Terms Upgraded Successfully'));
+        }
+        $mark = $data['mark'];
+        $process_type = $data['process_type'];
+
+
+        $students_terms->each(function ($student_term) use ($data, $mark, $process_type) {
+            $questions = Question::query()->whereIn('type', [1, 2])->with([
+                'tf_question', 'option_question',
+                'tf_question_result' => function ($query) use ($student_term) {
+                    $query->where('student_term_id', $student_term->id)
+                        ->where('student_id', $student_term->student_id);
+                },
+                'option_question_result' => function ($query) use ($student_term) {
+                    $query->where('student_term_id', $student_term->id)
+                        ->where('student_id', $student_term->student_id);
+                },
+            ])->where('term_id', $student_term->term_id)->inRandomOrder()->get();
+
+            $updated_marks = 0;
+            foreach ($questions as $question) {
+                if ($question->type == 'true_false') {
+                    if (count($question->tf_question_result) > 0) {
+                        $student_result = $question->tf_question_result[0];
+                    }
+
+                    $main_result = $question->tf_question;
+                    if ($process_type == 'upgrade') {
+                        if (isset($student_result) && isset($main_result) && optional($student_result)->result != optional($main_result)->result) {
+                            $student_result->update([
+                                'result' => optional($main_result)->result,
+                            ]);
+                            $updated_marks += $question->mark;
+                        }
+                    } else {
+                        if (isset($student_result) && isset($main_result) && optional($student_result)->result == optional($main_result)->result) {
+                            $student_result->update([
+                                'result' => optional($main_result)->result == 1 ? 0 : 1,
+                            ]);
+                            $updated_marks += $question->mark;
+                        }
+                    }
+
+                }
+                elseif ($question->type == 'multiple_choice') {
+                    $student_result = $question->option_question_result->first();
+
+                    if ($student_result) {
+                        $main_result = $question->option_question->where('id', $student_result->option_id)->first();
+                    }
+
+
+                    if ($process_type == 'upgrade') {
+                        if ($student_result && isset($main_result->result) && $main_result->result != 1) {
+                            $student_result->update([
+                                'option_id' => $question->option_question->where('result', 1)->first()->id,
+                            ]);
+                            $updated_marks += $question->mark;
+                        }
+                    } else {
+                        if ($student_result && isset($main_result->result) && $main_result->result == 1) {
+                            $student_result->update([
+                                'option_id' => $question->option_question->where('result', 0)->first()->id,
+                            ]);
+                            $updated_marks += $question->mark;
+                        }
+                    }
+                }
+
+                if ($updated_marks >= $mark) {
+                    break;
+                }
+            }
+
+            $pre_mark = $student_term->total;
+            //correct exam
+            $data = $this->correctionService->correctStudentTerm($student_term);
+            $student_term->update($data);
+            Log::alert('Student Term Updated Successfully for Student ID: ' . $student_term->student_id . ' | Old Mark: ' . $pre_mark . ' | New Mark: ' . $data['total']);
+        });
+        return $this->sendResponse(t('Student Terms Upgraded Successfully'), t('Student Terms Upgraded Successfully'));
+
+    }
+
+
 }
+

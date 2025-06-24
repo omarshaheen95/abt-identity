@@ -122,6 +122,8 @@ Route::group([], function () {
     Route::post('/pdfReports', [\App\Http\Controllers\Manager\Student\StudentController::class, 'pdfReports'])->name('reports.pdfReports');
     Route::post('student_terms_open_time', [\App\Http\Controllers\Manager\Student\StudentController::class,'studentsTermsTime'])->name('student.open_term_time');
 
+    Route::get('upgrade_student_term', [\App\Http\Controllers\Manager\StudentTermController::class, 'upgradeStudentTermView'])->name('students-terms.view-upgrade-student-term');
+    Route::post('upgrade_student_term', [\App\Http\Controllers\Manager\StudentTermController::class, 'upgradeStudentTerm'])->name('students-terms.upgrade-student-term');
 
     //Copy Terms
     Route::get('copy_term', [\App\Http\Controllers\Manager\TermController::class, 'copyTermsView'])->name('term.copy_term_view');

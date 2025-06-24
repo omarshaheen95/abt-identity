@@ -43,7 +43,7 @@ class CorrectionService
                     $query->where('student_term_id', $student_term_id);
                 }
                 ])
-                ->where('term_id', $studentTerm->id)->get();
+                ->where('term_id', $studentTerm->term_id)->get();
 
             foreach ($term_questions as $question) {
                 $mark = 0;

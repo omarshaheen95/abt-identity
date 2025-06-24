@@ -283,8 +283,8 @@
 
 
 {{--                'show years','show activity logs','show students import'--}}
-                @if(Auth::guard('manager')->user()->hasAnyDirectPermission(['show settings', 'copy terms','show years', 'show activity logs', 'show students import', 'show login sessions']))
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('manager/settings*')||Request::is('manager/copy_term*')  || Request::is('manager/year*')|| Request::is('manager/activity-log')|| Request::is('manager/login_sessions*')||Request::is('manager/students_files_import*')?'here show':''
+                @if(Auth::guard('manager')->user()->hasAnyDirectPermission(['show settings', 'copy terms','show years', 'show activity logs', 'show students import', 'show login sessions', 'show upgrade terms']))
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('manager/settings*')||Request::is('manager/copy_term*')||Request::is('manager/upgrade_student_term*')  || Request::is('manager/year*')|| Request::is('manager/activity-log')|| Request::is('manager/login_sessions*')||Request::is('manager/students_files_import*')?'here show':''
                  }}  ">
                     <span class="menu-link">
                                             <span class="menu-icon">
@@ -346,6 +346,16 @@
                                 </div>
 {{--                            @endcan--}}
 
+                            @can('show upgrade terms')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/upgrade_student_term') )active @endif" href="{{ route('manager.students-terms.view-upgrade-student-term') }}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                        <span class="menu-title">{{t('Upgrade Downgrade Students Terms')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
                             @can('show login sessions')
                                 <div class="menu-item">
                                     <a class="menu-link @if(Request::is('manager/login_sessions*') )active @endif" href="{{ route('manager.login_sessions.index') }}">

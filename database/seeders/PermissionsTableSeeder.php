@@ -128,6 +128,9 @@ class PermissionsTableSeeder extends Seeder
 
             ['name' => 'copy terms','guard_name'=>'manager','group'=>'terms'],
 
+            ['name' => 'show upgrade terms','guard_name'=>'manager','group'=>'upgrade terms'],
+            ['name' => 'upgrade terms','guard_name'=>'manager','group'=>'upgrade terms'],
+
 
 
 

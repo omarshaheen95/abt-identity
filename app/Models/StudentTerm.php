@@ -27,7 +27,7 @@ class StudentTerm extends Model
 
     protected $fillable = ['student_id','term_id','corrected','total','notes','subjects_marks','dates_at'];
 
-    protected $cascadeDeletes = ['tfResults','optionResults','matchResults','sortResults','articleResults','standards'];
+    protected $cascadeDeletes = ['tfResults','optionResults','matchResults','sortResults','fillBlankAnswers','articleResults','standards'];
 
     public function tfResults():HasMany{
         return $this->hasMany(TFQuestionResult::class,'student_term_id');
@@ -50,6 +50,10 @@ class StudentTerm extends Model
         return $this->hasMany(ArticleQuestionResult::class,'student_term_id');
     }
 
+    public function fillBlankAnswers(): HasMany
+    {
+        return $this->hasMany(FillBlankAnswer::class, 'student_term_id');
+    }
     public function standards(): HasMany
     {
         return $this->hasMany(StudentTermStandard::class,'student_term_id');

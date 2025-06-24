@@ -96,10 +96,13 @@ class StudentController extends Controller
 
     public function delete(Request $request)
     {
-        $student = Student::query()
+        $request->validate(['row_id'=>'required']);
+        Student::query()
             ->where('school_id',Auth::guard('school')->user()->id)
             ->whereIn('id', $request->get('row_id'))
-            ->delete();
+            ->each(function ($student) {
+                $student->delete();
+            });
         return $this->sendResponse(null, t('Successfully Deleted'));
     }
 

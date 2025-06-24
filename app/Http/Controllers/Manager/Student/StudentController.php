@@ -6,9 +6,17 @@ use App\Exports\StudentExport;
 use App\Exports\StudentMarksExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Manager\StudentRequest;
+use App\Models\ArticleQuestionResult;
+use App\Models\FillBlankAnswer;
 use App\Models\Level;
+use App\Models\MatchQuestionResult;
+use App\Models\OptionQuestionResult;
 use App\Models\School;
+use App\Models\SortQuestionResult;
 use App\Models\Student;
+use App\Models\StudentTerm;
+use App\Models\StudentTermStandard;
+use App\Models\TFQuestionResult;
 use App\Models\Year;
 use App\Reports\StudentReport;
 use Illuminate\Database\Eloquent\Builder;
@@ -125,7 +133,10 @@ class StudentController extends Controller
 
     public function delete(Request $request)
     {
-        Student::destroy($request->get('row_id'));
+        $request->validate(['row_id'=>'required']);
+        Student::query()->whereIn('id',$request->get('row_id'))->get()->each(function ($student) {
+            $student->delete();
+        });
         return $this->sendResponse(null, t('Successfully Deleted'));
     }
 
@@ -226,6 +237,27 @@ class StudentController extends Controller
                 return $this->sendError(t('Cannot Restore Student Before Email Already Exist'), 402);
             }else{
                 $student->restore();
+
+                //Restore Student Terms
+                $student_terms = StudentTerm::query()->where('student_id', $student->id)->withTrashed()->get();
+
+                foreach ($student_terms as $student_term) {
+
+                    $other_terms = StudentTerm::query()->where('student_id', $student->id)->where('term_id', $student_term->term_id)->get();
+
+                    //check if has the same term
+                    if ($other_terms->count() <= 0) {
+                        $student_term->restore();
+                        MatchQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                        TFQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                        SortQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                        FillBlankAnswer::query()->where('student_term_id', $student_term->id)->restore();
+                        OptionQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                        ArticleQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                        StudentTermStandard::query()->where('student_term_id', $student_term->id)->restore();
+                    }
+
+                }
                 return $this->sendResponse(null, t('Successfully Restored'));
             }
 

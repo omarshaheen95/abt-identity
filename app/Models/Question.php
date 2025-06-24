@@ -28,6 +28,8 @@ class Question extends Model
         'option_question','option_question_result',
         'match_question','match_question_result',
         'sort_question','sort_question_result',
+        'fill_blank_question','fill_blank_answer',
+        'article_question_result',
         'question_standard',
         ];
 

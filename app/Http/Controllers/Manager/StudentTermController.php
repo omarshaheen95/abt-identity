@@ -441,7 +441,9 @@ class StudentTermController extends Controller
 
     public function deleteStudentTerm(Request $request){
         $request->validate(['row_id'=>'required']);
-        StudentTerm::query()->whereIn('id',$request->get('row_id'))->delete();
+        StudentTerm::query()->whereIn('id',$request->get('row_id'))->get()->each(function ($studentTerm){
+            $studentTerm->delete();
+        });
         return $this->sendResponse(null,t('Student term deleted successfully'));
     }
 

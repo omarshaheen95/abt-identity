@@ -124,69 +124,69 @@
                                                 <!--end::Close-->
                                             </div>
                                         @endif
-                                        @hasSection('filter')
-                                            <!--begin::Accordion-->
 
-                                            <!--end::Accordion-->
-
-                                            <div class="row mt-5">
-                                                <div class="accordion " id="kt_accordion_1">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="kt_accordion_1_header_1">
-                                                            <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#kt_accordion_1_body_1" aria-expanded="true" aria-controls="kt_accordion_1_body_1">
-                                                                {{t('Filter')}}
-                                                            </button>
-                                                        </h2>
-                                                        <div id="kt_accordion_1_body_1" class="accordion-collapse collapse" aria-labelledby="kt_accordion_1_header_1" data-bs-parent="#kt_accordion_1">
-                                                            <div class="accordion-body">
-                                                                <div class="card-header border-0 pt-6">
-                                                                    <form class="w-100 filter" id="filter" action="" autocomplete="off">
-                                                                        @csrf
-                                                                        <div class="row">
-                                                                            @yield('filter')
-
-                                                                            <div class="col-12 mt-2 d-flex justify-content-end gap-2">
-
-                                                                                <button type="button" class="btn btn-primary " id="kt_search">
-                                                            <span>
-                                                                <i class="la la-search"></i>
-                                                                <span>{{t('Search')}}</span>
-                                                            </span>
-                                                                                </button>
-
-                                                                                <button type="reset" class="btn btn-secondary " id="kt_reset">
-                                                            <span>
-                                                                <i class="la la-close"></i>
-                                                                <span>{{t('Reset')}}</span>
-                                                            </span>
-                                                                                </button>
-
-                                                                                @hasSection('filter-actions')
-                                                                                    @yield('filter-actions')
-                                                                                @else
-
-                                                                            </div>
-                                                                            @endif
-                                                                        </div>
-
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-
-
-
-                                        @endif
                                         <!--end::Card header-->
 
                                         <!--begin::Card body-->
                                         <div class="card-body">
+                                            @hasSection('filter')
+                                                <!--begin::Accordion-->
 
+                                                <!--end::Accordion-->
+
+                                                <div class="row mt-5 mb-2">
+                                                    <div class="accordion " id="kt_accordion_1">
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="kt_accordion_1_header_1">
+                                                                <button class="accordion-button fs-4 fw-semibold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#kt_accordion_1_body_1" aria-expanded="true" aria-controls="kt_accordion_1_body_1">
+                                                                    {{t('Filter')}}
+                                                                </button>
+                                                            </h2>
+                                                            <div id="kt_accordion_1_body_1" class="accordion-collapse collapse" aria-labelledby="kt_accordion_1_header_1" data-bs-parent="#kt_accordion_1">
+                                                                <div class="accordion-body">
+                                                                    <div class="card-header border-0 pt-6">
+                                                                        <form class="w-100 filter" id="filter" action="" autocomplete="off">
+                                                                            @csrf
+                                                                            <div class="row">
+                                                                                @yield('filter')
+
+                                                                                <div class="col-12 mt-2 d-flex justify-content-end gap-2">
+
+                                                                                    <button type="button" class="btn btn-primary " id="kt_search">
+                                                            <span>
+                                                                <i class="la la-search"></i>
+                                                                <span>{{t('Search')}}</span>
+                                                            </span>
+                                                                                    </button>
+
+                                                                                    <button type="reset" class="btn btn-secondary " id="kt_reset">
+                                                            <span>
+                                                                <i class="la la-close"></i>
+                                                                <span>{{t('Reset')}}</span>
+                                                            </span>
+                                                                                    </button>
+
+                                                                                    @hasSection('filter-actions')
+                                                                                        @yield('filter-actions')
+                                                                                    @else
+
+                                                                                </div>
+                                                                                @endif
+                                                                            </div>
+
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            @endif
                                             @yield('content')
 
                                         </div>

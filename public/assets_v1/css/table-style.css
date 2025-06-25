@@ -1,0 +1,107 @@
+/* Simple Table Style Improvements with RTL Support */
+.accordion-item {
+    color: var(--bs-accordion-color);
+    background-color: var(--bs-accordion-bg);
+    border: var(--bs-accordion-border-width) solid #b3b3b385 /*border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color)*/;
+}
+
+/* Add rounded corners to the table */
+#datatable {
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e4e6ef;
+}
+
+/* Style the table header with the main color */
+#datatable thead, #datatable thead tr, #datatable thead tr th {
+    background: var(--bs-primary);
+}
+
+#datatable thead tr th {
+    color: white !important;
+    font-weight: 600;
+    border-bottom: none !important;
+}
+
+/* Optional: gradient variation if preferred */
+#datatable thead.gradient-header {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-primary-light) 100%);
+}
+
+/* for thah*/
+thead tr th .form-check .form-check-input.group-checkable:checked {
+    background-color: var(--cs-primary-right);
+}
+
+/* LTR (Left-to-Right) specific styles */
+html:not([dir="rtl"]) #datatable thead tr th:first-child {
+    border-top-left-radius: 8px;
+}
+
+html:not([dir="rtl"]) #datatable thead tr th:last-child {
+    border-top-right-radius: 8px;
+}
+
+html:not([dir="rtl"]) #datatable tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+html:not([dir="rtl"]) #datatable tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
+}
+
+/* RTL (Right-to-Left) specific styles */
+html[dir="rtl"] #datatable thead tr th:first-child {
+    border-top-right-radius: 8px;
+}
+
+html[dir="rtl"] #datatable thead tr th:last-child {
+    border-top-left-radius: 8px;
+}
+
+html[dir="rtl"] #datatable tbody tr:last-child td:first-child {
+    border-bottom-right-radius: 8px;
+}
+
+html[dir="rtl"] #datatable tbody tr:last-child td:last-child {
+    border-bottom-left-radius: 8px;
+}
+
+/* RTL text alignment adjustments */
+html[dir="rtl"] .text-start {
+    text-align: right !important;
+}
+
+html[dir="rtl"] .text-end {
+    text-align: left !important;
+}
+
+/* Hover effect for rows */
+#datatable tbody tr:hover {
+    background-color: rgba(240, 79, 50, 0.05);
+}
+
+/* RTL padding adjustments for any potentially asymmetric paddings */
+html[dir="rtl"] #datatable th,
+html[dir="rtl"] #datatable td {
+    text-align: right;
+}
+
+/* RTL icon adjustments - fix any direction-sensitive icons */
+html[dir="rtl"] .fa-chevron-right,
+html[dir="rtl"] .ki-arrow-right {
+    transform: rotate(180deg);
+}
+
+/* RTL dropdown menus positioning */
+html[dir="rtl"] .dropdown-menu {
+    text-align: right;
+}
+
+/* Support for header gradient direction in RTL */
+html[dir="rtl"] #datatable thead.gradient-header {
+    background: linear-gradient(-135deg, var(--bs-primary) 0%, var(--bs-primary-light) 100%);
+}
+

@@ -30,7 +30,7 @@
     background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-primary-light) 100%);
 }
 
-/* for thah*/
+/* for checkbox select all in table head*/
 thead tr th .form-check .form-check-input.group-checkable:checked {
     background-color: var(--cs-primary-right);
 }

@@ -89,6 +89,11 @@ html[dir="rtl"] #datatable td {
     text-align: right;
 }
 
+
+html[dir="rtl"] #datatable td.dataTables_empty {
+    text-align: center !important;
+}
+
 /* RTL icon adjustments - fix any direction-sensitive icons */
 html[dir="rtl"] .fa-chevron-right,
 html[dir="rtl"] .ki-arrow-right {

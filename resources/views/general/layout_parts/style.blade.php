@@ -17,7 +17,7 @@
     <link href="{{asset('assets_v1/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('assets_v1/css/style.bundle.css')}}?v={{time()}}" rel="stylesheet" type="text/css"/>
 @endif
-<link href="{{asset('assets_v1/css/table-style.css')}}?v={{time()}}" rel="stylesheet" type="text/css"/>
+<link href="{{asset('assets_v1/css/table-style.css')}}?v=3" rel="stylesheet" type="text/css"/>
 
 <style>
     /*style to disable item menu sidebar */

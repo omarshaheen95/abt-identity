@@ -152,7 +152,14 @@
                            class="form-control"
                            value="{{ isset($school) ? $school->certificate_mark : old("certificate_mark") }}"/>
                 </div>
-
+                @isset($school)
+                    <div class="col-lg-4 mb-2">
+                        <label class="form-label mb-1">{{t('Central Uid')}} :</label>
+                        <input name="central_uid" type="text" placeholder="{{t('Central Uid')}}"
+                               class="form-control"
+                               value="{{ isset($school) ? $school->central_uid : old("central_uid") }}"/>
+                    </div>
+                @endisset
         </div>
 
         <div class="row mt-5">

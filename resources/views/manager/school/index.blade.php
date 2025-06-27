@@ -73,20 +73,6 @@
                 <option value="2">{{t('Inactive')}}</option>
             </select>
         </div>
-        <div class="col-3 mb-2">
-            <label class="mb-1">{{t('Central Uid')}}:</label>
-            <input type="text" name="central_uid" class="form-control datatable-input"
-                   placeholder="{{t('Central Uid')}}" data-col-index="1"/>
-        </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Has Central Uid')}}:</label>
-            <select name="has_central_uid" class="form-select" data-control="select2" data-placeholder="{{t('Select Status')}}"
-                    data-hide-search="true" data-allow-clear="true">
-                <option></option>
-                <option value="1">{{t('Has Uid')}}</option>
-                <option value="2">{{t('Not Has Uid')}}</option>
-            </select>
-        </div>
 @endsection
 @section('content')
     <table class="table table-row-bordered gy-5" id="datatable">

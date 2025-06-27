@@ -37,11 +37,9 @@ class SchoolRequest extends FormRequest
             $school = $this->route('school');
             $rules['email'] = "required|email|unique:schools,email,$school,id,deleted_at,NULL";
             $rules["password"] = 'nullable|min:6';
-            $rules['central_uid'] = "nullable|email|unique:schools,central_uid,$school,id,deleted_at,NULL";
         }else{
             $rules['email'] = 'required|email|unique:schools,email,{$id},id,deleted_at,NULL';
             $rules["password"] = 'required|min:6';
-            $rules['central_uid'] = 'nullable|email|unique:schools,central_uid,{$id},id,deleted_at,NULL';
         }
         if (\Auth::guard('manager')->user()->hasDirectPermission('edit reports status')) {
             $rules['allow_reports'] = 'nullable|boolean';

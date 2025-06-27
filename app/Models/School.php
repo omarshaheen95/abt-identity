@@ -14,20 +14,19 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 
 class School extends Authenticatable
 {
     use Notifiable, SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'central_uid'];
+    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
     protected $fillable = [
-        'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info', 'certificate_mark', 'central_uid',
+        'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info', 'certificate_mark',
         'available_year_id','allow_reports'
         ];
     protected $cascadeDeletes = ['students','school_grades', 'inspections_school'];
@@ -37,17 +36,6 @@ class School extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (empty($model->central_uid)) {
-                $model->central_uid = Str::uuid()->toString();
-            }
-        });
-    }
 
     public function sendPasswordResetNotification($token)
     {
@@ -98,15 +86,6 @@ class School extends Authenticatable
                 $query->where('active', 0);
             })->when($value = $request->get('row_id',[]),function (Builder $query) use ($value){
                 $query->whereIn('id', $value);
-            })->when($request->filled('central_uid'), function (Builder $query) use ($request) {
-                $query->where('central_uid', $request->get('central_uid'));
-            })
-            ->when($request->filled('has_central_uid'), function (Builder $query) use ($request) {
-                if ($request->get('has_central_uid') == 1) {
-                    $query->whereNotNull('central_uid');
-                } elseif ($request->get('has_central_uid') == 2) {
-                    $query->whereNull('central_uid');
-                }
             });
     }
 

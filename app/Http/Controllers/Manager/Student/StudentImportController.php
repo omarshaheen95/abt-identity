@@ -33,30 +33,6 @@ class StudentImportController extends Controller
     //Import Student
     public function index(Request $request)
     {
-        StudentImportFile::query()->where('update', 0)->update([
-            'process_type' => 'create',
-        ]);
-        StudentImportFile::query()->where('update', 1)->update([
-            'process_type' => 'update',
-        ]);
-        StudentImportFile::query()->where('status', '1')->update([
-            'status' => 'New',
-        ]);
-        StudentImportFile::query()->where('status', '2')->update([
-            'status' => 'Uploading',
-        ]);
-        StudentImportFile::query()->where('status', '3')->update([
-            'status' => 'Completed',
-        ]);
-        StudentImportFile::query()->where('status', '4')->update([
-            'status' => 'Failures',
-        ]);
-        StudentImportFile::query()->where('status', '5')->update([
-            'status' => 'Errors',
-        ]);
-//        StudentImportFile::query()->where('delete', 1)->update([
-//            'process_type' => 'delete',
-//        ]);
         if ($request->ajax()) {
             $rows = StudentImportFile::with(['school'])->withCount(['logs', 'logErrors'])->search($request)->latest();
 

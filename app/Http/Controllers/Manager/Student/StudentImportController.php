@@ -514,9 +514,14 @@ class StudentImportController extends Controller
     {
         $id = $request->get('row_id', []);
         $logs = StudentImportFileLog::query()->whereIn('id', $id)->get();
+        $file = $logs->first()->studentImportFile;
         foreach ($logs as $log) {
             $log->delete();
         }
+        $logs_count = ImportStudentFileLog::query()->where('import_student_file_id', $file->id)->count();
+        $file->update([
+            'status' => $logs_count > 0 ? 'Failures' : 'Completed',
+        ]);
         return $this->sendResponse(null, 'Deleted Successfully');
     }
 

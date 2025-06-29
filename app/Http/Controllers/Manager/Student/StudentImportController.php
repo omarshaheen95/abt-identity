@@ -514,7 +514,6 @@ class StudentImportController extends Controller
     {
         $id = $request->get('row_id', []);
         $logs = StudentImportFileLog::query()->whereIn('id', $id)->get();
-        $file = $logs->first()->studentImportFile;
         foreach ($logs as $log) {
             $log->delete();
         }

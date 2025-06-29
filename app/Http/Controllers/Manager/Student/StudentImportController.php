@@ -518,7 +518,7 @@ class StudentImportController extends Controller
         foreach ($logs as $log) {
             $log->delete();
         }
-        $logs_count = StudentImportFileLog::query()->where('import_student_file_id', $file->id)->count();
+        $logs_count = StudentImportFileLog::query()->where('student_import_file_id', $file->id)->count();
         $file->update([
             'status' => $logs_count > 0 ? 'Failures' : 'Completed',
         ]);

@@ -497,11 +497,11 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
     {
         $firstName = explode(' ', $name)[0];
         $number = date('Y') . rand(99, 99999);
-        $username = $firstName . $number . '@english';
+        $username = $firstName . $number . '@identity';
 
         while (Student::where('username', $username)->withTrashed()->exists()) {
             $number = date('Y') . rand(999, 999999);
-            $username = $firstName . $number . '@english';
+            $username = $firstName . $number . '@identity';
         }
 
         return $username;
@@ -515,10 +515,10 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
      */
     private function generateIdBasedUsername($studentId)
     {
-        $username = $studentId . '@english';
+        $username = $studentId . '@identity';
 
         while (Student::where('email', $username)->withTrashed()->exists()) {
-            $username = $studentId . '-' . rand(9, 9999) . '@english';
+            $username = $studentId . '-' . rand(9, 9999) . '@identity';
         }
 
         return $username;

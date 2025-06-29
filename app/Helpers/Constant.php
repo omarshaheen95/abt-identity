@@ -5,6 +5,12 @@ namespace App\Helpers;
 
 class Constant
 {
+    const GENDER_MALE = [1, 'b', 'boy', 'Boy', 'BOY', 'm', 'male', 'Male', 'MALE'];
+    const GENDER_FEMALE = [2, 'g', 'girl', 'Girl', 'GIRL', 'f', 'female', 'Female', 'FEMALE'];
+    const YES = [1, 'yes', 'true', 'on', '1', 'y', 'Y', 'Yes', 'TRUE', 'ON', 'YES'];
+    const NO = [0, 'no', 'false', 'off', '0', 'n', 'N', 'No', 'FALSE', 'OFF', 'NO'];
+
+    const UPLOAD_TYPE = ['create', 'update', 'delete'];
     const NOT_STARTED = 0;
     const RATING_TAUGHT = 1;
     const RATING_ALMOST = 2;
@@ -45,7 +51,6 @@ class Constant
         ]
     ];
     const UPLOAD_STATUS = ['New', 'Uploading', 'Completed', 'Failed'];
-    const UPLOAD_TYPE = ['Create', 'Update', 'Delete'];
     const COUNTRY = ['uae', 'kwt', 'qatar', 'oman', 'ksa', 'egy', 'bahrain'];
     const CURRICULUM = ['MOE', 'British', 'American', 'Indian', 'Iranian', 'Philippine', 'International Baccalaureate', 'Australian', 'Pakistan', 'French', 'Canadian', 'German', 'Others'];
     const CONST_COMPLETED = ['key' => 'completed', 'name' => 'completed', 'color' => '#0CAF60'];

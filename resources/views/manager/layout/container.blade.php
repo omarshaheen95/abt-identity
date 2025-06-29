@@ -193,6 +193,32 @@
                                         <!--end::Card body-->
                                     </div>
                                 @endif
+                                @hasSection('special_content')
+                                    @if (count($errors) > 0)
+                                        <div
+                                            class="mx-10 mt-5 mb-0 alert alert-dismissible alert-danger d-flex flex-column flex-sm-row">
+                                            <i class="ki-duotone ki-shield-cross fs-2hx text-danger me-4">
+                                                <i class="path1"></i>
+                                                <i class="path2"></i>
+                                                <i class="path3"></i>
+                                            </i>
+                                            <div class="d-flex flex-column">
+                                                @foreach ($errors->all() as $error)
+                                                    <span>{{ $error }}</span>
+                                                @endforeach
+                                            </div>
+                                            <!--begin::Close-->
+                                            <button type="button"
+                                                    class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                                                    data-bs-dismiss="alert">
+                                                <i class="ki-duotone ki-cross fs-1 text-primary"><span
+                                                        class="path1"></span><span class="path2"></span></i>
+                                            </button>
+                                            <!--end::Close-->
+                                        </div>
+                                    @endif
+                                    @yield('special_content')
+                                @endif
                                 <!--end::Card-->
                             @endif
 

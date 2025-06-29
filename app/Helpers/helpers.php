@@ -63,7 +63,7 @@ function uploadFile($file, $path = '')
     $file_exe = $file->getClientOriginalExtension();
     $file_size = $file->getSize();
     $new_name = uniqid() . '.' . $file_exe;
-    $directory = 'uploads' . '/' . $path; //.'/'.date("Y").'/'.date("m").'/'.date("d");
+    $directory = 'uploads' . '/' . $path . '/'.date("Y").'/'.date("m").'/'.date("d");
     $destination = public_path($directory);
     $file->move($destination, $new_name);
     $data['path'] = $directory . '/' . $new_name;

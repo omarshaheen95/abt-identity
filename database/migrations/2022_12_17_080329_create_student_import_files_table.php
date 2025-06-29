@@ -22,7 +22,8 @@ class CreateStudentImportFilesTable extends Migration
             $table->integer('row_count')->default(0);
             $table->integer('failed_row_count')->default(0);
             $table->string('path');
-            $table->boolean('status')->default(1)->comment('1=>New , 2=>Uploading 3=>Completed 4=>Failures ,5=>Errors');
+//            $table->boolean('status')->default(1)->comment('1=>New , 2=>Uploading 3=>Completed 4=>Failures ,5=>Errors');
+            $table->enum('status', ['New', 'Uploading', 'Completed', 'Failed', 'Errors'])->default('New');
             $table->boolean('delete_with_user')->default(0);
             $table->text('error')->nullable();
             $table->text('failures')->nullable();

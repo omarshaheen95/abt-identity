@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Manager\Student;
 
 use App\Exports\StudentExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Manager\ImportStudentFileRequest;
 use App\Http\Requests\Manager\ImportStudentRequest;
 use App\Http\Requests\Manager\StudentImportLogDataRequest;
+use App\Imports\OldStudentImport;
 use App\Imports\StudentImport;
 use App\Models\ImportStudentFile;
 use App\Models\Level;
@@ -31,51 +33,172 @@ class StudentImportController extends Controller
     //Import Student
     public function index(Request $request)
     {
+        StudentImportFile::query()->where('update', 0)->update([
+            'process_type' => 'create',
+        ]);
+        StudentImportFile::query()->where('update', 1)->update([
+            'process_type' => 'update',
+        ]);
+        StudentImportFile::query()->where('status', '1')->update([
+            'status' => 'New',
+        ]);
+        StudentImportFile::query()->where('status', '2')->update([
+            'status' => 'Uploading',
+        ]);
+        StudentImportFile::query()->where('status', '3')->update([
+            'status' => 'Completed',
+        ]);
+        StudentImportFile::query()->where('status', '4')->update([
+            'status' => 'Failures',
+        ]);
+        StudentImportFile::query()->where('status', '5')->update([
+            'status' => 'Errors',
+        ]);
+//        StudentImportFile::query()->where('delete', 1)->update([
+//            'process_type' => 'delete',
+//        ]);
         if ($request->ajax()) {
-            $rows = StudentImportFile::with(['school', 'year','logs'])->search($request)->latest();
+            $rows = StudentImportFile::with(['school'])->withCount(['logs', 'logErrors'])->search($request)->latest();
+
+            // Helper function to generate status badge
+            $getStatusBadge = function($status) {
+                $statusColors = [
+                    'New' => 'badge-primary',
+                    'Uploading' => 'badge-warning',
+                    'Completed' => 'badge-success',
+                    'Failures' => 'badge-danger',
+                    'Errors' => 'badge-danger',
+                ];
+
+                $statusIcons = [
+                    'New' => 'fas fa-clock text-white',
+                    'Uploading' => 'fas fa-upload text-white',
+                    'Completed' => 'fas fa-check-circle text-white',
+                    'Failures' => 'fas fa-times-circle text-white',
+                    'Errors' => 'fas fa-exclamation-circle text-white',
+                ];
+
+                $badgeClass = $statusColors[$status] ?? 'badge-secondary';
+                $icon = $statusIcons[$status] ?? 'fas fa-question-circle';
+
+                return '<span class="badge ' . $badgeClass . '">' .
+                    '<i class="' . $icon . ' me-1"></i>' .
+                    t($status) . '</span>';
+            };
+
+            // Helper function to generate process type badge
+            $getProcessTypeBadge = function($processType) {
+                $processColors = [
+                    'create' => 'badge-success',
+                    'update' => 'badge-warning',
+                    'delete' => 'badge-danger',
+                ];
+
+                $processIcons = [
+                    'create' => 'fas fa-plus-circle text-white',
+                    'update' => 'fas fa-edit text-white',
+                    'delete' => 'fas fa-trash text-white',
+                ];
+
+                $badgeClass = $processColors[$processType] ?? 'badge-secondary';
+                $icon = $processIcons[$processType] ?? 'fas fa-cog';
+
+                return '<span class="badge ' . $badgeClass . ' mb-1">' .
+                    '<i class="' . $icon . ' text-white me-1"></i>' .
+                    t(ucfirst($processType ?? 'N/A')) . '</span>';
+            };
+
+            // Helper function to generate count badge
+            $getCountBadge = function($label, $count, $badgeClass, $icon) {
+                return '<span class="badge ' . $badgeClass . ' mb-1">' .
+                    '<i class="' . $icon . ' text-white me-1"></i>' .
+                    t($label) . ': ' . ($count ?? 0) . '</span>';
+            };
+
+            // Helper function to generate link badge
+            $getLinkBadge = function($count, $route, $label, $icon, $activeClass, $inactiveClass = 'badge-secondary') {
+                if ($count > 0) {
+                    return '<a href="' . $route . '" class="badge ' . $activeClass . ' text-decoration-none mb-1">' .
+                        '<i class="' . $icon . ' me-1"></i>' .
+                        t($label) . ': ' . $count . '</a>';
+                } else {
+                    return '<span class="badge ' . $inactiveClass . ' mb-1">' .
+                        '<i class="' . $icon . ' text-dark me-1"></i>' .
+                        t($label) . ': ' . $count . '</span>';
+                }
+            };
+
             return DataTables::make($rows)
                 ->escapeColumns([])
-                ->addColumn('original_file_name', function ($row) {
-                    return '<a href="' . asset($row->path) . '" target="_blank"><span class="font-weight-bold">' . $row->original_file_name . '</span></a>';
+                ->addColumn('created_at', function ($row) {
+                    return Carbon::parse($row->created_at)->format('Y-m-d H:i:s');
                 })
-                ->addColumn('school_name', function ($row) {
-                    return $row->school->name;
+                ->addColumn('file_info', function ($row) {
+                    $schoolName = $row->school ? $row->school->name : t('Unknown');
+                    $fileIcon = '<i class="fas fa-file-download"></i>';
+                    return '<span class="font-weight-bold">' . $schoolName . '</span><br>' .
+                        '<a href="' . asset($row->file_path) . '" target="_blank" class="text-primary">' .
+                        $fileIcon . ' ' . t('Download File') . '</a>';
                 })
-                ->addColumn('year', function ($row) {
-                    return $row->year->name;
+                ->addColumn('statistics', function ($row) use ($getCountBadge) {
+                    $createdBadge = $getCountBadge('Created', $row->row_count, 'badge-success', 'fas fa-plus-circle');
+                    $updatedBadge = $getCountBadge('Updated', $row->updated_row_count, 'badge-info', 'fas fa-edit');
+                    $deletedBadge = $getCountBadge('Deleted', $row->deleted_row_count, 'badge-danger', 'fas fa-trash');
+
+                    return '<div class="text-nowrap">' .
+                        $createdBadge . '<br>' .
+                        $updatedBadge . '<br>' .
+                        $deletedBadge . '</div>';
                 })
-                ->addColumn('status', function ($row) {
-                    if ($row->logs->count() > 0 ) {
-                        return '<a href="' . route('manager.students_files_import.error', [$row->id]) . '"><span class="badge badge-danger">'.t('Completed With Error').'</span></a>';
-                    }elseif ($row->status == 1) {
-                        return '<a><span class="badge badge-primary">' . t('New') . '</span></a>';
-                    } elseif ($row->status == 2) {
-                        return '<a><span class="badge badge-warning">' . t('Uploading') . '</span></a>';
-                    } elseif ($row->status == 3) {
-                        return '<a><span class="badge badge-success">' . t('Completed') . '</span></a>';
-                    } elseif ($row->status == 4) {
-                        return '<a href="' . route('manager.students_files_import.error', ['id' => $row->id]) . '"><span class="badge badge-danger">' . t('Failure') . '</span></a>';
-                    }
-                    return '<a href="' . route('manager.students_files_import.error', ['id' => $row->id]) . '"><span class="badge badge-danger">' . t('Error') . '</span></a>';
+                ->addColumn('process', function ($row) use ($getProcessTypeBadge, $getStatusBadge) {
+                    $processTypeBadge = $getProcessTypeBadge($row->process_type);
+                    $statusBadge = $getStatusBadge($row->status);
+
+                    return '<div class="text-nowrap">' . $processTypeBadge . '<br>' . $statusBadge . '</div>';
+                })
+                ->addColumn('logs_info', function ($row) use ($getLinkBadge) {
+                    $showLogRoute = route('manager.students_files_import.show_logs', [$row->id]);
+                    $showErrorRoute = route('manager.students_files_import.show', [$row->id]);
+
+                    $logsLink = $getLinkBadge(
+                        $row->logs_count,
+                        $showLogRoute,
+                        'Logs',
+                        'fas fa-list text-white',
+                        'badge-warning'
+                    );
+
+                    $errorsLink = $getLinkBadge(
+                        $row->log_errors_count,
+                        $showErrorRoute,
+                        'Errors',
+                        'fas fa-exclamation-triangle text-white',
+                        'badge-danger'
+                    );
+
+                    return '<div class="text-nowrap">' . $logsLink . '<br>' . $errorsLink . '</div>';
                 })
                 ->addColumn('actions', function ($row) {
                     return $row->action_buttons;
                 })
                 ->make();
         }
-
-        $title = t('Student Import Files');
-        $schools = School::query()->active()->get();
-        $years = Year::query()->get();
-        $status = [
-            ['key' => t('New'), 'value' => 1],
-            ['key' => t('Uploading'), 'value' => 2],
-            ['key' => t('Completed'), 'value' => 3],
-            ['key' => t('Failure'), 'value' => 4],
-            ['key' => t('Error'), 'value' => 5],
+        $title = t('List Import Students File');
+        $schools = School::query()->where('active', 1)->get();
+        $statuses = [
+            'New',
+            'Uploading',
+            'Completed',
+            'Failures',
+            'Errors',
         ];
-
-        return view('manager.student.import.index', compact('title', 'schools', 'years', 'status'));
+        $process_types = [
+            'create' ,
+            'update' ,
+            'delete' ,
+        ];
+        $container_type = 'container-fluid';
+        return view('manager.student.import.index', compact('title', 'schools', 'statuses', 'container_type', 'process_types'));
     }
 
     public function create()
@@ -88,73 +211,129 @@ class StudentImportController extends Controller
         return view('manager.student.import.create', compact('title', 'note', 'schools', 'years'));
     }
 
-    public function store(ImportStudentRequest $request)
+//    public function store(ImportStudentRequest $request)
+//    {
+//        $data = $request->validated();
+//
+//        $file = $request->file('students_file');
+//
+//        //upload file
+//        $upload_file = uploadNewFile($file, '/student-import-files');
+//
+//        $update = isset($data['update']);
+//        $delete = isset($data['delete']);
+//
+//        if ($update) {
+//            $update = true;
+//            $delete = false;
+//        } elseif ($delete) {
+//            $update = false;
+//            $delete = true;
+//        } else {
+//            $update = false;
+//            $delete = false;
+//        }
+//
+//        //save file data
+//        $create_file = StudentImportFile::query()->create([
+//            'file_name' => $upload_file['name'],
+//            'original_file_name' => $file->getClientOriginalName(),
+//            'path' => $upload_file['path'],
+//            'school_id' => $data['school_id'],
+//            'year_id' => $data['year_id'],
+//            'status' => 1, //1=>New
+//            'update' => $update, //1=>New
+//        ]);
+//
+//        //import students
+//        $student_import = new OldStudentImport($create_file, $update,$delete);
+//        Excel::import($student_import, public_path($create_file->path));
+//
+//
+//        //update
+//        $file_data = [
+//            'row_count' => $student_import->getRowsCount(),
+//            'updated_row_count' => $student_import->getUpdatedRowsCount(),
+//            'deleted_row_count' => $student_import->getDeletedRowsCount(),
+//            'failed_row_count' => $student_import->getFailedRowCount(),
+//        ];
+//
+//
+//        //1=>New  2=>Uploading  3=>Completed  4=>Failure  5=>Error
+//
+//        if ($student_import->getError()) {
+//            $file_data['status'] = 5; //Error
+//            $file_data['error'] = $student_import->getError();
+//            StudentImportFile::query()->where('id', $create_file['id'])->update($file_data);
+//            return redirect()->route('manager.students_files_import.index')->withErrors([$student_import->getExceptionMessage()]);
+//        }
+//
+//        if ($student_import->getFailures()) {
+//            $file_data['status'] = 4; //Failures
+//            $file_data['failures'] = json_encode($student_import->getFailures());
+//        } else {
+//            $file_data['status'] = 3; //Complete
+//        }
+//
+//        StudentImportFile::query()->where('id', $create_file['id'])->update($file_data);
+//        return redirect()->route('manager.students_files_import.index');
+//
+//    }
+    public function store(ImportStudentFileRequest $request)
     {
         $data = $request->validated();
-
-        $file = $request->file('students_file');
-
         //upload file
-        $upload_file = uploadNewFile($file, '/student-import-files');
-
-        $update = isset($data['update']);
-        $delete = isset($data['delete']);
-
-        if ($update) {
-            $update = true;
-            $delete = false;
-        } elseif ($delete) {
-            $update = false;
-            $delete = true;
-        } else {
-            $update = false;
-            $delete = false;
-        }
-
+        $file = $request->file('file');
+        $upload_file = uploadFile($file, '/student-import-files');
         //save file data
         $create_file = StudentImportFile::query()->create([
-            'file_name' => $upload_file['name'],
-            'original_file_name' => $file->getClientOriginalName(),
-            'path' => $upload_file['path'],
             'school_id' => $data['school_id'],
+            'original_file_name' => $file->getClientOriginalName(),
+            'file_name' => $upload_file['name'],
+            'path' => $upload_file['path'],
+            'status' => 'New',
+            'process_type' => $data['process_type'],
+            'with_abt_id' => $data['with_abt_id'], //1=>New
             'year_id' => $data['year_id'],
-            'status' => 1, //1=>New
-            'update' => $update, //1=>New
+            'data' => [
+                'username_type' => $data['username_type'],
+                'delete_type' => $data['delete_type'] ?? null,
+                'rounds_deleted_assessments' => $data['rounds_deleted_assessments'] ?? [],
+                'search_by_column' => $data['search_by_column'] ?? null,
+            ]
         ]);
+        $student_import = new StudentImport($create_file, $request);
+        \Maatwebsite\Excel\Facades\Excel::import($student_import, public_path($create_file->path));
 
-        //import students
-        $student_import = new StudentImport($create_file, $update,$delete);
-        Excel::import($student_import, public_path($create_file->path));
-
-
-        //update
         $file_data = [
             'row_count' => $student_import->getRowsCount(),
             'updated_row_count' => $student_import->getUpdatedRowsCount(),
             'deleted_row_count' => $student_import->getDeletedRowsCount(),
-            'failed_row_count' => $student_import->getFailedRowCount(),
+            'failed_row_count' => $student_import->getFailedRowsCount(),
         ];
-
-
-        //1=>New  2=>Uploading  3=>Completed  4=>Failure  5=>Error
-
         if ($student_import->getError()) {
-            $file_data['status'] = 5; //Error
+            $file_data['status'] = 'Errors'; //Error
             $file_data['error'] = $student_import->getError();
-            StudentImportFile::query()->where('id', $create_file['id'])->update($file_data);
-            return redirect()->route('manager.students_files_import.index')->withErrors([$student_import->getExceptionMessage()]);
+            $create_file->update($file_data);
+            return redirect()->route('manager.students_files_import.index')->withErrors([$file_data['error']]);
         }
 
-        if ($student_import->getFailures()) {
-            $file_data['status'] = 4; //Failures
-            $file_data['failures'] = json_encode($student_import->getFailures());
+        if (StudentImportFileLog::query()->where('student_import_file_id', $create_file->id)->count() > 0) {
+            $file_data['status'] = 'Failures'; //Failures
+            $file_data['failures'] = $student_import->getFailures();
         } else {
-            $file_data['status'] = 3; //Complete
+            $file_data['status'] = 'Completed'; //Complete
         }
 
-        StudentImportFile::query()->where('id', $create_file['id'])->update($file_data);
-        return redirect()->route('manager.students_files_import.index');
+        $create_file->update($file_data);
+        return redirect()->route('manager.students_files_import.index')->with('message', t('Students Successfully imported'))->with('m-class', 'success');
+    }
 
+    public function show($id)
+    {
+        $file = StudentImportFile::query()->findOrFail($id);
+        $title = 'Show File Errors';
+        return view('manager.student.import.show', compact('file', 'title'));
     }
 
     public function delete(Request $request)

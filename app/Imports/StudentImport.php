@@ -680,7 +680,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
             'Name' => ['nullable', new StudentNameRule()],
             'Student ID' => $this->searchColumn == 'student_id' ? 'required' : 'nullable',
             'Username' => $this->searchColumn == 'username' ? 'required' : 'nullable',
-            'Grade' => 'nullable',
+            'Grade' => 'nullable|in:1,2,3,4,5,6,7,8,9,10,11,12',
             'Grade Name' => 'nullable',
             'Gender' => 'nullable|in:' . implode(',', self::GENDER),
             'Nationality' => 'nullable',
@@ -703,7 +703,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
 
         $baseRules = [
             'Student ID' => 'required',
-            'Grade' => 'required',
+            'Grade' => 'required|in:1,2,3,4,5,6,7,8,9,10,11,12',
             'Grade Name' => 'required',
             'Gender' => 'required|in:' . implode(',', self::GENDER),
             'Nationality' => 'required',

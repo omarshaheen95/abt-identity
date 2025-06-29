@@ -502,8 +502,9 @@ class StudentImportController extends Controller
             $counts++;
         }
         StudentImportFileLog::query()->where('student_import_file_id', $student_data_file->id)->whereIn('row_num', $rows_num)->delete();
+        $logs = StudentImportFileLog::query()->where('student_import_file_id', $student_data_file->id)->count();
         $student_data_file->update([
-            'failed_row_count' => $student_data_file->failed_row_count - $counts,
+            'status' => $logs ? 'Failures' : 'Completed',
             'row_count' => $student_data_file->row_count + $counts
         ]);
         return redirect()->route('manager.students_files_import.index')->with('message', t('Data Saved Successfully'));

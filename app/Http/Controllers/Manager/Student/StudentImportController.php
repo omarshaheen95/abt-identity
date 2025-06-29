@@ -517,9 +517,6 @@ class StudentImportController extends Controller
         foreach ($logs as $log) {
             $log->delete();
         }
-//        $file->update([
-//            'failed_row_count' => $file->failed_row_count - count($logs),
-//        ]);
         return $this->sendResponse(null, 'Deleted Successfully');
     }
 

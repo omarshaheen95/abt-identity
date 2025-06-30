@@ -113,7 +113,7 @@ class StudentImportController extends Controller
                     $schoolName = $row->school ? $row->school->name : t('Unknown');
                     $fileIcon = '<i class="fas fa-file-download"></i>';
                     return '<span class="font-weight-bold">' . $schoolName . '</span><br>' .
-                        '<a href="' . asset($row->file_path) . '" target="_blank" class="text-primary">' .
+                        '<a href="' . asset($row->path) . '" target="_blank" class="text-primary">' .
                         $fileIcon . ' ' . t('Download File') . '</a>';
                 })
                 ->addColumn('statistics', function ($row) use ($getCountBadge) {

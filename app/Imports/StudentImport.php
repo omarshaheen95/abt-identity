@@ -80,7 +80,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
         $this->mode = $this->file->process_type;
 
             $this->mode != self::MODE_DELETE ?? $this->loadLevels();
-        if ($this->mode == self::MODE_UPDATE || $this->mode != self::MODE_DELETE) {
+        if ($this->mode != self::MODE_CREATE) {
             $this->searchColumn = $request->get('search_by_column', 'student_id');
         }
     }

@@ -260,7 +260,7 @@ class StudentImportController extends Controller
         $data = $request->validated();
         //upload file
         $file = $request->file('file');
-        $upload_file = uploadFile($file, '/student-import-files');
+        $upload_file = uploadFile($file, 'student-import-files');
         //save file data
         $create_file = StudentImportFile::query()->create([
             'school_id' => $data['school_id'],
@@ -501,5 +501,91 @@ class StudentImportController extends Controller
         ]);
         return $this->sendResponse(null, 'Deleted Successfully');
     }
+
+    public function importStudentsApi(Request $request)
+    {
+        $trustedIps = ['127.0.0.1', '95.216.74.226', '95.217.45.58'];
+        $requestIp = $request->ip();
+        if (!in_array($requestIp, $trustedIps)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $request->validate([
+            'school_email'=>'required|email|exists:schools,email',
+            'year'=>'required|exists:years,name',
+            'process_type'=>'required',
+            'with_abt_id'=>'sometimes',
+        ]);
+        $school = School::query()->where('email',$request['school_email'])->first();
+        $year = Year::query()->where('name',$request['year'])->first();
+        if (!$school) {
+            return response()->json(['status'=>false,'message'=>'School Not Found'], 200);
+        }
+        $request['school_id'] = $school->id;
+        $request['year_id'] = $year->id;
+        //upload file
+        $file = $request->file('file');
+        $upload_file = uploadFile($file, 'student-import-files');
+        //save file data
+        $create_file = StudentImportFile::query()->create([
+            'school_id' => $request->get('school_id'),
+            'original_file_name' => $file->getClientOriginalName(),
+            'file_name' => $upload_file['name'],
+            'path' => $upload_file['path'],
+            'status' => 'New',
+            'process_type' => $request->get('process_type'),
+            'with_abt_id' => (bool) $request->get('with_abt_id')??false, //1=>New
+            'year_id' => $request->get('year_id'),
+            'data' => [
+                'username_type' => $request->get('username_type'),
+                'delete_type' => $request->get('delete_type') ?? null,
+                'rounds_deleted_assessments' => $request->get('rounds_deleted_assessments') ?? [],
+                'search_by_column' => $request->get('search_by_column') ?? null,
+            ]
+        ]);
+        $student_import = new StudentImport($create_file, $request);
+        \Maatwebsite\Excel\Facades\Excel::import($student_import, public_path($create_file->path));
+
+        $file_data = [
+            'row_count' => $student_import->getCreatedRowsCount(),
+            'updated_row_count' => $student_import->getUpdatedRowsCount(),
+            'deleted_row_count' => $student_import->getDeletedRowsCount(),
+            'failed_row_count' => $student_import->getFailedRowsCount(),
+        ];
+        if ($student_import->getError()) {
+            $file_data['status'] = 'Errors'; //Error
+            $file_data['error'] = $student_import->getError();
+            $message = 'File uploaded with some errors!';
+        }else{
+
+            if (StudentImportFileLog::query()->where('student_import_file_id', $create_file->id)->count() > 0) {
+                $file_data['status'] = 'Failures'; //Failures
+                $file_data['failures'] = $student_import->getFailures();
+                $message = 'File uploaded with some errors!';
+            } else {
+                $file_data['status'] = 'Completed'; //Complete
+                $message = 'Students successfully imported!';
+
+            }
+
+        }
+
+        $create_file->update($file_data);
+        $create_file->refresh();
+
+        $data = [
+            'file_status'=> $create_file->status,
+            'import_file_id'=> $create_file->id,
+            'counts'=>[
+                'created_rows_count' => $create_file->row_count,
+                'updated_rows_count' => $create_file->updated_row_count,
+                'deleted_rows_count' => $create_file->deleted_row_count,
+                'logs' => $create_file->logs->count(),
+                'errors' => $create_file->logErrors()->count(),
+            ]
+        ];
+
+        return response()->json(['status'=>true,'message'=>$message,'data'=>$data], 200);
+    }
+
 
 }

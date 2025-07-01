@@ -9,6 +9,7 @@ use App\Rules\StudentNameRule;
 use App\Models\Student;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\SkipsEmptyRows;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
@@ -71,7 +72,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
      * @param string $mode Operation mode: 'add', 'update', or 'delete'
      */
     public function __construct(
-        StudentImportFile $importStudentFile, ImportStudentFileRequest $request
+        StudentImportFile $importStudentFile, Request $request
     )
     {
         $this->file = $importStudentFile;
@@ -79,7 +80,9 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
         $this->request = $request;
         $this->mode = $this->file->process_type;
 
-            $this->mode != self::MODE_DELETE ?? $this->loadLevels();
+        if ($this->mode != self::MODE_DELETE) {
+            $this->loadLevels();
+        }
         if ($this->mode != self::MODE_CREATE) {
             $this->searchColumn = $request->get('search_by_column', 'student_id');
         }
@@ -315,13 +318,9 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
         $grade = isset($row['Grade']) ? $row['Grade'] : null;
         $arab = isset($row['Arab']) ? $row['Arab'] : 0;
 
-        if (in_array($arab, self::YES)) {
-            $arab = 1;
-        }else {
-            $arab = 0;
-        }
+        $levels = is_array($this->levels) ? collect($this->levels) : $this->levels;
 
-        return $this->levels
+        return $levels
             ->where('arab', $arab)
             ->where('grade', $grade)
             ->first();
@@ -389,9 +388,9 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
 
         //gender processing
         if ($this->hasValue($row, 'Gender')) {
-            if (in_array(self::GENDER_MALE, $row['Gender'])) {
+            if (in_array($row['Gender'], self::GENDER_MALE)) {
                 $data['gender'] = 'boy';
-            } elseif (in_array(self::GENDER_FEMALE, $row['Gender'])) {
+            } elseif (in_array($row['Gender'], self::GENDER_FEMALE)) {
                 $data['gender'] = 'girl';
             } else {
                 $data['gender'] = null;
@@ -499,7 +498,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
         $number = date('Y') . rand(99, 99999);
         $username = $firstName . $number . '@identity';
 
-        while (Student::where('username', $username)->withTrashed()->exists()) {
+        while (Student::where('email', $username)->withTrashed()->exists()) {
             $number = date('Y') . rand(999, 999999);
             $username = $firstName . $number . '@identity';
         }

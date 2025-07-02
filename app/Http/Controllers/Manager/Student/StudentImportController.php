@@ -516,7 +516,7 @@ class StudentImportController extends Controller
             'with_abt_id'=>'sometimes',
         ]);
         $school = School::query()->where('email',$request['school_email'])->first();
-        $year = Year::query()->where('name',$request['year'])->first();
+        $year = Year::query()->where('slug',$request['year'])->first();
         if (!$school) {
             return response()->json(['status'=>false,'message'=>'School Not Found'], 200);
         }

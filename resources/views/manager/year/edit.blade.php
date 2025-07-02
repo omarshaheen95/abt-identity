@@ -30,6 +30,13 @@
                     />
                 </div>
             @endforeach
+                <div class="col-lg-4 mb-2">
+                    <label class="form-label mb-1">{{t('Slug')}}</label>
+                    <input name="slug" type="text" placeholder="YYYY/YYYY"
+                           class="form-control"
+                           value="{{ isset($year) ? $year->slug : old("slug") }}"
+                    />
+                </div>
         </div>
         <div class="col-md-6 mb-2 mt-2">
             <div class="form-check form-check-custom form-check-solid">

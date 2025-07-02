@@ -521,9 +521,9 @@ class QuestionController extends Controller
     }
 
 
-    private function uploadFile($file, $path = '/questions')
+    private function uploadFile($file, $path = 'questions')
     {
-        $result = uploadNewFile($file,$path);
+        $result = uploadFile($file,$path);
         return $result['path'];
     }
 

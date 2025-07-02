@@ -57,33 +57,65 @@ function settingCache($key)
     return $cache[$key] ?? null;
 }
 
-function uploadFile($file, $path = '')
-{
-    $fileName = $file->getClientOriginalName();
-    $file_exe = $file->getClientOriginalExtension();
-    $file_size = $file->getSize();
-    $new_name = uniqid() . '.' . $file_exe;
-    $directory = 'uploads' . '/' . $path . '/'.date("Y").'/'.date("m").'/'.date("d");
-    $destination = public_path($directory);
-    $file->move($destination, $new_name);
-    $data['path'] = $directory . '/' . $new_name;
-    $data['file_name'] = $fileName;
-    $data['new_name'] = $new_name;
-    $data['extension'] = $file_exe;
-    //$data['size'] = formatBytes($file_size);
-    return $data;
-}
-
-function uploadNewFile($file, $path, bool $new_name = true)
+function uploadFile($file, $path)
 {
     $file_original_name = $file->getClientOriginalName();
-    $file_new_name = Str::random(27) . '.' . $file->getClientOriginalExtension();
-//    $path = $file->storeAs($path, $new_name?$file_new_name:$file_original_name, 'public');
-    $directory = 'uploads' . '/' . $path . '/' . date("Y") . '/' . date("m") . '/' . date("d");
-    $destination = public_path($directory);
+    $extension = $extension ?? $file->getClientOriginalExtension();
+    $file_new_name = Str::random(27) . '.' . $extension;
+
+    // Use forward slashes for web-compatible paths
+    $webPath = 'uploads/' . $path . '/' . date("Y") . '/' . date("m") . '/' . date("d");
+
+    // Convert to system path for file operations
+    $systemDirectory = str_replace('/', DIRECTORY_SEPARATOR, $webPath);
+    $destination = public_path($systemDirectory);
+
+    // Create directory if it doesn't exist
+    if (!File::isDirectory($destination)) {
+        File::makeDirectory($destination, 0777, true);
+    }
+
+    // Move the file
     $file->move($destination, $file_new_name);
-    return ['name' => $new_name ? $file_new_name : $file_original_name, 'path' => $directory . DIRECTORY_SEPARATOR . $file_new_name];
+
+    // Store web-compatible path in database
+    $storagePath = $webPath . '/' . $file_new_name;
+
+    return [
+        'name' => $file_new_name,
+        'path' => $storagePath, // Web-compatible path
+        'file_name' => $file_original_name,
+        'extension' => $extension
+    ];
 }
+
+//function uploadFile($file, $path = '')
+//{
+//    $fileName = $file->getClientOriginalName();
+//    $file_exe = $file->getClientOriginalExtension();
+//    $file_size = $file->getSize();
+//    $new_name = uniqid() . '.' . $file_exe;
+//    $directory = 'uploads' . '/' . $path . '/'.date("Y").'/'.date("m").'/'.date("d");
+//    $destination = public_path($directory);
+//    $file->move($destination, $new_name);
+//    $data['path'] = $directory . '/' . $new_name;
+//    $data['file_name'] = $fileName;
+//    $data['name'] = $new_name;
+//    $data['extension'] = $file_exe;
+//    //$data['size'] = formatBytes($file_size);
+//    return $data;
+//}
+//
+//function uploadNewFile($file, $path, bool $new_name = true)
+//{
+//    $file_original_name = $file->getClientOriginalName();
+//    $file_new_name = Str::random(27) . '.' . $file->getClientOriginalExtension();
+////    $path = $file->storeAs($path, $new_name?$file_new_name:$file_original_name, 'public');
+//    $directory = 'uploads' . '/' . $path . '/' . date("Y") . '/' . date("m") . '/' . date("d");
+//    $destination = public_path($directory);
+//    $file->move($destination, $file_new_name);
+//    return ['name' => $new_name ? $file_new_name : $file_original_name, 'path' => $directory . DIRECTORY_SEPARATOR . $file_new_name];
+//}
 
 function deleteFile($path = '/questions', string $disk = 'public')
 {

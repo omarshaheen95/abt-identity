@@ -97,7 +97,7 @@ class QuestionFileController extends Controller
             'author_type' => $data['author_type'],
             'author_id' => $data['author_id'],
             'original_file_name' => $file->getClientOriginalName(),
-            'file_name' => $upload_file['new_name'],
+            'file_name' => $upload_file['name'],
             'file_path' => $upload_file['path'],
             'status' => 'New',
             'process_type' => 'Create',

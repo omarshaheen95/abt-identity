@@ -511,7 +511,7 @@ class StudentImportController extends Controller
         }
         $request->validate([
             'school_email'=>'required|email|exists:schools,email',
-            'year'=>'required|exists:years,name',
+            'year'=>'required|exists:years,slug',
             'process_type'=>'required',
             'with_abt_id'=>'sometimes',
         ]);

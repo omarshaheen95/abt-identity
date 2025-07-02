@@ -60,7 +60,7 @@ function settingCache($key)
 function uploadFile($file, $path)
 {
     $file_original_name = $file->getClientOriginalName();
-    $extension = $extension ?? $file->getClientOriginalExtension();
+    $extension = $file->getClientOriginalExtension();
     $file_new_name = Str::random(27) . '.' . $extension;
 
     // Use forward slashes for web-compatible paths

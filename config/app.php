@@ -57,8 +57,12 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
+
     'telegram_bot_token' => null,
     'telegram_channel_id' =>null,
+
+    'trusted_ips'=>['127.0.0.1', '95.216.74.226', '95.217.45.58'],
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

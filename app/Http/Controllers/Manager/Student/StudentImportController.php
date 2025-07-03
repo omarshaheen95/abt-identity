@@ -504,10 +504,8 @@ class StudentImportController extends Controller
 
     public function importStudentsApi(Request $request)
     {
-        $trustedIps = ['127.0.0.1', '95.216.74.226', '95.217.45.58'];
-        $requestIp = $request->ip();
-        if (!in_array($requestIp, $trustedIps)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (!isTrustIpAddress($request)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
         $request->validate([
             'school_email'=>'required|email|exists:schools,email',

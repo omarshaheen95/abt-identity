@@ -422,7 +422,7 @@
                                             <h6 class="mb-1 text-dark">{{t('Need a template?')}}</h6>
                                             <p class="mb-0 text-dark">{{t('Download our example file format')}}</p>
                                         </div>
-                                        <a href="{{asset('Students Example Sheet.xlsx')}}" class="btn btn-success btn-modern btn-sm">
+                                        <a href="{{asset('Students Example.xlsx')}}" class="btn btn-success btn-modern btn-sm">
                                             <i class="fas fa-download"></i> {{t('Download Example')}}
                                         </a>
                                     </div>

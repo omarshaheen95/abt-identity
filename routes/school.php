@@ -30,6 +30,7 @@ Route::get('student-report/{id}', [\App\Http\Controllers\School\StudentControlle
 Route::get('student-report-card/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReportCard'])->name('student.report-card');
 Route::post('/pdfReports', [\App\Http\Controllers\School\StudentController::class,'pdfReports'])->name('reports.pdfReports');
 Route::post('/pdfReportsCards', [\App\Http\Controllers\School\StudentController::class,'pdfReportsCards'])->name('reports.pdfReportsCards');
+Route::get('student/{id}/activity-records', [\App\Http\Controllers\GeneralController::class, 'studentActivityRecords'])->name('student.activity-records');
 
 
 

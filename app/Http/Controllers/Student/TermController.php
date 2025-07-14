@@ -117,7 +117,7 @@ class TermController extends Controller
                     'term_id' => $id,
                     "dates_at" => [
                         'started_at' => $request->get('started_at', \Carbon\Carbon::now()->format('Y-m-d H:i:s')),
-                        'submitted_at' => \Carbon\Carbon::now('Asia/Dubai')->format('Y-m-d H:i:s'),
+                        'submitted_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
                         'corrected_at' => null,
                         'corrected_by' => null,
                     ]

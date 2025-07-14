@@ -158,6 +158,7 @@ class Student extends Authenticatable
                     ['key' => 'login', 'name' => t('Card'), 'route' => route('manager.student-card', $this->id), 'permission' =>'export students cards'],
                     ['key'=>'login','name'=>t('Login'),'route'=>route('manager.student.student-login', $this->id),'permission'=>'student login'],
                     ['key'=>'login','name'=>t('Student Report'),'route'=>route('manager.student.student-report', $this->id),'permission'=>'student login'],
+                    ['key'=>'login','name'=>t('Activity Records'),'route'=>route('manager.student.activity-records', $this->id), 'permission' => 'student login'],
                     ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete students'],
                 ];
                 return view('general.action_menu')->with('actions',$actions);
@@ -173,6 +174,8 @@ class Student extends Authenticatable
                 $allow_reports?['key' => 'student_report','target' => '_blank', 'name' => t('Student Report'), 'route' => route('school.student.student-report', $this->id)]:null,
                 $allow_reports?['key' => 'student_card_report','target' => '_blank', 'name' => t('Student Report Card'), 'route' => route('school.student.report-card', $this->id)]:null,
                 $student_login?['key' => 'login', 'name' => t('Login'), 'route' => route('school.student.student-login', $this->id)]:null,
+                ['key'=>'login','name'=>t('Activity Records'),'route'=>route('school.student.activity-records', $this->id)],
+
             ];
 
         }elseif (\request()->is('inspection/*')){

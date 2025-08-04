@@ -486,12 +486,10 @@ class TermController extends Controller
             $level = $levels->where('grade', $grade)->first();
             if ($level) {
                 $terms_array[] = [
-                    'name' => json_encode(
-                        [
+                    'name' => [
                             'ar' => "Grade $grade Math - $round_name $year_text",
                             'en' => "Grade $grade Math - $round_name $year_text",
-                        ]
-                    ),
+                        ],
                     'level_id' => $level->id,
                     'active' => 0,
                     'duration' => 1,
@@ -502,7 +500,9 @@ class TermController extends Controller
             }
         }
 
-        Term::insert($terms_array);
+        foreach ($terms_array as $term) {
+            Term::query()->create($term);
+        }
 
         return $this->sendResponse(null, t('Assessments added successfully').':'.count($terms_array));
     }

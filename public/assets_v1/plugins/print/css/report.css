@@ -12,7 +12,7 @@
 }
 .main-td{
     color: #FFF !important;
-    background-color: rgba(6, 130, 65, 0.7) !important;
+    background: linear-gradient(135deg,  #068241, #129153) !important;
 
 }
 .sub-td{
@@ -53,7 +53,7 @@ table th {
 
 .table th.main-th{
     color: #FFF !important;
-    background-color: rgba(6, 130, 65, 0.7) !important;
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%) !important;
 }
 .table td, .table th {
     vertical-align: middle;
@@ -104,7 +104,7 @@ table th {
 .section-title{
     font-size: 20px;
     font-weight: 500;
-    background-color: #068241;
+    background: linear-gradient(135deg,  #068241, #129153) !important;
     color: #fff;
     margin-bottom: 20px;
     padding: 10px 0;
@@ -134,18 +134,18 @@ table th {
     text-align: left !important;
 }
 .below-td{
-    background-color: #F08788 !important;
-    color: #000 !important;
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    color: #FFF !important;
     border: 0;
 }
 .inline-td{
-    background-color: #F5E872 !important;
-    color: #000 !important;
+    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    color: #FFF !important;
     border: 0;
 }
 .above-td{
-    background-color: #68D89A !important;
-    color: #000 !important;
+    background: linear-gradient(135deg, #10b981, #059669) !important;;
+    color: #FFF !important;
     border: 0;
 }
 

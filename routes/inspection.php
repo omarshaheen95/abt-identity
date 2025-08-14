@@ -4,6 +4,8 @@ use App\Models\Level;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+require base_path('routes/general.php');
+
 Route::get('/home', [\App\Http\Controllers\Inspection\SettingController::class, 'home'])->name('home');
 
 //Set Local

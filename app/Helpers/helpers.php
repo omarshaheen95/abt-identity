@@ -609,7 +609,39 @@ function camelCaseText($text, $replace = '_'): string
 {
     return Str::title(str_replace($replace, ' ', $text));
 }
+function sysNationality()
+{
+    $host = request()->getHost();
+    if (Str::contains($host, '-uae')) {
+        $country = 'Emirati';
+    } elseif (Str::contains($host, '-ksa')) {
+        $country = 'Saudi';
+    } elseif (Str::contains($host, '-kwt')) {
+        $country = 'Kuwaiti';
+    } elseif (Str::contains($host, '-egy')) {
+        $country = 'Egyptian';
+    } elseif (Str::contains($host, '-qatar')) {
+        $country = 'Qatari';
+    } elseif (Str::contains($host, '-oman')) {
+        $country = 'Omani';
+    } elseif (Str::contains($host, '-bahrain')) {
+        $country = 'Bahraini';
+    } elseif (Str::contains($host, '-global')) {
+        $country = 'Global';
+    } else {
+        $country = 'Emirati';
+    }
 
+    return $country;
+}
+function getMarkRange()
+{
+    return (object)[
+        'below' => (object)['from' => 0,'to' => 49],
+        'inline' => (object)['from' => 50,'to' => 69],
+        'above'=>(object)['from' => 70,'to' => 100],
+    ];
+}
 function judgement($below, $inline, $above)
 {
     $data = [];

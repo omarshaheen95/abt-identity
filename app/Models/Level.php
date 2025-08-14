@@ -56,7 +56,14 @@ class Level extends Model
                 $query->whereIn('id', $value);
             });
     }
+    public function getShortNameAttribute()
+    {
+        $year_name = $this->year->name;
+        $grade = $this->grade;
+        $arab = $this->arab ? 'Arab' : 'NonArab';
 
+        return  'Grade ' . $grade .' - '. $year_name . ' - '. $arab;
+    }
     public function getActionButtonsAttribute()
     {
         $actions =  [

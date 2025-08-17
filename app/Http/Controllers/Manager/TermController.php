@@ -21,6 +21,7 @@ use App\Models\Term;
 use App\Models\Year;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class TermController extends Controller
@@ -421,6 +422,7 @@ class TermController extends Controller
                                 foreach ($question->match_question as $match) {
                                     $new_option = $match->replicate();
                                     $new_option->question_id = $new_question->id;
+                                    $new_option->uid = Str::uuid()->toString();
                                     $new_option->save();
                                 }
                                 break;
@@ -428,6 +430,7 @@ class TermController extends Controller
                                 foreach ($question->sort_question as $sort) {
                                     $new_option = $sort->replicate();
                                     $new_option->question_id = $new_question->id;
+                                    $new_option->uid = Str::uuid()->toString();
                                     $new_option->save();
                                 }
                                 break;

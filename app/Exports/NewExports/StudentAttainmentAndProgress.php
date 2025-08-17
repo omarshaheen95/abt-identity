@@ -40,7 +40,7 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
         $this->req = $request;
         $this->student_type = $request->get('student_type', 2);
         $this->schoolConfig = [
-            'columns_per_term' => 16,
+            'columns_per_term' => 10,
             'has_french_system' => false,
             'has_scale' => false,
             'extra_columns' => []
@@ -67,8 +67,8 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
         ];
 
         $termHeaders = [];
-        for ($round = 1; $round <= 3; $round++) {
-            $termHeaders = array_merge($termHeaders, $this->getTermHeaders($round));
+        foreach ($this->getMonthsOrder() as $month) {
+            $termHeaders = array_merge($termHeaders, $this->getTermHeaders($month));
         }
 
         return array_merge($baseHeaders, $termHeaders);
@@ -243,10 +243,10 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
 
     private function getEmptyTermMarks(string $progress): array
     {
-        $emptyCount = $this->subjects->count()+1; // 12 marks + extras + expectations
+        $emptyCount = 9 ;
         return array_merge(
             array_fill(0, $emptyCount, ''),
-            [$progress]
+            [$progress]//"-"
         );
     }
 

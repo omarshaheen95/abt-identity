@@ -74,7 +74,7 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
         return array_merge($baseHeaders, $termHeaders);
     }
 
-    private function getTermHeaders(int $round): array
+    private function getTermHeaders(string $round): array
     {
         $headers = [re("The Assessment - Round {$round}")];
 

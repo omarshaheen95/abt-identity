@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+require base_path('routes/general.php');
+
 Route::get('/home', [\App\Http\Controllers\School\SettingController::class,'home'])->name('home');
 //Statistics Route
 Route::post('statistics/student_login_data', [\App\Http\Controllers\School\SettingController::class,'studentLoginData'])->name('statistics.student_login_data');

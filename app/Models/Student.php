@@ -160,6 +160,9 @@ class Student extends Authenticatable
                     ['key'=>'login','name'=>t('Student Report'),'route'=>route('manager.student.student-report', $this->id),'permission'=>'student login'],
                     ['key'=>'login','name'=>t('Activity Records'),'route'=>route('manager.student.activity-records', $this->id), 'permission' => 'student login'],
                     ['key'=>'delete','name'=>t('Delete'),'route'=>$this->id,'permission'=>'delete students'],
+                    ['key' => 'blank', 'name' => t('New Student Report'), 'route' => route('manager.report.student-report', $this->id), 'permission' => 'export students cards'],
+                    ['key' => 'blank', 'name' => t('New Student Report Card'), 'route' => route('manager.report.student-report-card', $this->id), 'permission' => 'export students cards'],
+
                 ];
                 return view('general.action_menu')->with('actions',$actions);
             }

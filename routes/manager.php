@@ -7,6 +7,8 @@ use App\Http\Controllers\Manager\TextTranslationController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
+require base_path('routes/general.php');
+
 Route::group([], function () {
     Route::get('cer', function () {
         return view('general.certificate.certificate');

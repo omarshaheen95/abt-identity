@@ -44,6 +44,10 @@ class Term extends Model
         return $this->hasMany(StudentTerm::class);
     }
 
+    public function getShortNameAttribute()
+    {
+        return $this->round . ' ' . $this->level->short_name;
+    }
     public function scopeSearch(Builder $query, Request $request)
     {
         return $query

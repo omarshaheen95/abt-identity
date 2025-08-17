@@ -378,20 +378,20 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
     private function applyHeaderColor(AfterSheet $event): void
     {
         //color header for student data
-        $event->sheet->getDelegate()->getStyle("A1:J1")
+        $event->sheet->getDelegate()->getStyle("A1:K1")
             ->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()
             ->setARGB("E37200");
-        $event->sheet->getDelegate()->getStyle("A1:J1")
+        $event->sheet->getDelegate()->getStyle("A1:K1")
             ->getFont()
             ->getColor()
             ->setARGB(Color::COLOR_WHITE);
 
 
         $colors = ['444DCD', '808080', '2CC306'];
-        $firstColumn = 'K';
-        $monthColumnsCount = $this->student_type == 1 ? 12:10;
+        $firstColumn = 'L';
+        $monthColumnsCount = 10;
         foreach ($this->getMonthsOrder() as $index => $month)
         {
             //add year columns count to the first column

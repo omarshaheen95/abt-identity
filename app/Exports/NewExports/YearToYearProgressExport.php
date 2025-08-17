@@ -62,7 +62,7 @@ class YearToYearProgressExport implements WithMapping, Responsable, WithHeadings
     public function headings(): array
     {
         $students_name = [
-            re('Student ID'), re('Student Name'), re('School'),
+            re('Student ID'), re('Student Name'), re('School'), re('Section'),
             re('Grade'), re('Gender'), re('Nationality'),
             re('SEN'), re('G&T'), re('Citizen')
         ];
@@ -145,6 +145,7 @@ class YearToYearProgressExport implements WithMapping, Responsable, WithHeadings
             $student->id_number,
             $student->student_name,
             $school->name,
+            $student->arab ? re('Arabs') : re('Non-Arabs'),
             $student->grade,
             ucfirst($student->gender),
             $student->nationality,

@@ -78,9 +78,9 @@
                         <select name="student_type" id="student_type_attainment" class="form-select"
                                 data-control="select2"
                                 data-placeholder="{{t("Student Type")}}">
-                            <option value="2">{{t("All")}}</option>
+{{--                            <option value="2">{{t("All")}}</option>--}}
                             <option value="1">{{t("Arabs")}}</option>
-                            <option value="0">{{t("Non-Arabs")}}</option>
+{{--                            <option value="0">{{t("Non-Arabs")}}</option>--}}
                         </select>
                     </div>
                 </div>

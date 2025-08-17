@@ -101,7 +101,8 @@ class ReportController extends Controller
 
     public function yearToYearReport(YearToYearProgressReportRequest $request)
     {
-        $report = new YearToYearReport($request, [$request->get('school_id')]);
+        $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
+        $report = new YearToYearReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
             return  $report->report();
         } else {
@@ -122,17 +123,8 @@ class ReportController extends Controller
             ->get();
         $container_type = 'container-fluid';
         $years = Year::query()->orderBy('id')->get();
-        return view('general.pre-reports.pre-trends-over-time-report', compact('title','schools', 'container_type', 'years'));
-    }
-
-    public function trendsOverTimeReport(TrendOverTimeReportRequest $request)
-    {
-        $school = School::query()->find($request->get('school_id'));
-        if (!$school) {
-            return redirect()->back()->withErrors(['school_id' => t('School not found')]);
-        }
-        $report = new OverTrendReport($request, $school);
-        return $report->report();
+        $yearsCount = 3;
+        return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title','schools', 'container_type', 'years', 'yearsCount'));
     }
 
     public function excelTrendsOverTimeReport(TrendOverTimeReportRequest $request)

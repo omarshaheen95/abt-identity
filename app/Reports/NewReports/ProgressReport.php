@@ -252,7 +252,7 @@ class ProgressReport
                         ->with(['term' => function ($termQuery) {
                             $termQuery->select('id', 'round', 'level_id');
                         }])
-                        ->whereHas('term', function ($q) use ($year_id, $register_year, $months) {
+                        ->whereHas('term.level', function ($q) use ($year_id, $register_year, $months) {
                             $q->where(function ($yearQuery) use ($year_id, $register_year, $months) {
                                 $yearQuery->where(function ($q1) use ($register_year, $months) {
                                     $q1->where('year_id', $register_year)->where('round', $months[0]);
@@ -434,7 +434,7 @@ class ProgressReport
                 'type' => $type,
                 'grade' => implode(',', $grade),
                 'subtitle' => $this->yearData['sub_title'],
-                'year' => $this->yearData['year']->year,
+                'year' => $this->yearData['year']->name,
             ]);
         } else {
             $yearGrade = $grade + 1;
@@ -443,7 +443,7 @@ class ProgressReport
                 'grade' => $grade,
                 'yearGrade' => $yearGrade,
                 'subtitle' => $this->yearData['sub_title'],
-                'year' => $this->yearData['year']->year,
+                'year' => $this->yearData['year']->name,
             ]);
         }
 
@@ -621,7 +621,7 @@ class ProgressReport
             $school = ' - ' . $this->school->name;
         }
         $combinedText = $this->isCombined ? 'Combined ' : '';
-        return $combinedText . 'Progress Report' . $school . ' - ' . $this->yearData['year']->year . ' (' . $this->yearData['sub_title'] . ')';
+        return $combinedText . 'Progress Report' . $school . ' - ' . $this->yearData['year']->name . ' (' . $this->yearData['sub_title'] . ')';
     }
 
     private function getReportInfo()
@@ -632,7 +632,7 @@ class ProgressReport
         $student_type = $this->getSubTitle($this->request->get('student_type'));
         return [
             'school' => $this->schools->first()->name,
-            'year' => $year->year,
+            'year' => $year->name,
             'grades' => $grades,
             'sections' => $sections,
             'student_type' => $student_type,

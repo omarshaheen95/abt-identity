@@ -696,7 +696,25 @@ function getSubjectAttainment($subject_data, $subjects, $responseTypeText = 1)
         return $responseTypeText ? 'Unknown' : 0;
     }
 }
+function assessmentExpect($total, $type, $grade)
+{
+    // Set thresholds based on conditions
+    if ($grade <= 9) {
+        $below = ($type == 1) ? 50 : 60;
+        $inline = ($type == 1) ? 70 : 80;
+    } else {
+        $below = 60;
+        $inline = ($type == 1) ? 70 : 80;
+    }
 
+    // Compare once
+    if ($total < $below) {
+        return 'Below';
+    } elseif ($total < $inline) {
+        return 'Inline';
+    }
+    return 'Above';
+}
 function getProgressText($startPoint, $subTotalMarks)
 {
     $progress = getProgress($startPoint, $subTotalMarks);
@@ -737,7 +755,35 @@ function getProgress($startPoint, $subTotalMarks)
         }
     }
 }
+function progressOverTime($total_last_mark, $result_total_mark)
+{
 
+    if ($total_last_mark >= 70) {
+        if ($result_total_mark > -5) {
+            return 3;
+        } elseif ($result_total_mark <= -5 && $result_total_mark >= -10) {
+            return 2;
+        } else {
+            return 1;
+        }
+    } elseif ($total_last_mark >= 50) {
+        if ($result_total_mark > 5) {
+            return 3;
+        } elseif ($result_total_mark >= 0) {
+            return 2;
+        } else {
+            return 1;
+        }
+    } else {
+        if ($result_total_mark > 10) {
+            return 3;
+        } elseif ($result_total_mark >= 5) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+}
 function encryptStudentId($studentId)
 {
     $encryptionKey = 'abt-assessment@,com';

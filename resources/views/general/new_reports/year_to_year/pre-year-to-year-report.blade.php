@@ -59,18 +59,18 @@
                         <select class="form-control form-select" data-control="select2" data-allow-clear="true"
                                 data-placeholder="{{t('Select One')}}" name="round">
                             <option></option>
-                            <option value="September">{{t('September')}}</option>
-                            <option value="February">{{t('February')}}</option>
-                            <option value="May">{{t('May')}}</option>
+                            <option value="september">{{t('September')}}</option>
+                            <option value="february">{{t('February')}}</option>
+                            <option value="may">{{t('May')}}</option>
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label required">{{t('Student Type')}}</label>
                         <select name="student_type" id="student_type" class="form-control form-select"
                                 data-control="select2" data-placeholder="{{t('Student Type')}}">
-                            <option value="2" selected>{{t('All')}}</option>
+{{--                            <option value="2" selected>{{t('All')}}</option>--}}
                             <option value="1">{{t('Arabs')}}</option>
-                            <option value="0">{{t('Non-Arabs')}}</option>
+{{--                            <option value="0">{{t('Non-Arabs')}}</option>--}}
                         </select>
                     </div>
                 </div>

@@ -21,6 +21,9 @@ Route::get('year-to-year-report', [\App\Http\Controllers\General\ReportControlle
 Route::get('excel-year-to-year-report', [\App\Http\Controllers\General\ReportController::class, 'excelYearToYearReport'])
     ->name('report.excel-year-to-year-report');
 
+//Trends Over Time reports routes
+Route::get('pre-trends-over-time-report', [\App\Http\Controllers\General\ReportController::class, 'preTrendOverTimeReport'])
+    ->name('report.pre-trends-over-time-report');
 
 //Student Mark reports routes
 Route::get('pre-student-mark-report', [\App\Http\Controllers\General\ReportController::class, 'preStudentMarkReport'])

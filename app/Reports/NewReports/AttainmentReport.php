@@ -790,7 +790,7 @@ class AttainmentReport
         $student_type = $this->getSubTitle($this->request->get('student_type'));
         return [
             'school' => $this->schools->first()->name,
-            'year' => $year->year,
+            'year' => $year->name,
             'grades' => $grades,
             'sections' => $sections,
             'student_type' => $student_type,

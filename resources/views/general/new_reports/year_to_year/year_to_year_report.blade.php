@@ -58,79 +58,175 @@
             </div>
         </div>
     </div>
-    <div class="page">
-        <div class="subpage-w">
-            <div class="row text-center">
-                <h2 class="sub-color">{{re('What is A B T assessments')}}!
-                </h2>
-            </div>
-            <div class="row mt-5 justify-content-center">
-                <div class="col-10">
-                    <ul class="list-unstyled">
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 1 1')}}</span> {{re('p report 1 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 2 1')}}</span> {{re('p report 2 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 3 1')}}</span> {{re('p report 3 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 4 1')}}</span> {{re('p report 4 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 5 1')}}</span> {{re('p report 5 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 6 1')}}</span> {{re('p report 6 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 7 1')}}</span> {{re('p report 7 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 8 1')}}</span> {{re('p report 8 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 9 1')}}</span> {{re('p report 9 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 10 1')}}</span> {{re('p report 10 2')}}</span>
-                        </li>
-                        <li class="mt-3 fw-500 d-flex align-items-start">
-                            <i class="fas fa-check-circle main-color me-3 mt-1"></i>
-                            <span><span class="main-color fw-bold">{{re('p report 11 1')}}</span> {{re('p report 11 2')}}</span>
-                        </li>
-                    </ul>
+    @if(app()->getLocale() == 'ar')
+        <div class="page introduction-page">
+            <div class="subpage-w">
+                <div class="row text-center">
+                    <h2 class="sub-color">اختبار الهوية الوطنية: تعزيز القيم والمواطنة والثقافة في دولة الإمارات العربية المتحدة</h2>
+                </div>
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-10">
+                        <ul>
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">تُقدّم شركة اي بي تي للاختبارات المعيارية الدولية</span> اختبار الهوية الوطنية، وهو اختبار يهدف إلى ترسيخ الهوية الوطنية لدى طلاب المدارس الحكومية والخاصة في دولة الإمارات</li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">يُقدّم هذا الاختبار</span> بشكل مجاني تمامًا لجميع المدارس الحكومية والخاصة التي ترغب في تطبيق الاختبار، تقديراً منا لدولة الإمارات العربية المتحدة</li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">يسعى الاختبار</span> لتعزيز قيم المواطنة والارتقاء بثقافة الطلاب بما يتماشى مع رؤية الإمارات لبناء جيلٍ واعٍ بأصالته وهويته</li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">مدة الاختبار ومتطلباته التقنية:</span>
+                                <ul class="mt-2">
+                                    <li>يستغرق الاختبار 40 دقيقة، ويتم تقديمه عبر متصفح "جوجل كروم" لضمان أفضل تجربة تقنية للطلاب</li>
+                                    <li>يتاح الاختبار بنسختين:
+                                        <ul>
+                                            <li>النسخة العربية: مخصصة للطلاب العرب</li>
+                                            <li>النسخة الإنجليزية: مخصصة للطلاب غير الناطقين بالعربية</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">المحاور الأساسية للاختبار:</span>
+                                <ul class="mt-2">
+                                    <li>المحور الأول: (الثقافة)
+                                        <ul>
+                                            <li>المحاور الفرعية: اللغة العربية، التاريخ، التراث</li>
+                                        </ul>
+                                    </li>
+                                    <li>المحور الثاني: (القيم)
+                                        <ul>
+                                            <li>المحاور الفرعية: الاحترام، التعاطف، التفاهم العالمي</li>
+                                        </ul>
+                                    </li>
+                                    <li>المحور الثالث: (المواطنة)
+                                        <ul>
+                                            <li>المحاور الفرعية: الانتماء، التطوع، الحفاظ على البيئة</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">المجالات:</span>
+                                <ul class="mt-2">
+                                    <li>المناهج الدراسية: كيف يتم تعديل المناهج لدمج المحاور الفرعية؟</li>
+                                    <li>التوفير: ما الفرص التي توفرها المدرسة لتعزيز معرفة الطلاب وفهمهم؟</li>
+                                    <li>التأثير: مدى عمق معرفة الطلاب وفهمهم للمحاور الفرعية</li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">متطلبات إضافية لتنفيذ الاختبار وتطبيق المحاور:</span>
+                                <ul class="mt-2">
+                                    <li>تُدرج في المناهج الدراسية أنشطة وتطبيقات مبتكرة تعزّز محاور الهوية الوطنية</li>
+                                    <li>يتم توفير مصادر تعليمية مناسبة لكل المراحل الدراسية تتضمن:
+                                        <ul>
+                                            <li>الأنشطة الإثرائية كالبحوث والقراءات حول تاريخ الإمارات وشخصياتها البارزة</li>
+                                            <li>تنظيم ورش عمل لربط الطلاب بالتراث الإماراتي</li>
+                                            <li>تعزيز استخدام التطبيقات الرقمية لتعليم قيم الهوية الوطنية</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">أمثلة على تنفيذ محاور الهوية الوطنية:</span>
+                                <ul class="mt-2">
+                                    <li>في محور الثقافة - اللغة العربية: تفعيل دروس النحو والبلاغة، وتشجيع القراءة الحرة باستخدام كتب تدعم الهوية الإماراتية</li>
+                                    <li>في محور الثقافة - التاريخ: إعداد مشروعات طلابية حول شخصيات قادة الإمارات، وإنتاج أعمال إبداعية كالرسم أو التمثيل المسرحي</li>
+                                    <li>في محور المواطنة: حملات طلابية للتطوع وتنظيف البيئة المدرسية والمجتمعية</li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-2 fw-500"><span class="main-color fw-bold">ختاماً:</span> يمثل اختبار الهوية الوطنية خطوة محورية في تحقيق رؤية دولة الإمارات، حيث يدمج بين الأصالة والحداثة، ويعمل على إعداد أجيال تدرك أهمية القيم الوطنية وتمثلها في حياتها اليومية</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col-12 text-center">
-                    <h5 class="fw-bold sub-color">{{re('Understand - Evaluate - Apply your knowledge')}}</h5>
-                </div>
-            </div>
+            <span class="number-page">2</span>
         </div>
-        <span class="number-page">2</span>
-    </div>
+    @else
+        <div class="page introduction-page">
+            <div class="subpage-w">
+                <div class="row text-center">
+                    <h5 class="sub-color">National Identity Test: Promoting Values, Citizenship and Culture in the UAE</h5>
+                </div>
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-12">
+                        <ul>
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">ABT International Standard Testing</span> offers the National Identity Test, which aims to establish national identity among students of public and private schools in the UAE</li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">This test is offered</span> completely free of charge to all public and private schools that wish to apply the test, in appreciation of the UAE</li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">The test seeks</span> to promote the values of citizenship and raise the culture of students in line with the UAE's vision to build a generation aware of its originality and identity</li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">Test duration and technical requirements:</span>
+                                <ul class="mt-2">
+                                    <li>The test takes 40 minutes, served via browser "Google Chrome" To ensure the best technology experience for students</li>
+                                    <li>The test is available in two versions:
+                                        <ul>
+                                            <li>Arabic Version: Dedicated to Arab Students</li>
+                                            <li>English Version: Intended for non-Arabic speaking students</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">The main topics of the test:</span>
+                                <ul class="mt-2">
+                                    <li>The first topic: (Culture)
+                                        <ul>
+                                            <li>Sub-themes: Arabic, History, Heritage</li>
+                                        </ul>
+                                    </li>
+                                    <li>The second aspect: (Values)
+                                        <ul>
+                                            <li>Sub-themes: Respect, empathy, global understanding</li>
+                                        </ul>
+                                    </li>
+                                    <li>The third aspect: (Citizenship)
+                                        <ul>
+                                            <li>Sub-themes: Belonging, volunteering, preserving the environment</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">Domains:</span>
+                                <ul class="mt-2">
+                                    <li>Curriculum: How are curricula modified to merge sub-themes?</li>
+                                    <li>Savings: What opportunities does the school provide to enhance students' knowledge and understanding?</li>
+                                    <li>Impact: The depth of students' knowledge and understanding of the sub-themes</li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">Additional requirements for implementation:</span>
+                                <ul class="mt-2">
+                                    <li>Innovative activities and applications that enhance the axes of national identity are included in the curriculum</li>
+                                    <li>Appropriate educational resources are provided for all academic levels:
+                                        <ul>
+                                            <li>Enrichment activities such as research and readings on the history of the UAE and its prominent personalities</li>
+                                            <li>Organizing workshops to connect students to Emirati heritage</li>
+                                            <li>Promoting the use of digital applications to teach the values of national identity</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">Examples of implementation:</span>
+                                <ul class="mt-2">
+                                    <li>In the aspect of culture - Arabic Language: Activating grammar and rhetoric lessons, and encouraging free reading using books that support the Emirati identity</li>
+                                    <li>In the aspect of culture - Date: Preparing student projects on the personalities of UAE leaders, and producing creative works such as painting or theatrical acting</li>
+                                    <li>In the aspect of citizenship: Student campaigns to volunteer and clean the school and community environment</li>
+                                </ul>
+                            </li>
+
+                            <li class="mt-1 fw-500"><span class="main-color fw-bold">Conclusion:</span> The national identity test represents a pivotal step in achieving the UAE's vision, as it merges tradition and modernity, and works to prepare generations to realize the importance of national values and represent them in their daily lives</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <span class="number-page">2</span>
+        </div>
+    @endif
     <div class="page">
         <div class="subpage-w">
-            {{--        <div class="row justify-content-center mt-3 mb-5">--}}
-            {{--            <div class="col-6 text-center">--}}
-            {{--                <div class="image-container">--}}
-            {{--                    <img src="{{asset($school->logo)}}" alt="">--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
-            {{--        </div>--}}
             <div class="row justify-content-center  mt-2">
                 <div class="col-10 text-center">
                     <h4 class="main-color">{{re('In this report, we analyse the below points')}}</h4>
@@ -138,26 +234,7 @@
             </div>
             <div class="row justify-content-center  mt-4">
                 <div class="col-11 text-center">
-                    <img src="{{asset("report/parts/analysis_points_$lang.svg")}}" width="100%" alt="">
-                </div>
-            </div>
-
-
-        </div>
-        <span class="number-page">3</span>
-    </div>
-    <div class="page">
-        <div class="subpage-w">
-            <div class="row justify-content-center">
-
-                <div class="col-12 text-center mt-2">
-                    @if($student_type==1)
-                        <img src="{{asset("report/Arabs-Ranges_$lang.png")}}" width="90%"
-                             alt="">
-                    @else
-                        <img src="{{asset("report/Non-Arabs-Ranges_$lang.png")}}" width="90%"
-                             alt="">
-                    @endif
+                    <img src="{{asset("reports/analysis_points_$lang.svg")}}" width="100%" alt="">
                 </div>
             </div>
 
@@ -165,8 +242,9 @@
         </div>
         <span class="number-page">4</span>
     </div>
+
     @php
-        $pageNum = 5;
+        $pageNum = 4;
     @endphp
     <div class="page">
         <div class="subpage-w">
@@ -347,8 +425,7 @@
         <span class="number-page">{{$pageNum}}</span>
     </div>
 
-    @foreach([$arab_pages, $non_arab_pages] as $pagesType)
-        @foreach($pagesType['attainment'] as $grade => $gradeYears)
+        @foreach($pages['attainment'] as $grade => $gradeYears)
             <div class="page">
                 <div class="subpage-w">
                     <div class="row text-center justify-content-center">
@@ -481,13 +558,11 @@
                 </div>
                 <span class="number-page">{{$pageNum++}}</span>
             </div>
-           @php
-                $skills_count = 1;
-            @endphp
-            @foreach(collect($pagesType['skills'])->chunk(2) as $skills_array)
+
+            @foreach($subjects->chunk(2) as $subjects_array)
                <div class="page">
                    <div class="subpage-w">
-                       @foreach($skills_array as $skill)
+                       @foreach($subjects_array as $subject)
                            <div class="row text-center justify-content-center">
                                <div class="col-11 ">
                                    <div class="table-container">
@@ -495,7 +570,7 @@
                                            <thead>
                                            <tr>
                                                <th class="main-th"><i class="fas fa-calendar-alt me-1"></i>
-                                                   {{re('Assessment')}} ({{re($skill)}})
+                                                   {{re('Assessment')}} ({{$subject->name}})
                                                </th>
                                                <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
                                                <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
@@ -507,10 +582,10 @@
                                            @foreach($gradeYears as $year_key => $year_info)
                                                <tr class="text-center">
                                                    <td>{{ $year_key }}</td>
-                                                   <td class="below-t-td">{{ $year_info->{"mark_step$skills_count"}->below }} {{re('Student')}}</td>
-                                                   <td class="inline-t-td">{{ $year_info->{"mark_step$skills_count"}->inline }} {{re('Student')}}</td>
-                                                   <td class="above-t-td">{{ $year_info->{"mark_step$skills_count"}->above }} {{re('Student')}}</td>
-                                                   <td>{{ $year_info->{"mark_step$skills_count"}->total }}</td>
+                                                   <td class="below-t-td">{{ $year_info->{"mark_step$subject->id"}->below }} {{re('Student')}}</td>
+                                                   <td class="inline-t-td">{{ $year_info->{"mark_step$subject->id"}->inline }} {{re('Student')}}</td>
+                                                   <td class="above-t-td">{{ $year_info->{"mark_step$subject->id"}->above }} {{re('Student')}}</td>
+                                                   <td>{{ $year_info->{"mark_step$subject->id"}->total }}</td>
                                                </tr>
                                            @endforeach
 
@@ -521,12 +596,9 @@
                            </div>
                            <div class="row text-center justify-content-center mt-2">
                                <div class="col-11">
-                                   <div id="{{$pagesType['pages_type_text']}}_step_{{$skills_count}}_container_{{ $grade }}"></div>
+                                   <div id="{{$pagesType['pages_type_text']}}_step_{{$subject->id}}_container_{{ $grade }}"></div>
                                </div>
                            </div>
-                           @php
-                               $skills_count++;
-                           @endphp
                        @endforeach
                    </div>
                    <span class="number-page">{{$pageNum++}}</span>
@@ -801,7 +873,6 @@
                     <span class="number-page">{{$pageNum++}}</span>
                 </div>
             @endif
-        @endforeach
     @endforeach
 @endsection
 
@@ -814,8 +885,7 @@
                 above: "#10b981"
             };
 
-            @foreach([$arab_pages, $non_arab_pages] as $pagesType)
-            @foreach($pagesType['attainment'] as $grade => $gradeYears)
+            @foreach($pages['attainment'] as $grade => $gradeYears)
             Highcharts.chart('{{$pagesType['pages_type_text']}}_grade_container_{{ $grade }}', {
                 chart: {
                     type: 'line'
@@ -895,9 +965,9 @@
                 }]
             });
 
-            @foreach(range(1, $steps_count) as $step)
+            @foreach($subjects as $subject)
             @if($step)
-            var chart = Highcharts.chart("{{$pagesType['pages_type_text']}}_step_{{$step}}_container_{{ $grade }}", {
+            var chart = Highcharts.chart("{{$pagesType['pages_type_text']}}_step_{{$subject->id}}_container_{{ $grade }}", {
                 chart: {
                     type: 'bar',
                 },
@@ -1142,7 +1212,6 @@
             chart.setSize(null, 350);
             @endforeach
             @endif
-            @endforeach
             @endforeach
         });
     </script>

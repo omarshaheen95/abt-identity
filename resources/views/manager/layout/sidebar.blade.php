@@ -120,7 +120,7 @@
                 @can('show abt grouping students')
                     <div class="menu-item">
                         <a class="menu-link @if(Request::is('manager/abt_students*') )active @endif"
-                           href="{{ route('manager.student.abt_students') }}">
+                           href="{{ route('manager.abt-id.abt_students') }}">
                     <span class="menu-icon">
                        <i class="ki-duotone ki-user-edit fs-2">
                          <i class="path1"></i>

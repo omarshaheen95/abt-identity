@@ -14,7 +14,7 @@
 
 
 @section('actions')
-    <a href="{{route('manager.abt-school-group-create')}}" class="btn btn-primary font-weight-bolder">
+    <a href="{{route('manager.abt-id.school-group-create')}}" class="btn btn-primary font-weight-bolder">
         <i class="la la-plus"></i>{{t('New School ABT Group')}}</a>
         <button onclick="assign()" class="btn btn-primary btn-elevate btn-icon-sm checked-visible d-none">
             <i class="la la-check"></i>{{t('Group Students')}}</button>
@@ -176,7 +176,7 @@
         var CONFIRM_SUB_MESSAGE = "{{t('You can ungroup them again')}}";
         var CONFIRM_UNGROUP_SUB_MESSAGE = "{{t('You can group them again')}}";
         var DELETE_URL = "{{route('manager.student.delete')}}";
-        var TABLE_URL = "{{route('manager.student.abt_students')}}";
+        var TABLE_URL = "{{route('manager.abt-id.abt_students')}}";
         var COLUMN_DEFS =  [
             {
                 targets: 1,
@@ -240,7 +240,7 @@
 
                         $.ajax({
                             type: "POST",
-                            url: "{{route('manager.student.student-link-with-abt-id')}}",
+                            url: "{{route('manager.abt-id.student-link-with-abt-id')}}",
                             data:request_data , //set data
                         }).done(function (data) {
                             if(data.success)
@@ -302,7 +302,7 @@
 
                          $.ajax({
                              type: "POST",
-                             url: "{{route('manager.student.student-unlink-with-abt-id')}}",
+                             url: "{{route('manager.abt-id.student-unlink-with-abt-id')}}",
                              data:request_data , //set data
                          }).done(function (data) {
                              if(data.success)

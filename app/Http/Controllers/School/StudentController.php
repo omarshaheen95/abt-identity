@@ -12,6 +12,7 @@ use App\Models\Student;
 use App\Models\StudentTerm;
 use App\Models\Year;
 use App\Reports\StudentReport;
+use App\Reports\NewReports\StudentReport as NewStudentReport;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -336,4 +337,27 @@ class StudentController extends Controller
         return view('general.certificate.web_certificate',compact('name','grade','mark'));
     }
 
+    public function studentQRReport(Request $request)
+    {
+        app()->setLocale('en');
+        if ($request->has('token')) {
+            $student_id = decryptStudentId($request->get('token', false));
+            $student_report = new NewStudentReport($student_id);
+            return $student_report->report();
+        } else {
+            return false;
+        }
+    }
+
+    public function studentQRReportCard(Request $request)
+    {
+        app()->setLocale('en');
+        if ($request->has('token')) {
+            $student_id = decryptStudentId($request->get('token', false));
+            $student_report = new NewStudentReport($student_id);
+            return $student_report->reportCard();
+        } else {
+            return false;
+        }
+    }
 }

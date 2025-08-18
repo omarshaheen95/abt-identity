@@ -483,6 +483,26 @@ class TermController extends Controller
 
         $levels = Level::query()->where('year_id', $year->id)->get();
 
+
+        $terms_array = [];
+        foreach ($grades as $grade => $name) {
+            $level = $levels->where('grade', $grade)->where('arab', "1")->first();
+            if ($level) {
+                $terms_array[] = [
+                    'name' => [
+                        'ar' => "Grade $grade Identity - Arabic Version - $round_name $year_text",
+                        'en' => "Grade $grade Identity - Arabic Version - $round_name $year_text",
+                    ],
+                    'level_id' => $level->id,
+                    'active' => 0,
+                    'duration' => 1,
+                    'round' => $month,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+        }
+
         $terms_array = [];
 
         foreach ($grades as $grade => $name) {
@@ -506,24 +526,7 @@ class TermController extends Controller
             Term::query()->create($term);
         }
 
-        $terms_array = [];
-        foreach ($grades as $grade => $name) {
-            $level = $levels->where('grade', $grade)->where('arab', "1")->first();
-            if ($level) {
-                $terms_array[] = [
-                    'name' => [
-                            'ar' => "Grade $grade Identity - Arabic Version - $round_name $year_text",
-                            'en' => "Grade $grade Identity - Arabic Version - $round_name $year_text",
-                        ],
-                    'level_id' => $level->id,
-                    'active' => 0,
-                    'duration' => 1,
-                    'round' => $month,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-            }
-        }
+
 
 
 

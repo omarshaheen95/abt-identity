@@ -9,7 +9,7 @@
 @endpush
 @section('content')
     <form class="form" id="form_data"
-          action="{{route('manager.abt-school-group-store')}}"
+          action="{{route('manager.abt-id.school-group-store')}}"
           method="post">
         {{csrf_field()}}
         <div class="form-group row">

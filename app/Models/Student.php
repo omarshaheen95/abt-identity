@@ -47,7 +47,7 @@ class Student extends Authenticatable
     public function scopeSearch(Builder $query, Request $request)
     {
         return $query
-            ->when($value = $request->get('name'), function (Builder $query) use ($value) {
+            ->when($value = $request->get('name', false), function (Builder $query) use ($value) {
                 $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($value) . '%');
             })->when($id = $request->get('id'), function (Builder $query) use ($id) {
                 $query->where('id', $id);
@@ -117,9 +117,9 @@ class Student extends Authenticatable
                 })->when($value == 'arab', function (Builder $query) use ($value){
                     $query->orderBy('arab')->orderBy('level_id');
                 });
-            })->when($value = $request->get('sen'), function (Builder $query) use ($value) {
+            })->when($value = $request->get('sen', false), function (Builder $query) use ($value) {
                 $query->where('sen', $value!=2);
-            })->when($value = $request->get('g_t'), function (Builder $query) use ($value) {
+            })->when($value = $request->get('g_t', false), function (Builder $query) use ($value) {
                 $query->where('g_t', $value!=2);
             })->when($value = $request->get('citizen', false), function (Builder $query) use ($value) {
                 $query->where('citizen', $value!=2);

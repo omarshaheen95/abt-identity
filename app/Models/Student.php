@@ -123,7 +123,7 @@ class Student extends Authenticatable
                 $query->where('citizen', $value!=2);
             })->when($value = $request->get('arab_status', false), function (Builder $query) use ($value) {
                 $query->where('arab', $value!=2);
-            })->when($value = $request->get('class_name',[]),function (Builder $query) use ($value){
+            })->when($value = $request->get('class_name') ?: $request->get('grades_names') ,function (Builder $query) use ($value){
                 $query->whereIn('grade_name', $value);
             })->when($value = $request->get('grade_name',false),function (Builder $query) use ($value){
                 $query->where('grade_name', $value);

@@ -102,7 +102,7 @@
                 <div class="col-3">
                     <label class="mb-1">{{t('Sen Student')}}:</label>
                     <select class="form-control form-select" data-hide-search="true" data-control="select2"
-                            data-placeholder="{{t('Select Student Status')}}" name="sen_student"
+                            data-placeholder="{{t('Select Student Status')}}" name="sen"
                             data-allow-clear="true">
                         <option></option>
                         <option value="1">{{t('SEN Student')}}</option>
@@ -112,7 +112,7 @@
                 <div class="col-3">
                     <label class="mb-1">{{t('Citizen Student')}}:</label>
                     <select class="form-control form-select " data-hide-search="true" data-control="select2"
-                            data-placeholder="{{t('Select Student Status')}}" name="uae_student"
+                            data-placeholder="{{t('Select Student Status')}}" name="citizen"
                             data-allow-clear="true">
                         <option></option>
                         <option value="1">{{t('Citizen')}}</option>

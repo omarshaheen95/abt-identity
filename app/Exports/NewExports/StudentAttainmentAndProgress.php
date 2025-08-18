@@ -45,7 +45,6 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
             'has_scale' => false,
             'extra_columns' => []
         ];
-        dd($request->all());
 
         $this->year = $request->get('year_id');
         if (in_array($this->school->curriculum_type, ['Indian', 'Pakistan', 'Bangladeshi'])) {

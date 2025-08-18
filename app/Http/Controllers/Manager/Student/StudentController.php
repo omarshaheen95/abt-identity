@@ -33,17 +33,17 @@ class StudentController extends Controller
     {
         $this->middleware('permission:show students')->only('index');
         $this->middleware('permission:add students')->only(['create', 'store']);
-        $this->middleware('permission:edit students')->only(['edit', 'update','studentsTermsTime']);
+        $this->middleware('permission:edit students')->only(['edit', 'update', 'studentsTermsTime']);
         $this->middleware('permission:delete students')->only('delete');
         $this->middleware('permission:export students')->only('studentExport');
         $this->middleware('permission:export students marks')->only('studentMarksExport');
-        $this->middleware('permission:export students cards')->only(['studentsCards','studentCard']);
+        $this->middleware('permission:export students cards')->only(['studentsCards', 'studentCard']);
         $this->middleware('permission:restore deleted students')->only('restoreStudent');
         $this->middleware('permission:student login')->only('studentLogin');
         $this->middleware('permission:restore deleted students')->only('restoreStudent');
 
-        $this->middleware('permission:show abt grouping students')->only(['storeAbtSchoolGroup','createAbtSchoolGroup','abtStudents']);
-        $this->middleware('permission:student link with abt id')->only(['studentLinkWithAbtId','studentUnlinkWithAbtId']);
+        $this->middleware('permission:show abt grouping students')->only(['storeAbtSchoolGroup', 'createAbtSchoolGroup', 'abtStudents']);
+        $this->middleware('permission:student link with abt id')->only(['studentLinkWithAbtId', 'studentUnlinkWithAbtId']);
     }
 
     public function index(Request $request)
@@ -65,13 +65,13 @@ class StudentController extends Controller
                     }
                 })
                 ->addColumn('name', function ($student) {
-                    return '<div class="d-flex flex-column"><span>'.$student->name.'</span><span class="text-danger cursor-pointer" data-clipboard-text="'.$student->email.'" onclick="copyToClipboard(this)">' . $student->email . '</span></div>';
+                    return '<div class="d-flex flex-column"><span>' . $student->name . '</span><span class="text-danger cursor-pointer" data-clipboard-text="' . $student->email . '" onclick="copyToClipboard(this)">' . $student->email . '</span></div>';
                 })
                 ->addColumn('sid', function ($student) {
-                    return '<div class="d-flex flex-column align-items-center"><span class="cursor-pointer" data-clipboard-text="'.$student->id.'" onclick="copyToClipboard(this)">' . $student->id . '</span><span class="badge badge-primary text-center">'.$student->student_terms_count.'</span></div>';
+                    return '<div class="d-flex flex-column align-items-center"><span class="cursor-pointer" data-clipboard-text="' . $student->id . '" onclick="copyToClipboard(this)">' . $student->id . '</span><span class="badge badge-primary text-center">' . $student->student_terms_count . '</span></div>';
                 })
                 ->addColumn('school', function ($student) {
-                    return "<a class='text-info' target='_blank' href='" . route('manager.school.edit', $student->school->id) . "'>" . $student->school->name . "</a>". (is_null($student->id_number) ? '' : "<br><span class='text-danger cursor-pointer' data-clipboard-text=".$student->id_number." onclick='copyToClipboard(this)' >" . t('SID Num') .': '.$student->id_number. "</span> " ) ;
+                    return "<a class='text-info' target='_blank' href='" . route('manager.school.edit', $student->school->id) . "'>" . $student->school->name . "</a>" . (is_null($student->id_number) ? '' : "<br><span class='text-danger cursor-pointer' data-clipboard-text=" . $student->id_number . " onclick='copyToClipboard(this)' >" . t('SID Num') . ': ' . $student->id_number . "</span> ");
                 })
                 ->addColumn('year', function ($row) {
                     return $row->year->name;
@@ -102,7 +102,7 @@ class StudentController extends Controller
     {
         $data = $request->validated();
         $data['password'] = bcrypt($request->get('password'));
-        if (!$data['demo']){
+        if (!$data['demo']) {
             $data['demo_data'] = null;
         }
         Student::query()->create($data);
@@ -116,10 +116,10 @@ class StudentController extends Controller
         $schools = School::query()->active()->get();
         $years = Year::query()->get();
         $levels = Level::query()->get();
-        if ($student->demo && $student->demo_data){
-            $demo_levels = $levels->whereNotIn('id',$student->demo_data->levels)->where('year_id',$student->demo_data->year_id);
-            $selected_demo_levels = $levels->whereIn('id',$student->demo_data->levels)->where('year_id',$student->demo_data->year_id);
-            return view('manager.student.edit', compact('title', 'student', 'schools', 'years', 'levels', 'selected_demo_levels','demo_levels'));
+        if ($student->demo && $student->demo_data) {
+            $demo_levels = $levels->whereNotIn('id', $student->demo_data->levels)->where('year_id', $student->demo_data->year_id);
+            $selected_demo_levels = $levels->whereIn('id', $student->demo_data->levels)->where('year_id', $student->demo_data->year_id);
+            return view('manager.student.edit', compact('title', 'student', 'schools', 'years', 'levels', 'selected_demo_levels', 'demo_levels'));
         }
         return view('manager.student.edit', compact('title', 'student', 'schools', 'years', 'levels'));
     }
@@ -129,7 +129,7 @@ class StudentController extends Controller
         $student = Student::query()->findOrFail($id);
         $data = $request->validated();
         $data['password'] = $request->get('password', false) ? bcrypt($request->get('password', 123456)) : $student->password;
-        if (!$data['demo']){
+        if (!$data['demo']) {
             $data['demo_data'] = null;
         }
         $student->update($data);
@@ -138,8 +138,8 @@ class StudentController extends Controller
 
     public function delete(Request $request)
     {
-        $request->validate(['row_id'=>'required']);
-        Student::query()->whereIn('id',$request->get('row_id'))->get()->each(function ($student) {
+        $request->validate(['row_id' => 'required']);
+        Student::query()->whereIn('id', $request->get('row_id'))->get()->each(function ($student) {
             $student->delete();
         });
         return $this->sendResponse(null, t('Successfully Deleted'));
@@ -157,8 +157,7 @@ class StudentController extends Controller
 
     public function studentsCards(Request $request)
     {
-        if (!$request->has('row_id'))
-        {
+        if (!$request->has('row_id')) {
             $request->validate([
                 'school_id' => 'required',
                 //'year_id' => 'required',
@@ -167,19 +166,20 @@ class StudentController extends Controller
 
         $students = Student::query()->search($request)->get()->chunk(6);
         $student_login_url = config('app.url') . '/student/login';
-        $school_id = $request->get('school_id') ? $request->get('school_id') :0;
+        $school_id = $request->get('school_id') ? $request->get('school_id') : 0;
         $school = School::query()->find($school_id);
         $title = $school ? $school->name . ' | ' . t('Students Cards') : t('Students Cards');
 
         return view('general.cards_and_qr', compact('students', 'student_login_url', 'school', 'title'));
     }
-    public function studentCard(Request $request,$id)
+
+    public function studentCard(Request $request, $id)
     {
-        $students = Student::with('school')->search($request)->where('id',$id)->get();
+        $students = Student::with('school')->search($request)->where('id', $id)->get();
         $school = $students->first()->school;
         $students = $students->chunk(6);
         $title = $school ? $school->name . ' | ' . t('Student Card') : t('Student Card');
-        return view('general.cards_and_qr', compact('students', 'school','title'));
+        return view('general.cards_and_qr', compact('students', 'school', 'title'));
 
     }
 
@@ -223,15 +223,16 @@ class StudentController extends Controller
     public function studentsTermsTime(Request $request)
     {
         $request->validate([
-            'row_id'=>'required|array|min:1',
-        ],[
-            'row_id.required'=>t('Please Select at least one student'),
+            'row_id' => 'required|array|min:1',
+        ], [
+            'row_id.required' => t('Please Select at least one student'),
         ]);
         $students = Student::query()->search($request)->update([
             'assessment_opened' => 0,
         ]);
         return $this->sendResponse($request->all(), t('Assessments Updated Successfully for Students : ' . $students));
     }
+
     public function restoreStudent($id)
     {
         $student = Student::query()->where('id', $id)->withTrashed()->first();
@@ -240,7 +241,7 @@ class StudentController extends Controller
             $other_students = Student::query()->where('email', $student->email)->where('id', '!=', $student->id)->get();
             if ($other_students->count() > 0) {
                 return $this->sendError(t('Cannot Restore Student Before Email Already Exist'), 402);
-            }else{
+            } else {
                 $student->restore();
 
                 //Restore Student Terms
@@ -283,7 +284,7 @@ class StudentController extends Controller
         $students_type_request = $students_type ? '&arab_status=' . $students_type : '';
         $urls = [];
         foreach ($sections as $section) {
-            $url = '/student-cards?school_id=' . $request['school_id'] . '&year_id=' . $request['year_id'] . '&grade_name=' . $section.$students_type_request;
+            $url = '/student-cards?school_id=' . $request['school_id'] . '&year_id=' . $request['year_id'] . '&grade_name=' . $section . $students_type_request;
             $urls[] = (object)[
                 'section' => str_replace('/', '-', $section),
                 'url' => $url,
@@ -322,21 +323,21 @@ class StudentController extends Controller
         $request->validate([
             'school_id' => 'required',
             'grade' => 'required|max:1|min:1',
-        ],[
+        ], [
             'grade.max' => t('Must be select one grade'),
             'grade.min' => t('Must be select one grade'),
         ]);
 
         $school_id = $request->get('school_id');
 
-        $students = Student::with(['level.year','year'])
+        $students = Student::with(['level.year', 'year'])
             ->where('school_id', $school_id)
             ->search($request)
             ->select(['id', 'name as student_name', 'id_number as std_id'])
             ->get()->values()->toArray();
 
         $client = new \GuzzleHttp\Client([
-            'timeout'  => 36000,
+            'timeout' => 36000,
         ]);
 
         $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
@@ -350,7 +351,7 @@ class StudentController extends Controller
         $fileContent = file_get_contents($url);
         if ($fileContent === false) {
             throw new \Exception('Unable to download file');
-        }else{
+        } else {
             return response($fileContent, 200, [
                 'Content-Type' => 'application/zip',
                 'Content-Disposition' => 'inline; filename="reports.zip"'
@@ -469,8 +470,8 @@ class StudentController extends Controller
             foreach ($students as $student) {
                 if (!is_null($student->id_number)) {
                     //remove U letter and 12 from student id
-                    $student_id = str_replace(['U', '', ' ',], '', $student->id_number);
-
+//                    $student_id = str_replace(['U', '', ' ',], '', $student->id_number);
+                    $student_id = $student->id_number;
                     if (!is_null($student->abt_id)) {
                         Student::query()
                             ->where('school_id', $school)

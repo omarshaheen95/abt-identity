@@ -57,7 +57,7 @@ class Student extends Authenticatable
                 $query->where('email', $email);
             })->when($id_number = $request->get('id_number', false), function (Builder $query) use ($id_number) {
                 $query->where('id_number', $id_number);
-            })->when($school_id = $request->get('school_id', false), function (Builder $query) use ($value) {
+            })->when($request->get('school_id', false), function (Builder $query) use ($value) {
                 is_array($value) ?
                     $query->whereIn('school_id', $value) :
                     $query->where('school_id', $value);

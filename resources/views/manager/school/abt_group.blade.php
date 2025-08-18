@@ -46,20 +46,20 @@
             <div class="col-lg-6 mb-2">
                 <div class="d-flex gap-2 mt-10">
                     <div class="form-check form-check-custom form-check-solid">
-                        <input name="link_by_number" class="form-check-input" type="radio" checked value="1" id="flexRadioDefault"/>
-                        <label class="form-check-label text-dark fs-6" for="flexRadioDefault">
+                        <input name="link_by_number" class="form-check-input" type="radio" checked value="1" id="flexRadioDefault1"/>
+                        <label class="form-check-label text-dark fs-6" for="flexRadioDefault1">
                             {{t('Link by full id number')}}
                         </label>
                     </div>
                     <div class="form-check form-check-custom form-check-solid">
-                        <input name="link_by_number" class="form-check-input" type="radio" value="2" id="flexRadioDefault"/>
-                        <label class="form-check-label text-dark fs-6" for="flexRadioDefault">
+                        <input name="link_by_number" class="form-check-input" type="radio" value="2" id="flexRadioDefault2"/>
+                        <label class="form-check-label text-dark fs-6" for="flexRadioDefault2">
                             {{t('Link by a part form id number')}}
                         </label>
                     </div>
                     <div class="form-check form-check-custom form-check-solid">
-                        <input name="link_by_number" class="form-check-input" type="radio" value="3" id="flexRadioDefault"/>
-                        <label class="form-check-label text-dark fs-6" for="flexRadioDefault">
+                        <input name="link_by_number" class="form-check-input" type="radio" value="3" id="flexRadioDefault3"/>
+                        <label class="form-check-label text-dark fs-6" for="flexRadioDefault3">
                             {{t('Link by Full Name')}}
                         </label>
                     </div>

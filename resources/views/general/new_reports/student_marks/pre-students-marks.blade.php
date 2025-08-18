@@ -94,9 +94,9 @@
                     <select class="form-control form-select " data-hide-search="true" data-control="select2"
                             data-placeholder="{{t('Select Student Type')}}" name="student_type" data-allow-clear="true">
                         <option></option>
-                        <option value="0">{{t('All')}}</option>
-                        <option value="1">{{t('Arabs')}}</option>
-                        <option value="2">{{t('Non-Arabs')}}</option>
+                        <option value="2">{{t("All")}}</option>
+                        <option value="1">{{t("Arabs")}}</option>
+                        <option value="0">{{t("Non-Arabs")}}</option>
                     </select>
                 </div>
                 <div class="col-3">

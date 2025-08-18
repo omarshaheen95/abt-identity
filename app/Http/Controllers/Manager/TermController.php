@@ -483,7 +483,6 @@ class TermController extends Controller
 
         $levels = Level::query()->where('year_id', $year->id)->get();
 
-        dd($levels);
 
 
         $terms_array = [];
@@ -504,7 +503,9 @@ class TermController extends Controller
                 ];
             }
         }
-
+        foreach ($terms_array as $term) {
+            Term::query()->create($term);
+        }
         $terms_array = [];
 
         foreach ($grades as $grade => $name) {

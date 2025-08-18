@@ -42,15 +42,19 @@
                             <option value="combined">{{t('Combined Attainment Report')}}</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label required">{{t('School')}}</label>
-                        <select class="form-select" data-control="select2" data-allow-clear="true" multiple
-                                data-placeholder="{{t('Select School')}}" id="school_id" name="school_id[]" required>
-                            @foreach($schools as $school)
-                                <option value="{{$school->id}}">{{$school->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if(guardIs('admin') || guardIs('inspection'))
+                        <div class="col-md-4">
+                            <label class="form-label required">{{t('School')}}</label>
+                            <select class="form-select" data-control="select2" data-allow-clear="true" multiple
+                                    data-placeholder="{{t('Select School')}}" id="school_id" name="school_id[]" required>
+                                @foreach($schools as $school)
+                                    <option value="{{$school->id}}">{{$school->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @else
+                        <input type="hidden" name="school_id" value="{{auth()->user()->id}}">
+                    @endif
                     <div class="col-md-4">
                         <label class="form-label required">{{t('Year')}}</label>
                         <select class="form-select" data-control="select2" data-allow-clear="true"

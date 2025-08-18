@@ -486,7 +486,7 @@ class TermController extends Controller
         $terms_array = [];
 
         foreach ($grades as $grade => $name) {
-            $level = $levels->where('grade', $grade)->where('arab', 0)->first();
+            $level = $levels->where('grade', $grade)->where('arab', "0")->first();
             if ($level) {
                 $terms_array[] = [
                     'name' => [
@@ -508,7 +508,7 @@ class TermController extends Controller
 
         $terms_array = [];
         foreach ($grades as $grade => $name) {
-            $level = $levels->where('grade', $grade)->where('arab', 1)->first();
+            $level = $levels->where('grade', $grade)->where('arab', "1")->first();
             if ($level) {
                 $terms_array[] = [
                     'name' => [

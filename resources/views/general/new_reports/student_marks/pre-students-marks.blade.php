@@ -28,7 +28,7 @@
         <div class="card-body py-2">
             <!-- Required Fields Section -->
             <div class="row g-4 mb-4">
-                @if(guardIs('admin') || guardIs('inspection'))
+                @if(guardIs('manager') || guardIs('inspection'))
                     <div class="col-md-9">
                         <label class="form-label required">{{t('School')}}</label>
                         <select class="form-control form-select" data-control="select2" data-allow-clear="true" multiple required

@@ -69,6 +69,12 @@ class Student extends Authenticatable
                 $query->whereHas('level',function (Builder $query) use ($grade) {
                     is_array($grade)?$query->whereIn('grade', $grade):$query->where('grade', $grade);
                 });
+            })->when($value = $request->get('has_abt_id', false), function (Builder $query) use ($value) {
+                if ($value==1){
+                    $query->whereNotNull('abt_id');
+                }elseif ($value==2){
+                    $query->whereNull('abt_id');
+                }
             })->when($year_id = $request->get('student_year_id', false), function (Builder $query) use ($year_id) {
                 $query->where('year_id', $year_id);
             })->when($value = $request->get('file_id', false), function (Builder $query) use ($value) {

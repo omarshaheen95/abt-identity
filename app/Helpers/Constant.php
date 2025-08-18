@@ -579,5 +579,13 @@ class Constant
     const MEDIA_TYPES = ['image', 'audio', 'video', 'file'];
     const EXAM_SUBMISSION_TYPES = ['all', 'twice', 'single'];
 
+    const REPORT_PERMISSIONS = [
+        'students reports',
+        'attainment reports',
+        'combined reports',
+        'progress reports',
+        'general reports',
+    ];
+
 
 }

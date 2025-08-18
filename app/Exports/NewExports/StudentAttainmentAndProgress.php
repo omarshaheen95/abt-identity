@@ -139,7 +139,8 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
                         }]);
                 }
             ])
-            ->search($this->req)
+//            ->search($this->req)
+                ->whereIn('school_id', $this->schools->pluck('id'))
             ->when($this->student_type == 1, function ($query) {
                 $query->whereHas('level', function ($query) {
                     $query->where('arab', 1);

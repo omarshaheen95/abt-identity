@@ -28,15 +28,19 @@
         <div class="card-body py-2">
             <!-- Required Fields Section -->
             <div class="row g-4 mb-4">
-                <div class="col-md-9">
-                    <label class="form-label required">{{t('School')}}</label>
-                    <select class="form-control form-select" data-control="select2" data-allow-clear="true" multiple required
-                            data-placeholder="{{t('Select School')}}" name="school_id[]" id="school_id">
-                        @foreach($schools as $school)
-                            <option value="{{$school->id}}">{{$school->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                @if(guardIs('admin') || guardIs('inspection'))
+                    <div class="col-md-9">
+                        <label class="form-label required">{{t('School')}}</label>
+                        <select class="form-control form-select" data-control="select2" data-allow-clear="true" multiple required
+                                data-placeholder="{{t('Select School')}}" name="school_id[]" id="school_id">
+                            @foreach($schools as $school)
+                                <option value="{{$school->id}}">{{$school->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @else
+                    <input type="hidden" name="school_id" value="{{auth()->user()->id}}">
+                @endif
                 <div class="col-md-3">
                     <label class="form-label required">{{t('Year')}}</label>
                     <select class="form-control form-select" data-control="select2" data-allow-clear="true"

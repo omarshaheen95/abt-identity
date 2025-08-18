@@ -42,7 +42,7 @@
                             <option value="combined">{{t('Combined Attainment Report')}}</option>
                         </select>
                     </div>
-                    @if(guardIs('admin') || guardIs('inspection'))
+                    @if(guardIs('manager') || guardIs('inspection'))
                         <div class="col-md-4">
                             <label class="form-label required">{{t('School')}}</label>
                             <select class="form-select" data-control="select2" data-allow-clear="true" multiple

@@ -135,7 +135,11 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'upgrade terms','guard_name'=>'manager','group'=>'upgrade terms'],
 
 
-
+            ['name' => 'students reports','guard_name'=>'manager','group'=>'reports'],
+            ['name' => 'attainment reports','guard_name'=>'manager','group'=>'reports'],
+            ['name' => 'combined reports','guard_name'=>'manager','group'=>'reports'],
+            ['name' => 'progress reports','guard_name'=>'manager','group'=>'reports'],
+            ['name' => 'general reports','guard_name'=>'manager','group'=>'reports'],
 
         ];
 

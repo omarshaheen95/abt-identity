@@ -271,7 +271,84 @@
                         <!--end:Menu sub-->
                     </div>
                 @endif
-                @can('show marking requests')
+
+                @if(Auth::guard('manager')->user()->hasAnyDirectPermission(\App\Helpers\Constant::REPORT_PERMISSIONS))
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('manager/pre-attainment-report')|| Request::is('manager/pre-student-mark-report')|| Request::is('manager/pre-progress-report')|| Request::is('manager/pre-year-to-year-report')|| Request::is('manager/pre-trends-over-time-report')?'here show':''}}">
+                                           <span class="menu-link">
+                                                <span class="menu-icon">
+                                                    <i class="ki-duotone ki-chart-simple-3 fs-2x">
+                                                     <i class="path1"></i>
+                                                     <i class="path2"></i>
+                                                     <i class="path3"></i>
+                                                     <i class="path4"></i>
+                                                    </i>
+                                                </span>
+											<span class="menu-title">{{t('School Reports')}}</span>
+											<span class="menu-arrow"></span>
+										</span>
+                        <!--begin:Menu sub-->
+                        <div class="menu-sub menu-sub-accordion">
+                            @can('attainment reports')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/pre-student-mark-report*') )active @endif"
+                                       href="{{ route('manager.report.pre-student-mark-report') }}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                        <span class="menu-title">{{t('Students Marks')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('attainment reports')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/pre-attainment-report*') )active @endif"
+                                       href="{{ route('manager.report.pre-attainment-report') }}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                        <span class="menu-title">{{t('Attainment Reports')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('progress reports')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/pre-progress-report*') )active @endif"
+                                       href="{{ route('manager.report.pre-progress-report') }}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                        <span class="menu-title">{{t('Progress Within The Academic Year')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('progress reports')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/pre-year-to-year-report*') )active @endif"
+                                       href="{{ route('manager.report.pre-year-to-year-report') }}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                        <span class="menu-title">{{t('Year To Year Progress')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
+                            @can('progress reports')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/pre-trends-over-time-report*') )active @endif"
+                                       href="{{ route('manager.report.pre-trends-over-time-report') }}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                        <span class="menu-title">{{t('Trends Over Time Progress')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
+                        </div>
+                        <!--end:Menu sub-->
+                    </div>
+                @endif
+
+            @can('show marking requests')
                     <div class="menu-item">
                         <a class="menu-link @if(Request::is('manager/marking_request*') )active @endif" href="{{ route('manager.marking_requests.index') }}">
                         <span class="menu-icon">

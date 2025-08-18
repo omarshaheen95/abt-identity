@@ -47,7 +47,7 @@ class Student extends Authenticatable
     public function scopeSearch(Builder $query, Request $request)
     {
         return $query
-            ->when($value = $request->get('name'), function (Builder $query) use ($value) {
+            ->when($value = $request->get('name', false), function (Builder $query) use ($value) {
                 $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($value) . '%');
             })->when($id = $request->get('id'), function (Builder $query) use ($id) {
                 $query->where('id', $id);
@@ -57,8 +57,10 @@ class Student extends Authenticatable
                 $query->where('email', $email);
             })->when($id_number = $request->get('id_number', false), function (Builder $query) use ($id_number) {
                 $query->where('id_number', $id_number);
-            })->when($school_id = $request->get('school_id', false), function (Builder $query) use ($school_id) {
-                $query->where('school_id', $school_id);
+            })->when($school_id = $request->get('school_id', false), function (Builder $query) use ($value) {
+                is_array($value) ?
+                    $query->whereIn('school_id', $value) :
+                    $query->where('school_id', $value);
             })->when(!is_array($request->get('level_id', false)) ? $level_id = $request->get('level_id', false): $level_id = false, function (Builder $query) use ($level_id) {
                 $query->where('level_id', $level_id);
             })->when(is_array($request->get('level_id', [])) ? $level_id = $request->get('level_id', []): $level_id = [], function (Builder $query) use ($level_id) {
@@ -115,9 +117,9 @@ class Student extends Authenticatable
                 })->when($value == 'arab', function (Builder $query) use ($value){
                     $query->orderBy('arab')->orderBy('level_id');
                 });
-            })->when($value = $request->get('sen'), function (Builder $query) use ($value) {
+            })->when($value = $request->get('sen', false), function (Builder $query) use ($value) {
                 $query->where('sen', $value!=2);
-            })->when($value = $request->get('g_t'), function (Builder $query) use ($value) {
+            })->when($value = $request->get('g_t', false), function (Builder $query) use ($value) {
                 $query->where('g_t', $value!=2);
             })->when($value = $request->get('citizen', false), function (Builder $query) use ($value) {
                 $query->where('citizen', $value!=2);

@@ -65,7 +65,7 @@ class YearToYearProgressExport implements WithMapping, Responsable, WithHeadings
             re('Student ID'), re('Student Name'), re('School'), re('Section'),
             re('Grade'), re('Gender'), re('Nationality'),
             re('SEN'), re('G&T'), re('Citizen')
-        ];
+        ]; // from A to J
 
         $term_info = [];
         $sub_info = [];
@@ -436,7 +436,7 @@ class YearToYearProgressExport implements WithMapping, Responsable, WithHeadings
         $lastCell = $event->sheet->getHighestColumn();
         $lastRow = $event->sheet->getHighestRow();
 
-        $startColumn =  'J' ;
+        $startColumn =  'K'; // Starting from column K for assessment data;
         $cellRange = "{$startColumn}1:{$lastCell}{$lastRow}";
 
         $conditionalStyles = $this->createConditionalStyles($cellRange);
@@ -477,20 +477,20 @@ class YearToYearProgressExport implements WithMapping, Responsable, WithHeadings
     private function applyHeaderColor(AfterSheet $event): void
     {
         //color header for student data
-        $event->sheet->getDelegate()->getStyle("A1:I1")
+        $event->sheet->getDelegate()->getStyle("A1:J1")
             ->getFill()
             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
             ->getStartColor()
             ->setARGB("E37200");
-        $event->sheet->getDelegate()->getStyle("A1:I1")
+        $event->sheet->getDelegate()->getStyle("A1:J1")
             ->getFont()
             ->getColor()
             ->setARGB(Color::COLOR_WHITE);
 
 
         $colors = ['444DCD', '808080', '2CC306'];
-        $firstColumn = 'J';
-        $yearColumnsCount = 10;
+        $firstColumn = 'K'; // Starting from column K for the first year
+        $yearColumnsCount = 9;
         foreach ($this->years as $index => $year)
         {
             //add year columns count to the first column

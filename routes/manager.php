@@ -125,6 +125,14 @@ Route::group([], function () {
     Route::post('student_terms_open_time', [\App\Http\Controllers\Manager\Student\StudentController::class,'studentsTermsTime'])->name('student.open_term_time');
     Route::get('student/{id}/activity-records', [\App\Http\Controllers\GeneralController::class, 'studentActivityRecords'])->name('student.activity-records');
 
+    //Student ABT ID Link
+    Route::get('abt_students', [\App\Http\Controllers\Manager\Student\StudentController::class, 'abtStudents'])->name('student.abt_students');
+    Route::post('student_link_with_abt_id', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentLinkWithAbtId'])->name('student.student-link-with-abt-id');
+    Route::post('student_unlink_with_abt_id', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentUnlinkWithAbtId'])->name('student.student-unlink-with-abt-id');
+    //Group
+    Route::get('schoolAbtGroup', [\App\Http\Controllers\Manager\Student\StudentController::class, 'createAbtSchoolGroup'])->name('abt-school-group-create');
+    Route::post('schoolAbtGroup', [\App\Http\Controllers\Manager\Student\StudentController::class, 'storeAbtSchoolGroup'])->name('abt-school-group-store');
+
     Route::get('upgrade_student_term', [\App\Http\Controllers\Manager\StudentTermController::class, 'upgradeStudentTermView'])->name('students-terms.view-upgrade-student-term');
     Route::post('upgrade_student_term', [\App\Http\Controllers\Manager\StudentTermController::class, 'upgradeStudentTerm'])->name('students-terms.upgrade-student-term');
 

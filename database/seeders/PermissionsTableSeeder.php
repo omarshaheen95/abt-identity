@@ -36,6 +36,9 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'show students import','guard_name'=>'manager','group'=>'students'],
             ['name' => 'import students','guard_name'=>'manager','group'=>'students'],
             ['name' => 'delete students import','guard_name'=>'manager','group'=>'students'],
+            ['name' => 'show abt grouping students','guard_name'=>'manager','group'=>'students'],
+            ['name' => 'student link with abt id','guard_name'=>'manager','group'=>'students'],
+
 
             ['name' => 'show inspections','guard_name'=>'manager','group'=>'inspections'],
             ['name' => 'add inspections','guard_name'=>'manager','group'=>'inspections'],

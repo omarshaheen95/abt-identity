@@ -116,6 +116,23 @@
                         </a>
                     </div>
                 @endcan
+
+                @can('show abt grouping students')
+                    <div class="menu-item">
+                        <a class="menu-link @if(Request::is('manager/abt_students*') )active @endif"
+                           href="{{ route('manager.student.abt_students') }}">
+                    <span class="menu-icon">
+                       <i class="ki-duotone ki-user-edit fs-2">
+                         <i class="path1"></i>
+                         <i class="path2"></i>
+                         <i class="path3"></i>
+                        </i>
+                    </span>
+                            <span class="menu-title">{{t('ABT Grouping Students')}}</span>
+                        </a>
+                    </div>
+                @endcan
+
                 @if(Auth::guard('manager')->user()->hasAnyDirectPermission(['show terms','show terms questions','show questions standards']))
 
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion
@@ -196,6 +213,8 @@
                     </div>
                 @endif
 
+
+
                 @if(Auth::guard('manager')->user()->hasAnyDirectPermission(['show students terms','show students not submitted term']))
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion
                 {{Request::is('manager/student_term*') ||Request::is('manager/students_not_submitted_terms') ?'here show':''}}">
@@ -252,8 +271,6 @@
                         <!--end:Menu sub-->
                     </div>
                 @endif
-
-
                 @can('show marking requests')
                     <div class="menu-item">
                         <a class="menu-link @if(Request::is('manager/marking_request*') )active @endif" href="{{ route('manager.marking_requests.index') }}">
@@ -267,6 +284,7 @@
                         </a>
                     </div>
                 @endcan
+
                 @can('show translation')
                     <div class="menu-item">
                         <a class="menu-link @if(Request::is('manager/text_translation') )active @endif" href="{{ route('manager.text_translation.index') }}">

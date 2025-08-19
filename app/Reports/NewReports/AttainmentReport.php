@@ -212,6 +212,18 @@ class AttainmentReport
                     $gradesData['girls_citizen_students'] += $gradeData['grade_data']['girls_citizen_students'];
                     $gradesData['student_type'] = $this->getStudentTypeText($this->yearData['type']);
                 }
+            }else{
+                if (isset($gradeData['grade_data'])) {
+                    $gradesData['students'] += $gradeData['grade_data']['students'];
+                    $gradesData['g_t_students'] += $gradeData['grade_data']['g_t_students'];
+                    $gradesData['sen_students'] += $gradeData['grade_data']['sen_students'];
+                    $gradesData['boys_students'] += $gradeData['grade_data']['boys_students'];
+                    $gradesData['girls_students'] += $gradeData['grade_data']['girls_students'];
+                    $gradesData['citizen_students'] += $gradeData['grade_data']['citizen_students'];
+                    $gradesData['boys_citizen_students'] += $gradeData['grade_data']['boys_citizen_students'];
+                    $gradesData['girls_citizen_students'] += $gradeData['grade_data']['girls_citizen_students'];
+                    $gradesData['student_type'] = $this->getStudentTypeText($this->yearData['type']);
+                }
             }
         }
 

@@ -224,7 +224,7 @@
         <div class="subpage-w">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <img src="{{ asset("reports/identity_domains_".app()->getLocale().".svg") }}?v=4" width="90%"/>
+                    <img src="{{ asset("reports/identity_domains_".app()->getLocale().".svg") }}?v=1" width="90%"/>
                 </div>
             </div>
         </div>

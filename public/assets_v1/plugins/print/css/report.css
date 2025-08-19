@@ -12,7 +12,7 @@
 }
 .main-td{
     color: #FFF !important;
-    background: linear-gradient(135deg,  #068241, #129153) !important;
+    background: linear-gradient(135deg, #449c6f, #058043) !important;
 
 }
 .sub-td{
@@ -104,7 +104,7 @@ table th {
 .section-title{
     font-size: 20px;
     font-weight: 500;
-    background: linear-gradient(135deg,  #068241, #129153) !important;
+    background: linear-gradient(135deg, #449c6f, #058043) !important;
     color: #fff;
     margin-bottom: 20px;
     padding: 10px 0;

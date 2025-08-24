@@ -881,7 +881,7 @@
         $(document).ready(function () {
             const chartColors = {
                 below: "#ef4444",
-                inline: "#f59e0b",
+                inline: "#f5d60b",
                 above: "#10b981"
             };
 

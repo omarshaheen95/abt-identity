@@ -944,7 +944,7 @@
     <script type="text/javascript">
         const chartColors = {
             below: "#ef4444",
-            inline: "#f59e0b",
+            inline: "#f5d60b",
             above: "#10b981"
         };
         @foreach($pages as $grade => $page)

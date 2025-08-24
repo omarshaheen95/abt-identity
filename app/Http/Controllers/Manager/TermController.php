@@ -388,13 +388,14 @@ class TermController extends Controller
                 ->first();
             if ($to_term && $to_term->question_count == 0) {
                 if ($data['with_questions'] == 1) {
+                    Question::query()->where('term_id', $to_term->id)->delete();
                     foreach ($term->question as $question) {
                         $new_question = $question->replicate();
                         $new_question->term_id = $to_term->id;
-                        $new_question->content = null;
-                        $new_question->image = null;
-                        $new_question->audio = null;
-                        $new_question->question_reader = null;
+//                        $new_question->content = null;
+//                        $new_question->image = null;
+//                        $new_question->audio = null;
+//                        $new_question->question_reader = null;
                         $new_question->save();
                         if ($data['with_standards'] == 1) {
 //                            foreach ($question->question_standard as $standard) {

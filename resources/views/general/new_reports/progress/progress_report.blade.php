@@ -374,7 +374,7 @@
             <div class="subpage-w">
                 <div class="row justify-content-center mt-2">
                     <div class="col-12 text-center">
-                        <h5 class="section-title"> <i class="fas fa-chart-bar section-title-icon"></i>  {{re('General Statistics')}}</h5>
+                        <h5 class="section-title"> <i class="fas fa-chart-bar section-title-icon"></i>{!! $page->general_title !!}</h5>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-4">
@@ -425,7 +425,7 @@
             <div class="subpage-w">
                 <div class="row text-center justify-content-center">
                     <div class="col-12">
-                        <h5 class="section-title"><i class="fas fa-chart-line section-title-icon"></i> {{$page->title}}</h5>
+                        <h5 class="section-title"><i class="fas fa-chart-line section-title-icon"></i>{!! $page->title !!}</h5>
                     </div>
                 </div>
                 <div class="row text-center justify-content-center my-3">
@@ -756,7 +756,7 @@
         $(document).ready(function () {
             const chartColors = {
                 below: "#ef4444",
-                inline: "#f59e0b",
+                inline: "#f5d60b",
                 above: "#10b981"
             };
             @foreach($pages as $grade => $page)

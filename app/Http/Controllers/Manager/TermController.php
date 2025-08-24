@@ -407,19 +407,19 @@ class TermController extends Controller
                         }
                         switch ($question->type)
                         {
-                            case 1:
+                            case 'true_false':
                                 $new_option = $question->tf_question->replicate();
                                 $new_option->question_id = $new_question->id;
                                 $new_option->save();
                                 break;
-                            case 2:
+                            case 'multiple_choice':
                                 foreach ($question->option_question as $option) {
                                     $new_option = $option->replicate();
                                     $new_option->question_id = $new_question->id;
                                     $new_option->save();
                                 }
                                 break;
-                            case 3:
+                            case 'matching':
                                 foreach ($question->match_question as $match) {
                                     $new_option = $match->replicate();
                                     $new_option->question_id = $new_question->id;
@@ -427,7 +427,7 @@ class TermController extends Controller
                                     $new_option->save();
                                 }
                                 break;
-                            case 4:
+                            case 'sorting':
                                 foreach ($question->sort_question as $sort) {
                                     $new_option = $sort->replicate();
                                     $new_option->question_id = $new_question->id;

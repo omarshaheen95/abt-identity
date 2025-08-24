@@ -323,7 +323,7 @@ class TermController extends Controller
         $data['with_standards'] = $request->get('with_standards', 0);
         $data['with_terms'] = $request->get('with_terms', 0);
         $from_terms = Term::query()
-            ->with(['level'])
+            ->with(['level', 'question.tf_question', 'question.option_question', 'question.match_question', 'question.sort_question'])
             ->whereHas('level', function (Builder $query) use ($data) {
                 $query->where('year_id', $data['from_year'])
                     ->whereIn('grade', $data['grades']);

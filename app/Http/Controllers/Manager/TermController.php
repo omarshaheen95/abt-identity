@@ -386,7 +386,7 @@ class TermController extends Controller
             $to_term = $to_terms->where('level.grade', $term->level->grade)
                 ->where('level.arab', $term->level->arab)
                 ->first();
-            if ($to_term && $to_term->question_count == 0) {
+            if ($to_term) {
                 if ($data['with_questions'] == 1) {
                     Question::query()->where('term_id', $to_term->id)->delete();
                     foreach ($term->question as $question) {

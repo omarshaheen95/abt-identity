@@ -139,7 +139,7 @@ table th {
     border: 0;
 }
 .inline-td{
-    background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+    background: linear-gradient(135deg, #f5e90b, #dfd502)!important;    color: #FFF !important;
     color: #FFF !important;
     border: 0;
 }

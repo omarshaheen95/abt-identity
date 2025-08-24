@@ -436,9 +436,22 @@ class ProgressReport
                 'subtitle' => $this->yearData['sub_title'],
                 'year' => $this->yearData['year']->name,
             ]);
+             $title_general = re('general_statistics_combined_progress_title', [
+                'type' => $type,
+                'grade' => implode(',', $grade),
+                'subtitle' => $this->yearData['sub_title'],
+                'year' => $this->yearData['year']->name,
+            ]);
         } else {
             $yearGrade = $grade + 1;
             $title = re('progress_title', [
+                'type' => $type,
+                'grade' => $grade,
+                'yearGrade' => $yearGrade,
+                'subtitle' => $this->yearData['sub_title'],
+                'year' => $this->yearData['year']->name,
+            ]);
+            $title_general = re('general_statistics_progress_title', [
                 'type' => $type,
                 'grade' => $grade,
                 'yearGrade' => $yearGrade,
@@ -449,6 +462,7 @@ class ProgressReport
 
         return (object)[
             'title' => $title,
+            'general_title' => $title_general,
             'student_type' => $this->getStudentTypeText($this->yearData['type']),
             'grade_data' => (object)$this->getGradeStudentsData($grade),
             'septProgressData' => $progressData[$rounds[0]]['general'],
@@ -621,6 +635,7 @@ class ProgressReport
             $school = ' - ' . $this->school->name;
         }
         $combinedText = $this->isCombined ? 'Combined ' : '';
+        $this->yearData['sub_title'] = $this->getSubTitle($this->request->get('student_type'));
         return $combinedText . 'Progress Report' . $school . ' - ' . $this->yearData['year']->name . ' (' . $this->yearData['sub_title'] . ')';
     }
 

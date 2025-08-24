@@ -265,14 +265,20 @@ class AttainmentReport
 
         // Create combined page
         $gradeList = implode(', ', $selectedGrades);
-//        $title = 'Combined Grades (' . $gradeList . ') ' . $this->yearData['sub_title'] . ' - ' . $this->yearData['year']->year;
+//        $title = 'Combined Grades (' . $gradeList . ') ' . $this->yearData['sub_title'] . ' - ' . $this->yearData['year']->name;
         $title = re('combined_grades_title', [
             'grades' => $gradeList,
             'subtitle' => $this->yearData['sub_title'],
-            'year' => $this->yearData['year']->year,
+            'year' => $this->yearData['year']->name,
+        ]);
+        $title_general = re('general_statistics_combined_grades_title', [
+            'grades' => $gradeList,
+            'subtitle' => $this->yearData['sub_title'],
+            'year' => $this->yearData['year']->name,
         ]);
        $data = [
             'title' => $title,
+            'general_title' => $title_general,
             'grade_data' => (object)$gradesData,
             'rounds' => (object)$combinedRounds,
             'boys' => (object)$combinedCategoryData['boys'],
@@ -677,11 +683,18 @@ class AttainmentReport
             'grade' => $grade,
             'yearGrade' => $yearGrade,
             'subtitle' => $this->yearData['sub_title'],
-            'year' => $this->yearData['year']->year,
+            'year' => $this->yearData['year']->name,
         ]);
-
+        $title_general = re('general_statistics_attainment_title', [
+            'type' => $type,
+            'grade' => $grade,
+            'yearGrade' => $yearGrade,
+            'subtitle' => $this->yearData['sub_title'],
+            'year' => $this->yearData['year']->name,
+        ]);
         $data = [
             'title' => $title,
+            'general_title' => $title_general,
             'student_type' => $this->getStudentTypeText($this->yearData['type']),
             'grade_data' => (object)$gradeData['grade_data'],
             'rounds' => (object)$gradeData['general_rounds'],
@@ -791,7 +804,7 @@ class AttainmentReport
             $school = ' - ' . $this->school->name;
         }
         $combinedText = $this->isCombined ? 'Combined ' : '';
-        return $combinedText . 'Attainment Report' . $school . ' - ' . $this->yearData['year']->year . ' (' . $this->yearData['sub_title'] . ')';
+        return $combinedText . 'Attainment Report' . $school . ' - ' . $this->yearData['year']->name . ' (' . $this->yearData['sub_title'] . ')';
     }
 
     private function getReportInfo()

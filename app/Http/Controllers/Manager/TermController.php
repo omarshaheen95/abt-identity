@@ -318,7 +318,7 @@ class TermController extends Controller
 
     public function copyTerms(CopyTermRequest $request)
     {
-        dd(QuestionStandard::query()->doesntHave('question')->count());
+        dd(QuestionStandard::query()->doesntHave('question')->count(), QuestionStandard::query()->doesntHave('question')->delete());
         $data = $request->validated();
         $data['with_questions'] = $request->get('with_questions', 0);
         $data['with_standards'] = $request->get('with_standards', 0);

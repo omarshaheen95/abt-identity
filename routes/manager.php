@@ -115,13 +115,12 @@ Route::group([], function () {
     Route::delete('delete-student', [\App\Http\Controllers\Manager\Student\StudentController::class, 'delete'])->name('student.delete');
     Route::post('restore-student/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'restoreStudent'])->name('student.student-restore');
     Route::get('student-login/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentLogin'])->name('student.student-login');
-    Route::get('student-report/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentReport'])->name('student.student-report');
+//    Route::get('student-report/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentReport'])->name('student.student-report');
     Route::post('student-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentExport'])->name('student.student-export');
     Route::post('student-marks-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentMarksExport'])->name('student.student-marks-export');
     Route::get('students-cards-export', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentsCards'])->name('student.student-cards-export');
     Route::get('student/{id}/card', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCard'])->name('student-card');
     Route::post('students-cards-by-section', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentCardBySections'])->name('student.students-cards-by-section');
-    Route::post('/pdfReports', [\App\Http\Controllers\Manager\Student\StudentController::class, 'pdfReports'])->name('reports.pdfReports');
     Route::post('student_terms_open_time', [\App\Http\Controllers\Manager\Student\StudentController::class,'studentsTermsTime'])->name('student.open_term_time');
     Route::get('student/{id}/activity-records', [\App\Http\Controllers\GeneralController::class, 'studentActivityRecords'])->name('student.activity-records');
 

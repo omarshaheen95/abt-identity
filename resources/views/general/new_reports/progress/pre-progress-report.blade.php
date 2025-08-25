@@ -53,7 +53,7 @@
                             </select>
                         </div>
                     @else
-                        <input type="hidden" name="school_id" value="{{auth()->user()->id}}">
+                        <input type="hidden" id="school_id" name="school_id" value="{{Auth::guard('school')->id()}}">
                     @endif
                     <div class="col-md-4">
                         <label class="form-label required">{{t('Year')}}</label>

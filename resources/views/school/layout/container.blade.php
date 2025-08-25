@@ -226,6 +226,8 @@
 
 <script>
     var LevelGradesRoute = "{{route('school.getLevelsByYear')}}";
+    var GetSectionRoute = "{{route('school.get-sections')}}";
+
 </script>
 @include('general.layout_parts.script')
 

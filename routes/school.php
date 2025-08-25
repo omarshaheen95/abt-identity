@@ -28,10 +28,8 @@ Route::post('student-marks-export', [\App\Http\Controllers\School\StudentControl
 Route::get('student-login/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentLogin'])->name('student.student-login');
 Route::get('student/{id}/card', [\App\Http\Controllers\School\StudentController::class, 'studentCard'])->name('student-card');
 Route::post('students-cards-by-section', [\App\Http\Controllers\School\StudentController::class, 'studentCardBySections'])->name('student.students-cards-by-section');
-Route::get('student-report/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReport'])->name('student.student-report');
-Route::get('student-report-card/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReportCard'])->name('student.report-card');
-Route::post('/pdfReports', [\App\Http\Controllers\School\StudentController::class,'pdfReports'])->name('reports.pdfReports');
-Route::post('/pdfReportsCards', [\App\Http\Controllers\School\StudentController::class,'pdfReportsCards'])->name('reports.pdfReportsCards');
+//Route::get('student-report/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReport'])->name('student.student-report');
+//Route::get('student-report-card/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReportCard'])->name('student.report-card');
 Route::get('student/{id}/activity-records', [\App\Http\Controllers\GeneralController::class, 'studentActivityRecords'])->name('student.activity-records');
 
 
@@ -54,11 +52,11 @@ Route::get('completed_terms_total', [\App\Http\Controllers\School\MarkingRequest
 
 Route::get('get-sections', [\App\Http\Controllers\School\StudentController::class, 'getSectionsByYear'])->name('get-sections');
 
-Route::get('pre-attainment-report', [\App\Http\Controllers\School\ReportController::class, 'preAttainmentReport'])->name('report.pre-attainment');
-Route::get('attainment-report', [\App\Http\Controllers\School\ReportController::class, 'attainmentReport'])->name('report.attainment');
-
-Route::get('pre-progress-report', [\App\Http\Controllers\School\ReportController::class, 'preProgressReport'])->name('report.pre-progress');
-Route::get('progress-report', [\App\Http\Controllers\School\ReportController::class, 'progressReport'])->name('report.progress');
+//Route::get('pre-attainment-report', [\App\Http\Controllers\School\ReportController::class, 'preAttainmentReport'])->name('report.pre-attainment');
+//Route::get('attainment-report', [\App\Http\Controllers\School\ReportController::class, 'attainmentReport'])->name('report.attainment');
+//
+//Route::get('pre-progress-report', [\App\Http\Controllers\School\ReportController::class, 'preProgressReport'])->name('report.pre-progress');
+//Route::get('progress-report', [\App\Http\Controllers\School\ReportController::class, 'progressReport'])->name('report.progress');
 
 
 Route::post('/pdfCertificates', [\App\Http\Controllers\GeneralController::class,'pdfCertificates'])->name('reports.pdfCertificates');

@@ -151,15 +151,14 @@ class StudentController extends Controller
     }
     public function getSectionsByYear(Request $request)
     {
-        $year = $request->get('year_id', false);
+        $year = $request->get('id') ?: $request->get('year_id') ?: false;
         $school = Auth::guard('school')->user()->id;
         $sections = Student::query()
-//            ->when($year,function (Builder $query) use ($year){
-//                $query->whereHas('level', function ($q) use ($year){
-//                    $q->where('year_id',$year);
-//                });
-//            })
-            ->where('year_id', $year)
+            ->when($year,function (Builder $query) use ($year){
+                $query->whereHas('level', function ($q) use ($year){
+                    $q->where('year_id',$year);
+                });
+            })
             ->where('school_id',$school)
             ->whereNotNull('grade_name')
             ->select('grade_name')
@@ -219,107 +218,18 @@ class StudentController extends Controller
         }
         return redirect($data->url);
     }
-    public function pdfReportsCards(Request $request)
-    {
-        $request->validate([
-            'year_id' => 'required',
-            'level_id' => 'required|array|min:1|max:1',
-        ], [
-            'year_id.required' => 'The year field is required.',
-            'level_id.required' => 'The level field is required.',
-            'level_id.min' => 'The level must be at least 1.',
-            'level_id.max' => 'The level may not be greater than 1.',
-        ]);
 
-        $school_id = Auth::guard('school')->user()->id;
+//    public function studentReport($id)
+//    {
+//        $report = new StudentReport($id, Auth::guard('school')->user()->id);
+//        return $report->report();
+//    }
+//    public function studentReportCard($id)
+//    {
+//        $report = new StudentReport($id, Auth::guard('school')->user()->id);
+//        return $report->studentReportCard();
+//    }
 
-        $students = Student::with(['level.year','year'])
-            ->where('school_id', $school_id)->search($request)
-            ->select(['id', 'name as student_name', 'id_number as std_id'])->get()->values()->toArray();
-//        dd($students);
-
-        if (count($students) == 0) {
-            return $this->sendError(t('No students found'), 404);
-        }
-
-        $client = new \GuzzleHttp\Client([
-            'timeout'  => 36000,
-        ]);
-
-        $data = ['report_type' => 1, 'report_card' => true];
-        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
-            'form_params' => [
-                'platform' => 'abt-identity',
-                'studentid' => $students,
-                'data' => $data,
-            ],
-        ]);
-        $data = json_decode($res->getBody());
-        $url = $data->url;
-        $fileContent = file_get_contents($url);
-        if ($fileContent === false) {
-            throw new \Exception('Unable to download file');
-        }else{
-            return response($fileContent, 200, [
-                'Content-Type' => 'application/zip',
-                'Content-Disposition' => 'inline; filename="reports.zip"'
-            ]);
-        }
-        return redirect($data->url);
-    }
-
-    public function studentReport($id)
-    {
-        $report = new StudentReport($id, Auth::guard('school')->user()->id);
-        return $report->report();
-    }
-    public function studentReportCard($id)
-    {
-        $report = new StudentReport($id, Auth::guard('school')->user()->id);
-        return $report->studentReportCard();
-    }
-
-    public function pdfReports(Request $request)
-    {
-        $request->validate([
-            'school_id' => 'required',
-            'grade' => 'required|max:1|min:1',
-        ],[
-            'grade.max' => t('Must be select one grade'),
-            'grade.min' => t('Must be select one grade'),
-        ]);
-
-        $school_id = Auth::guard('school')->user()->id;
-
-        $students = Student::with(['level.year','year'])
-            ->where('school_id', $school_id)
-            ->search($request)
-            ->select(['id', 'name as student_name', 'id_number as std_id'])
-            ->get()->values()->toArray();
-
-        $client = new \GuzzleHttp\Client([
-            'timeout'  => 36000,
-        ]);
-
-        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
-            'form_params' => [
-                'platform' => 'abt-identity',
-                'studentid' => $students,
-            ],
-        ]);
-        $data = json_decode($res->getBody());
-        $url = $data->url;
-        $fileContent = file_get_contents($url);
-        if ($fileContent === false) {
-            throw new \Exception('Unable to download file');
-        }else{
-            return response($fileContent, 200, [
-                'Content-Type' => 'application/zip',
-                'Content-Disposition' => 'inline; filename="reports.zip"'
-            ]);
-        }
-        return redirect($data->url);
-    }
 
     function webCertificate($id)
     {
@@ -337,27 +247,4 @@ class StudentController extends Controller
         return view('general.certificate.web_certificate',compact('name','grade','mark'));
     }
 
-    public function studentQRReport(Request $request)
-    {
-        app()->setLocale('en');
-        if ($request->has('token')) {
-            $student_id = decryptStudentId($request->get('token', false));
-            $student_report = new NewStudentReport($student_id);
-            return $student_report->report();
-        } else {
-            return false;
-        }
-    }
-
-    public function studentQRReportCard(Request $request)
-    {
-        app()->setLocale('en');
-        if ($request->has('token')) {
-            $student_id = decryptStudentId($request->get('token', false));
-            $student_report = new NewStudentReport($student_id);
-            return $student_report->reportCard();
-        } else {
-            return false;
-        }
-    }
 }

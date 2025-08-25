@@ -8,7 +8,7 @@ use App\Models\LoginSession;
 use App\Models\Student;
 use App\Models\StudentTerm;
 use App\Models\Term;
-use App\Reports\StudentReport;
+use App\Reports\NewReports\StudentReport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -46,12 +46,12 @@ class GeneralController extends Controller
 
     public function studentReport($id)
     {
+        $report = new StudentReport($id);
+
         if (\request()->get('report_card', 1))
         {
-            $report = new StudentReport($id);
-            return $report->studentReportCard();
+            return $report->reportCard();
         }
-        $report = new StudentReport($id);
         return $report->report();
     }
 

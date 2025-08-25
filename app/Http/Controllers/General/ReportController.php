@@ -17,12 +17,15 @@ use App\Http\Requests\General\Report\StudentMarkRequest;
 use App\Http\Requests\General\Report\TrendOverTimeReportRequest;
 use App\Http\Requests\General\Report\YearToYearProgressReportRequest;
 use App\Models\School;
+use App\Models\Student;
 use App\Models\Year;
 use App\Reports\NewReports\AttainmentReport;
 
 use App\Reports\NewReports\ProgressReport;
+use App\Reports\NewReports\StudentReport;
 use App\Reports\NewReports\YearToYearReport;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
@@ -208,5 +211,120 @@ class ReportController extends Controller
     {
         $studentReport = new \App\Reports\NewReports\StudentReport($id);
         return $studentReport->reportCard();
+    }
+
+
+    //To Download Zip File of students reports ordering by sections
+    public function pdfReports(Request $request)
+    {
+        $request->validate([
+            'school_id' => 'required',
+            'grade' => 'required|max:1|min:1',
+        ],[
+            'grade.max' => t('Must be select one grade'),
+            'grade.min' => t('Must be select one grade'),
+        ]);
+
+        $school_id = $request->get('school_id',false);
+
+        $students = Student::with(['level.year','year'])
+            ->where('school_id', $school_id)
+            ->search($request)
+            ->select(['id', 'name as student_name', 'id_number as std_id'])
+            ->get()->values()->toArray();
+
+        $client = new \GuzzleHttp\Client([
+            'timeout'  => 36000,
+        ]);
+
+        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
+            'form_params' => [
+                'platform' => 'abt-identity',
+                'studentid' => $students,
+            ],
+        ]);
+        $data = json_decode($res->getBody());
+        $url = $data->url;
+        $fileContent = file_get_contents($url);
+        if ($fileContent === false) {
+            throw new \Exception('Unable to download file');
+        }else{
+            return response($fileContent, 200, [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'inline; filename="reports.zip"'
+            ]);
+        }
+    }
+    public function pdfReportsCards(Request $request)
+    {
+        $request->validate([
+            'school_id' => 'required',
+            'year_id' => 'required',
+            'level_id' => 'required|array|min:1|max:1',
+        ], [
+            'year_id.required' => 'The year field is required.',
+            'level_id.required' => 'The level field is required.',
+            'level_id.min' => 'The level must be at least 1.',
+            'level_id.max' => 'The level may not be greater than 1.',
+        ]);
+
+        $school_id = $request->get('school_id',false);
+
+        $students = Student::with(['level.year','year'])
+            ->where('school_id', $school_id)->search($request)
+            ->select(['id', 'name as student_name', 'id_number as std_id'])->get()->values()->toArray();
+
+        if (count($students) == 0) {
+            return $this->sendError(t('No students found'), 404);
+        }
+
+        $client = new \GuzzleHttp\Client([
+            'timeout'  => 36000,
+        ]);
+
+        $data = ['report_type' => 1, 'report_card' => true];
+        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
+            'form_params' => [
+                'platform' => 'abt-identity',
+                'studentid' => $students,
+                'data' => $data,
+            ],
+        ]);
+        $data = json_decode($res->getBody());
+        $url = $data->url;
+        $fileContent = file_get_contents($url);
+        if ($fileContent === false) {
+            throw new \Exception('Unable to download file');
+        }else{
+            return response($fileContent, 200, [
+                'Content-Type' => 'application/zip',
+                'Content-Disposition' => 'inline; filename="reports.zip"'
+            ]);
+        }
+    }
+
+
+    //To Access For Student Report By QR
+    public function studentQRReport(Request $request)
+    {
+        app()->setLocale('en');
+        if ($request->has('token')) {
+            $student_id = decryptStudentId($request->get('token', false));
+            $student_report = new StudentReport($student_id);
+            return $student_report->report();
+        } else {
+            return false;
+        }
+    }
+    public function studentQRReportCard(Request $request)
+    {
+        app()->setLocale('en');
+        if ($request->has('token')) {
+            $student_id = decryptStudentId($request->get('token', false));
+            $student_report = new StudentReport($student_id);
+            return $student_report->reportCard();
+        } else {
+            return false;
+        }
     }
 }

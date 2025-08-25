@@ -129,28 +129,88 @@
                         <span class="menu-title">{{t('Students & Marks')}}</span>
                     </a>
                 </div>
-                <div class="menu-item {{!auth()->guard('school')->user()->allow_reports?'menu-item-disabled':''}}">
-                    <a class="menu-link @if(Request::is('school/pre-attainment-report')||Request::is('school/pre-attainment-report/*'))active @endif" href="{{ auth()->guard('school')->user()->allow_reports?route('school.report.pre-attainment'):'#'}}">
-                                <span class="menu-icon">
-												<i class="ki-duotone ki-document fs-2">
-                                                 <i class="path1"></i>
-                                                 <i class="path2"></i>
-                                                </i>
-											</span>
-                        <span class="menu-title">{{t('Attainment Report')}}</span>
+                <!--Start Reports-->
+                <div class="menu-item">
+                    <a class="menu-link link @if(!Auth::user()->allow_reports) menu-item-disabled @endif @if(Request::is('school/pre-student-mark-report*') )active @endif"
+                       @if(Auth::user()->allow_reports) href="{{route('school.report.pre-student-mark-report') }}"
+                       @else href=""@endif>
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-graph-2 fs-2x">
+                         <span class="path1"></span>
+                         <span class="path2"></span>
+                         <span class="path3"></span>
+                        </i>
+                    </span>
+                        <span class="menu-title">{{t('Students Marks')}}</span>
                     </a>
                 </div>
-                <div class="menu-item {{!auth()->guard('school')->user()->allow_reports?'menu-item-disabled':''}}">
-                    <a class="menu-link @if(Request::is('school/pre-progress-report')||Request::is('school/pre-progress-report/*'))active @endif" href="{{  auth()->guard('school')->user()->allow_reports?route('school.report.pre-progress'):'#' }}">
+
+                <div class="menu-item">
+                    <a class="menu-link @if(!Auth::user()->allow_reports) menu-item-disabled @endif @if(Request::is('school/pre-attainment-report*') )active @endif"
+                       @if(Auth::user()->allow_reports)    href="{{route('school.report.pre-attainment-report')}}"
+                       @else href=""@endif>
                                 <span class="menu-icon">
-												<i class="ki-duotone ki-document fs-2">
-                                                 <i class="path1"></i>
-                                                 <i class="path2"></i>
-                                                </i>
-											</span>
-                        <span class="menu-title">{{t('The progress within the academic year report')}}</span>
+                        <i class="ki-duotone ki-graph-3 fs-2x">
+                         <i class="path1"></i>
+                         <i class="path2"></i>
+                        </i>
+                    </span>
+                        <span class="menu-title">{{t('Attainment Reports')}}</span>
                     </a>
                 </div>
+
+                <div data-kt-menu-trigger="click" class="menu-item @if(!Auth::user()->allow_reports) menu-item-disabled @endif menu-accordion
+                  {{Request::is('school/pre-progress-report*')||
+                  Request::is('school/pre-year-to-year-report*')||
+                  Request::is('school/pre-trends-over-time-report*')?'here show':''}}">
+                                           <span class="menu-link">
+                                                <span class="menu-icon">
+                                                <i class="ki-duotone ki-book-open fs-2x">
+                                        <i class="path1"></i>
+                                        <i class="path2"></i>
+                                        <i class="path3"></i>
+                                        <i class="path4"></i>
+                                    </i>
+                                            </span>
+											<span class="menu-title">{{t('The Progress Report')}}</span>
+											<span class="menu-arrow"></span>
+										</span>
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <div class="menu-item">
+                            <a class="menu-link @if(!Auth::user()->allow_reports) menu-item-disabled @endif @if(Request::is('school/pre-progress-report*') )active @endif"
+                               @if(Auth::user()->allow_reports)    href="{{route('school.report.pre-progress-report')}}"
+                               @else href=""@endif>
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                <span class="menu-title">{{t('Within The Academic Year')}}</span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link @if(!Auth::user()->allow_reports) menu-item-disabled @endif @if(Request::is('school/pre-year-to-year-report*') )active @endif"
+                               @if(Auth::user()->allow_reports)    href="{{route('school.report.pre-year-to-year-report')}}"
+                               @else href=""@endif>
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                <span class="menu-title">{{t('Year To Year')}}</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link @if(!Auth::user()->allow_reports) menu-item-disabled @endif @if(Request::is('school/pre-trends-over-time-report*') )active @endif"
+                               @if(Auth::user()->allow_reports) href="{{route('school.report.pre-trends-over-time-report')}}" @else href="" @endif>
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                <span class="menu-title">{{t('Trends Over Time')}}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!--end:Menu sub-->
+                </div>
+                <!--End Reports-->
 
             </div>
 

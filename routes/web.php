@@ -102,5 +102,6 @@ Route::get('student-cards', 'App\Http\Controllers\School\StudentController@stude
 Route::get('user/{id}/report', 'App\Http\Controllers\GeneralController@studentReport');
 Route::get('user/{id}/certificate', 'App\Http\Controllers\School\StudentController@webCertificate');
 
-Route::get('student-report', [\App\Http\Controllers\School\StudentController::class,'studentQRReport']);
-Route::get('student-report-card', [\App\Http\Controllers\School\StudentController::class,'studentQRReportCard']);
+//For QR
+Route::get('student-report', [\App\Http\Controllers\General\ReportController::class,'studentQRReport']);
+Route::get('student-report-card', [\App\Http\Controllers\General\ReportController::class,'studentQRReportCard']);

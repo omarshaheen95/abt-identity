@@ -36,3 +36,8 @@ Route::get('student-report/{id}/report', [\App\Http\Controllers\General\ReportCo
 
 Route::get('student-report/{id}/card', [\App\Http\Controllers\General\ReportController::class, 'studentReportCard'])
     ->name('report.student-report-card');
+
+
+//Get a zip file of students reports ordering by sections
+Route::post('/pdfReports', [\App\Http\Controllers\General\ReportController::class,'pdfReports'])->name('reports.pdfReports');
+Route::post('/pdfReportsCards', [\App\Http\Controllers\General\ReportController::class,'pdfReportsCards'])->name('reports.pdfReportsCards');

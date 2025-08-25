@@ -219,10 +219,13 @@ class ReportController extends Controller
     {
         $request->validate([
             'school_id' => 'required',
-            'grade' => 'required|max:1|min:1',
-        ],[
-            'grade.max' => t('Must be select one grade'),
-            'grade.min' => t('Must be select one grade'),
+            'year_id' => 'required',
+            'level_id' => 'required|array|min:1|max:1',
+        ], [
+            'year_id.required' => 'The year field is required.',
+            'level_id.required' => 'The level field is required.',
+            'level_id.min' => 'The level must be at least 1.',
+            'level_id.max' => 'The level may not be greater than 1.',
         ]);
 
         $school_id = $request->get('school_id',false);

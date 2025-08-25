@@ -48,9 +48,11 @@ class GeneralController extends Controller
     {
         $report = new StudentReport($id);
 
-        if (\request()->get('report_card', 1))
-        {
-            return $report->reportCard();
+        if (request()->get('data', false)) {
+            $data = json_decode(request()->get('data', false), 1);
+            if (isset($data['report_card']) && !is_null($data['report_card']) && $data['report_card'] == 1) {
+                return $report->reportCard();
+            }
         }
         return $report->report();
     }

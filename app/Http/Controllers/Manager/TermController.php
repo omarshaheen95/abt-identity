@@ -318,12 +318,13 @@ class TermController extends Controller
 
     public function copyTerms(CopyTermRequest $request)
     {
+//        dd(QuestionStandard::query()->doesntHave('question')->count(), QuestionStandard::query()->doesntHave('question')->delete());
         $data = $request->validated();
         $data['with_questions'] = $request->get('with_questions', 0);
         $data['with_standards'] = $request->get('with_standards', 0);
         $data['with_terms'] = $request->get('with_terms', 0);
         $from_terms = Term::query()
-            ->with(['level'])
+            ->with(['level', 'question.tf_question', 'question.option_question', 'question.match_question', 'question.sort_question'])
             ->whereHas('level', function (Builder $query) use ($data) {
                 $query->where('year_id', $data['from_year'])
                     ->whereIn('grade', $data['grades']);
@@ -386,15 +387,16 @@ class TermController extends Controller
             $to_term = $to_terms->where('level.grade', $term->level->grade)
                 ->where('level.arab', $term->level->arab)
                 ->first();
-            if ($to_term && $to_term->question_count == 0) {
+            if ($to_term) {
                 if ($data['with_questions'] == 1) {
+                    Question::query()->where('term_id', $to_term->id)->delete();
                     foreach ($term->question as $question) {
                         $new_question = $question->replicate();
                         $new_question->term_id = $to_term->id;
-                        $new_question->content = null;
-                        $new_question->image = null;
-                        $new_question->audio = null;
-                        $new_question->question_reader = null;
+//                        $new_question->content = null;
+//                        $new_question->image = null;
+//                        $new_question->audio = null;
+//                        $new_question->question_reader = null;
                         $new_question->save();
                         if ($data['with_standards'] == 1) {
 //                            foreach ($question->question_standard as $standard) {
@@ -406,19 +408,19 @@ class TermController extends Controller
                         }
                         switch ($question->type)
                         {
-                            case 1:
+                            case 'true_false':
                                 $new_option = $question->tf_question->replicate();
                                 $new_option->question_id = $new_question->id;
                                 $new_option->save();
                                 break;
-                            case 2:
+                            case 'multiple_choice':
                                 foreach ($question->option_question as $option) {
                                     $new_option = $option->replicate();
                                     $new_option->question_id = $new_question->id;
                                     $new_option->save();
                                 }
                                 break;
-                            case 3:
+                            case 'matching':
                                 foreach ($question->match_question as $match) {
                                     $new_option = $match->replicate();
                                     $new_option->question_id = $new_question->id;
@@ -426,7 +428,7 @@ class TermController extends Controller
                                     $new_option->save();
                                 }
                                 break;
-                            case 4:
+                            case 'sorting':
                                 foreach ($question->sort_question as $sort) {
                                     $new_option = $sort->replicate();
                                     $new_option->question_id = $new_question->id;

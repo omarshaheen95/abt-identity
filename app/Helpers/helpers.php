@@ -810,6 +810,7 @@ function progressOverTime($total_last_mark, $result_total_mark)
 }
 function encryptStudentId($studentId)
 {
+    return Crypt::encryptString($studentId);
     $encryptionKey = 'abt-assessment@,com';
     $method = 'AES-256-CBC';
     $ivLength = openssl_cipher_iv_length($method);
@@ -820,6 +821,7 @@ function encryptStudentId($studentId)
 
 function decryptStudentId($encryptedStudentId)
 {
+    return Crypt::decryptString($encryptedStudentId);
     $encryptionKey = 'abt-assessment@,com';
     $method = 'AES-256-CBC';
     $ivLength = openssl_cipher_iv_length($method);

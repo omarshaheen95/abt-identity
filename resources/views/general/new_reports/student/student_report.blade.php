@@ -57,11 +57,7 @@
                 </h2>
 
                 <div class="position-absolute report-qr m-3">
-                    @if($student->gender == 1)
-                        {!! QrCode::color(0, 166, 255)->size(120)->generate(sysDomain()."/student-report?token=".encryptStudentId($student->id)); !!}
-                    @else
                         {!! QrCode::color(0,0,0)->size(120)->generate(sysDomain()."/student-report?token=".encryptStudentId($student->id)); !!}
-                    @endif
                 </div>
                 <h4 class="position-absolute report-date m-3 text-black">
                     {{ re('Report issue date') }} : {{ date('d/m/Y') }}

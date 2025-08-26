@@ -26,6 +26,13 @@
     <link href="{{asset('web_assets/css/exam_questions.css')}}?v{{time()}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}?v={{time()}}">
     <style>
+        .q-number{
+            width: 35px;
+            height: 35px;
+        }
+        .question-content .content{
+            font-size: 22px;
+        }
         #keyboardInputLayout {
             direction: ltr !important;
         }

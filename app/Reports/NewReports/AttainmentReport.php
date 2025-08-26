@@ -685,6 +685,7 @@ class AttainmentReport
             'subtitle' => $this->yearData['sub_title'],
             'year' => $this->yearData['year']->name,
         ]);
+        dd($title, $type, $grade, $yearGrade, $this->yearData['sub_title'], $this->yearData['year']->name);
         $title_general = re('general statistics attainment title', [
             'type' => $type,
             'grade' => $grade,

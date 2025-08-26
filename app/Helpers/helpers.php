@@ -139,7 +139,31 @@ function t($key, $placeholder = [], $locale = null)
 
 function re($key, $placeholder = [], $locale = null)
 {
-    return translation('report', $key, $placeholder = [], $locale = null);
+    $group = 'report';
+    if (is_null($locale))
+        $locale = config('app.locale');
+    $key = trim($key);
+    $word = $group . '.' . $key;
+    if (Lang::has($word))
+        return trans($word, $placeholder, $locale);
+
+    $messages = [
+        $word => $key,
+    ];
+
+    app('translator')->addLines($messages, $locale);
+    $langs = config('app.languages');
+    foreach ($langs as $lang) {
+        $translation_file = base_path() . '/resources/lang/' . $lang . '/' . $group . '.php';
+        $fh = fopen($translation_file, 'r+');
+        $key = str_replace("'", "\'", $key);
+        $new_key = "\n \t'$key' => '$key',\n];\n";
+        fseek($fh, -4, SEEK_END);
+        fwrite($fh, $new_key);
+        fclose($fh);
+    }
+    return trans($word, $placeholder, $locale);
+    return $key;
 }
 
 function translation($group, $key, $placeholder = [], $locale = null)

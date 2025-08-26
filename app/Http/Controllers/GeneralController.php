@@ -44,18 +44,6 @@ class GeneralController extends Controller
         return Response::respondSuccess(Response::SUCCESS, $html);
     }
 
-    public function studentReport($id)
-    {
-        $report = new StudentReport($id);
-
-        if (request()->get('data', false)) {
-            $data = json_decode(request()->get('data', false), 1);
-            if (isset($data['report_card']) && !is_null($data['report_card']) && $data['report_card'] == 1) {
-                return $report->reportCard();
-            }
-        }
-        return $report->report();
-    }
 
     function certificate(Request $request, $id)
     {

@@ -266,12 +266,12 @@ class AttainmentReport
         // Create combined page
         $gradeList = implode(', ', $selectedGrades);
 //        $title = 'Combined Grades (' . $gradeList . ') ' . $this->yearData['sub_title'] . ' - ' . $this->yearData['year']->name;
-        $title = re('combined_grades_title', [
+        $title = re('combined grades title', [
             'grades' => $gradeList,
             'subtitle' => $this->yearData['sub_title'],
             'year' => $this->yearData['year']->name,
         ]);
-        $title_general = re('general_statistics_combined_grades_title', [
+        $title_general = re('general statistics combined grades title', [
             'grades' => $gradeList,
             'subtitle' => $this->yearData['sub_title'],
             'year' => $this->yearData['year']->name,
@@ -678,14 +678,14 @@ class AttainmentReport
     {
         $yearGrade = $grade + 1;
         $type = $this->isCombined ? __('Combined Attainment') : __('Attainment');
-        $title = re('attainment_title', [
+        $title = re('attainment title', [
             'type' => $type,
             'grade' => $grade,
             'yearGrade' => $yearGrade,
             'subtitle' => $this->yearData['sub_title'],
             'year' => $this->yearData['year']->name,
         ]);
-        $title_general = re('general_statistics_attainment_title', [
+        $title_general = re('general statistics attainment title', [
             'type' => $type,
             'grade' => $grade,
             'yearGrade' => $yearGrade,

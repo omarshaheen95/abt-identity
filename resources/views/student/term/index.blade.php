@@ -26,6 +26,9 @@
     <link href="{{asset('web_assets/css/exam_questions.css')}}?v{{time()}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}?v={{time()}}">
     <style>
+        .exam-details li{
+            font-size: 16px;
+        }
         .q-number{
             width: 35px;
             height: 35px;

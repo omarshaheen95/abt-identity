@@ -17,6 +17,8 @@
     @endif
     <link href="{{ asset('assets_v1/plugins/print/css/print.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('assets_v1/plugins/print/css/report.css') }}?v=3" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets_v1/plugins/fontawesome-6.1/css/all.min.css') }}" rel="stylesheet" type="text/css"/>
+
     <link rel="shortcut icon"
           href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}"/>
     <script src="{{ asset('assets_v1/plugins/print/js/new_highcharts.js') }}"></script>

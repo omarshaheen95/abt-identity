@@ -9,7 +9,6 @@ namespace App\Http\Controllers\General;
 
 
 use App\Exports\NewExports\StudentAttainmentAndProgress;
-use App\Exports\YearToYearProgressExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\General\Report\AttainmentReportRequest;
 use App\Http\Requests\General\Report\ProgressReportRequest;
@@ -55,6 +54,7 @@ class ReportController extends Controller
 
     public function attainmentReport(AttainmentReportRequest $request)
     {
+        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new AttainmentReport($request,$school_id);
         if ($request->get('generated_report_type') === 'attainment') {
@@ -74,6 +74,7 @@ class ReportController extends Controller
 
     public function progressReport(ProgressReportRequest $request)
     {
+        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new ProgressReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
@@ -104,6 +105,7 @@ class ReportController extends Controller
 
     public function yearToYearReport(YearToYearProgressReportRequest $request)
     {
+        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new YearToYearReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
@@ -115,6 +117,7 @@ class ReportController extends Controller
 
     public function excelYearToYearReport(YearToYearProgressReportRequest $request)
     {
+        app()->setLocale('en');
         return (new \App\Exports\NewExports\YearToYearProgressExport($request, [$request->get('school_id')]))
             ->download("Students progress over the years.xlsx");
     }
@@ -130,59 +133,6 @@ class ReportController extends Controller
         return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title','schools', 'container_type', 'years', 'yearsCount'));
     }
 
-    public function excelTrendsOverTimeReport(TrendOverTimeReportRequest $request)
-    {
-        $round_num = $request->get('round', false);
-
-        $school = School::query()->find($request->get('school_id'));
-        if (!$school) {
-            return redirect()->back()->withErrors(['school_id' => t('School not found')]);
-        }
-
-        $round_num = $request->get('round_num', false);
-
-        $school = Auth::guard('school')->user();
-
-        $years = $request->get('years', []);
-
-        $last_year = count($years) == 3 ? $years[2] : $years[1];
-
-        $student_section = $request->get('student_section', 0);
-        $selected_grades = $request->get('grades', []);
-
-        $selected_grades = $request->get('grades', []);
-        $grades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-
-        $students_grades = [];
-
-
-        foreach ($grades as $grade) {
-            if (!in_array($grade, $selected_grades)) {
-                continue;
-            }
-            $students_grades[$grade] = Student::query()
-                ->where('school_id', $school->id)
-                ->whereNotNull('abt_id')
-                ->whereHas('level', function (Builder $query) use ($grade, $last_year, $student_section) {
-                    $query->where('grade', $grade)
-                        ->when($student_section == 1, function ($query) {
-                            $query->where('arab', 1);
-                        })
-                        ->when($student_section == 2, function ($query) {
-                            $query->where('arab', 0);
-                        })
-                        ->where('year_id', $last_year);
-                })
-                ->pluck('abt_id')->values()->all();
-
-
-        }
-
-
-        return (new YearsProgressExport($years, $students_grades, $school, $round_num))
-            ->download("Students progress over the years.xlsx");
-    }
 
     public function preStudentMarkReport()
     {
@@ -196,6 +146,7 @@ class ReportController extends Controller
 
     public function studentMarkReport(StudentMarkRequest $request)
     {
+        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         return (new StudentAttainmentAndProgress($request, $school_id))
             ->download('Students Terms Information.xlsx');
@@ -203,12 +154,14 @@ class ReportController extends Controller
 
     public function studentReport($id)
     {
+        app()->setLocale('en');
         $studentReport = new \App\Reports\NewReports\StudentReport($id);
         return $studentReport->report();
     }
 
     public function studentReportCard($id)
     {
+        app()->setLocale('en');
         $studentReport = new \App\Reports\NewReports\StudentReport($id);
         return $studentReport->reportCard();
     }
@@ -227,7 +180,7 @@ class ReportController extends Controller
             'level_id.min' => 'The level must be at least 1.',
             'level_id.max' => 'The level may not be greater than 1.',
         ]);
-
+        app()->setLocale('en');
         $school_id = $request->get('school_id',false);
 
         $students = Student::with(['level.year','year'])
@@ -270,7 +223,7 @@ class ReportController extends Controller
             'level_id.min' => 'The level must be at least 1.',
             'level_id.max' => 'The level may not be greater than 1.',
         ]);
-
+        app()->setLocale('en');
         $school_id = $request->get('school_id',false);
 
         $students = Student::with(['level.year','year'])
@@ -330,4 +283,19 @@ class ReportController extends Controller
             return false;
         }
     }
+
+    public function getStudentReport($id)
+    {
+        app()->setLocale('en');
+        $report = new StudentReport($id);
+
+        if (request()->get('data', false)) {
+            $data = json_decode(request()->get('data', false), 1);
+            if (isset($data['report_card']) && !is_null($data['report_card']) && $data['report_card'] == 1) {
+                return $report->reportCard();
+            }
+        }
+        return $report->report();
+    }
+
 }

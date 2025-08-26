@@ -430,13 +430,13 @@ class ProgressReport
         $year = $this->yearData['year'];
         $type = $this->isCombined ? __('Combined Progress') : __('Progress');
         if ($this->isCombined) {
-            $title = re('combined_progress_title', [
+            $title = re('combined progress title', [
                 'type' => $type,
                 'grade' => implode(',', $grade),
                 'subtitle' => $this->yearData['sub_title'],
                 'year' => $this->yearData['year']->name,
             ]);
-             $title_general = re('general_statistics_combined_progress_title', [
+             $title_general = re('general statistics combined progress title', [
                 'type' => $type,
                 'grade' => implode(',', $grade),
                 'subtitle' => $this->yearData['sub_title'],
@@ -444,14 +444,14 @@ class ProgressReport
             ]);
         } else {
             $yearGrade = $grade + 1;
-            $title = re('progress_title', [
+            $title = re('progress title', [
                 'type' => $type,
                 'grade' => $grade,
                 'yearGrade' => $yearGrade,
                 'subtitle' => $this->yearData['sub_title'],
                 'year' => $this->yearData['year']->name,
             ]);
-            $title_general = re('general_statistics_progress_title', [
+            $title_general = re('general statistics progress title', [
                 'type' => $type,
                 'grade' => $grade,
                 'yearGrade' => $yearGrade,

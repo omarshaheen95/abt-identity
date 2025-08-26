@@ -8,7 +8,7 @@
                         <div class="title">
                             <div class="d-flex align-items-center gap-2">
                                     <h6 class="fw-bold m-0 pb-1 q-number">{{$index+1}}</h6>
-                                    <p class="m-0 pb-1"> {{$question->content}}</p>
+                                    <p class="m-0 pb-1 content"> {{$question->content}}</p>
                             </div>
 
                         </div>

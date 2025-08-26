@@ -212,22 +212,29 @@ class StudentTerm extends Model
             })->when($value = $request->get('end_date', false), function ($query) use ($value) {
                 $query->whereDate('created_at', '<=', Carbon::parse($value));
             })
-            ->when($duplicated = $request->get('duplicated', false) == 1, function (Builder $query){
+            ->when($duplicated = $request->get('duplicated', false) == 1, function (Builder $query) use($request){
                 //get all student terms that have the same student_id and term_id
                 $duplicates = DB::table('student_terms')
                     ->select('student_id', 'term_id')
+                    ->when($value = $request->get('corrected', false), function ($query) use ($value) {
+                        $query->where('corrected', $value!=2);
+                    })
                     ->whereNull('deleted_at')
                     ->groupBy('student_id', 'term_id')
                     ->havingRaw('count(*) > 1')
                     ->pluck('term_id', 'student_id');
 
-                $query->where(function ($q) use ($duplicates) {
-                    foreach ($duplicates as $studentId => $termId) {
-                        $q->orWhere(function ($sub) use ($studentId, $termId) {
-                            $sub->where('student_id', $studentId)
-                                ->where('term_id', $termId);
-                        });
-                    }
+                $query->when(count($duplicates),function (Builder $query) use($duplicates){
+                    $query->where(function ($q) use ($duplicates) {
+                        foreach ($duplicates as $studentId => $termId) {
+                            $q->orWhere(function ($sub) use ($studentId, $termId) {
+                                $sub->where('student_id', $studentId)
+                                    ->where('term_id', $termId);
+                            });
+                        }
+                    });
+                },function (Builder $query) use($request){
+                    $query->whereRaw('1 = 0');
                 });
             });
     }

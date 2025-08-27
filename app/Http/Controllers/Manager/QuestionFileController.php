@@ -151,7 +151,7 @@ class QuestionFileController extends Controller
             }
             $row->delete();
         }
-        return Response::respondSuccess(t('Deleted Successfully'));
+        return Response::respondSuccess(Response::DELETE_MESSAGE);
     }
 
     public function downloadFile($id): \Symfony\Component\HttpFoundation\BinaryFileResponse

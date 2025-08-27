@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Student;
 
+use App\Helpers\Response;
 use App\Http\Controllers\Controller;
 use App\Models\ArticleQuestionResult;
 use App\Models\FillBlankAnswer;
@@ -81,17 +82,17 @@ class TermController extends Controller
         $assessment_opened = $student->assessment_opened;
         $student->update(['assessment_opened' => 1]);
 
-        $questions = Question::with(['option_question', 'match_question', 'sort_question','fill_blank_question'])
+        $questions = Question::with(['subject', 'option_question', 'match_question', 'sort_question', 'fill_blank_question'])
             ->where('term_id', $id)->get();
 
         $questions_count = count($questions);
-        $questions = $questions->groupBy(['subject_id','type']);
+        $questions = $questions->groupBy(['subject_id', 'type']);
         $subjects = Subject::all();
         $marks = '100';
 
-        app()->setLocale($term->level->arab?'ar':'en');
+        app()->setLocale($term->level->arab ? 'ar' : 'en');
 
-        return view('student.term.index', compact('student','assessment_opened', 'term', 'questions', 'questions_count', 'marks', 'subjects'));
+        return view('student.term.index', compact('student', 'assessment_opened', 'term', 'questions', 'questions_count', 'marks', 'subjects'));
     }
 
     public function termLeave()
@@ -108,65 +109,81 @@ class TermController extends Controller
 
         $student = Auth::guard('student')->user();
 
-        if (!$student->demo) {
+        $is_passed = StudentTerm::query()
+            ->where('student_id', $student->id)
+            ->where('term_id', $id)
+            ->first();
 
-            DB::transaction(function () use ($request, $id, $student) {
-
-                $student_term = StudentTerm::query()->create([
-                    'student_id' => $student->id,
-                    'term_id' => $id,
-                    "dates_at" => [
-                        'started_at' => $request->get('started_at', \Carbon\Carbon::now()->format('Y-m-d H:i:s')),
-                        'submitted_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
-                        'corrected_at' => null,
-                        'corrected_by' => null,
-                    ]
-                ]);
-                $student->update(['assessment_opened' => 0]);
-
-                foreach ($request['questions'] as $key => $question) {
-                    switch ($question['type']) {
-                        case 'true_false':
-                            if (isset($question['answer'])) {
-                                $this->saveTFResult($student->id, $student_term->id, $key, $question['answer']);
-                            }
-                            break;
-
-                        case 'multiple_choice':
-                            if (isset($question['answer_option_id'])) {
-                                $this->saveOptionResult($student->id, $student_term->id, $key, $question['answer_option_id']);
-                            }
-                            break;
-
-                        case 'matching':
-                            if (isset($question['options'])) {
-                                 $this->saveMatchResult($student->id, $student_term->id, $key, $question['options']);
-                            }
-                            break;
-
-                        case 'sorting':
-                            if (isset($question['options'])) {
-                                $this->saveSortResult($student->id, $student_term->id, $key, $question['options']);
-                            }
-                            break;
-
-                        case 'fill_blank':
-                            $this->saveFillBlank($student_term->id, $key, $question);
-                            break;
-
-                        case 'article':
-                            $this->saveArticleResult($student_term->id, $key, $question);
-                            break;
-                    }
-                }
-
-
-            });
+        if ($is_passed) {
+            return Response::respondError('Assessment passed previously', 422);
         }
 
+        try {
+            if (!$student->demo) {
+
+                DB::transaction(function () use ($request, $id, $student) {
+
+                    $student_term = StudentTerm::query()->create([
+                        'student_id' => $student->id,
+                        'term_id' => $id,
+                        "dates_at" => [
+                            'started_at' => $request->get('started_at', \Carbon\Carbon::now()->format('Y-m-d H:i:s')),
+                            'submitted_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
+                            'corrected_at' => null,
+                            'corrected_by' => null,
+                        ]
+                    ]);
+                    $student->update(['assessment_opened' => 0]);
+
+                    foreach ($request['questions'] as $key => $question) {
+                        switch ($question['type']) {
+                            case 'true_false':
+                                if (isset($question['answer'])) {
+                                    $this->saveTFResult($student->id, $student_term->id, $key, $question['answer']);
+                                }
+                                break;
+
+                            case 'multiple_choice':
+                                if (isset($question['answer_option_id'])) {
+                                    $this->saveOptionResult($student->id, $student_term->id, $key, $question['answer_option_id']);
+                                }
+                                break;
+
+                            case 'matching':
+                                if (isset($question['options'])) {
+                                    $this->saveMatchResult($student->id, $student_term->id, $key, $question['options']);
+                                }
+                                break;
+
+                            case 'sorting':
+                                if (isset($question['options'])) {
+                                    $this->saveSortResult($student->id, $student_term->id, $key, $question['options']);
+                                }
+                                break;
+
+                            case 'fill_blank':
+                                $this->saveFillBlank($student_term->id, $key, $question);
+                                break;
+
+                            case 'article':
+                                $this->saveArticleResult($student_term->id, $key, $question);
+                                break;
+                        }
+                    }
 
 
-        return redirect()->route('student.home')->with('term-message', t('Assessment passed successfully'));
+                });
+            }
+
+        } catch (\Exception $exception) {
+            if ($exception->getCode() == 23000) {
+                return Response::respondSuccess('** Assessment passed successfully **', route('student.home'));
+            } else {
+                return Response::respondError($exception->getMessage());
+            }
+        }
+
+        return Response::respondSuccess('Assessment passed successfully',route('student.home'));
     }
 
 
@@ -198,19 +215,19 @@ class TermController extends Controller
     {
         $answers = [];
         foreach ($matches as $match_answer_uid => $match_id) {
-           if (!is_null($match_id)){
-              $answers[] = [
-                   'student_id' => $student_id,
-                   'student_term_id' => $student_term_id,
-                   'question_id' => $question_id,
-                   'match_id' => $match_id,
-                   'match_question_answer_uid' => $match_answer_uid,
-                   'created_at'=>now(),
-                   'updated_at'=>now(),
-               ];
-           }
+            if (!is_null($match_id)) {
+                $answers[] = [
+                    'student_id' => $student_id,
+                    'student_term_id' => $student_term_id,
+                    'question_id' => $question_id,
+                    'match_id' => $match_id,
+                    'match_question_answer_uid' => $match_answer_uid,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
         }
-        if ($answers){
+        if ($answers) {
             MatchQuestionResult::insert($answers);
         }
         return true;
@@ -227,12 +244,12 @@ class TermController extends Controller
                     'student_term_id' => $student_term_id,
                     'question_id' => $question_id,
                     'sort_question_uid' => $key,
-                    'created_at'=>now(),
-                    'updated_at'=>now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ];
             }
         }
-        if ($answers){
+        if ($answers) {
             SortQuestionResult::insert($answers);
         }
         return true;
@@ -262,17 +279,17 @@ class TermController extends Controller
             $answers = [];
             foreach ($question['blanks'] as $uid => $fillBlank_question_id) {
                 if (!is_null($fillBlank_question_id)) {
-                    $answers []  = [
+                    $answers [] = [
                         'student_term_id' => $student_term_id,
                         'question_id' => $question_id,
                         'fill_blank_question_id' => $fillBlank_question_id,
                         'answer_fill_blank_question_uid' => $uid,
-                        'created_at'=>now(),
-                        'updated_at'=>now(),
+                        'created_at' => now(),
+                        'updated_at' => now(),
                     ];
                 }
             }
-            if ($answers){
+            if ($answers) {
                 FillBlankAnswer::insert($answers);
             }
         }

@@ -102,7 +102,7 @@
 <script src="{{asset('web_assets/js/custom.js')}}"></script>
 <script src="{{asset('web_assets/js/jquery.ui.touch-punch.js')}}"></script>
 <script src="{{asset('calculator_assets/js/script.js')}}"></script>
-<script src="{{asset('web_assets/js/student_term.js')}}"></script>
+<script src="{{asset('web_assets/js/student_term.js')}}?v=10"></script>
 
 @yield('script')
 

@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 
+use Illuminate\Http\JsonResponse;
+
 class Response
 {
 

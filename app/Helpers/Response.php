@@ -81,7 +81,7 @@ class Response
     {
         return response()->json([
             'status' => true,
-            'message' => t($message),
+            'message' => (is_array($message) && !empty($message)) ? $message[0] : t($message),
             'data' => $content,
         ], $status);
     }
@@ -96,7 +96,7 @@ class Response
     {
         return response()->json([
             'status' => false,
-            'message' => t($message),
+            'message' => (is_array($message) && !empty($message)) ? $message[0] : t($message),
             'data' => null,
         ], $status);
     }
@@ -105,7 +105,7 @@ class Response
     {
         return response()->json([
             'status' => true,
-            'message' => t($message),
+            'message' => (is_array($message) && !empty($message)) ? $message[0] : t($message),
             'data' => $content,
         ], $status);
     }
@@ -115,7 +115,7 @@ class Response
     {
         return response()->json([
             'status' => false,
-            'message' => t($message),
+            'message' => (is_array($message) && !empty($message)) ? $message[0] : t($message),
             'data' => $content,
         ], $status);
     }
@@ -124,7 +124,7 @@ class Response
     {
         return response()->json([
             'status' => false,
-            'message' => t($message),
+            'message' => (is_array($message) && !empty($message)) ? $message[0] : t($message),
             'data' => null,
         ], $status);
     }

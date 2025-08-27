@@ -98,27 +98,54 @@ function validation(){
 
 //-----------------------------------------------------------------------------
 function examFormSubmit(with_validation=true){
-    if (window.location.href.includes('manager')){
-        $("#submit-term").modal("hide");
-        $("#exam-form").addClass("d-none");
-        $("#save-form").removeClass("d-none");
-        $("#exams").submit();
-    }else {
+
         let valid = true;
         if (with_validation){
             valid = validation();
         }
 
-        $("#submit-term").modal("hide");
+        if ($("#submit-term").length>0){
+            $("#submit-term").modal("hide");
+        }
 
         if (valid){
-            $("#exam-form").addClass("d-none");
-            $("#save-form").removeClass("d-none");
-            $("#exams").submit();
+            // $("#exam-form").addClass("d-none");
+            // $("#save-form").removeClass("d-none");
+            // $("#exams").submit();
+            let form = $('#exams');
+            var URL = form.attr('action');
+            var METHOD = form.attr('method');
+            var fd = new FormData(form[0]);
+
+            $.ajax({
+                type: METHOD,
+                url: URL,
+                data: fd,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    showToastify(data.message, 'success')
+                    setTimeout(function () {
+                        window.location.replace(data.data);
+                    },1000)
+                },
+                error: function (xhr, status, error) {
+                    let message =  $('html').attr('lang')==='ar'?'خطأ في حفظ الاحتبار!':'Error in saving the assessment!'
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        message = xhr.responseJSON.message;
+                    }
+                    showToastify(message, "error");
+                }
+
+            })
         }else {
-            showToastify("You must answered for all questions", "error");
+            if ($("#submit-term").length>0){
+                $("#submit-term").modal("hide");
+            }
+            let message =  $('html').attr('lang')==='ar'?'يجب الإجابة على جميع الأسئلة':'You must answered for all questions'
+            showToastify(message, "error");
         }
-    }
+
 
 }
 

@@ -286,7 +286,7 @@
         localStorage.removeItem(STORAGE_KEY);
         @endif
     </script>
-    <script src="{{asset('web_assets/js/student_term.js')}}?v={{time()}}"></script>
+    <script src="{{asset('web_assets/js/student_term.js')}}?v=10"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>

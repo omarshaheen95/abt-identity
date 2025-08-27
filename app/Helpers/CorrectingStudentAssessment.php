@@ -112,7 +112,7 @@ class CorrectingStudentAssessment
             ]);
 
         });
-        return redirect()->route('manager.student_term.index',['status'=>'corrected'])->with('message',t('The term has been corrected'));
+        return Response::respondSuccess('The assessment corrected successfully',route('manager.student_term.index',['status'=>'corrected']));
     }
 
     private function saveTFResultAndCorrect($student_id,$student_term_id,$question_id,$result,$term_questions){

@@ -738,6 +738,8 @@ class AttainmentReport
                 $query->where('sen', 0);
             })->when(!$this->request->get('include_g_t', false), function ($query) {
                 $query->where('g_t', 0);
+            })->when(count($this->getSections()), function ($query) {
+                $query->whereIn('grade_name', $this->getSections());
             })->whereIn('school_id', $this->schools->pluck('id'))
             ->first();
 

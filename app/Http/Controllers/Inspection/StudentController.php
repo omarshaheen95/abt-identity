@@ -12,6 +12,7 @@ use App\Models\Level;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Year;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
@@ -81,5 +82,30 @@ class StudentController extends Controller
     }
 
 
+    public function getSections(Request $request)
+    {
+        $sections = Student::query()
+            ->when($value = $request->get('year_id'), function (Builder $query) use ($value) {
+                $query->whereHas('level', function ($q) use ($value) {
+                    $q->where('year_id', $value);
+                });
+            })
+            ->when($value = $request->get('school_id'), function (Builder $query) use ($value) {
+                $query->whereIn('school_id', $value);
+            })->when(!$request->get('school_id'), function (Builder $query){
+                $schools = Auth::guard('inspection')->user()->schools->pluck('id');
+                $query->whereIn('school_id', $schools);
+            })->whereNotNull('grade_name')
+            ->select('grade_name')
+            ->orderBy('grade_name')->get()
+            ->pluck('grade_name')
+            ->unique()
+            ->values();
+        $html = '';
+        foreach ($sections as $section) {
+            $html .= '<option value="' . $section . '">' . $section . '</option>';
+        }
+        return response()->json(['html' => $html]);
+    }
 
 }

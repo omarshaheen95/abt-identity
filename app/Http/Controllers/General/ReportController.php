@@ -34,7 +34,7 @@ class ReportController extends Controller
         if (guardIs('manager') || guardIs('inspection')){
             $schools = School::query()->where('active', 1)
                 ->when(guardIs('inspection'), function (Builder $builder) {
-                    $builder->whereIn('id', Auth::guard('inspection')->user()->schools->pluck('school_id'));
+                    $builder->whereIn('id', Auth::guard('inspection')->user()->inspection_schools->pluck('school_id'));
                 })
                 ->orderBy('name')
                 ->get();

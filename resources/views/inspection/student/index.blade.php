@@ -18,7 +18,7 @@
         <ul class="dropdown-menu">
                 <li><a class="dropdown-item " href="#!" onclick="excelExport('{{route('manager.student.student-export')}}')">{{t('Export Students')}}</a></li>
 
-                <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{route('manager.student.student-marks-export')}}')">{{t('Export Student Marks')}}</a></li>
+{{--                <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{route('manager.student.student-marks-export')}}')">{{t('Export Student Marks')}}</a></li>--}}
 {{--                <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>--}}
 {{--                <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport(true)">{{t('Cards QR')}}</a></li>--}}
         </ul>

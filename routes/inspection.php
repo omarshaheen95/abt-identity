@@ -24,6 +24,7 @@ Route::get('student-export', [\App\Http\Controllers\Inspection\StudentController
 Route::get('students-cards-export', [\App\Http\Controllers\Inspection\StudentController::class, 'studentsCards'])->name('student.student-cards-export');
 Route::get('student-marks-export', [\App\Http\Controllers\Inspection\StudentController::class, 'studentMarksExport'])->name('student.student-marks-export');
 Route::get('student-login/{id}', [\App\Http\Controllers\Inspection\StudentController::class, 'studentLogin'])->name('student.student-login');
+Route::get('get-sections', [\App\Http\Controllers\Inspection\StudentController::class, 'getSections'])->name('get-sections');
 
 
 //School
@@ -31,20 +32,9 @@ Route::resource('school', \App\Http\Controllers\Inspection\SchoolController::cla
 Route::get('school_login/{id}', [\App\Http\Controllers\Inspection\SchoolController::class, 'schoolLogin'])->name('school-login');
 Route::post('export-schools', [\App\Http\Controllers\Inspection\SchoolController::class,'schoolExport'])->name('export-schools');
 
-Route::get('levelGrades', function (Request $request) {
-    $request->validate(['id'=>'required']);
-    $levels = Level::query()->with(['year'])->where('year_id', $request->get('id'))->get();
-    $html = '' . !$request->get('multipleOptions', false) ? '<option></option>' : '';
-    foreach ($levels as $level) {
-        $name = $level->year->name . '- Grade ' . $level->grade . '-' . ($level->arab ? 'Arab' : 'Non-arabs');
-        $html .= '<option value="' . $level->id . '">' . $name . '</option>';
-    }
-    return response()->json(['html' => $html]);
-})->name('level.levelGrades');
 
+//// Attainment Report Routes
+//Route::get('pre-attainment-report', [\App\Http\Controllers\Inspection\ReportController::class, 'preAttainmentReport'])->name('report.pre-attainment');
+//Route::get('attainment-report', [\App\Http\Controllers\Inspection\ReportController::class, 'attainmentReport'])->name('report.attainment');
 
-// Attainment Report Routes
-Route::get('pre-attainment-report', [\App\Http\Controllers\Inspection\ReportController::class, 'preAttainmentReport'])->name('report.pre-attainment');
-Route::get('attainment-report', [\App\Http\Controllers\Inspection\ReportController::class, 'attainmentReport'])->name('report.attainment');
-
-Route::get('get-sections', [\App\Http\Controllers\School\StudentController::class, 'getSectionsByYear'])->name('get-sections');
+Route::get('levelGrades', [\App\Http\Controllers\Inspection\SettingController::class, 'levelGrades'])->name('level.levelGrades');

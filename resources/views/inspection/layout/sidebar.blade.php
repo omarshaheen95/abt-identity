@@ -68,17 +68,87 @@
                     </div>
 
 
+                <!--start:Reports-->
+
                 <div class="menu-item">
-                    <a class="menu-link @if(Request::is('inspection/pre-attainment*')||Request::is('inspection/pre-attainment/*'))active @endif" href="{{ route('inspection.report.pre-attainment') }}">
-                                <span class="menu-icon">
-												<i class="ki-duotone ki-document fs-2">
-                                                 <i class="path1"></i>
-                                                 <i class="path2"></i>
-                                                </i>
-											</span>
-                        <span class="menu-title">{{t('Attainment Report')}}</span>
+                    <a class="menu-link link  @if(Route::is('inspection.report.pre-student-mark-report') )active @endif"
+                       href="{{route('inspection.report.pre-student-mark-report') }}">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-graph-2 fs-2x">
+                         <span class="path1"></span>
+                         <span class="path2"></span>
+                         <span class="path3"></span>
+                        </i>
+                    </span>
+                        <span class="menu-title">{{t('Students Marks')}}</span>
                     </a>
                 </div>
+                <div class="menu-item">
+                    <a class="menu-link  @if(Request::is('inspection/pre-attainment-report'))active @endif"
+                       href="{{route('inspection.report.pre-attainment-report')}}">
+                                <span class="menu-icon">
+                        <i class="ki-duotone ki-graph-3 fs-2x">
+                         <i class="path1"></i>
+                         <i class="path2"></i>
+                        </i>
+                    </span>
+                        <span class="menu-title">{{t('The Attainment Report')}}</span>
+                    </a>
+                </div>
+                <div data-kt-menu-trigger="click" class="menu-item menu-accordion{{Request::is('inspection/pre_school_progress_report')||
+                  Request::is('inspection/pre-progress-report')||
+                  Request::is('inspection/pre-year-to-year-report')||
+                  Request::is('inspection/pre-trends-over-time-report')?'here show':''}}">
+                                           <span class="menu-link">
+                                                <span class="menu-icon">
+                                                <i class="ki-duotone ki-book-open fs-2x">
+                                        <i class="path1"></i>
+                                        <i class="path2"></i>
+                                        <i class="path3"></i>
+                                        <i class="path4"></i>
+                                    </i>
+                                            </span>
+											<span class="menu-title">{{t('The Progress Report')}}</span>
+											<span class="menu-arrow"></span>
+										</span>
+                    <!--begin:Menu sub-->
+                    <div class="menu-sub menu-sub-accordion">
+                        <div class="menu-item">
+                            <a class="menu-link  @if(Request::is('inspection/pre-progress-report') )active @endif"
+                               href="{{route('inspection.report.pre-progress-report')}}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                <span class="menu-title">{{t('Within The Academic Year')}}</span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link  @if(Request::is('inspection/pre-year-to-year-report') )active @endif"
+                               href="{{route('inspection.report.pre-year-to-year-report')}}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                <span class="menu-title">{{t('Year To Year')}}</span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link  @if(Request::is('inspection/pre-trends-over-time-report') )active @endif"
+                               href="{{route('inspection.report.pre-trends-over-time-report')}}" >
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                <span class="menu-title">{{t('Trends Over Time')}}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!--end:Menu sub-->
+
+                </div>
+
+                <!--end:Reports-->
+
             </div>
 
 

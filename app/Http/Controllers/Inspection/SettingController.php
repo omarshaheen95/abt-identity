@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Inspection;
 
 use App\Http\Controllers\Controller;
 use App\Models\Inspection;
+use App\Models\Level;
 use App\Models\School;
 use App\Models\Student;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
@@ -32,5 +34,16 @@ class SettingController extends Controller
         }
         app()->setLocale($local);
         return back();
+    }
+
+    public function levelGrades(Request $request)
+    {
+        $levels = Level::query()->with(['year'])->where('year_id', $request->get('year_id'))->get();
+        $html = '';
+        foreach ($levels as $level ) {
+            $name = $level->year->name.'- Grade '.$level->grade.'-'.($level->arab ? 'Arab':'Non-arabs');
+            $html .= '<option value="'.$level->id.'">'.$name.'</option>';
+        }
+        return response()->json(['html'=>$html]);
     }
 }

@@ -251,7 +251,7 @@
                 <div class="col-6 text-center">
                     <div class="image-container">
                         @if(guardIs('inspection'))
-                            <img src="{{asset($auth()->guard('inspection')->user()->image)}}" alt="">
+                            <img src="{{asset(auth()->guard('inspection')->user()->image)}}" alt="">
                         @elseif(guardIs('school') || $schools->count() == 1)
                             <img src="{{asset($schools->first()->logo)}}" alt="">
                         @endif
@@ -267,7 +267,7 @@
                                 <tr>
                                     <td class="main-td w-25 py-2"><i class="fas fa-user me-2"></i>
                                         {{re('Inspection Name')}}</td>
-                                    <td class="">{{$auth()->guard('inspection')->user()->name}}</td>
+                                    <td class="">{{auth()->guard('inspection')->user()->name}}</td>
                                 </tr>
                             @elseif(guardIs('school') || $schools->count() == 1)
                                 <tr>

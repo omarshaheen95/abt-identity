@@ -227,6 +227,7 @@
 
 <script>
     let LevelGradesRoute = '{{route('inspection.level.levelGrades')}}'
+    var GetSectionRoute = "{{route('inspection.get-sections')}}";
 </script>
 @include('general.layout_parts.script')
 

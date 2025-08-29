@@ -37,8 +37,8 @@
                                 data-control="select2"
                                 data-placeholder="{{t('Select Type')}}" required>
                             <option></option>
-                            <option value="attainment" selected>{{t('Attainment Report')}}</option>
-                            <option value="combined">{{t('Combined Attainment Report')}}</option>
+                            <option value="attainment" selected>{{t('Progress Report')}}</option>
+                            <option value="combined">{{t('Combined Progress Report')}}</option>
                         </select>
                     </div>
                     @if(guardIs('manager') || guardIs('inspection'))

@@ -303,6 +303,83 @@
                 }
             });
 
+            const $allGradesToggle = $('#all_grades_toggle');
+            const $gradeCheckboxes = $('.grade-checkbox');
+
+            // Function to update grade item visual state
+            function updateGradeItemVisual($checkbox) {
+                const $gradeItem = $checkbox.closest('.grade-item');
+
+                if ($checkbox.is(':checked')) {
+                    $gradeItem.addClass('border-success bg-light-success');
+                    $gradeItem.removeClass('border-gray-300');
+                } else {
+                    $gradeItem.removeClass('border-success bg-light-success');
+                    $gradeItem.addClass('border-gray-300');
+                }
+            }
+
+            // Make grade items clickable anywhere
+            $('.grade-item').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const $checkbox = $(this).find('.grade-checkbox');
+                const currentState = $checkbox.is(':checked');
+
+                // Toggle the checkbox state
+                $checkbox.prop('checked', !currentState);
+
+                // Trigger change event to update visuals
+                $checkbox.trigger('change');
+            });
+
+            // Handle direct checkbox clicks
+            $('.grade-checkbox').on('click', function (e) {
+                e.stopPropagation();
+                // Let the checkbox handle its own state change
+                $(this).trigger('change');
+            });
+
+            // Handle checkbox changes
+            $('.grade-checkbox').on('change', function () {
+                const totalGrades = $gradeCheckboxes.length;
+                const checkedGrades = $gradeCheckboxes.filter(':checked').length;
+
+                $allGradesToggle.prop('checked', checkedGrades === totalGrades);
+                $allGradesToggle.prop('indeterminate', checkedGrades > 0 && checkedGrades < totalGrades);
+
+                // Update visual state for this specific grade
+                updateGradeItemVisual($(this));
+            });
+
+            // Initialize visual states
+            $gradeCheckboxes.each(function () {
+                updateGradeItemVisual($(this));
+            });
+
+            // When "Select All" is clicked
+            $allGradesToggle.on('change', function () {
+                $gradeCheckboxes.prop('checked', this.checked);
+                $gradeCheckboxes.each(function () {
+                    updateGradeItemVisual($(this));
+                });
+            });
+
+            // When individual grade checkboxes are clicked - removed to avoid duplication
+
+            // Add hover effects for grade items
+            $('.grade-item').on('mouseenter', function () {
+                if (!$(this).find('.grade-checkbox').is(':checked')) {
+                    $(this).addClass('border-primary bg-light-primary');
+                }
+            }).on('mouseleave', function () {
+                if (!$(this).find('.grade-checkbox').is(':checked')) {
+                    $(this).removeClass('border-primary bg-light-primary');
+                }
+            });
+
+
         });
     </script>
 @endsection

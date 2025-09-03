@@ -218,7 +218,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
         if ($this->hasGradeInfo($row)) {
             $level = $this->findLevel($row);
             if (!$level) {
-                $this->logFailure("Assessment not found, check grade and arab status", $row);
+                $this->logFailure("Assessment not found, check grade and arab status", $row,false, 'Logs');
                 return null;
             }
             $data['level_id'] = $level->id;
@@ -263,7 +263,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
         // Find required level
         $level = $this->findLevel($row);
         if (!$level) {
-            $this->logFailure("Assessment not found, check grade and arab status", $row);
+            $this->logFailure("Assessment not found, check grade and arab status", $row,false, 'Logs');
             return null;
         }
         $this->abt_id = $this->abt_id ? $this->abt_id++ : null;
@@ -550,18 +550,24 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
      * @param string $message
      * @param array $row
      */
-    private function logFailure($message, array $row, $updated = false)
+    private function logFailure($message, array $row, $updated = false, $type = 'Error')
     {
         $logData = [
             'errors' => [$message],
             'inputs' => $this->formatRowInputs($row)
         ];
-
-        $this->file->logErrors()->create([
-            'row_num' => $this->row_num,
-            'data' => $logData,
-            'updated' => $updated
-        ]);
+        if ($type === 'Logs') {
+            $this->file->logs()->create([
+                'row_num' => $this->row_num,
+                'data' => $logData,
+            ]);
+        } else {
+            $this->file->logErrors()->create([
+                'row_num' => $this->row_num,
+                'data' => $logData,
+                'updated' => $updated
+            ]);
+        }
 
         $this->failed_rows_count++;
     }

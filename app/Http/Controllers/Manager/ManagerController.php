@@ -85,12 +85,12 @@ class ManagerController extends Controller
     public function editPermissions($id)
     {
         $title = t('Edit Permissions');
-        $manager_id = $id;
+        $manager = Manager::query()->findOrFail($id);;
         $permissions = Permission::query()->where('guard_name','manager')
             ->get()->groupBy('group');
         $manager_permissions = \DB::table('model_has_permissions')->where('model_id',$id)->get();
 
-        return view('manager.manager.permissions', compact('title', 'permissions','manager_permissions','manager_id'));
+        return view('manager.manager.permissions', compact('title', 'permissions','manager_permissions','manager'));
     }
 
     public function updatePermissions(Request $request)

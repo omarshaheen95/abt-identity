@@ -11,6 +11,11 @@
     <li class="breadcrumb-item text-muted">
         {{t('Edit Permissions')}}
     </li>
+    <li class="breadcrumb-item text-muted">
+        <a href="{{ route('manager.manager.edit',$manager->id) }}" class="text-info text-hover-primary">
+            {{$manager->name}} || {{$manager->email}}
+        </a>
+    </li>
 @endpush
 
 @section('actions')
@@ -28,7 +33,7 @@
                       action="{{route('manager.manager.update-permissions')}}"
                       method="post">
                     @csrf
-                    <input name="manager_id" type="hidden" value="{{$manager_id}}">
+                    <input name="manager_id" type="hidden" value="{{$manager->id}}">
                     <div class="card-body m-0 p-0">
                         <div class="form-group row">
                             @foreach($permissions as $key=>$values)

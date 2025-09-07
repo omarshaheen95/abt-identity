@@ -2,7 +2,7 @@
     color: #068241 !important;
 }
 .sub-color{
-    color: #CC872A !important;
+    color: #EC2028 !important;
 }
 .orange-text{
     color: #F98A2E !important;
@@ -12,39 +12,48 @@
 }
 .main-td{
     color: #FFF !important;
-    background-color: rgba(6, 130, 65, 0.7) !important;
+    background: linear-gradient(-135deg, #449c6f, #058043) !important;
+
 }
 .sub-td{
     color: #fff !important;
     background-color: rgba(204, 135, 42, 0.7) !important;
+
 }
+
 table td {
-    border: 1px solid #cdcdce !important;
+    border: 1px solid #cdcdce  !important;
 }
 table th {
-    border: 1px solid #FFF !important;
+    border: 1px solid #FFF  !important;
 }
+
 .table td:first-child {
-    border-right: none !important; /* Remove the right border from the first column */
+    border-right: none !important; /* Remove the left border from the first column */
 }
 .table td:last-child {
-    border-left: none !important; /* Remove the left border from the last column */
+    border-left: none !important; /* Remove the left border from the first column */
 }
 .table th:first-child {
-    border-right: none !important; /* Remove the right border from the first column */
+    border-right: none !important; /* Remove the left border from the first column */
 }
 .table th:last-child {
-    border-left: none !important; /* Remove the left border from the last column */
+    border-left: none !important; /* Remove the left border from the first column */
 }
+
 .table tr:last-child td{
     border-bottom: none !important;
 }
+
 .table tr:first-child th{
     border-top: none !important;
 }
+
+
+
 .table th.main-th{
     color: #FFF !important;
-    background-color: rgba(6, 130, 65, 0.7) !important;
+    background: linear-gradient(-135deg, #374151 0%, #1f2937 100%) !important;
 }
 .table td, .table th {
     vertical-align: middle;
@@ -64,14 +73,17 @@ table th {
     padding: 4px !important;
     text-align: center;
 }
+
 .table tr:last-child td{
     border-bottom-width: 0;
 }
+
 .table-container{
     border-radius: 15px;
     border: 1px solid #cdcdce;
     overflow: hidden;
 }
+
 .image-container {
     display: flex;
     justify-content: center; /* Center horizontally */
@@ -84,6 +96,7 @@ table th {
     font-size: 10px;
     text-align: center;
 }
+
 .image-container img {
     max-width: 100%; /* This makes the image take the maximum available width */
     max-height: 100%; /* This makes the image take the maximum available height */
@@ -91,7 +104,7 @@ table th {
 .section-title{
     font-size: 20px;
     font-weight: 500;
-    background-color: #068241;
+    background: linear-gradient(-135deg, #449c6f, #058043) !important;
     color: #fff;
     margin-bottom: 20px;
     padding: 10px 0;
@@ -117,24 +130,25 @@ table th {
     padding: 5px 10px;
     border-radius: 15px;
 }
-.text-right{
+.text-left{
     text-align: right !important;
 }
 .below-td{
-    background-color: #F08788 !important;
-    color: #000 !important;
+    background: linear-gradient(-135deg, #ef4444, #dc2626) !important;
+    color: #FFF !important;
     border: 0;
 }
 .inline-td{
-    background-color: #F5E872 !important;
-    color: #000 !important;
+    background: linear-gradient(-135deg, #f5e90b, #dfd502)!important;    color: #FFF !important;
+    color: #FFF !important;
     border: 0;
 }
 .above-td{
-    background-color: #68D89A !important;
-    color: #000 !important;
+    background: linear-gradient(-135deg, #10b981, #059669) !important;;
+    color: #FFF !important;
     border: 0;
 }
+
 .very-weak-badge{
     background-color: #F97C5D !important;
     padding: 1px 20px;

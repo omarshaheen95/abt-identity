@@ -410,7 +410,7 @@ class ProgressReport
         foreach ($counters as $type => $data) {
             $total = array_sum($data);
             $result[$type] = [
-                'name' => $name,
+                'name' => re($name),
                 'above' => $data['above'],
                 'above_ratio' => $total > 0 ? round(($data['above'] / $total) * 100, 2) : 0,
                 'inline' => $data['same'],
@@ -428,7 +428,7 @@ class ProgressReport
     {
         $sub_title = $this->yearData['sub_title'];
         $year = $this->yearData['year'];
-        $type = $this->isCombined ? __('Combined Progress') : __('Progress');
+        $type = $this->isCombined ? re('Combined Progress') : re('Progress');
         if ($this->isCombined) {
             $title = re('combined progress title', [
                 'type' => $type,

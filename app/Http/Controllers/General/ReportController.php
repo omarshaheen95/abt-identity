@@ -54,7 +54,6 @@ class ReportController extends Controller
 
     public function attainmentReport(AttainmentReportRequest $request)
     {
-        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new AttainmentReport($request,$school_id);
         if ($request->get('generated_report_type') === 'attainment') {
@@ -74,7 +73,6 @@ class ReportController extends Controller
 
     public function progressReport(ProgressReportRequest $request)
     {
-        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new ProgressReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
@@ -105,7 +103,6 @@ class ReportController extends Controller
 
     public function yearToYearReport(YearToYearProgressReportRequest $request)
     {
-        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new YearToYearReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
@@ -117,7 +114,6 @@ class ReportController extends Controller
 
     public function excelYearToYearReport(YearToYearProgressReportRequest $request)
     {
-        app()->setLocale('en');
         return (new \App\Exports\NewExports\YearToYearProgressExport($request, [$request->get('school_id')]))
             ->download("Students progress over the years.xlsx");
     }
@@ -146,7 +142,6 @@ class ReportController extends Controller
 
     public function studentMarkReport(StudentMarkRequest $request)
     {
-        app()->setLocale('en');
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         return (new StudentAttainmentAndProgress($request, $school_id))
             ->download('Students Terms Information.xlsx');
@@ -154,14 +149,12 @@ class ReportController extends Controller
 
     public function studentReport($id)
     {
-        app()->setLocale('en');
         $studentReport = new \App\Reports\NewReports\StudentReport($id);
         return $studentReport->report();
     }
 
     public function studentReportCard($id)
     {
-        app()->setLocale('en');
         $studentReport = new \App\Reports\NewReports\StudentReport($id);
         return $studentReport->reportCard();
     }
@@ -180,7 +173,7 @@ class ReportController extends Controller
             'level_id.min' => 'The level must be at least 1.',
             'level_id.max' => 'The level may not be greater than 1.',
         ]);
-        app()->setLocale('en');
+
         $school_id = $request->get('school_id',false);
 
         $students = Student::with(['level.year','year'])
@@ -223,7 +216,7 @@ class ReportController extends Controller
             'level_id.min' => 'The level must be at least 1.',
             'level_id.max' => 'The level may not be greater than 1.',
         ]);
-        app()->setLocale('en');
+
         $school_id = $request->get('school_id',false);
 
         $students = Student::with(['level.year','year'])
@@ -263,7 +256,6 @@ class ReportController extends Controller
     //To Access For Student Report By QR
     public function studentQRReport(Request $request)
     {
-        app()->setLocale('en');
         if ($request->has('token')) {
             $student_id = decryptStudentId($request->get('token', false));
             $student_report = new StudentReport($student_id);
@@ -274,7 +266,6 @@ class ReportController extends Controller
     }
     public function studentQRReportCard(Request $request)
     {
-        app()->setLocale('en');
         if ($request->has('token')) {
             $student_id = decryptStudentId($request->get('token', false));
             $student_report = new StudentReport($student_id);
@@ -286,7 +277,6 @@ class ReportController extends Controller
 
     public function getStudentReport($id)
     {
-        app()->setLocale('en');
         $report = new StudentReport($id);
 
         if (request()->get('data', false)) {

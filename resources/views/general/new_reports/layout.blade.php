@@ -11,12 +11,15 @@
     @if(app()->getLocale() == 'ar')
         <link href="{{ asset('assets_v1/lib/bootstrap-5.0.2/css/bootstrap.rtl.css') }}" rel="stylesheet"
               type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/print.rtl.css') }}?v=4" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/report.rtl.css') }}?v=4" rel="stylesheet" type="text/css"/>
     @else
         <link href="{{ asset('assets_v1/lib/bootstrap-5.0.2/css/bootstrap.min.css') }}" rel="stylesheet"
               type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/print.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets_v1/plugins/print/css/report.css') }}?v=3" rel="stylesheet" type="text/css"/>
     @endif
-    <link href="{{ asset('assets_v1/plugins/print/css/print.css') }}" rel="stylesheet" type="text/css"/>
-    <link href="{{ asset('assets_v1/plugins/print/css/report.css') }}?v=3" rel="stylesheet" type="text/css"/>
+
     <link href="{{ asset('assets_v1/plugins/fontawesome-6.1/css/all.min.css') }}" rel="stylesheet" type="text/css"/>
 
     <link rel="shortcut icon"

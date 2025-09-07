@@ -585,7 +585,7 @@
                                             <thead>
                                             <tr>
                                                 <th class="main-th"> <i class="fas fa-calendar-alt me-1"></i>
-                                                    {{re('Assessment')}} ({{$subject->name}})
+                                                    {{re('Assessment')}} ({{re($subject->name)}})
                                                 </th>
                                                 <th class="below-td"> <i class="fas fa-arrow-down me-1"></i>
                                                     {{re('Below')}}</th>

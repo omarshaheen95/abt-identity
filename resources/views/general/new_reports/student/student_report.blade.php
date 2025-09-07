@@ -373,7 +373,7 @@
                             @foreach($subjects as $subject)
                                 <tr>
                                     <td class="text-danger">{{$subject->id}}</td>
-                                    <td>{{$subject->name}}</td>
+                                    <td>{{re($subject->name)}}</td>
 
 
                                     @foreach($student_terms as $d_term)
@@ -451,7 +451,7 @@
                     <div class="row text-center justify-content-center">
                         <div class="col-12">
                             <h5 class="section-title"><i class="fas fa-clipboard-list me-2"></i>{{re('The assessment Outcomes & Moderation')}}
-                                <br /> {{$subject->name}} - {{$term->term->round}}
+                                <br /> {{re($subject->name)}} - {{$term->term->round}}
                             </h5>
                         </div>
                     </div>

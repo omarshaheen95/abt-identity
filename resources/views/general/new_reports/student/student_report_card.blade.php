@@ -67,7 +67,7 @@
                             <tr>
                                 <th class="main-th"><i class="fas fa-calendar-alt me-1"></i>{{ re('The assessment') }}</th>
                                 @foreach($subjects as $subject)
-                                    <th class="main-th">{{$subject->name }}</th>
+                                    <th class="main-th">{{re($subject->name) }}</th>
                                 @endforeach
                             </tr>
                             </thead>

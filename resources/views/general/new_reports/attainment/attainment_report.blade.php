@@ -11,7 +11,7 @@
             top: 42% !important;
             left: 2% !important;
             text-align: center;
-            color: #3F1023;
+            color: #EC2028;
             width: 485px;
             font-size: 2.2rem;
         }
@@ -25,13 +25,13 @@
             top: 42% !important;
             right: 2% !important;
             text-align: center;
-            color: #3F1023;
+            color: #EC2028;
             width: 485px;
             font-size: 2.2rem;
         }
         @endif
           .report-ranges {
-            color: #3F1023;
+            color: #EC2028;
             font-weight: 500;
         }
     </style>

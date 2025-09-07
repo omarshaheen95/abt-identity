@@ -3,11 +3,18 @@
 
     <style>
         @if(app()->getLocale()=='ar')
-    .report-date {
-            top: 70% !important;
-            left: 15% !important;
+         .report-date {
+                top: 70% !important;
+                left: 15% !important;
+            }
+        .report-title {
+            top: 42% !important;
+            left: 3% !important;
+            text-align: center;
+            color: #3F1023;
+            width: 485px;
+            font-size:2.2rem;
         }
-
         @else
         .report-date {
             top: 70% !important;
@@ -22,14 +29,14 @@
             width: 485px;
             font-size:2.2rem;
         }
-        .report-ranges {
-            color: #E37425;
-            font-weight: 500;
-        }
 
         @endif
         .std_title {
             font-size: 12px;
+        }
+        .report-ranges {
+            color: #E37425;
+            font-weight: 500;
         }
     </style>
 @endpush
@@ -429,7 +436,7 @@
                 <div class="subpage-w">
                     <div class="row text-center justify-content-center">
                         <div class="col-11">
-                            <h5 class="section-title"><i class="fas fa-chart-line section-title-icon"></i> {{re($pagesType['title'], ['grade' => $grade])}}</h5>
+                            <h5 class="section-title"><i class="fas fa-chart-line section-title-icon me-2"></i> {{re($pagesType['title'], ['grade' => $grade])}}</h5>
                         </div>
                     </div>
                     <div class="row text-center justify-content-center">
@@ -484,7 +491,7 @@
                                                 $rowData = judgement($year_info->per_below, $year_info->per_inline, $year_info->per_above);
                                             @endphp
                                             <td><span
-                                                    class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                                    class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ re($rowData['level']) }}</span>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -522,7 +529,7 @@
                                                 Student
                                             </td>
                                             @php
-                                                $judgement = judgementProgress($data->per_below,$data->per_inline,$data->per_above);
+                                                $judgement = judgement($data->per_below,$data->per_inline,$data->per_above);
                                             @endphp
                                             <td class="" rowspan="2"> <span
                                                     class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>

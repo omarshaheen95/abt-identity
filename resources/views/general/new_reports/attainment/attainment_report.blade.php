@@ -3,11 +3,18 @@
 
     <style>
         @if(app()->getLocale()=='ar')
-    .report-date {
+         .report-date {
             top: 73% !important;
             left: 11% !important;
         }
-
+        .report-title {
+            top: 42% !important;
+            left: 2% !important;
+            text-align: center;
+            color: #3F1023;
+            width: 485px;
+            font-size: 2.2rem;
+        }
         @else
        .report-date {
             top: 73% !important;
@@ -22,11 +29,11 @@
             width: 485px;
             font-size: 2.2rem;
         }
-        .report-ranges {
+        @endif
+          .report-ranges {
             color: #3F1023;
             font-weight: 500;
         }
-        @endif
     </style>
 @endpush
 @php
@@ -300,7 +307,7 @@
                             </tr>
                             <tr>
                                 <td class="main-td py-2"><i class="fas fa-users me-2"></i> {{re('Students Type')}}</td>
-                                <td class="">{{$report_info['student_type']}}</td>
+                                <td class="">{{re($report_info['student_type'])}}</td>
                             </tr>
                             <tr>
                                 <td class="main-td py-2"><i class="fas fa-layer-group me-2"></i> {{re('Grades')}}</td>
@@ -373,7 +380,7 @@
                 <div class="subpage-w">
                     <div class="row justify-content-center mt-2">
                         <div class="col-12 text-center">
-                            <h5 class="section-title"> <i class="fas fa-chart-bar section-title-icon"></i>{!! $page->general_title !!}</h5>
+                            <h5 class="section-title"> <i class="fas fa-chart-bar section-title-icon me-2"></i>{!! $page->general_title !!}</h5>
                         </div>
                         <div class="col-12 text-center @if($isCombined) mt-4  @endif">
                             <div class="table-container">
@@ -431,7 +438,7 @@
                                         </tr>
                                         @foreach($page->rounds as $round)
                                             <tr>
-                                                <td class="">{{$round->id}}</td>
+                                                <td class="">{{re($round->id)}}</td>
                                                 <td class="">{{$round->highest_student_mark}}</td>
                                                 <td class="">{{$round->lowest_student_mark}}</td>
                                             </tr>
@@ -449,7 +456,7 @@
                                     <table class="table m-0">
                                         @foreach($page->rounds as $round)
                                             <tr>
-                                                <td class="main-td w-25">{{$round->id}}</td>
+                                                <td class="main-td w-25">{{re($round->id)}}</td>
                                                 <td class="">{{$round->average}} / 100</td>
                                             </tr>
                                         @endforeach
@@ -465,7 +472,7 @@
                 <div class="subpage-w">
                     <div class="row text-center justify-content-center">
                         <div class="col-11">
-                            <h5 class="section-title"> <i class="fas fa-chart-line section-title-icon"></i>{!! $page->title !!}</h5>
+                            <h5 class="section-title"> <i class="fas fa-chart-line section-title-icon me-2"></i>{!! $page->title !!}</h5>
                         </div>
                     </div>
                     <div class="row text-center justify-content-center">
@@ -494,7 +501,7 @@
                                     <tbody>
                                     @foreach($page->rounds as $round)
                                         <tr class="text-center">
-                                            <td>{{ $round->id }}</td>
+                                            <td>{{ re($round->id) }}</td>
                                             <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                             <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                             <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -528,7 +535,7 @@
                                     <tbody>
                                     @foreach($page->rounds as $round)
                                         <tr class="text-center">
-                                            <td>{{ $round->id }}</td>
+                                            <td>{{ re($round->id) }}</td>
                                             <td class="below-t-td">
                                                 {{ $round->below }} {{re('Student')}}<br/>
                                                 <span class="text-danger">{{ $round->per_below }} %</span>
@@ -548,7 +555,7 @@
                                                 {{ $round->total }} {{re('Students')}}
                                                 / {{$page->grade_data->students}} {{re('Students')}}<br/>
                                                 <span
-                                                        class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                                        class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ re($rowData['level']) }}</span>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -593,7 +600,7 @@
                                             <tbody>
                                             @foreach($page->{'step_'.$subject->id} as $round)
                                                 <tr class="text-center">
-                                                    <td>{{ $round->id }}</td>
+                                                    <td>{{ re($round->id) }}</td>
                                                     <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                                     <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                                     <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -641,7 +648,7 @@
                                     <tbody>
                                     @foreach($page->boys as $round)
                                         <tr class="text-center">
-                                            <td>{{ $round->id }}</td>
+                                            <td>{{ re($round->id) }}</td>
                                             <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                             <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                             <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -684,7 +691,7 @@
                                     <tbody>
                                     @foreach($page->girls as $round)
                                         <tr class="text-center">
-                                            <td>{{ $round->id }}</td>
+                                            <td>{{ re($round->id) }}</td>
                                             <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                             <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                             <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -731,7 +738,7 @@
                                     <tbody>
                                     @foreach($page->sen as $round)
                                         <tr class="text-center">
-                                            <td>{{ $round->id }}</td>
+                                            <td>{{ re($round->id) }}</td>
                                             <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                             <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                             <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -773,7 +780,7 @@
                                     <tbody>
                                     @foreach($page->g_t as $round)
                                         <tr class="text-center">
-                                            <td>{{ $round->id }}</td>
+                                            <td>{{ re($round->id) }}</td>
                                             <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                             <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                             <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -808,7 +815,7 @@
                                         <thead>
                                         <tr>
                                             <th class="main-th"><i class="fas fa-calendar-alt me-1"></i>
-                                                {{re('Assessment')}} ({{sysNationality()}})</th>
+                                                {{re('Assessment')}} ({{re(sysNationality())}})</th>
                                             <th class="below-td"><i class="fas fa-arrow-down me-1"></i>
                                                 {{re('Below')}}</th>
                                             <th class="inline-td"><i class="fas fa-minus me-1"></i>
@@ -822,7 +829,7 @@
                                         <tbody>
                                         @foreach($page->citizen as $round)
                                             <tr class="text-center">
-                                                <td>{{ $round->id }}</td>
+                                                <td>{{ re($round->id) }}</td>
                                                 <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                                 <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                                 <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -853,7 +860,7 @@
                                         <tr>
                                             <th class="main-th"><i class="fas fa-calendar-alt me-1"></i>
                                                 {{re('Assessment')}}
-                                                ({{sysNationality()}} {{re('Boys')}}
+                                                ({{re(sysNationality())}} {{re('Boys')}}
                                                 )
                                             </th>
                                             <th class="below-td"><i class="fas fa-arrow-down me-1"></i>
@@ -869,7 +876,7 @@
                                         <tbody>
                                         @foreach($page->boys_citizen as $round)
                                             <tr class="text-center">
-                                                <td>{{ $round->id }}</td>
+                                                <td>{{ re($round->id) }}</td>
                                                 <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                                 <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                                 <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -897,7 +904,7 @@
                                         <tr>
                                             <th class="main-th"><i class="fas fa-calendar-alt me-1"></i>
                                                 {{re('Assessment')}}
-                                                ({{sysNationality()}} {{re('Girls')}})
+                                                ({{re(sysNationality())}} {{re('Girls')}})
                                             </th>
                                             <th class="below-td"><i class="fas fa-arrow-down me-1"></i>
                                                 {{re('Below')}}</th>
@@ -912,7 +919,7 @@
                                         <tbody>
                                         @foreach($page->girls_citizen as $round)
                                             <tr class="text-center">
-                                                <td>{{ $round->id }}</td>
+                                                <td>{{ re($round->id) }}</td>
                                                 <td class="below-t-td">{{ $round->below }} {{re('Student')}}</td>
                                                 <td class="inline-t-td">{{ $round->inline }} {{re('Student')}}</td>
                                                 <td class="above-t-td">{{ $round->above }} {{re('Student')}}</td>
@@ -960,7 +967,7 @@
             xAxis: {
                 categories: [
                     @foreach($page->rounds as $round)
-                        "{{$round->id}}",
+                        "{{re($round->id)}}",
                     @endforeach
                 ],
                 crosshair: true,
@@ -1044,7 +1051,7 @@
             xAxis: {
                 categories: [
                     @foreach($page->{'step_'.$step} as $round)
-                        "{{$round->id}}",
+                        "{{re($round->id)}}",
                     @endforeach
                 ],
                 crosshair: true,
@@ -1122,7 +1129,7 @@
                 plotShadow: false
             },
             title: {
-                text: '{{$round->id}}',
+                text: '{{re($round->id)}}',
                 align: 'center',
                 verticalAlign: 'middle',
                 y: 85
@@ -1207,7 +1214,7 @@
                 lineWidth: 0,
                 categories: [
                     @foreach($page->{$category} as $round)
-                        "{{$round->id}}",
+                        "{{re($round->id)}}",
                     @endforeach
                 ]
             },

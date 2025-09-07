@@ -3,20 +3,40 @@
 
     <style>
         @if(app()->getLocale()=='ar')
-    .report-date {
-            top: 73% !important;
-            left: 11% !important;
+        .report-date {
+                top: 73% !important;
+                left: 11% !important;
+            }
+        .report-qr {
+            top: 38% !important;
+            left: 80% !important;
         }
 
+        .student-name {
+            top: 50% !important;
+            left: 18% !important;
+            text-align: center;
+            color: #1E4397;
+            width: 485px;
+            font-weight: bolder;
+        }
+
+        .report-title {
+            top: 58% !important;
+            left: 18% !important;
+            text-align: center;
+            color: #1E4397;
+            width: 485px;
+        }
         @else
-    .report-date {
-            top: 77% !important;
-            right: 26% !important;
-        }
-    .report-qr {
-            top: 38% !important;
-            right: 80% !important;
-        }
+        .report-date {
+                top: 77% !important;
+                right: 26% !important;
+            }
+        .report-qr {
+                top: 38% !important;
+                right: 80% !important;
+            }
 
         .student-name {
             top: 50% !important;
@@ -35,11 +55,12 @@
             width: 485px;
         }
 
-        .report-ranges {
+
+        @endif
+         .report-ranges {
             color: #E37425;
             font-weight: 500;
         }
-        @endif
     </style>
 @endpush
 

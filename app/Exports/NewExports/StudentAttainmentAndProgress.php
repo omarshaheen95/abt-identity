@@ -80,13 +80,13 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
 
         foreach ($this->subjects as $subject) {
             $headers[] = $subject->name;
-            $headers[] = 'Judgment';
+            $headers[] = re('Judgment');
         }
 
-        $headers[] = 'Total';
+        $headers[] = re('Total');
         $headers = array_merge($headers, $this->schoolConfig['extra_columns']);
-        $headers[] = 'Expectations';
-        $headers[] = 'The Progress';
+        $headers[] = re('Expectations');
+        $headers[] = re('The Progress');
 
         return $headers;
     }

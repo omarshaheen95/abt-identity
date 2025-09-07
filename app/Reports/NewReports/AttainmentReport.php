@@ -677,7 +677,7 @@ class AttainmentReport
     private function formatGradePage($grade, $gradeData)
     {
         $yearGrade = $grade + 1;
-        $type = $this->isCombined ? __('Combined Attainment') : __('Attainment');
+        $type = $this->isCombined ? re('Combined Attainment') : re('Attainment');
         $title = re('attainment title', [
             'type' => $type,
             'grade' => $grade,

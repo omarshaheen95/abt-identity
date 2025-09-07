@@ -3,13 +3,20 @@
 
     <style>
         @if(app()->getLocale()=='ar')
-    .report-date {
+          .report-date {
             top: 70% !important;
             left: 15% !important;
+           }
+        .report-title {
+            top: 42% !important;
+            left: 3% !important;
+            text-align: center;
+            color: #3F1023;
+            width: 485px;
+            font-size:2.2rem;
         }
-
         @else
-    .report-date {
+         .report-date {
             top: 70% !important;
             right: 15% !important;
         }
@@ -21,13 +28,14 @@
             width: 485px;
             font-size:2.2rem;
         }
-        .report-ranges {
-            color: #E37425;
-            font-weight: 500;
-        }
+
         @endif
         .std_title{
             font-size: 12px;
+        }
+        .report-ranges {
+            color: #E37425;
+            font-weight: 500;
         }
     </style>
 @endpush
@@ -300,7 +308,7 @@
                             </tr>
                             <tr>
                                 <td class="main-td py-2"><i class="fas fa-users me-2"></i> {{re('Students Type')}}</td>
-                                <td class="">{{$report_info['student_type']}}</td>
+                                <td class="">{{re($report_info['student_type'])}}</td>
                             </tr>
                             <tr>
                                 <td class="main-td py-2"><i class="fas fa-layer-group me-2"></i> {{re('Grades')}}</td>
@@ -373,7 +381,7 @@
             <div class="subpage-w">
                 <div class="row justify-content-center mt-2">
                     <div class="col-12 text-center">
-                        <h5 class="section-title"> <i class="fas fa-chart-bar section-title-icon"></i>{!! $page->general_title !!}</h5>
+                        <h5 class="section-title"> <i class="fas fa-chart-bar section-title-icon me-2"></i>{!! $page->general_title !!}</h5>
                     </div>
                 </div>
                 <div class="row justify-content-center mt-4">
@@ -424,7 +432,7 @@
             <div class="subpage-w">
                 <div class="row text-center justify-content-center">
                     <div class="col-12">
-                        <h5 class="section-title"><i class="fas fa-chart-line section-title-icon"></i>{!! $page->title !!}</h5>
+                        <h5 class="section-title"><i class="fas fa-chart-line section-title-icon me-2"></i>{!! $page->title !!}</h5>
                     </div>
                 </div>
                 <div class="row text-center justify-content-center my-3">
@@ -650,7 +658,7 @@
                                 <table class="table small m-0">
                                     <thead>
                                     <tr>
-                                        <th class="main-th"><i class="fas fa-flag me-1"></i> {{sysNationality()}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="main-th"><i class="fas fa-flag me-1"></i> {{re(sysNationality())}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
                                         <th class="below-td"> {{re('Below expected')}}<br /><i class="fas fa-arrow-down me-1"></i></th>
                                         <th class="inline-td"> {{re('Expected progress')}}<br /><i class="fas fa-minus me-1"></i></th>
                                         <th class="above-td"> {{re('Better than expected')}}<br /><i class="fas fa-arrow-up me-1"></i></th>
@@ -683,7 +691,7 @@
                                 <table class="table small m-0">
                                     <thead>
                                     <tr>
-                                        <th class="main-th"><i class="fas fa-male me-1"></i> {{sysNationality()}} {{re('Boys')}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="main-th"><i class="fas fa-male me-1"></i> {{re(sysNationality())}} {{re('Boys')}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
                                         <th class="below-td"> {{re('Below expected')}}<br /><i class="fas fa-arrow-down me-1"></i></th>
                                         <th class="inline-td"> {{re('Expected progress')}}<br /><i class="fas fa-minus me-1"></i></th>
                                         <th class="above-td"> {{re('Better than expected')}}<br /><i class="fas fa-arrow-up me-1"></i></th>
@@ -716,7 +724,7 @@
                                 <table class="table small m-0">
                                     <thead>
                                     <tr>
-                                        <th class="main-th"><i class="fas fa-female me-1"></i> {{sysNationality()}} {{re('Girls')}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="main-th"><i class="fas fa-female me-1"></i> {{re(sysNationality())}} {{re('Girls')}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
                                         <th class="below-td"> {{re('Below expected')}}<br /><i class="fas fa-arrow-down me-1"></i></th>
                                         <th class="inline-td"> {{re('Expected progress')}}<br /><i class="fas fa-minus me-1"></i></th>
                                         <th class="above-td"> {{re('Better than expected')}}<br /><i class="fas fa-arrow-up me-1"></i></th>

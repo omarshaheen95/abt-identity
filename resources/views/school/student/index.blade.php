@@ -121,6 +121,7 @@
             @if(auth()->guard('school')->user()->allow_reports)
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route(getGuard().".reports.pdfReports") }}')">{{t('Students Bulk Reports')}}</a></li>
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route(getGuard().".reports.pdfReportsCards") }}')">{{t('Students Bulk Reports Cards')}}</a>
+                <li><a class="dropdown-item" href="#!" onclick="excelExport('{{route('school.student.export_student_standards')}}')">{{t('Standards Excel')}}</a></li>
             @endif
             <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
 

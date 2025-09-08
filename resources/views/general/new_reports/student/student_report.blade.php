@@ -363,7 +363,7 @@
                                 <th class="main-th"><i class="fas fa-layer-group me-2"></i> {{re('Skills')}}</th>
                                 @foreach($student_terms as $d_term)
                                     <th class="main-th text-center"><i
-                                            class="fas fa-calendar-alt me-1"></i> {{ $d_term->month }}</th>
+                                            class="fas fa-calendar-alt me-1"></i> {{ re($d_term->month) }}</th>
                                 @endforeach
 
                             </tr>
@@ -422,12 +422,12 @@
                             <tbody>
                             @foreach($student_terms as $d_term)
                                 <tr>
-                                    <td class="text-center"> {{ $d_term->month }} {{re('Round')}} </td>
+                                    <td class="text-center"> {{ re($d_term->month) }}</td>
                                     <td class="text-center"> {{ $d_term->total}} / 100</td>
-                                    <td class="text-center"><span class="{{$d_term->css_class}}-badge">{{ $d_term->expectation }}</span>
+                                    <td class="text-center"><span class="{{$d_term->css_class}}-badge">{{ re($d_term->expectation) }}</span>
                                     </td>
                                     <td class="text-center"><span
-                                            class="{{ strtolower($d_term->progress_class) }}-badge">{{ $d_term->progress }}</span>
+                                            class="{{ strtolower($d_term->progress_class) }}-badge">{{ re($d_term->progress) }}</span>
                                     </td>
                                 </tr>
                             @endforeach
@@ -451,7 +451,7 @@
                     <div class="row text-center justify-content-center">
                         <div class="col-12">
                             <h5 class="section-title"><i class="fas fa-clipboard-list me-2"></i>{{re('The assessment Outcomes & Moderation')}}
-                                <br /> {{re($subject->name)}} - {{$term->term->round}}
+                                <br /> {{re($subject->name)}} - {{re($term->term->round)}}
                             </h5>
                         </div>
                     </div>
@@ -572,7 +572,7 @@
                     series: [
                             @foreach($student_terms as $term_data)
                         {
-                            name: '{{ $term_data->month }}',
+                            name: '{{ re($term_data->month) }}',
                             data: [
                                 @foreach($subjects as $subject)
                                         {{ $term_data->{"mark_step$subject->id"} }},
@@ -647,7 +647,7 @@
                     series: [
                             @foreach($student_terms as $term_data)
                         {
-                            name: '{{ $term_data->month }}',
+                            name: '{{ re($term_data->month) }}',
                             data: [
                                 {{ $term_data->total }},
                             ]

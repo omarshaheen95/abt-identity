@@ -52,9 +52,9 @@ class ProgressReport
         $sections = $this->getSections();
 
         $rounds = [
-            $this->months[0] . ' - ' . $this->months[1],
-            $this->months[1] . ' - ' . $this->months[2],
-            $this->months[0] . ' - ' . $this->months[2],
+            re($this->months[0]) . ' - ' . re($this->months[1]),
+            re($this->months[1]) . ' - ' . re($this->months[2]),
+            re($this->months[0]) . ' - ' . re($this->months[2]),
         ];
 
         $pages = [];
@@ -102,9 +102,9 @@ class ProgressReport
         $sections = $this->getSections();
 
         $rounds = [
-            $this->months[0] . ' - ' . $this->months[1],
-            $this->months[1] . ' - ' . $this->months[2],
-            $this->months[0] . ' - ' . $this->months[2],
+            re($this->months[0]) . ' - ' . re($this->months[1]),
+            re($this->months[1]) . ' - ' . re($this->months[2]),
+            re($this->months[0]) . ' - ' . re($this->months[2]),
         ];
 
         $pages = [];
@@ -173,11 +173,11 @@ class ProgressReport
     {
         switch ($type) {
             case 0:
-                return 'Non-Arabs';
+                return re('Non-Arabs');
             case 1:
-                return 'Arabs';
+                return re('Arabs');
             case 2:
-                return 'Arabs & Non-arabs';
+                return re('Arabs & Non-arabs');
             default:
                 return '';
         }
@@ -622,9 +622,9 @@ class ProgressReport
         $title = $this->generateReportTitle();
         $report_info = $this->getReportInfo();
         $rounds = [
-            $this->months[0] . ' - ' . $this->months[1],
-            $this->months[1] . ' - ' . $this->months[2],
-            $this->months[0] . ' - ' . $this->months[2],
+            re($this->months[0]) . ' - ' . re($this->months[1]),
+            re($this->months[1]) . ' - ' . re($this->months[2]),
+            re($this->months[0]) . ' - ' . re($this->months[2]),
         ];
 //        dd($pages);
         $reportTitleGroup = $this->reportTitleGroup();

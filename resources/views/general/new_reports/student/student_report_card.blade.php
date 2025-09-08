@@ -74,7 +74,7 @@
                             <tbody>
                             @foreach($student_terms as $d_term)
                                 <tr>
-                                    <td>{{ $d_term->month }}</td>
+                                    <td>{{ re($d_term->month) }}</td>
                                     @foreach($subjects as $subject)
                                         @if($d_term->{"mark_step$subject->id"})
                                             <td><span>{{ $d_term->{"mark_step$subject->id"} }}</span></td>
@@ -112,9 +112,9 @@
                             <tbody>
                             @foreach($student_terms as $d_term)
                                 <tr>
-                                    <td>{{ $d_term->month }} {{ re('Round') }}</td>
+                                    <td>{{ re($d_term->month) }}</td>
                                     <td>{{ $d_term->total }} / 100</td>
-                                    <td><span class="{{$d_term->css_class}}-badge">{{ $d_term->expectation }}</span>
+                                    <td><span class="{{$d_term->css_class}}-badge">{{ re($d_term->expectation) }}</span>
                                     </td>
                                     <td><span class="{{ strtolower($d_term->progress_class) }}-badge">{{ re($d_term->progress) }}</span></td>
                                 </tr>

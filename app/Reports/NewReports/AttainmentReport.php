@@ -332,11 +332,11 @@ class AttainmentReport
     {
         switch ($type) {
             case 0:
-                return 'Non-Arabs';
+                return re('Non-Arabs');
             case 1:
-                return 'Arabs';
+                return re('Arabs');
             case 2:
-                return 'Arabs & Non-arabs';
+                return re('Arabs & Non-arabs');
             default:
                 return '';
         }

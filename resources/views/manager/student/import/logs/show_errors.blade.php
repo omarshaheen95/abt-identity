@@ -49,7 +49,8 @@
     <form action="{{route('manager.students_files_import.save_logs')}}" method="POST" id="form-data">
         {{csrf_field()}}
         <input type="hidden" name="student_data_file_id" value="{{$studentDataFile->id}}">
-        <input type="hidden" name="delegate_id" id="{{$studentDataFile->delegate_id}}">
+        <input type="hidden" name="school_id" id="{{$studentDataFile->school_id}}">
+        <input type="hidden" name="year_id" id="{{$studentDataFile->year_id}}">
         <table class="table table-row-bordered table-bordered gy-5" id="datatable">
             <thead>
             <tr class="fw-semibold fs-6 text-gray-800">

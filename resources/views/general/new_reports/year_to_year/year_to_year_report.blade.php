@@ -47,7 +47,7 @@
     <div class="page p-0">
         <div class="subpage-w">
             <div class="position-relative">
-                <img src="{{ asset("report/pages/progress_".$lang.".svg").'?v=1' }}"
+                <img src="{{ asset("reports/covers/progress_".$lang.".svg").'?v=1' }}"
                      class="w-100" alt="">
 
 

@@ -249,7 +249,7 @@
                                             <div class="checkbox-container">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" value="student_id" name="search_by_column"
-                                                           id="update_by_student_id" {{ old('search_by_column') == 'student_id' ? 'checked' : '' }}>
+                                                           id="update_by_student_id" {{ old('search_by_column') == 'student_id' ? 'checked' : 'checked' }}>
                                                     <label class="form-check-label" for="update_by_student_id">
                                                         <i class="fas fs-1x fa-id-card text-primary me-1"></i> {{t('Student ID')}}
                                                     </label>

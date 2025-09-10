@@ -813,7 +813,7 @@ class AttainmentReport
     {
         $year = $this->yearData['year'];
         $grades = implode(', ', $this->request->get('grades', []));
-        $sections = implode(',', $this->getSections());
+        $sections = $this->getSections()?implode(',', $this->getSections()):re('All Sections');
         $student_type = $this->getSubTitle($this->request->get('student_type'));
         return [
             'school' => $this->schools->first()->name,

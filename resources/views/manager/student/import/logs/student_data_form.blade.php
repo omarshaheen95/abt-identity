@@ -2,7 +2,7 @@
     <input type="hidden" name="student[{{$row->id}}][row_num]" value="{{$row->row_num}}">
     @foreach ($inputs_with_values as $input)
         @if($input['key'] == 'Arab' || $input['key'] == 'Citizen' || $input['key'] == 'SEN' || $input['key'] == 'G&T')
-            <div class="col-2">
+            <div class="col-sm-6 col-md-4">
                 <label class="text-info">{{$input['key']}}</label>
                 <select name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
                         data-name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
@@ -15,7 +15,7 @@
                 </select>
             </div>
         @elseif($input['key'] == 'Gender')
-            <div class="col-3">
+            <div class="col-sm-6 col-md-4">
                 <label class="text-info">{{$input['key']}}</label>
                 <select name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
                         data-name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
@@ -28,7 +28,7 @@
                 </select>
             </div>
         @elseif($input['key'] == 'Grade')
-            <div class="col-3">
+            <div class="col-sm-6 col-md-4">
                 <label class="text-info">{{$input['key']}}</label>
                 <select name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
                         data-name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
@@ -42,7 +42,7 @@
                 </select>
             </div>
         @elseif($input['key'] == 'Assessment')
-            <div class="col-3">
+            <div class="col-sm-6 col-md-4">
                 <label class="text-info">{{t('Levels')}}</label>
                 <select name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
                         data-name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
@@ -58,7 +58,7 @@
                 </select>
             </div>
         @else
-            <div class="col-3">
+            <div class="col-sm-6 col-md-4">
                 <label class="text-info">{{$input['key']}}</label>
                 <input required name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"
                        data-name="student[{{$row->id}}][{{str_replace(' ', '_', strtolower($input['key']))}}]"

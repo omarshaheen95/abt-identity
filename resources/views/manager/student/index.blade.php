@@ -28,6 +28,7 @@
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{route('manager.student.student-marks-export')}}')">{{t('Export Student Marks')}}</a></li>
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route(getGuard().".reports.pdfReports") }}')">{{t('Students Bulk Reports')}}</a></li>
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route(getGuard().".reports.pdfReportsCards") }}')">{{t('Students Bulk Reports Cards')}}</a>
+                <li><a class="dropdown-item" href="#!" onclick="excelExport('{{route('manager.student.export_student_standards')}}')">{{t('Standards Excel')}}</a></li>
             @endcan
             @can('export students cards')
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="cardsExport()">{{t('Cards')}}</a></li>

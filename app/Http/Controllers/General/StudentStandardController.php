@@ -11,6 +11,7 @@ use App\Exports\StandardsStudentsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Level;
 use App\Models\QuestionStandard;
+use App\Models\School;
 use App\Models\Student;
 use App\Models\StudentTerm;
 use App\Models\StudentTermStandard;
@@ -41,11 +42,24 @@ class StudentStandardController extends Controller
             'level_id' => 'required|array|min:1|max:1',
         ]);
 
+        $request->validate($rules, [
+            'level_id.required' => t('The level field is required.'),
+            'level_id.array' => t('The level field must be an array.'),
+            'level_id.min' => t('The level field must have at least 1 item.'),
+            'level_id.max' => t('The level field may not have more than 1 item.'),
+        ]);
+
+
+        if (guardIs('manager')){
+            $school = School::findOrFail($request->school_id);
+        }else{
+            $school = Auth::guard('school')->user();
+        }
+
         // Start timing the execution
         $startTime = microtime(true);
 
         $selected_level = Level::query()->find($request->get('level_id')[0]);
-        $school = Auth::guard('school')->user();
         $year_id = $request->get('year_id');
 
         if (in_array($school->curriculum_type , ['Indian','Pakistan', 'Bangladeshi'])) {

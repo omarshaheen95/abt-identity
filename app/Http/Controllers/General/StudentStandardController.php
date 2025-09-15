@@ -5,23 +5,22 @@ Devomar095@gmail.com
 WhatsApp +972592554320
 */
 
-namespace App\Http\Controllers\School;
+namespace App\Http\Controllers\General;
 
 use App\Exports\StandardsStudentsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Level;
 use App\Models\QuestionStandard;
 use App\Models\Student;
-use App\Models\StudentTermStandard;
 use App\Models\StudentTerm;
+use App\Models\StudentTermStandard;
 use App\Models\Subject;
 use App\Models\Term;
 use App\Models\Year;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class StudentStandardController extends Controller
 {
@@ -33,14 +32,13 @@ class StudentStandardController extends Controller
 
     public function exportStudentStandards(Request $request)
     {
-        $request->validate([
+        $rules = [];
+        if (guardIs('manager')){
+            $rules['school_id'] = 'required|exists:schools,id';
+        }
+        $rules = array_merge($rules, [
             'year_id' => 'required',
             'level_id' => 'required|array|min:1|max:1',
-        ], [
-            'level_id.required' => t('The level field is required.'),
-            'level_id.array' => t('The level field must be an array.'),
-            'level_id.min' => t('The level field must have at least 1 item.'),
-            'level_id.max' => t('The level field may not have more than 1 item.'),
         ]);
 
         // Start timing the execution
@@ -395,6 +393,10 @@ class StudentStandardController extends Controller
             ->filter(function ($value) use ($month) {
                 return $value->term->round == $month;
             })->first();
+
+        if (!$term_result){
+            return $student_data;
+        }
 
         // Filter student standards once
         $student_standards = $month_students_standards->where('student_term_id', $term_result->id);

@@ -31,7 +31,6 @@ Route::post('students-cards-by-section', [\App\Http\Controllers\School\StudentCo
 //Route::get('student-report/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReport'])->name('student.student-report');
 //Route::get('student-report-card/{id}', [\App\Http\Controllers\School\StudentController::class, 'studentReportCard'])->name('student.report-card');
 Route::get('student/{id}/activity-records', [\App\Http\Controllers\GeneralController::class, 'studentActivityRecords'])->name('student.activity-records');
-Route::post('export_student_standards', [\App\Http\Controllers\School\StudentStandardController::class, 'exportStudentStandards'])->name('student.export_student_standards');
 
 
 

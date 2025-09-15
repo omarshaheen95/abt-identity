@@ -280,17 +280,20 @@ class StudentController extends Controller
         $request['school_id'] = $request->get('school_id');
         $students = Student::query()->with(['level', 'school'])->search($request)->get();
         $sections = $students->whereNotNull('grade_name')->pluck('grade_name')->unique();
-        $students_type = $request->get('arab_status', false);
-        $students_type_request = $students_type ? '&arab_status=' . $students_type : '';
+        $all_request_data = $request->all();
+        //create query string from all request data except _token
+        $query_string = http_build_query(array_filter($all_request_data, function ($key) {
+            return $key !== '_token' && $key !== 'grade_name';
+        }, ARRAY_FILTER_USE_KEY));
         $urls = [];
         foreach ($sections as $section) {
-            $url = '/student-cards?school_id=' . $request['school_id'] . '&year_id=' . $request['year_id'] . '&grade_name=' . $section . $students_type_request;
+            $url = '/student-cards?' . $query_string . '&grade_name=' . $section;
             $urls[] = (object)[
                 'section' => str_replace('/', '-', $section),
                 'url' => $url,
             ];
         }
-        Log::alert($urls);
+//        Log::alert($urls);
         $client = new \GuzzleHttp\Client([
             'timeout' => 36000,
         ]);
@@ -315,7 +318,6 @@ class StudentController extends Controller
                 'Content-Disposition' => 'inline; filename="reports.zip"'
             ]);
         }
-        return redirect($data->url);
     }
 
 

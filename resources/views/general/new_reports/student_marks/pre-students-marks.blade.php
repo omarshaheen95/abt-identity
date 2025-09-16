@@ -29,12 +29,20 @@
             <!-- Required Fields Section -->
             <div class="row g-4 mb-4">
                 @if(guardIs('manager') || guardIs('inspection'))
+                        <div class="alert alert-warning text-black d-none" id="not-allowed-report-alert">
+                            <div class="d-flex flex-column">
+                                <div><strong class="fs-3" style="color: #d50303">{{t('Warning')}}!</strong></div>
+                                <div><span class="ms-1">{{t('The school is not fully prepared and reporting on one of the following matters (complete submission - correction requests - completion of the correction process)')}}</span></div>
+                            </div>
+                        </div>
+                    @endif
+                @if(guardIs('manager') || guardIs('inspection'))
                     <div class="col-md-9">
                         <label class="form-label required">{{t('School')}}</label>
                         <select class="form-control form-select" data-control="select2" data-allow-clear="true" multiple required
                                 data-placeholder="{{t('Select School')}}" name="school_id[]" id="school_id">
                             @foreach($schools as $school)
-                                <option value="{{$school->id}}">{{$school->name}}</option>
+                                <option value="{{$school->id}}" data-allow-report="{{$school->allow_reports}}">{{$school->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -159,7 +167,7 @@
 @endsection
 
 @section('script')
-    <script src="{{asset('assets_v1/js/report.js')}}?v=2"></script>
+    <script src="{{asset('assets_v1/js/report.js')}}?v=3"></script>
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}?v=2"></script>
     {!! JsValidator::formRequest(\App\Http\Requests\General\Report\StudentMarkRequest::class, '#form_data'); !!}
     <script>

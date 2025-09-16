@@ -31,6 +31,14 @@
             <!-- Basic Filters -->
             <div class="card-body py-2">
                 <div class="row g-6 mb-8">
+                    @if(guardIs('manager') || guardIs('inspection'))
+                        <div class="alert alert-warning text-black d-none" id="not-allowed-report-alert">
+                            <div class="d-flex flex-column">
+                                <div><strong class="fs-3" style="color: #d50303">{{t('Warning')}}!</strong></div>
+                                <div><span class="ms-1">{{t('The school is not fully prepared and reporting on one of the following matters (complete submission - correction requests - completion of the correction process)')}}</span></div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="col-md-4">
                         <label class="form-label required">{{t('Report Type')}}</label>
                         <select name="generated_report_type" id="generated_report_type" class="form-select"
@@ -47,7 +55,7 @@
                             <select class="form-select" data-control="select2" data-allow-clear="true"
                                     data-placeholder="{{t('Select School')}}" id="school_id" name="school_id[]" multiple required>
                                 @foreach($schools as $school)
-                                    <option value="{{$school->id}}">{{$school->name}}</option>
+                                    <option value="{{$school->id}}" data-allow-report="{{$school->allow_reports}}">{{$school->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -303,6 +311,23 @@
                 }
             });
 
+            $(document).on('change', '#school_id', function () {
+                let guard = '{{getGuard()}}'
+                if(guard === 'manager' || guard === 'inspection'){
+                    const selectedOptions = $('#school_id option:selected');
+                    let allowReport = false;
+                    selectedOptions.each((index,option)=>{
+                        // console.log('school:'+$(option).val()+'||| allow-report-value:'+parseInt($(option).data('allow-report'))+'||| allow-report:'+(parseInt($(option).data('allow-report')) === 1))
+                        if (parseInt($(option).data('allow-report')) === 0){
+                            allowReport= true;
+                            return;
+                        }
+                    })
+
+                    $('.card-body').toggleClass('not-allowed-report', allowReport);
+                    $('#not-allowed-report-alert').toggleClass('d-none', !allowReport);
+                }
+            });
             const $allGradesToggle = $('#all_grades_toggle');
             const $gradeCheckboxes = $('.grade-checkbox');
 

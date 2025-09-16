@@ -1,3 +1,6 @@
+//get guard type from first word after / in url
+var guard = window.location.pathname.split('/')[1];
+
 function getSectionByYear(year, select) {
     if (year !== '' && year !== undefined) {
         var school = $('#school_id').val();
@@ -94,6 +97,22 @@ $(document).on('change', '#school_id', function () {
         $rangesType.select2();
         // }
     }
+
+    if(guard === 'manager' || guard === 'inspection'){
+        const selectedOptions = $('#school_id option:selected');
+        let allowReport = false;
+        selectedOptions.each((index,option)=>{
+            // console.log('school:'+$(option).val()+'||| allow-report-value:'+parseInt($(option).data('allow-report'))+'||| allow-report:'+(parseInt($(option).data('allow-report')) === 1))
+            if (parseInt($(option).data('allow-report')) === 0){
+                allowReport= true;
+                return;
+            }
+        })
+
+        $('.card-body').toggleClass('not-allowed-report', allowReport);
+        $('#not-allowed-report-alert').toggleClass('d-none', !allowReport);
+    }
+
 });
 
 

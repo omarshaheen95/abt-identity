@@ -32,6 +32,14 @@
             <div class="card-body py-2">
                 <!-- Basic Filters -->
                 <div class="row g-6 mb-8">
+                    @if(guardIs('manager') || guardIs('inspection'))
+                        <div class="alert alert-warning text-black d-none" id="not-allowed-report-alert">
+                            <div class="d-flex flex-column">
+                                <div><strong class="fs-3" style="color: #d50303">{{t('Warning')}}!</strong></div>
+                                <div><span class="ms-1">{{t('The school is not fully prepared and reporting on one of the following matters (complete submission - correction requests - completion of the correction process)')}}</span></div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="col-md-4">
                         <label class="form-label required">{{t('Report Type')}}</label>
                         <select name="generated_report_type" id="generated_report_type" class="form-select"
@@ -49,7 +57,7 @@
                                     data-placeholder="{{t('Select School')}}" id="school_id" name="school_id[]" multiple required>
                                 @foreach($schools as $school)
                                     <option value="{{$school->id}}" data-expected-report="{{$school->national_report}}"
-                                            data-advanced-report="{{$school->international_report}}">{{$school->name}}</option>
+                                            data-advanced-report="" data-allow-report="{{$school->allow_reports}}">{{$school->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -265,6 +273,6 @@
         var ERROR_MESSAGE = '{{t('Please fill in all required fields correctly.')}}';
     </script>
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('assets_v1/js/report.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('assets_v1/js/report.js')}}?v=3"></script>
     {!! JsValidator::formRequest(\App\Http\Requests\General\Report\AttainmentReportRequest::class, '#form_data'); !!}
 @endsection

@@ -83,7 +83,7 @@
                     <img src="{{asset('assets_v1/certificate/img/seo_signature.png')}}?v={{time()}}" style="height: 50px;" alt="Signature">
                 </div>
                 <div class="signature-block">
-                    <img src="{{asset('assets_v1/certificate/img/signature.png')}}?v={{time()}}" style="height: 90px;" alt="Signature">
+                    <img src="{{asset('assets_v1/certificate/img/signature_v2.png')}}?v={{time()}}" style="height: 90px;" alt="Signature">
                 </div>
                 <div class="signature-block">
                     <span class="signature-title">{{$date}}</span>

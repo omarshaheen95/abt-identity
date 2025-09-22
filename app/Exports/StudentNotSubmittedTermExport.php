@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Excel;
 use Illuminate\Contracts\Support\Responsable;
@@ -22,7 +23,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Sheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class StudentNotSubmittedTermExport implements WithMapping, Responsable, WithHeadings, FromCollection, WithEvents, ShouldAutoSize
+class StudentNotSubmittedTermExport implements WithTitle,WithMapping, Responsable, WithHeadings, FromCollection, WithEvents, ShouldAutoSize
 {
     use Exportable;
 
@@ -34,6 +35,10 @@ class StudentNotSubmittedTermExport implements WithMapping, Responsable, WithHea
         $this->request = $request;
     }
 
+    public function title(): string
+    {
+        return Carbon::now()->format('Y-m-d') . ' - At ' . Carbon::now()->format('g A') . ' - ' . Carbon::now()->format('i') . ' Min';
+    }
     public function headings(): array
     {
         if ($this->school) {

@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\Models\Level;
 use App\Models\Manager;
 use App\Models\StudentTerm;
+use Carbon\Carbon;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -15,11 +16,12 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Sheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class StudentTermExport implements WithMapping, Responsable, WithHeadings, FromCollection, WithEvents, ShouldAutoSize
+class StudentTermExport implements WithTitle,WithMapping, Responsable, WithHeadings, FromCollection, WithEvents, ShouldAutoSize
 {
     use Exportable;
 
@@ -30,7 +32,10 @@ class StudentTermExport implements WithMapping, Responsable, WithHeadings, FromC
     {
         $this->request = $request;
     }
-
+    public function title(): string
+    {
+        return Carbon::now()->format('Y-m-d') . ' - At ' . Carbon::now()->format('g A') . ' - ' . Carbon::now()->format('i') . ' Min';
+    }
     public function headings(): array
     {
         $headers = [

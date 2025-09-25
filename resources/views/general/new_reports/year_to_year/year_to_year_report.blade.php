@@ -145,7 +145,7 @@
                     </div>
                 </div>
             </div>
-            <span class="number-page">2</span>
+            <span class="number-page">1</span>
         </div>
     @else
         <div class="page introduction-page">
@@ -246,7 +246,7 @@
 
 
         </div>
-        <span class="number-page">4</span>
+        <span class="number-page">3</span>
     </div>
 
     @php
@@ -258,7 +258,7 @@
                 <div class="col-6 text-center">
                     <div class="image-container">
                         @if(guardIs('inspection'))
-                            <img src="{{asset(auth()->guard('inspection')->user()->image)}}" alt="">
+                            <img src="{{asset($auth()->guard('inspection')->user()->image)}}" alt="">
                         @elseif(guardIs('school') || $schools->count() == 1)
                             <img src="{{asset($schools->first()->logo)}}" alt="">
                         @endif
@@ -274,7 +274,7 @@
                                 <tr>
                                     <td class="main-td w-25 py-2"><i class="fas fa-user me-2"></i>
                                         {{re('Inspection Name')}}</td>
-                                    <td class="">{{auth()->guard('inspection')->user()->name}}</td>
+                                    <td class="">{{$auth()->guard('inspection')->user()->name}}</td>
                                 </tr>
                             @elseif(guardIs('school') || $schools->count() == 1)
                                 <tr>
@@ -312,7 +312,7 @@
                             </tr>
                             <tr>
                                 <td class="main-td py-2"><i class="fas fa-users me-2"></i> {{re('Students Type')}}</td>
-                                <td class="">{{$student_type_title}}</td>
+                                <td class="">{{re($student_type_title)}}</td>
                             </tr>
                             <tr>
                                 <td class="main-td py-2"><i class="fas fa-layer-group me-2"></i> {{re('Grades')}}</td>
@@ -346,7 +346,7 @@
                     </div>
                 </div>
             </div>
-            @if(isset($arab_pages['statistics']) && $arab_pages['statistics']->total > 0)
+            @if(isset($pagesType['statistics']) && $pagesType['statistics']->total > 0)
                 <div class="row mt-3 justify-content-center">
                     <div class="col-12">
                         <h4 class="main-color text-center">{{re('Arabs Students Statistics')}}</h4>
@@ -370,56 +370,16 @@
                                     @endif
                                 </tr>
                                 <tr>
-                                    <td class="">{{$arab_pages['statistics']->total}}</td>
-                                    <td class="">{{$arab_pages['statistics']->boys}}</td>
-                                    <td class="">{{$arab_pages['statistics']->girls}}</td>
-                                    <td class="">{{$arab_pages['statistics']->sen_students}}</td>
-                                    <td class="">{{$arab_pages['statistics']->g_t_students}}</td>
+                                    <td class="">{{$pagesType['statistics']->total}}</td>
+                                    <td class="">{{$pagesType['statistics']->boys}}</td>
+                                    <td class="">{{$pagesType['statistics']->girls}}</td>
+                                    <td class="">{{$pagesType['statistics']->sen_students}}</td>
+                                    <td class="">{{$pagesType['statistics']->g_t_students}}</td>
                                     @if($student_type == 1 || $student_type == 2)
-                                        <td class="">{{$arab_pages['statistics']->citizen_students}}</td>
-                                        <td class="">{{$arab_pages['statistics']->citizen_boys_students}}</td>
-                                        <td class="">{{$arab_pages['statistics']->citizen_girls_students}}</td>
+                                        <td class="">{{$pagesType['statistics']->citizen_students}}</td>
+                                        <td class="">{{$pagesType['statistics']->citizen_boys_students}}</td>
+                                        <td class="">{{$pagesType['statistics']->citizen_girls_students}}</td>
                                     @endif
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
-            @if(isset($non_arab_pages['statistics']) && $non_arab_pages['statistics']->total > 0)
-                <div class="row mt-3 justify-content-center">
-                    <div class="col-12">
-                        <h4 class="main-color text-center">{{re('Non-Arabs Students Statistics')}}</h4>
-                    </div>
-                    <div class="col-12 mt-2 text-center">
-                        <div class="table-container">
-                            <table class="table m-0">
-                                <tr>
-                                    <td class="main-td"><i class="fas fa-users me-1"></i> {{re('Total Students')}}</td>
-                                    <td class="main-td"><i class="fas fa-male me-1"></i> {{re('Boys')}}</td>
-                                    <td class="main-td"><i class="fas fa-female me-1"></i> {{re('Girls')}}</td>
-                                    <td class="main-td"><i class="fas fa-hands-helping me-1"></i> {{re('SEN')}}</td>
-                                    <td class="main-td"><i class="fas fa-star me-1"></i> {{re('G&T')}}</td>
-                                    {{--                                    @if($student_type == 1 || $student_type == 2)--}}
-                                    {{--                                        <td class="main-td"><i class="fas fa-flag me-1"></i> {{re(sysNationality())}}--}}
-                                    {{--                                        </td>--}}
-                                    {{--                                        <td class="main-td"><i--}}
-                                    {{--                                                class="fas fa-male me-1"></i> {{re(sysNationality().' Boys')}}</td>--}}
-                                    {{--                                        <td class="main-td"><i--}}
-                                    {{--                                                class="fas fa-female me-1"></i> {{re(sysNationality().' Girls')}}</td>--}}
-                                    {{--                                    @endif--}}
-                                </tr>
-                                <tr>
-                                    <td class="">{{$non_arab_pages['statistics']->total}}</td>
-                                    <td class="">{{$non_arab_pages['statistics']->boys}}</td>
-                                    <td class="">{{$non_arab_pages['statistics']->girls}}</td>
-                                    <td class="">{{$non_arab_pages['statistics']->sen_students}}</td>
-                                    <td class="">{{$non_arab_pages['statistics']->g_t_students}}</td>
-                                    {{--                                    @if($student_type == 1 || $student_type == 2)--}}
-                                    {{--                                        <td class="">{{$non_arab_pages['statistics']->citizen_students}}</td>--}}
-                                    {{--                                        <td class="">{{$non_arab_pages['statistics']->citizen_boys_students}}</td>--}}
-                                    {{--                                        <td class="">{{$non_arab_pages['statistics']->citizen_girls_students}}</td>--}}
-                                    {{--                                    @endif--}}
                                 </tr>
                             </table>
                         </div>
@@ -431,37 +391,797 @@
         <span class="number-page">{{$pageNum}}</span>
     </div>
 
-        @foreach($pages['attainment'] as $grade => $gradeYears)
-            <div class="page">
-                <div class="subpage-w">
-                    <div class="row text-center justify-content-center">
-                        <div class="col-11">
-                            <h5 class="section-title"><i class="fas fa-chart-line section-title-icon me-2"></i> {{re($pagesType['title'], ['grade' => $grade])}}</h5>
+    @foreach($pages['attainment'] as $grade => $gradeYears)
+        <div class="page">
+            <div class="subpage-w">
+                <div class="row text-center justify-content-center">
+                    <div class="col-11">
+                        <h5 class="section-title"><i
+                                class="fas fa-chart-line section-title-icon"></i> {{re($pagesType['title'], ['grade' => $grade])}}
+                        </h5>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-11 ">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below')}} <br/><i
+                                            class="fas fa-arrow-down me-1"></i></th>
+                                    <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                    </th>
+                                    <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                    </th>
+                                    <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->below }} {{re('Student')}}</td>
+                                        <td class="inline-t-td">{{ $year_info->inline }} {{re('Student')}}</td>
+                                        <td class="above-t-td">{{ $year_info->above }} {{re('Student')}}</td>
+                                        <td>{{ $year_info->total }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below')}} <br/><i
+                                            class="fas fa-arrow-down me-1"></i></th>
+                                    <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                    </th>
+                                    <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                    </th>
+                                    <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                            class="fas fa-gavel me-1"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->per_below }} %</td>
+                                        <td class="inline-t-td">{{ $year_info->per_inline }} %</td>
+                                        <td class="above-t-td">{{ $year_info->per_above }} %</td>
+                                        @php
+                                            $rowData = judgement($year_info->per_below, $year_info->per_inline, $year_info->per_above);
+                                        @endphp
+                                        <td><span
+                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <h4 class="main-color">{{re('The progress trends over time')}}</h4>
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Rounds')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below expected progress')}}</th>
+                                    <th class="inline-td"> {{re('Expected progress')}}</th>
+                                    <th class="above-td"> {{re('Better than expected progress')}}</th>
+                                    <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                    <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($pagesType['progress'][$grade] as $key => $data)
+                                    <tr class="text-center">
+                                        <td class="" rowspan="2"> {{ $data->id }} </td>
+                                        <td class="below-t-td">{{ $data->below }}  {{re('Student')}}
+                                        </td>
+                                        <td class="inline-t-td">{{ $data->inline }}  {{re('Student')}}
+                                        </td>
+                                        <td class="above-t-td">{{ $data->above }}  {{re('Student')}}
+                                        </td>
+                                        <td class="" rowspan="2">{{ $data->total }}
+                                            Student
+                                        </td>
+                                        @php
+                                            $judgement = judgement($data->per_below,$data->per_inline,$data->per_above);
+                                        @endphp
+                                        <td class="" rowspan="2"> <span
+                                                class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="below-t-td">
+                                            {{ $data->per_below }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="inline-t-td">
+                                            {{ $data->per_inline }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="above-t-td">
+                                            {{ $data->per_above }}%
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-5">
+                    <div class="col-11">
+                        <div id="{{$pagesType['pages_type_text']}}_grade_container_{{ $grade }}"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="number-page">{{$pageNum++}}</span>
+        </div>
+
+        @foreach($subjects->chunk(2) as $subjects_array)
+            <div class="page">
+                <div class="subpage-w">
+                    @foreach($subjects_array as $subject)
+                        <div class="row text-center justify-content-center">
+                            <div class="col-11 ">
+                                <div class="table-container">
+                                    <table class="table small m-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="main-th"><i class="fas fa-calendar-alt me-1"></i>
+                                                {{re('Assessment')}} ({{re($subject->name)}})
+                                            </th>
+                                            <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
+                                            <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
+                                            <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
+                                            <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($gradeYears as $year_key => $year_info)
+                                            <tr class="text-center">
+                                                <td>{{ $year_key }}</td>
+                                                <td class="below-t-td">{{ $year_info->{"mark_step$subject->id"}->below }} {{re('Student')}}</td>
+                                                <td class="inline-t-td">{{ $year_info->{"mark_step$subject->id"}->inline }} {{re('Student')}}</td>
+                                                <td class="above-t-td">{{ $year_info->{"mark_step$subject->id"}->above }} {{re('Student')}}</td>
+                                                <td>{{ $year_info->{"mark_step$subject->id"}->total }}</td>
+                                            </tr>
+                                        @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center justify-content-center mt-2">
+                            <div class="col-11">
+                                <div id="{{$pagesType['pages_type_text']}}_step_{{$subject->id}}_container_{{ $grade }}"></div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <span class="number-page">{{$pageNum++}}</span>
+            </div>
+
+        @endforeach
+
+        <div class="page">
+            <div class="subpage-w">
+                <div class="row text-center justify-content-center">
+                    <div class="col-11 ">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"><i
+                                            class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}}
+                                        ({{re('Boys')}})
+                                    </th>
+                                    <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
+                                    <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
+                                    <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
+                                    <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->boys->below }} {{re('Student')}}</td>
+                                        <td class="inline-t-td">{{ $year_info->boys->inline }} {{re('Student')}}</td>
+                                        <td class="above-t-td">{{ $year_info->boys->above }} {{re('Student')}}</td>
+                                        <td>{{ $year_info->boys->total }}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below')}} <br/><i
+                                            class="fas fa-arrow-down me-1"></i></th>
+                                    <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                    </th>
+                                    <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                    </th>
+                                    <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                            class="fas fa-gavel me-1"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->boys->per_below }} %</td>
+                                        <td class="inline-t-td">{{ $year_info->boys->per_inline }} %</td>
+                                        <td class="above-t-td">{{ $year_info->boys->per_above }} %</td>
+                                        @php
+                                            $rowData = judgement($year_info->boys->per_below, $year_info->boys->per_inline, $year_info->boys->per_above);
+                                        @endphp
+                                        <td><span
+                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <h4 class="main-color">{{re('The progress trends over time')}}</h4>
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Rounds')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below expected progress')}}</th>
+                                    <th class="inline-td"> {{re('Expected progress')}}</th>
+                                    <th class="above-td"> {{re('Better than expected progress')}}</th>
+                                    <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                    <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($pagesType['progress'][$grade] as $key => $data)
+                                    <tr class="text-center">
+                                        @php
+                                            $category_data = $data->categories['boys'];
+                                        @endphp
+                                        <td class="" rowspan="2"> {{ $data->id }} </td>
+                                        <td class="below-t-td">{{ $category_data->below }}  {{re('Student')}}
+                                        </td>
+                                        <td class="inline-t-td">{{ $category_data->inline }}  {{re('Student')}}
+                                        </td>
+                                        <td class="above-t-td">{{ $category_data->above }}  {{re('Student')}}
+                                        </td>
+                                        <td class="" rowspan="2">{{ $category_data->total }}
+                                            Student
+                                        </td>
+                                        @php
+                                            $judgement = judgement($category_data->per_below,$category_data->per_inline,$category_data->per_above);
+                                        @endphp
+                                        <td class="" rowspan="2"> <span
+                                                class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="below-t-td">
+                                            {{ $category_data->per_below }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="inline-t-td">
+                                            {{ $category_data->per_inline }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="above-t-td">
+                                            {{ $category_data->per_above }}%
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-2">
+                    <div class="col-11">
+                        <div id="{{$pagesType['pages_type_text']}}_boys_container_{{ $grade }}"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="number-page">{{$pageNum++}}</span>
+        </div>
+        <div class="page">
+            <div class="subpage-w">
+                <div class="row text-center justify-content-center">
+                    <div class="col-11">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"><i
+                                            class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}}
+                                        ({{re('Girls')}})
+                                    </th>
+                                    <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
+                                    <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
+                                    <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
+                                    <th class="main-th"><i class="fas fa-users me-1"></i> {{re('The Judgement')}}
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->girls->below }} {{re('Student')}}</td>
+                                        <td class="inline-t-td">{{ $year_info->girls->inline }} {{re('Student')}}</td>
+                                        <td class="above-t-td">{{ $year_info->girls->above }} {{re('Student')}}</td>
+                                        <td>{{ $year_info->girls->total }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below')}} <br/><i
+                                            class="fas fa-arrow-down me-1"></i></th>
+                                    <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                    </th>
+                                    <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                    </th>
+                                    <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                            class="fas fa-gavel me-1"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->girls->per_below }} %</td>
+                                        <td class="inline-t-td">{{ $year_info->girls->per_inline }} %</td>
+                                        <td class="above-t-td">{{ $year_info->girls->per_above }} %</td>
+                                        @php
+                                            $rowData = judgement($year_info->girls->per_below, $year_info->girls->per_inline, $year_info->girls->per_above);
+                                        @endphp
+                                        <td><span
+                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <h4 class="main-color">{{re('The progress trends over time')}}</h4>
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Rounds')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below expected progress')}}</th>
+                                    <th class="inline-td"> {{re('Expected progress')}}</th>
+                                    <th class="above-td"> {{re('Better than expected progress')}}</th>
+                                    <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                    <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($pagesType['progress'][$grade] as $key => $data)
+                                    <tr class="text-center">
+                                        @php
+                                            $category_data = $data->categories['girls'];
+                                        @endphp
+                                        <td class="" rowspan="2"> {{ $data->id }} </td>
+                                        <td class="below-t-td">{{ $category_data->below }}  {{re('Student')}}
+                                        </td>
+                                        <td class="inline-t-td">{{ $category_data->inline }}  {{re('Student')}}
+                                        </td>
+                                        <td class="above-t-td">{{ $category_data->above }}  {{re('Student')}}
+                                        </td>
+                                        <td class="" rowspan="2">{{ $category_data->total }}
+                                            Student
+                                        </td>
+                                        @php
+                                            $judgement = judgement($category_data->per_below,$category_data->per_inline,$category_data->per_above);
+                                        @endphp
+                                        <td class="" rowspan="2"> <span
+                                                class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="below-t-td">
+                                            {{ $category_data->per_below }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="inline-t-td">
+                                            {{ $category_data->per_inline }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="above-t-td">
+                                            {{ $category_data->per_above }}%
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-2">
+                    <div class="col-11">
+                        <div id="{{$pagesType['pages_type_text']}}_girls_container_{{ $grade }}"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="number-page">{{$pageNum++}}</span>
+        </div>
+        <div class="page">
+            <div class="subpage-w">
+                <div class="row text-center justify-content-center">
+                    <div class="col-11 ">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"><i
+                                            class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}}
+                                        ({{re('SEN')}})
+                                    </th>
+                                    <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
+                                    <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
+                                    <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
+                                    <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->sen_students->below }} {{re('Student')}}</td>
+                                        <td class="inline-t-td">{{ $year_info->sen_students->inline }} {{re('Student')}}</td>
+                                        <td class="above-t-td">{{ $year_info->sen_students->above }} {{re('Student')}}</td>
+                                        <td>{{ $year_info->sen_students->total }}</td>
+                                    </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below')}} <br/><i
+                                            class="fas fa-arrow-down me-1"></i></th>
+                                    <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                    </th>
+                                    <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                    </th>
+                                    <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                            class="fas fa-gavel me-1"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->sen_students->per_below }} %</td>
+                                        <td class="inline-t-td">{{ $year_info->sen_students->per_inline }} %</td>
+                                        <td class="above-t-td">{{ $year_info->sen_students->per_above }} %</td>
+                                        @php
+                                            $rowData = judgement($year_info->sen_students->per_below, $year_info->sen_students->per_inline, $year_info->sen_students->per_above);
+                                        @endphp
+                                        <td><span
+                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <h4 class="main-color">{{re('The progress trends over time')}}</h4>
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Rounds')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below expected progress')}}</th>
+                                    <th class="inline-td"> {{re('Expected progress')}}</th>
+                                    <th class="above-td"> {{re('Better than expected progress')}}</th>
+                                    <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                    <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($pagesType['progress'][$grade] as $key => $data)
+                                    <tr class="text-center">
+                                        @php
+                                            $category_data = $data->categories['sen_students'];
+                                        @endphp
+                                        <td class="" rowspan="2"> {{ $data->id }} </td>
+                                        <td class="below-t-td">{{ $category_data->below }}  {{re('Student')}}
+                                        </td>
+                                        <td class="inline-t-td">{{ $category_data->inline }}  {{re('Student')}}
+                                        </td>
+                                        <td class="above-t-td">{{ $category_data->above }}  {{re('Student')}}
+                                        </td>
+                                        <td class="" rowspan="2">{{ $category_data->total }}
+                                            Student
+                                        </td>
+                                        @php
+                                            $judgement = judgement($category_data->per_below,$category_data->per_inline,$category_data->per_above);
+                                        @endphp
+                                        <td class="" rowspan="2"> <span
+                                                class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="below-t-td">
+                                            {{ $category_data->per_below }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="inline-t-td">
+                                            {{ $category_data->per_inline }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="above-t-td">
+                                            {{ $category_data->per_above }}%
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-2">
+                    <div class="col-11">
+                        <div id="{{$pagesType['pages_type_text']}}_sen_students_container_{{ $grade }}"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="number-page">{{$pageNum++}}</span>
+        </div>
+        <div class="page">
+            <div class="subpage-w">
+                <div class="row text-center justify-content-center">
+                    <div class="col-11">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"><i
+                                            class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}}
+                                        ({{re('G&T')}})
+                                    </th>
+                                    <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
+                                    <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
+                                    <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
+                                    <th class="main-th"><i class="fas fa-users me-1"></i> {{re('The Judgement')}}
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->g_t_students->below }} {{re('Student')}}</td>
+                                        <td class="inline-t-td">{{ $year_info->g_t_students->inline }} {{re('Student')}}</td>
+                                        <td class="above-t-td">{{ $year_info->g_t_students->above }} {{re('Student')}}</td>
+                                        <td>{{ $year_info->g_t_students->total }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Assessment')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below')}} <br/><i
+                                            class="fas fa-arrow-down me-1"></i></th>
+                                    <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                    </th>
+                                    <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                    </th>
+                                    <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                            class="fas fa-gavel me-1"></i></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($gradeYears as $year_key => $year_info)
+                                    <tr class="text-center">
+                                        <td>{{ $year_key }}</td>
+                                        <td class="below-t-td">{{ $year_info->g_t_students->per_below }} %</td>
+                                        <td class="inline-t-td">{{ $year_info->g_t_students->per_inline }} %</td>
+                                        <td class="above-t-td">{{ $year_info->g_t_students->per_above }} %</td>
+                                        @php
+                                            $rowData = judgement($year_info->g_t_students->per_below, $year_info->g_t_students->per_inline, $year_info->g_t_students->per_above);
+                                        @endphp
+                                        <td><span
+                                                class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-3">
+                    <div class="col-11">
+                        <h4 class="main-color">{{re('The progress trends over time')}}</h4>
+                        <div class="table-container">
+                            <table class="table small m-0">
+                                <thead>
+                                <tr>
+                                    <th class="main-th"> {{re('Rounds')}} <br/><i
+                                            class="fas fa-calendar-alt me-1"></i></th>
+                                    <th class="below-td"> {{re('Below expected progress')}}</th>
+                                    <th class="inline-td"> {{re('Expected progress')}}</th>
+                                    <th class="above-td"> {{re('Better than expected progress')}}</th>
+                                    <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                    <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($pagesType['progress'][$grade] as $key => $data)
+                                    <tr class="text-center">
+                                        @php
+                                            $category_data = $data->categories['g_t_students'];
+                                        @endphp
+                                        <td class="" rowspan="2"> {{ $data->id }} </td>
+                                        <td class="below-t-td">{{ $category_data->below }}  {{re('Student')}}
+                                        </td>
+                                        <td class="inline-t-td">{{ $category_data->inline }}  {{re('Student')}}
+                                        </td>
+                                        <td class="above-t-td">{{ $category_data->above }}  {{re('Student')}}
+                                        </td>
+                                        <td class="" rowspan="2">{{ $category_data->total }}
+                                            Student
+                                        </td>
+                                        @php
+                                            $judgement = judgement($category_data->per_below,$category_data->per_inline,$category_data->per_above);
+                                        @endphp
+                                        <td class="" rowspan="2"> <span
+                                                class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="below-t-td">
+                                            {{ $category_data->per_below }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="inline-t-td">
+                                            {{ $category_data->per_inline }}%
+                                        </td>
+                                        <td
+                                            style="font-size: 12px !important; padding: 7px" class="above-t-td">
+                                            {{ $category_data->per_above }}%
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center mt-2">
+                    <div class="col-11">
+                        <div id="{{$pagesType['pages_type_text']}}_g_t_students_container_{{ $grade }}"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="number-page">{{$pageNum++}}</span>
+        </div>
+        @if($pagesType['pages_type'] != 0)
+            <div class="page">
+                <div class="subpage-w">
                     <div class="row text-center justify-content-center">
                         <div class="col-11 ">
                             <div class="table-container">
                                 <table class="table small m-0">
                                     <thead>
                                     <tr>
-                                        <th class="main-th"> {{re('Assessment')}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
-                                        <th class="below-td"> {{re('Below')}} <br /><i class="fas fa-arrow-down me-1"></i></th>
-                                        <th class="inline-td"> {{re('Inline')}} <br /><i class="fas fa-minus me-1"></i></th>
-                                        <th class="above-td"> {{re('Above')}} <br /><i class="fas fa-arrow-up me-1"></i></th>
-                                        <th class="main-th"> {{re('Total')}} <br /><i class="fas fa-users me-1"></i></th>
+                                        <th class="main-th"><i
+                                                class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}}
+                                            ({{re(sysNationality())}})
+                                        </th>
+                                        <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}
+                                        </th>
+                                        <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}
+                                        </th>
+                                        <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}
+                                        </th>
+                                        <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($gradeYears as $year_key => $year_info)
                                         <tr class="text-center">
                                             <td>{{ $year_key }}</td>
-                                            <td class="below-t-td">{{ $year_info->below }} {{re('Student')}}</td>
-                                            <td class="inline-t-td">{{ $year_info->inline }} {{re('Student')}}</td>
-                                            <td class="above-t-td">{{ $year_info->above }} {{re('Student')}}</td>
-                                            <td>{{ $year_info->total }}</td>
+                                            <td class="below-t-td">{{ $year_info->citizen_students->below }} {{re('Student')}}</td>
+                                            <td class="inline-t-td">{{ $year_info->citizen_students->inline }} {{re('Student')}}</td>
+                                            <td class="above-t-td">{{ $year_info->citizen_students->above }} {{re('Student')}}</td>
+                                            <td>{{ $year_info->citizen_students->total }}</td>
                                         </tr>
                                     @endforeach
+
                                     </tbody>
                                 </table>
                             </div>
@@ -473,25 +1193,30 @@
                                 <table class="table small m-0">
                                     <thead>
                                     <tr>
-                                        <th class="main-th"> {{re('Assessment')}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
-                                        <th class="below-td"> {{re('Below')}} <br /><i class="fas fa-arrow-down me-1"></i></th>
-                                        <th class="inline-td"> {{re('Inline')}} <br /><i class="fas fa-minus me-1"></i></th>
-                                        <th class="above-td"> {{re('Above')}} <br /><i class="fas fa-arrow-up me-1"></i></th>
-                                        <th class="main-th"> {{re('The Judgement')}} <br /><i class="fas fa-gavel me-1"></i></th>
+                                        <th class="main-th"> {{re('Assessment')}} <br/><i
+                                                class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="below-td"> {{re('Below')}} <br/><i
+                                                class="fas fa-arrow-down me-1"></i></th>
+                                        <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                        </th>
+                                        <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                        </th>
+                                        <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                                class="fas fa-gavel me-1"></i></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($gradeYears as $year_key => $year_info)
                                         <tr class="text-center">
                                             <td>{{ $year_key }}</td>
-                                            <td class="below-t-td">{{ $year_info->per_below }} %</td>
-                                            <td class="inline-t-td">{{ $year_info->per_inline }} %</td>
-                                            <td class="above-t-td">{{ $year_info->per_above }} %</td>
+                                            <td class="below-t-td">{{ $year_info->citizen_students->per_below }} %</td>
+                                            <td class="inline-t-td">{{ $year_info->citizen_students->per_inline }} %</td>
+                                            <td class="above-t-td">{{ $year_info->citizen_students->per_above }} %</td>
                                             @php
-                                                $rowData = judgement($year_info->per_below, $year_info->per_inline, $year_info->per_above);
+                                                $rowData = judgement($year_info->citizen_students->per_below, $year_info->citizen_students->per_inline, $year_info->citizen_students->per_above);
                                             @endphp
                                             <td><span
-                                                    class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ re($rowData['level']) }}</span>
+                                                    class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -507,29 +1232,34 @@
                                 <table class="table small m-0">
                                     <thead>
                                     <tr>
-                                        <th class="main-th"> {{re('Rounds')}} <br /><i class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="main-th"> {{re('Rounds')}} <br/><i
+                                                class="fas fa-calendar-alt me-1"></i></th>
                                         <th class="below-td"> {{re('Below expected progress')}}</th>
                                         <th class="inline-td"> {{re('Expected progress')}}</th>
                                         <th class="above-td"> {{re('Better than expected progress')}}</th>
-                                        <th class="main-th"> {{re('Total')}} <br /><i class="fas fa-users me-1"></i></th>
-                                        <th class="main-th"> {{re('Judgement')}} <br /><i class="fas fa-gavel me-1"></i></th>
+                                        <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                        <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($pagesType['progress'][$grade] as $key => $data)
                                         <tr class="text-center">
+                                            @php
+                                                $category_data = $data->categories['citizen_students'];
+                                            @endphp
                                             <td class="" rowspan="2"> {{ $data->id }} </td>
-                                            <td class="below-t-td">{{ $data->below }}  {{re('Student')}}
+                                            <td class="below-t-td">{{ $category_data->below }}  {{re('Student')}}
                                             </td>
-                                            <td class="inline-t-td">{{ $data->inline }}  {{re('Student')}}
+                                            <td class="inline-t-td">{{ $category_data->inline }}  {{re('Student')}}
                                             </td>
-                                            <td class="above-t-td">{{ $data->above }}  {{re('Student')}}
+                                            <td class="above-t-td">{{ $category_data->above }}  {{re('Student')}}
                                             </td>
-                                            <td class="" rowspan="2">{{ $data->total }}
+                                            <td class="" rowspan="2">{{ $category_data->total }}
                                                 Student
                                             </td>
                                             @php
-                                                $judgement = judgement($data->per_below,$data->per_inline,$data->per_above);
+                                                $judgement = judgement($category_data->per_below,$category_data->per_inline,$category_data->per_above);
                                             @endphp
                                             <td class="" rowspan="2"> <span
                                                     class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
@@ -538,15 +1268,15 @@
                                         <tr>
                                             <td
                                                 style="font-size: 12px !important; padding: 7px" class="below-t-td">
-                                                {{ $data->per_below }}%
+                                                {{ $category_data->per_below }}%
                                             </td>
                                             <td
                                                 style="font-size: 12px !important; padding: 7px" class="inline-t-td">
-                                                {{ $data->per_inline }}%
+                                                {{ $category_data->per_inline }}%
                                             </td>
                                             <td
                                                 style="font-size: 12px !important; padding: 7px" class="above-t-td">
-                                                {{ $data->per_above }}%
+                                                {{ $category_data->per_above }}%
                                             </td>
 
                                         </tr>
@@ -556,133 +1286,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row text-center justify-content-center mt-5">
-                        <div class="col-11">
-                            <div id="{{$pagesType['pages_type_text']}}_grade_container_{{ $grade }}"></div>
-                        </div>
-                    </div>
-                </div>
-                <span class="number-page">{{$pageNum++}}</span>
-            </div>
-
-            @foreach($subjects->chunk(2) as $subjects_array)
-               <div class="page">
-                   <div class="subpage-w">
-                       @foreach($subjects_array as $subject)
-                           <div class="row text-center justify-content-center">
-                               <div class="col-11 ">
-                                   <div class="table-container">
-                                       <table class="table small m-0">
-                                           <thead>
-                                           <tr>
-                                               <th class="main-th"><i class="fas fa-calendar-alt me-1"></i>
-                                                   {{re('Assessment')}} ({{re($subject->name)}})
-                                               </th>
-                                               <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                               <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                               <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                               <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
-                                           </tr>
-                                           </thead>
-                                           <tbody>
-                                           @foreach($gradeYears as $year_key => $year_info)
-                                               <tr class="text-center">
-                                                   <td>{{ $year_key }}</td>
-                                                   <td class="below-t-td">{{ $year_info->{"mark_step$subject->id"}->below }} {{re('Student')}}</td>
-                                                   <td class="inline-t-td">{{ $year_info->{"mark_step$subject->id"}->inline }} {{re('Student')}}</td>
-                                                   <td class="above-t-td">{{ $year_info->{"mark_step$subject->id"}->above }} {{re('Student')}}</td>
-                                                   <td>{{ $year_info->{"mark_step$subject->id"}->total }}</td>
-                                               </tr>
-                                           @endforeach
-
-                                           </tbody>
-                                       </table>
-                                   </div>
-                               </div>
-                           </div>
-                           <div class="row text-center justify-content-center mt-2">
-                               <div class="col-11">
-                                   <div id="{{$pagesType['pages_type_text']}}_step_{{$subject->id}}_container_{{ $grade }}"></div>
-                               </div>
-                           </div>
-                       @endforeach
-                   </div>
-                   <span class="number-page">{{$pageNum++}}</span>
-               </div>
-
-           @endforeach
-            <div class="page">
-                <div class="subpage-w">
-                    <div class="row text-center justify-content-center">
-                        <div class="col-11 ">
-                            <div class="table-container">
-                                <table class="table small m-0">
-                                    <thead>
-                                    <tr>
-                                        <th class="main-th"><i class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} ({{re('Boys')}})</th>
-                                        <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                        <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                        <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                        <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($gradeYears as $year_key => $year_info)
-                                        <tr class="text-center">
-                                            <td>{{ $year_key }}</td>
-                                            <td class="below-t-td">{{ $year_info->boys->below }} {{re('Student')}}</td>
-                                            <td class="inline-t-td">{{ $year_info->boys->inline }} {{re('Student')}}</td>
-                                            <td class="above-t-td">{{ $year_info->boys->above }} {{re('Student')}}</td>
-                                            <td>{{ $year_info->boys->total }}</td>
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                     <div class="row text-center justify-content-center mt-2">
                         <div class="col-11">
-                            <div id="{{$pagesType['pages_type_text']}}_boys_container_{{ $grade }}"></div>
+                            <div
+                                id="{{$pagesType['pages_type_text']}}_citizen_students_container_{{ $grade }}"></div>
                         </div>
                     </div>
-
-                    <div class="row text-center justify-content-center mt-4">
-                        <div class="col-11">
-                            <div class="table-container">
-                                <table class="table small m-0">
-                                    <thead>
-                                    <tr>
-                                        <th class="main-th"><i class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} ({{re('Girls')}})</th>
-                                        <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                        <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                        <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                        <th class="main-th"><i class="fas fa-users me-1"></i> {{re('The Judgement')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($gradeYears as $year_key => $year_info)
-                                        <tr class="text-center">
-                                            <td>{{ $year_key }}</td>
-                                            <td class="below-t-td">{{ $year_info->girls->below }} {{re('Student')}}</td>
-                                            <td class="inline-t-td">{{ $year_info->girls->inline }} {{re('Student')}}</td>
-                                            <td class="above-t-td">{{ $year_info->girls->above }} {{re('Student')}}</td>
-                                            <td>{{ $year_info->girls->total }}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row text-center justify-content-center mt-2">
-                        <div class="col-11">
-                            <div id="{{$pagesType['pages_type_text']}}_girls_container_{{ $grade }}"></div>
-                        </div>
-                    </div>
-
 
                 </div>
                 <span class="number-page">{{$pageNum++}}</span>
@@ -690,61 +1299,32 @@
             <div class="page">
                 <div class="subpage-w">
                     <div class="row text-center justify-content-center">
-                        <div class="col-11 ">
+                        <div class="col-11">
                             <div class="table-container">
                                 <table class="table small m-0">
                                     <thead>
                                     <tr>
-                                        <th class="main-th"><i class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} ({{re('SEN')}})</th>
-                                        <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                        <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                        <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                        <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
+                                        <th class="main-th"><i
+                                                class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} {{re(sysNationality().' Boys')}}
+                                        </th>
+                                        <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}
+                                        </th>
+                                        <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}
+                                        </th>
+                                        <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}
+                                        </th>
+                                        <th class="main-th"><i
+                                                class="fas fa-users me-1"></i> {{re('The Judgement')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($gradeYears as $year_key => $year_info)
                                         <tr class="text-center">
                                             <td>{{ $year_key }}</td>
-                                            <td class="below-t-td">{{ $year_info->sen_students->below }} {{re('Student')}}</td>
-                                            <td class="inline-t-td">{{ $year_info->sen_students->inline }} {{re('Student')}}</td>
-                                            <td class="above-t-td">{{ $year_info->sen_students->above }} {{re('Student')}}</td>
-                                            <td>{{ $year_info->sen_students->total }}</td>
-                                        </tr>
-                                    @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row text-center justify-content-center mt-2">
-                        <div class="col-11">
-                            <div id="{{$pagesType['pages_type_text']}}_sen_students_container_{{ $grade }}"></div>
-                        </div>
-                    </div>
-
-                    <div class="row text-center justify-content-center mt-4">
-                        <div class="col-11">
-                            <div class="table-container">
-                                <table class="table small m-0">
-                                    <thead>
-                                    <tr>
-                                        <th class="main-th"><i class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} ({{re('G&T')}})</th>
-                                        <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                        <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                        <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                        <th class="main-th"><i class="fas fa-users me-1"></i> {{re('The Judgement')}}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($gradeYears as $year_key => $year_info)
-                                        <tr class="text-center">
-                                            <td>{{ $year_key }}</td>
-                                            <td class="below-t-td">{{ $year_info->g_t_students->below }} {{re('Student')}}</td>
-                                            <td class="inline-t-td">{{ $year_info->g_t_students->inline }} {{re('Student')}}</td>
-                                            <td class="above-t-td">{{ $year_info->g_t_students->above }} {{re('Student')}}</td>
-                                            <td>{{ $year_info->g_t_students->total }}</td>
+                                            <td class="below-t-td">{{ $year_info->citizen_boys_students->below }} {{re('Student')}}</td>
+                                            <td class="inline-t-td">{{ $year_info->citizen_boys_students->inline }} {{re('Student')}}</td>
+                                            <td class="above-t-td">{{ $year_info->citizen_boys_students->above }} {{re('Student')}}</td>
+                                            <td>{{ $year_info->citizen_boys_students->total }}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -752,133 +1332,259 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row text-center justify-content-center mt-2">
+                    <div class="row text-center justify-content-center mt-3">
                         <div class="col-11">
-                            <div id="{{$pagesType['pages_type_text']}}_g_t_students_container_{{ $grade }}"></div>
+                            <div class="table-container">
+                                <table class="table small m-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="main-th"> {{re('Assessment')}} <br/><i
+                                                class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="below-td"> {{re('Below')}} <br/><i
+                                                class="fas fa-arrow-down me-1"></i></th>
+                                        <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                        </th>
+                                        <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                        </th>
+                                        <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                                class="fas fa-gavel me-1"></i></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($gradeYears as $year_key => $year_info)
+                                        <tr class="text-center">
+                                            <td>{{ $year_key }}</td>
+                                            <td class="below-t-td">{{ $year_info->citizen_boys_students->per_below }} %</td>
+                                            <td class="inline-t-td">{{ $year_info->citizen_boys_students->per_inline }} %</td>
+                                            <td class="above-t-td">{{ $year_info->citizen_boys_students->per_above }} %</td>
+                                            @php
+                                                $rowData = judgement($year_info->citizen_boys_students->per_below, $year_info->citizen_boys_students->per_inline, $year_info->citizen_boys_students->per_above);
+                                            @endphp
+                                            <td><span
+                                                    class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+                    <div class="row text-center justify-content-center mt-3">
+                        <div class="col-11">
+                            <h4 class="main-color">{{re('The progress trends over time')}}</h4>
+                            <div class="table-container">
+                                <table class="table small m-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="main-th"> {{re('Rounds')}} <br/><i
+                                                class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="below-td"> {{re('Below expected progress')}}</th>
+                                        <th class="inline-td"> {{re('Expected progress')}}</th>
+                                        <th class="above-td"> {{re('Better than expected progress')}}</th>
+                                        <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                        <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($pagesType['progress'][$grade] as $key => $data)
+                                        <tr class="text-center">
+                                            @php
+                                                $category_data = $data->categories['citizen_boys_students'];
+                                            @endphp
+                                            <td class="" rowspan="2"> {{ $data->id }} </td>
+                                            <td class="below-t-td">{{ $category_data->below }}  {{re('Student')}}
+                                            </td>
+                                            <td class="inline-t-td">{{ $category_data->inline }}  {{re('Student')}}
+                                            </td>
+                                            <td class="above-t-td">{{ $category_data->above }}  {{re('Student')}}
+                                            </td>
+                                            <td class="" rowspan="2">{{ $category_data->total }}
+                                                Student
+                                            </td>
+                                            @php
+                                                $judgement = judgement($category_data->per_below,$category_data->per_inline,$category_data->per_above);
+                                            @endphp
+                                            <td class="" rowspan="2"> <span
+                                                    class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style="font-size: 12px !important; padding: 7px" class="below-t-td">
+                                                {{ $category_data->per_below }}%
+                                            </td>
+                                            <td
+                                                style="font-size: 12px !important; padding: 7px" class="inline-t-td">
+                                                {{ $category_data->per_inline }}%
+                                            </td>
+                                            <td
+                                                style="font-size: 12px !important; padding: 7px" class="above-t-td">
+                                                {{ $category_data->per_above }}%
+                                            </td>
 
-
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center justify-content-center mt-2">
+                        <div class="col-11">
+                            <div
+                                id="{{$pagesType['pages_type_text']}}_citizen_boys_students_container_{{ $grade }}"></div>
+                        </div>
+                    </div>
                 </div>
                 <span class="number-page">{{$pageNum++}}</span>
             </div>
-            @if($pagesType['pages_type'] != 0)
-                <div class="page">
-                    <div class="subpage-w">
-                        <div class="row text-center justify-content-center">
-                            <div class="col-11 ">
-                                <div class="table-container">
-                                    <table class="table small m-0">
-                                        <thead>
-                                        <tr>
-                                            <th class="main-th"><i class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} ({{re(sysNationality())}})</th>
-                                            <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                            <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                            <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                            <th class="main-th"><i class="fas fa-users me-1"></i> {{re('Total')}}</th>
+            <div class="page">
+                <div class="subpage-w">
+                    <div class="row text-center justify-content-center">
+                        <div class="col-11">
+                            <div class="table-container">
+                                <table class="table small m-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="main-th"><i
+                                                class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} {{re(sysNationality().' Girls')}}
+                                        </th>
+                                        <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}
+                                        </th>
+                                        <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}
+                                        </th>
+                                        <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}
+                                        </th>
+                                        <th class="main-th"><i
+                                                class="fas fa-users me-1"></i> {{re('The Judgement')}}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($gradeYears as $year_key => $year_info)
+                                        <tr class="text-center">
+                                            <td>{{ $year_key }}</td>
+                                            <td class="below-t-td">{{ $year_info->citizen_girls_students->below }} {{re('Student')}}</td>
+                                            <td class="inline-t-td">{{ $year_info->citizen_girls_students->inline }} {{re('Student')}}</td>
+                                            <td class="above-t-td">{{ $year_info->citizen_girls_students->above }} {{re('Student')}}</td>
+                                            <td>{{ $year_info->citizen_girls_students->total }}</td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($gradeYears as $year_key => $year_info)
-                                            <tr class="text-center">
-                                                <td>{{ $year_key }}</td>
-                                                <td class="below-t-td">{{ $year_info->citizen_students->below }} {{re('Student')}}</td>
-                                                <td class="inline-t-td">{{ $year_info->citizen_students->inline }} {{re('Student')}}</td>
-                                                <td class="above-t-td">{{ $year_info->citizen_students->above }} {{re('Student')}}</td>
-                                                <td>{{ $year_info->citizen_students->total }}</td>
-                                            </tr>
-                                        @endforeach
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center justify-content-center mt-2">
-                            <div class="col-11">
-                                <div
-                                    id="{{$pagesType['pages_type_text']}}_citizen_students_container_{{ $grade }}"></div>
-                            </div>
-                        </div>
-
-                        <div class="row text-center justify-content-center mt-4">
-                            <div class="col-11">
-                                <div class="table-container">
-                                    <table class="table small m-0">
-                                        <thead>
-                                        <tr>
-                                            <th class="main-th"><i class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} {{re(sysNationality().' Boys')}}</th>
-                                            <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                            <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                            <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                            <th class="main-th"><i class="fas fa-users me-1"></i> {{re('The Judgement')}}</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($gradeYears as $year_key => $year_info)
-                                            <tr class="text-center">
-                                                <td>{{ $year_key }}</td>
-                                                <td class="below-t-td">{{ $year_info->citizen_boys_students->below }} {{re('Student')}}</td>
-                                                <td class="inline-t-td">{{ $year_info->citizen_boys_students->inline }} {{re('Student')}}</td>
-                                                <td class="above-t-td">{{ $year_info->citizen_boys_students->above }} {{re('Student')}}</td>
-                                                <td>{{ $year_info->citizen_boys_students->total }}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center justify-content-center mt-2">
-                            <div class="col-11">
-                                <div
-                                    id="{{$pagesType['pages_type_text']}}_citizen_boys_students_container_{{ $grade }}"></div>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <span class="number-page">{{$pageNum++}}</span>
-                </div>
-                <div class="page">
-                    <div class="subpage-w">
-                        <div class="row text-center justify-content-center">
-                            <div class="col-11">
-                                <div class="table-container">
-                                    <table class="table small m-0">
-                                        <thead>
-                                        <tr>
-                                            <th class="main-th"><i class="fas fa-calendar-alt me-1"></i> {{re('Assessment')}} {{re(sysNationality().' Girls')}}</th>
-                                            <th class="below-td"><i class="fas fa-arrow-down me-1"></i> {{re('Below')}}</th>
-                                            <th class="inline-td"><i class="fas fa-minus me-1"></i> {{re('Inline')}}</th>
-                                            <th class="above-td"><i class="fas fa-arrow-up me-1"></i> {{re('Above')}}</th>
-                                            <th class="main-th"><i class="fas fa-users me-1"></i> {{re('The Judgement')}}</th>
+                    <div class="row text-center justify-content-center mt-3">
+                        <div class="col-11">
+                            <div class="table-container">
+                                <table class="table small m-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="main-th"> {{re('Assessment')}} <br/><i
+                                                class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="below-td"> {{re('Below')}} <br/><i
+                                                class="fas fa-arrow-down me-1"></i></th>
+                                        <th class="inline-td"> {{re('Inline')}} <br/><i class="fas fa-minus me-1"></i>
+                                        </th>
+                                        <th class="above-td"> {{re('Above')}} <br/><i class="fas fa-arrow-up me-1"></i>
+                                        </th>
+                                        <th class="main-th"> {{re('The Judgement')}} <br/><i
+                                                class="fas fa-gavel me-1"></i></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($gradeYears as $year_key => $year_info)
+                                        <tr class="text-center">
+                                            <td>{{ $year_key }}</td>
+                                            <td class="below-t-td">{{ $year_info->citizen_girls_students->per_below }} %</td>
+                                            <td class="inline-t-td">{{ $year_info->citizen_girls_students->per_inline }} %</td>
+                                            <td class="above-t-td">{{ $year_info->citizen_girls_students->per_above }} %</td>
+                                            @php
+                                                $rowData = judgement($year_info->citizen_girls_students->per_below, $year_info->citizen_girls_students->per_inline, $year_info->citizen_girls_students->per_above);
+                                            @endphp
+                                            <td><span
+                                                    class="{{str_replace(' ', '-', strtolower($rowData['level']))}}-badge">{{ $rowData['level'] }}</span>
+                                            </td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($gradeYears as $year_key => $year_info)
-                                            <tr class="text-center">
-                                                <td>{{ $year_key }}</td>
-                                                <td class="below-t-td">{{ $year_info->citizen_girls_students->below }} {{re('Student')}}</td>
-                                                <td class="inline-t-td">{{ $year_info->citizen_girls_students->inline }} {{re('Student')}}</td>
-                                                <td class="above-t-td">{{ $year_info->citizen_girls_students->above }} {{re('Student')}}</td>
-                                                <td>{{ $year_info->citizen_girls_students->total }}</td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center justify-content-center mt-2">
-                            <div class="col-11">
-                                <div
-                                    id="{{$pagesType['pages_type_text']}}_citizen_girls_students_container_{{ $grade }}"></div>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <span class="number-page">{{$pageNum++}}</span>
+                    <div class="row text-center justify-content-center mt-3">
+                        <div class="col-11">
+                            <h4 class="main-color">{{re('The progress trends over time')}}</h4>
+                            <div class="table-container">
+                                <table class="table small m-0">
+                                    <thead>
+                                    <tr>
+                                        <th class="main-th"> {{re('Rounds')}} <br/><i
+                                                class="fas fa-calendar-alt me-1"></i></th>
+                                        <th class="below-td"> {{re('Below expected progress')}}</th>
+                                        <th class="inline-td"> {{re('Expected progress')}}</th>
+                                        <th class="above-td"> {{re('Better than expected progress')}}</th>
+                                        <th class="main-th"> {{re('Total')}} <br/><i class="fas fa-users me-1"></i></th>
+                                        <th class="main-th"> {{re('Judgement')}} <br/><i class="fas fa-gavel me-1"></i>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($pagesType['progress'][$grade] as $key => $data)
+                                        <tr class="text-center">
+                                            @php
+                                                $category_data = $data->categories['citizen_girls_students'];
+                                            @endphp
+                                            <td class="" rowspan="2"> {{ $data->id }} </td>
+                                            <td class="below-t-td">{{ $category_data->below }}  {{re('Student')}}
+                                            </td>
+                                            <td class="inline-t-td">{{ $category_data->inline }}  {{re('Student')}}
+                                            </td>
+                                            <td class="above-t-td">{{ $category_data->above }}  {{re('Student')}}
+                                            </td>
+                                            <td class="" rowspan="2">{{ $category_data->total }}
+                                                Student
+                                            </td>
+                                            @php
+                                                $judgement = judgement($category_data->per_below,$category_data->per_inline,$category_data->per_above);
+                                            @endphp
+                                            <td class="" rowspan="2"> <span
+                                                    class="{{str_replace(' ', '-', strtolower($judgement['level']))}}-badge">{{$judgement['level']}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td
+                                                style="font-size: 12px !important; padding: 7px" class="below-t-td">
+                                                {{ $category_data->per_below }}%
+                                            </td>
+                                            <td
+                                                style="font-size: 12px !important; padding: 7px" class="inline-t-td">
+                                                {{ $category_data->per_inline }}%
+                                            </td>
+                                            <td
+                                                style="font-size: 12px !important; padding: 7px" class="above-t-td">
+                                                {{ $category_data->per_above }}%
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center justify-content-center mt-2">
+                        <div class="col-11">
+                            <div
+                                id="{{$pagesType['pages_type_text']}}_citizen_girls_students_container_{{ $grade }}"></div>
+                        </div>
+                    </div>
                 </div>
-            @endif
+                <span class="number-page">{{$pageNum++}}</span>
+            </div>
+        @endif
     @endforeach
 @endsection
 

@@ -81,7 +81,7 @@ class YearToYearReport
 
             foreach ($this->reversedYears as $year) {
                 $year_name = $this->yearCollection->where('id', $year)->first()->name ?? 'Unknown Year';
-                $this->markData = getMarkRange();
+                $this->markData = getMarksRanges($grade);
 
                 // Optimized attainment calculation
                 $attainmentGrades[$grade][$year_name] = $this->calculateAttainmentOptimized($abtIds, $year, $yearGrade);
@@ -245,6 +245,16 @@ class YearToYearReport
             $progressGroups[0][$key]->below += $progressItem->below;
             $progressGroups[0][$key]->inline += $progressItem->inline;
             $progressGroups[0][$key]->above += $progressItem->above;
+
+            foreach ($progressItem->categories as $cat_key => $category) {
+                if (!isset($progressGroups[0][$key]->categories[$cat_key])) {
+                    $progressGroups[0][$key]->categories[$cat_key] = $this->createEmptyCategoryProgressData();
+                }
+                $progressGroups[0][$key]->categories[$cat_key]->total += $category->total;
+                $progressGroups[0][$key]->categories[$cat_key]->below += $category->below;
+                $progressGroups[0][$key]->categories[$cat_key]->inline += $category->inline;
+                $progressGroups[0][$key]->categories[$cat_key]->above += $category->above;
+            }
         }
 
         // Recalculate percentages for progress data
@@ -253,6 +263,11 @@ class YearToYearReport
                 $progressGroups[0][$key]->per_below = $this->calculatePercentage($progressData->below, $progressData->total);
                 $progressGroups[0][$key]->per_inline = $this->calculatePercentage($progressData->inline, $progressData->total);
                 $progressGroups[0][$key]->per_above = $this->calculatePercentage($progressData->above, $progressData->total);
+                foreach ($progressGroups[0][$key]->categories as $cat_key => $category) {
+                    $progressGroups[0][$key]->categories[$cat_key]->per_below = $this->calculatePercentage($category->below, $category->total);
+                    $progressGroups[0][$key]->categories[$cat_key]->per_inline = $this->calculatePercentage($category->inline, $category->total);
+                    $progressGroups[0][$key]->categories[$cat_key]->per_above = $this->calculatePercentage($category->above, $category->total);
+                }
             }
             $combinedProgress = array_values($progressGroups);
         } else {
@@ -439,6 +454,18 @@ class YearToYearReport
         ];
     }
 
+    private function createEmptyCategoryProgressData()
+    {
+        return (object)[
+            'total' => 0,
+            'below' => 0,
+            'inline' => 0,
+            'above' => 0,
+            'per_below' => 0,
+            'per_inline' => 0,
+            'per_above' => 0,
+        ];
+    }
     public function report()
     {
         $result = $this->calculateNormalReport();
@@ -764,8 +791,8 @@ class YearToYearReport
         $schoolIds = $this->schools->pluck('id')->toArray();
 
         // Get current year marks
-        $currentMarks = DB::table('student_terms as st')
-            ->select('s.abt_id', 'st.total as mark')
+        $currentMarksData = DB::table('student_terms as st')
+            ->select('s.abt_id', 'st.total as mark', 's.gender', 's.citizen', 's.sen', 's.g_t')
             ->join('students as s', 'st.student_id', '=', 's.id')
             ->join('terms as t', 'st.term_id', '=', 't.id')
             ->join('levels as l', 't.level_id', '=', 'l.id')
@@ -779,12 +806,14 @@ class YearToYearReport
             ->whereNull('s.deleted_at')
             ->whereNull('t.deleted_at')
             ->whereNull('l.deleted_at')
-            ->pluck('mark', 'abt_id')
+            ->get();
+
+        $currentMarks = $currentMarksData->pluck('mark', 'abt_id')
             ->toArray();
 
         // Get last year marks
-        $lastMarks = DB::table('student_terms as st')
-            ->select('s.abt_id', 'st.total as mark')
+        $lastMarksData = DB::table('student_terms as st')
+            ->select('s.abt_id', 'st.total as mark', 's.gender', 's.citizen', 's.sen', 's.g_t')
             ->join('students as s', 'st.student_id', '=', 's.id')
             ->join('terms as t', 'st.term_id', '=', 't.id')
             ->join('levels as l', 't.level_id', '=', 'l.id')
@@ -798,14 +827,26 @@ class YearToYearReport
             ->whereNull('s.deleted_at')
             ->whereNull('t.deleted_at')
             ->whereNull('l.deleted_at')
+            ->get();
+
+        $lastMarks = $lastMarksData
             ->pluck('mark', 'abt_id')
             ->toArray();
 
         $below = $inline = $above = 0;
+        $boys = ['below' => 0, 'inline' => 0, 'above' => 0, 'total' => 0];
+        $girls = ['below' => 0, 'inline' => 0, 'above' => 0, 'total' => 0];
+        $sen_students = ['below' => 0, 'inline' => 0, 'above' => 0, 'total' => 0];
+        $g_t_students = ['below' => 0, 'inline' => 0, 'above' => 0, 'total' => 0];
+        $citizen_students = ['below' => 0, 'inline' => 0, 'above' => 0, 'total' => 0];
+        $citizen_boys_students = ['below' => 0, 'inline' => 0, 'above' => 0, 'total' => 0];
+        $citizen_girls_students = ['below' => 0, 'inline' => 0, 'above' => 0, 'total' => 0];
+
 
         // Calculate progress for students who have both marks
         foreach ($abtIds as $abtId) {
             if (isset($currentMarks[$abtId]) && isset($lastMarks[$abtId])) {
+                $current = $currentMarksData->where('abt_id', $abtId)->first();
                 $progressDiff = $lastMarks[$abtId] - $currentMarks[$abtId];
                 $progress = progressOverTime($currentMarks[$abtId], $progressDiff);
 
@@ -820,10 +861,60 @@ class YearToYearReport
                         $above++;
                         break;
                 }
+                //check currentMarks for student details
+                if ($current->gender == 1) {
+                    $this->updateProgressCounters($boys, $progress);
+                }
+
+                if ($current->gender == 2) {
+                    $this->updateProgressCounters($girls, $progress);
+                }
+
+                if ($current->uae_student == 1) {
+                    $this->updateProgressCounters($citizen_students, $progress);
+
+                    // UAE citizen boys
+                    if ($current->gender == 1) {
+                        $this->updateProgressCounters($citizen_boys_students, $progress);
+                    }
+                    // UAE citizen girls
+                    if ($current->gender == 2) {
+                        $this->updateProgressCounters($citizen_girls_students, $progress);
+                    }
+                }
+
+                if ($current->sen_student == 1) {
+                    $this->updateProgressCounters($sen_students, $progress);
+                }
+
+                if ($current->g_t == 1) {
+                    $this->updateProgressCounters($g_t_students, $progress);
+                }
+
             }
         }
 
-        return $this->formatProgressData($lastYearId, $yearId, $lastGrade, $grade, $below, $inline, $above);
+        $categories = [
+            'boys' => (object)$boys,
+            'girls' => (object)$girls,
+            'sen_students' => (object)$sen_students,
+            'g_t_students' => (object)$g_t_students,
+            'citizen_students' => (object)$citizen_students,
+            'citizen_boys_students' => (object)$citizen_boys_students,
+            'citizen_girls_students' => (object)$citizen_girls_students,
+        ];
+
+        return $this->formatProgressData($lastYearId, $yearId, $lastGrade, $grade, $below, $inline, $above, $categories);
+    }
+
+    // Helper function to update progress counters
+    private function updateProgressCounters(&$counters, $progress) {
+        $progressMap = [1 => 'below', 2 => 'inline', 3 => 'above'];
+
+        $counters['total']++;
+        if (isset($progressMap[$progress])) {
+            $counters[$progressMap[$progress]]++;
+        }
     }
 
     private function initializeReportParameters()
@@ -859,7 +950,7 @@ class YearToYearReport
     private function formatStatisticsDataWithDetails($yearId, $data)
     {
 //        dd($data);
-         $data_array = [
+        $data_array = [
             'id' => $yearId,
 
             // Overall statistics
@@ -931,11 +1022,24 @@ class YearToYearReport
         ];
     }
 
-    private function formatProgressData($lastYearId, $yearId, $lastGrade, $grade, $below, $inline, $above)
+    private function formatProgressData($lastYearId, $yearId, $lastGrade, $grade, $below, $inline, $above, $categories = [])
     {
         $total = $below + $inline + $above;
         $lastYearIdName = $this->yearCollection->where('id', $lastYearId)->first()->name ?? 'Unknown Year';
         $yearIdName = $this->yearCollection->where('id', $yearId)->first()->name ?? 'Unknown Year';
+
+        $processedCategories = [];
+        foreach ($categories as $categoryName => $categoryData) {
+            $processedCategories[$categoryName] = (object)[
+                'below' => $categoryData->below,
+                'inline' => $categoryData->inline,
+                'above' => $categoryData->above,
+                'total' => $categoryData->total,
+                'per_below' => $this->calculatePercentage($categoryData->below, $categoryData->total),
+                'per_inline' => $this->calculatePercentage($categoryData->inline, $categoryData->total),
+                'per_above' => $this->calculatePercentage($categoryData->above, $categoryData->total),
+            ];
+        }
         return (object)[
             'id' => "$yearIdName - $lastYearIdName",
             'last_year' => "$lastYearId",
@@ -949,6 +1053,7 @@ class YearToYearReport
             'per_below' => $this->calculatePercentage($below, $total),
             'per_inline' => $this->calculatePercentage($inline, $total),
             'per_above' => $this->calculatePercentage($above, $total),
+            'categories' => $processedCategories,
         ];
     }
 

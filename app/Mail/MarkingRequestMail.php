@@ -38,6 +38,7 @@ class MarkingRequestMail extends Mailable
             ->from($address, $name)
             ->cc('SUPPORT@ABT-ASSESSMENTS.COM', $name)
             ->cc('relationship@abt-assessments.com', $name)
+            ->cc('Operations@abt-assessments.com', $name)
             ->replyTo('SUPPORT@ABT-ASSESSMENTS.COM', $name)
             ->subject($subject);
     }

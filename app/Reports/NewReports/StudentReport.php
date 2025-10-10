@@ -24,6 +24,10 @@ class StudentReport
         $this->school_id = $school_id;
         $this->data = request()->get('data', false);
         $this->subjects = Subject::query()->get();
+        $data = json_decode($this->data, 1);
+        if(isset($data['language']) && !is_null($data['language'])) {
+            app()->setLocale($data['language']);
+        }
     }
 
     public function report()

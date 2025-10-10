@@ -186,10 +186,12 @@ class ReportController extends Controller
             'timeout'  => 36000,
         ]);
 
+        $data = ['language' => app()->getLocale()];
         $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
             'form_params' => [
                 'platform' => 'abt-identity',
                 'studentid' => $students,
+                'data' => $data,
             ],
         ]);
         $data = json_decode($res->getBody());
@@ -231,7 +233,7 @@ class ReportController extends Controller
             'timeout'  => 36000,
         ]);
 
-        $data = ['report_type' => 1, 'report_card' => true];
+        $data = ['report_type' => 1, 'report_card' => true, 'language' => app()->getLocale()];
         $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
             'form_params' => [
                 'platform' => 'abt-identity',

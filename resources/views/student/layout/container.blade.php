@@ -135,6 +135,41 @@
 
 </script>
 
+@if(Route::is('student.term'))
+    <!-- ws-connection-->
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.iife.js"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script>
+        //Init wSocket Connection
+        @if(Auth::guard('student')->check())
+        const DATA_OBJECT = {
+            user: {
+                id: "{{auth()->guard('student')->user()->id}}",
+                id_number: "{{auth()->guard('student')->user()->id_number}}",
+                name: "{{auth()->guard('student')->user()->name}}",
+                school: {
+                    id: "{{auth()->guard('student')->user()->school_id}}",
+                    name: "{{auth()->guard('student')->user()->school->name}}",
+                }
+            },
+            platform: 'abt-identity',
+            type: 'student'
+        };
+        const ws_server = "https://abt-assessments.com/web-socket/js/ws-platform-users-connection.js?v" + "{{time()}}";
+        const socketConnectionURL = window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:8000/web-socket/js/ws-platform-users-connection.js'
+            : ws_server;
+
+        // Create script tag
+        const script = document.createElement('script');
+        script.src = socketConnectionURL;
+        script.type = 'text/javascript';
+        document.body.appendChild(script);
+        @endif
+    </script>
+    <!-- ws-connection-->
+@endif
+
 @yield('script')
 
 </body>

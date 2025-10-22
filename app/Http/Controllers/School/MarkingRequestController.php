@@ -123,8 +123,8 @@ class MarkingRequestController extends Controller
             })
             ->whereDoesntHave('student_terms', function (Builder $query) use ($round) {
                 $query->when($round, function (Builder $query) use ($round) {
-                    $query->whereHas('round', function (Builder $query) use ($round){
-                        $query->where('month', $round);
+                    $query->whereHas('term', function (Builder $query) use ($round){
+                        $query->where('round', $round);
                     });
                 });
             })->count();

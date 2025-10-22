@@ -18,9 +18,11 @@ class MarkingRequestMail extends Mailable
      * @return void
      */
     public $markingRequest;
-    public function __construct(MarkingRequest $markingRequest)
+    public $data;
+    public function __construct(MarkingRequest $markingRequest, $data = [])
     {
         $this->markingRequest = $markingRequest;
+        $this->data = $data;
     }
 
     /**
@@ -34,12 +36,13 @@ class MarkingRequestMail extends Mailable
         $name = 'A.B.T Identity';
         $subject = 'Marking Request';
         $markingRequest = $this->markingRequest;
-        return $this->view('emails.marking_request', compact('markingRequest'))
+        $data = $this->data;
+        return $this->view('emails.marking_request', compact('markingRequest', 'data'))
             ->from($address, $name)
-            ->cc('SUPPORT@ABT-ASSESSMENTS.COM', $name)
-            ->cc('relationship@abt-assessments.com', $name)
-            ->cc('Operations@abt-assessments.com', $name)
-            ->replyTo('SUPPORT@ABT-ASSESSMENTS.COM', $name)
+//            ->cc('SUPPORT@ABT-ASSESSMENTS.COM', $name)
+//            ->cc('relationship@abt-assessments.com', $name)
+//            ->cc('Operations@abt-assessments.com', $name)
+//            ->replyTo('SUPPORT@ABT-ASSESSMENTS.COM', $name)
             ->subject($subject);
     }
 }

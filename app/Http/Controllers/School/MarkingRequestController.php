@@ -66,9 +66,9 @@ class MarkingRequestController extends Controller
                                 $query->where('arab', 0);
                             });
                     });
-            })->where('corrected', 0)->get();
+            })->get();
 
-        if ($student_terms->count() == 0) {
+        if ($student_terms->where('corrected', 0)->count() == 0) {
             return redirect()->back()->with('message', t('No students found for this request'))->with('m-class', 'error');
         }
         $marking_request = MarkingRequest::query()->create($data);

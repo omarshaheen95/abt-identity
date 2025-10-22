@@ -104,7 +104,9 @@ class MarkingRequestController extends Controller
         }
         $marking_request = MarkingRequest::query()->create($data);
         $school = School::query()->findOrFail($school_id);
-//        $school->update(['allow_reports' => 0]);
+
+        $school->update(['allow_reports' => 0]);
+
         $total = Student::query()
             ->where('school_id', $school_id)
             ->when($year, function (Builder $query) use ($year) {

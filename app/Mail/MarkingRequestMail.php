@@ -39,10 +39,10 @@ class MarkingRequestMail extends Mailable
         $data = $this->data;
         return $this->view('emails.marking_request', compact('markingRequest', 'data'))
             ->from($address, $name)
-//            ->cc('SUPPORT@ABT-ASSESSMENTS.COM', $name)
-//            ->cc('relationship@abt-assessments.com', $name)
-//            ->cc('Operations@abt-assessments.com', $name)
-//            ->replyTo('SUPPORT@ABT-ASSESSMENTS.COM', $name)
+            ->cc('SUPPORT@ABT-ASSESSMENTS.COM', $name)
+            ->cc('relationship@abt-assessments.com', $name)
+            ->cc('Operations@abt-assessments.com', $name)
+            ->replyTo('SUPPORT@ABT-ASSESSMENTS.COM', $name)
             ->subject($subject);
     }
 }

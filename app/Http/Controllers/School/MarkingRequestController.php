@@ -72,7 +72,8 @@ class MarkingRequestController extends Controller
             return redirect()->back()->with('message', t('No students found for this request'))->with('m-class', 'error');
         }
         $marking_request = MarkingRequest::query()->create($data);
-//        $school->update(['allow_reports' => 0]);
+
+        $school->update(['allow_reports' => 0]);
 
         $total = Student::query()
             ->where('school_id', $school_id)

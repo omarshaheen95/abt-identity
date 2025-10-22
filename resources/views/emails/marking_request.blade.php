@@ -42,7 +42,7 @@
                             <p><b>Round: </b>{{$data['round']}}
                             </p>
                             <p><b>Grades:</b>
-                                    Grade {{$data['grades']}} </p>
+                                Grade {{$data['grades']}} </p>
                             <p><b>Section:</b> {{$data['section']}}</p>
                             <!-- End Extra Content Section -->
                             <br />
@@ -70,35 +70,6 @@
                             </table>
                             <!-- End New Table Section -->
 
-                            <!-- New Table Section -->
-                            <br />
-                            <b>Student Completion Status</b>
-                            <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; margin-top: 20px; text-align: center;">
-                                <thead>
-                                <tr>
-                                    <th>Skill</th>
-                                    <th>Students who did not complete the assessments </th>
-                                    <th>Students who completed the assessments </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Part 1</td>
-                                    <td style="color: red;">{{$data['part_1_incomplete']}}  ({{$data['part_1_incomplete_per']}}%)</td>
-                                    <td style="color: green;">{{$data['part_1_complete']}}  ({{$data['part_1_complete_per']}}%)</td>
-                                </tr>
-                                <tr>
-                                    <td>Part 2</td>
-                                    <td style="color: red;">{{$data['part_2_incomplete']}}  ({{$data['part_2_incomplete_per']}}%)</td>
-                                    <td style="color: green;">{{$data['part_2_complete']}}  ({{$data['part_2_complete_per']}}%)</td>
-                                </tr>
-                                <tr>
-                                    <td>Part 3</td>
-                                    <td style="color: red;">{{$data['part_3_incomplete']}}  ({{$data['part_3_incomplete_per']}}%)</td>
-                                    <td style="color: green;">{{$data['part_3_complete']}}  ({{$data['part_3_complete_per']}}%)</td>
-                                </tr>
-                            </table>
-                            <!-- End New Table Section -->
                         @endif
                         @if($markingRequest->status == 'Completed')
                             <br />

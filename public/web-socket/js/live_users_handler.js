@@ -1,6 +1,6 @@
 // Get school ID from meta tag
 const SCHOOL_ID = document.querySelector('meta[name="school-id"]').content;
-const PLATFORM = 'abt-fluency';
+const PLATFORM = 'abt-identity';
 
 let activeUsers = [];
 let gradesData = {};

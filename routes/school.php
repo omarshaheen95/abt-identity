@@ -9,6 +9,8 @@ Route::get('/home', [\App\Http\Controllers\School\SettingController::class,'home
 Route::post('statistics/student_login_data', [\App\Http\Controllers\School\SettingController::class,'studentLoginData'])->name('statistics.student_login_data');
 Route::post('statistics/assessments_data', [\App\Http\Controllers\School\SettingController::class,'assessmentsData'])->name('statistics.assessments_data');
 
+Route::get('/live-students', [\App\Http\Controllers\School\SettingController::class,'liveStudents'])->name('live-students');
+
 //Set Local
 Route::get('lang/{local}', [\App\Http\Controllers\School\SettingController::class, 'lang'])->name('switch-language');
 

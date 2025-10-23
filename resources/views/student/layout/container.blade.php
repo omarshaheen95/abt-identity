@@ -147,13 +147,18 @@
                 id: "{{auth()->guard('student')->user()->id}}",
                 id_number: "{{auth()->guard('student')->user()->id_number}}",
                 name: "{{auth()->guard('student')->user()->name}}",
+                data:{
+                    grade:"{{auth()->guard('student')->user()->level->grade}}",
+                    section:"{{auth()->guard('student')->user()->grade_name}}",
+                },
                 school: {
                     id: "{{auth()->guard('student')->user()->school_id}}",
                     name: "{{auth()->guard('student')->user()->school->name}}",
                 }
             },
             platform: 'abt-identity',
-            type: 'student'
+            type: 'student',
+            joined_at: Date.now()
         };
         const ws_server = "https://abt-assessments.com/web-socket/js/ws-platform-users-connection.js?v" + "{{time()}}";
         const socketConnectionURL = window.location.hostname === '127.0.0.1'

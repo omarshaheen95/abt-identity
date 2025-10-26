@@ -20,9 +20,10 @@
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="school-id" content="{{ $school->id }}">
+    <meta name="platform-name" content="abt-identity">
     <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.3/dist/echo.iife.js"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    <link href="{{asset('web-socket/css/live_users.css')}}?v=2.1" rel="stylesheet" type="text/css"/>
+    <link href="https://abt-assessments.com/web-socket/css/live_users.css?v={{time()}}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="control-buttons">
@@ -159,6 +160,6 @@
 
 <script src="{{asset('assets_v1/plugins/global/plugins.bundle.js')}}"></script>
 <script src="{{asset('assets_v1/js/scripts.bundle.js')}}"></script>
-<script src="{{asset('web-socket/js/live_users_handler.js')}}?v={{time()}}"></script>
+<script src="https://abt-assessments.com/web-socket/js/live_school_students_handler.js?v={{time()}}"></script>
 </body>
 </html>

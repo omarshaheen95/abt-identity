@@ -35,6 +35,7 @@
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route("manager.student.students-cards-by-section") }}')">{{t('Cards By Section')}}</a>
             @endcan
             <li><a class="dropdown-item d-none checked-visible" href="#!" onclick="autoOpenTime()">{{t('Open Time Assessment')}}</a></li>
+            <li id="restore-students" class="d-none"><a class="dropdown-item" href="#!" onclick="restore()">{{t('Restore Students')}}</a></li>
 
             @can('delete students')
                 <li id="li_delete_rows"><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
@@ -245,33 +246,91 @@
                 $('.not-deleted-students').removeClass('d-none')
                 // //show delete button
                 $('#li_delete_rows').removeClass('d-none')
+                $('#restore-students').addClass('d-none')
             }else {
                 //hide actions for not deleted students
                 $('.not-deleted-students').addClass('d-none')
                 // //hide delete button
                 $('#li_delete_rows').addClass('d-none')
+                $('#restore-students').removeClass('d-none')
 
             }
             table.DataTable().draw(true);
         })
 
         //restore students
-       function restore(id) {
-           $.ajax({
-               type: "POST", //we are using GET method to get data from server side
-               url: '{{route('manager.student.student-restore',':id')}}'.replace(':id',id), // get the route value
-               data: {
-                   '_token':'{{csrf_token()}}'
-               },
-               success:function (result) {
-                   toastr.success(result.message)
-                   table.DataTable().draw(false);
-               },
-               error:function (error) {
-                   toastr.error(error.responseJSON.message)
-               }
-           })
-       }
+        function restore(id = null) {
+            let data = {
+                '_token': '{{ csrf_token() }}'
+            };
+
+            if (!id) {
+                id = [];
+                $("table input:checkbox:checked").each(function () {
+                    id.push($(this).val());
+                });
+                data['id'] = id;
+
+                let school_id = $('select[name="school_id"]').val();
+                if (id.length <= 0 && !school_id) {
+                    toastr.error('{{ t('School is required') }}');
+                    return;
+                } else {
+                    data['school_id'] = school_id;
+                }
+
+                let year_id = $('select[name="year_id"]').val();
+                if (id.length <= 0 && !year_id) {
+                    toastr.error('{{ t('Year is required') }}');
+                    return;
+                } else {
+                    data['year_id'] = year_id;
+                }
+            }else {
+                data['id']=id;
+            }
+
+            Swal.fire({
+                title: '{{ t('Are you sure?') }}',
+                text: '{{ t('Do you want to restore the selected students?') }}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '{{ t('Yes, restore!') }}',
+                cancelButtonText: '{{ t('Cancel') }}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showLoadingModal()
+                    $.ajax({
+                        type: "POST",
+                        url: '{{route('manager.student.restore')}}',
+                        data: data,
+                        success: function (result) {
+                            hideLoadingModal()
+                            Swal.fire({
+                                icon: 'success',
+                                title: '{{ t('Restored!') }}',
+                                text: result.message,
+                                //timer: 2000,
+                                showConfirmButton: true
+                            });
+                            table.DataTable().draw(false);
+                        },
+                        error: function (error) {
+                            hideLoadingModal()
+                            Swal.fire({
+                                icon: 'error',
+                                title: '{{ t('Error') }}',
+                                text: error.responseJSON?.message || '{{ t('Something went wrong') }}'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+
         //open assessment
         function autoOpenTime() {
             var row_id = [];

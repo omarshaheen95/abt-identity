@@ -49,8 +49,8 @@ class Student extends Authenticatable
         return $query
             ->when($value = $request->get('name', false), function (Builder $query) use ($value) {
                 $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($value) . '%');
-            })->when($id = $request->get('id'), function (Builder $query) use ($id) {
-                $query->where('id', $id);
+            })->when($value = $request->get('id'), function (Builder $query) use ($value) {
+                is_array($value)? $query->whereIn('id', $value):$query->where('id', $value);
             })->when($gender = $request->get('gender', false), function (Builder $query) use ($gender) {
                 $query->where('gender', $gender);
             })->when($email = $request->get('email', false), function (Builder $query) use ($email) {
@@ -84,7 +84,7 @@ class Student extends Authenticatable
             })->when($created_at = $request->get('created_at', false), function (Builder $query) use ($created_at) {
                 $query->whereDate('created_at', $created_at);
             })->when($value = $request->get('row_id',[]),function (Builder $query) use ($value){
-                $query->whereIn('id', $value);
+                is_array($value)? $query->whereIn('id', $value):$query->where('id', $value);
             })->when($value = $request->get('class',false),function (Builder $query) use ($value){
                 $query->whereRelation('level','grade','=',$value);
             })->when($value = $request->get('deleted_at',false),function (Builder $query) use ($value){

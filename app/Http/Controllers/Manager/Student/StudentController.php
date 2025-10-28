@@ -233,42 +233,52 @@ class StudentController extends Controller
         return $this->sendResponse($request->all(), t('Assessments Updated Successfully for Students : ' . $students));
     }
 
-    public function restoreStudent($id)
+    public function restoreStudent(Request $request)
     {
-        $student = Student::query()->where('id', $id)->withTrashed()->first();
-        if ($student) {
+        $total_restored = 0;
+        $total_skipped = 0;
+        $id = $request->get('id');
+        if (!$id) {
+            $request->validate(['school_id' => 'required', 'year_id' => 'required']);
+        } else {
+            $request->validate(['id' => 'required']);
+        }
+        $students = Student::query()->search($request)->whereNotNull('deleted_at')->withTrashed()->get();
+
+        foreach ($students as $student) {
             //check email if exist in other students
             $other_students = Student::query()->where('email', $student->email)->where('id', '!=', $student->id)->get();
             if ($other_students->count() > 0) {
-                return $this->sendError(t('Cannot Restore Student Before Email Already Exist'), 402);
-            } else {
-                $student->restore();
-
-                //Restore Student Terms
-                $student_terms = StudentTerm::query()->where('student_id', $student->id)->withTrashed()->get();
-
-                foreach ($student_terms as $student_term) {
-
-                    $other_terms = StudentTerm::query()->where('student_id', $student->id)->where('term_id', $student_term->term_id)->get();
-
-                    //check if has the same term
-                    if ($other_terms->count() <= 0) {
-                        $student_term->restore();
-                        MatchQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
-                        TFQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
-                        SortQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
-                        FillBlankAnswer::query()->where('student_term_id', $student_term->id)->restore();
-                        OptionQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
-                        ArticleQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
-                        StudentTermStandard::query()->where('student_term_id', $student_term->id)->restore();
-                    }
-
+                if (is_array($id) || ($request->get('school_id') && $request->get('year_id'))) {
+                    $total_skipped++;
+                    continue;
                 }
-                return $this->sendResponse(null, t('Successfully Restored'));
+                return $this->sendError(t('Cannot Restore Student Before Email Already Exist'), 402);
             }
+            $student->restore();
+            $total_restored++;
+            //Restore Student Terms
+            $student_terms = StudentTerm::query()->where('student_id', $student->id)->withTrashed()->get();
 
+            foreach ($student_terms as $student_term) {
+
+                $other_terms = StudentTerm::query()->where('student_id', $student->id)->where('term_id', $student_term->term_id)->get();
+
+                //check if has the same term
+                if ($other_terms->count() <= 0) {
+                    $student_term->restore();
+                    MatchQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                    TFQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                    SortQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                    FillBlankAnswer::query()->where('student_term_id', $student_term->id)->restore();
+                    OptionQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                    ArticleQuestionResult::query()->where('student_term_id', $student_term->id)->restore();
+                    StudentTermStandard::query()->where('student_term_id', $student_term->id)->restore();
+                }
+
+            }
         }
-        return $this->sendError(t('Student Not Restored'), 402);
+        return $this->sendResponse(null, t('Successfully Restored').' '.t('Total').':('.$total_restored.') '.t('Students').' '.t('Skipped').':('.$total_skipped.') ');
     }
 
     public function studentCardBySections(Request $request)

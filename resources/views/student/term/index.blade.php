@@ -172,16 +172,16 @@
                 <input type="hidden" name="started_at" value="{{now()}}">
                 @csrf
                 @if(app()->getLocale()=='en')
-                    <div class="recovery-notice mb-4">
+                    <div class="recovery-notice mb-4" dir="ltr">
                         <p><strong>Note:</strong> Your answers are automatically saved in your browser. You can continue later from where you left off.</p>
-                        <p class="mb-0"><small>For file uploads, you will need to upload again if you leave the assessment.</small></p>
-                        <p class="mb-0"><small><strong>Emergency Save:</strong> Press Ctrl+Space to save your assessment without validation (use only if experiencing issues).</small></p>
+                        <p class="mb-0"><small>For file uploads , you will need to upload again if you leave the assessment.</small></p>
+                        <p class="mb-0"><small><strong>Emergency Save:</strong> Press to save your assessment without validation (use only if experiencing issues).</small> <a class="fw-bold" style="cursor: pointer; color:#ff0404" onclick=" $('#emergency-save-modal').modal('show')">( 👆 Press Here Emergency Save )</a></p>
                     </div>
                 @else
-                    <div class="recovery-notice mb-4">
+                    <div class="recovery-notice mb-4" dir="rtl">
                         <p><strong>ملاحظة:</strong> سيتم حفظ إجاباتك تلقائيًا في متصفحك. يمكنك المتابعة لاحقًا من حيث توقفت.</p>
                         <p class="mb-0"><small>بالنسبة لرفع الملفات، ستحتاج إلى رفعها مرة أخرى إذا غادرت الاختبار.</small></p>
-                        <p class="mb-0"><small><strong>حفظ طارئ: </strong>اضغط على Ctrl+Space لحفظ اختبارك من دون  التحقق (استخدمه فقط في حالة مواجهة مشكلات).</small></p>
+                        <p class="mb-0"><small><strong>حفظ طارئ: </strong> لحفظ اختبارك من دون  التحقق (استخدمه فقط في حالة مواجهة مشكلات).</small> <a class="fw-bold" style="cursor: pointer; color:#ff0404" onclick=" $('#emergency-save-modal').modal('show')">( 👆انقر هنا للحفظ الطارئ )</a></p>
                     </div>
                 @endif
                 <div class="mb-5">

@@ -175,7 +175,7 @@
                     <div class="recovery-notice mb-4" dir="ltr">
                         <p><strong>Note:</strong> Your answers are automatically saved in your browser. You can continue later from where you left off.</p>
                         <p class="mb-0"><small>For file uploads , you will need to upload again if you leave the assessment.</small></p>
-                        <p class="mb-0"><small><strong>Emergency Save:</strong> Press to save your assessment without validation (use only if experiencing issues).</small> <a class="fw-bold" style="cursor: pointer; color:#ff0404" onclick=" $('#emergency-save-modal').modal('show')">( 👆 Press Here Emergency Save )</a></p>
+                        <p class="mb-0"><small><strong>Emergency Save:</strong> Press to save your assessment without validation (use only if experiencing issues).</small> <a class="fw-bold" style="cursor: pointer; color:#ff0404" onclick=" $('#emergency-save-modal').modal('show')">( 👆 Press Here To Emergency Save )</a></p>
                     </div>
                 @else
                     <div class="recovery-notice mb-4" dir="rtl">

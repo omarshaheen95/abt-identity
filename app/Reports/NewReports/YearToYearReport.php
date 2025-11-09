@@ -289,7 +289,7 @@ class YearToYearReport
      */
     private function createEmptyStatisticsStructure()
     {
-        return (object)[
+        $data = [
             'total' => 0,
             'below' => 0,
             'inline' => 0,
@@ -335,44 +335,17 @@ class YearToYearReport
                 'below' => 0,
                 'inline' => 0,
                 'above' => 0,
-            ],
-            'mark_step1' => (object)[
-                'total' => 0,
-                'below' => 0,
-                'inline' => 0,
-                'above' => 0,
-            ],
-            'mark_step2' => (object)[
-                'total' => 0,
-                'below' => 0,
-                'inline' => 0,
-                'above' => 0,
-            ],
-            'mark_step3' => (object)[
-                'total' => 0,
-                'below' => 0,
-                'inline' => 0,
-                'above' => 0,
-            ],
-            'mark_step4' => (object)[
-                'total' => 0,
-                'below' => 0,
-                'inline' => 0,
-                'above' => 0,
-            ],
-            'mark_step5' => (object)[
-                'total' => 0,
-                'below' => 0,
-                'inline' => 0,
-                'above' => 0,
-            ],
-            'mark_step6' => (object)[
-                'total' => 0,
-                'below' => 0,
-                'inline' => 0,
-                'above' => 0,
-            ],
+            ]
         ];
+        foreach ($this->subjects as $index=>$subject){
+            $data['mark_step'.$index] = (object)[
+                'total' => 0,
+                'below' => 0,
+                'inline' => 0,
+                'above' => 0,
+            ];
+        }
+        return (object)$data;
     }
 
     /**

@@ -27,6 +27,7 @@
     <link href="{{asset('web_assets/css/custom.css')}}?v={{time()}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/responsive.css')}}?v={{time()}}" rel="stylesheet">
     @yield('style')
+    @stack('style')
 
 </head>
 <body onbeforeunload="">
@@ -176,6 +177,7 @@
 @endif
 
 @yield('script')
+@stack('script')
 
 </body>
 </html>

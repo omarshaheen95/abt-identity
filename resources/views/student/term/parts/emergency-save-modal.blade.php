@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <label for="emergency-password-input" class="form-label lang-text" style="color: #ff0404" data-en="Emergency Password" data-ar="كلمة مرور الحفظ الطارئ"></label>
                                 <div class="position-relative">
-                                    <input id="emergency-password-input" class="form-control" type="password" placeholder="ABT-XXXX" />
+                                    <input dir="ltr" id="emergency-password-input" class="form-control" type="password" placeholder="ABT-XXXX" />
                                     <span class="position-absolute top-50 translate-middle-y" id="toggle-password" style="right: 15px; cursor: pointer;">
                                         <i class="fas fa-eye" id="eye-icon"></i>
                                     </span>

@@ -38,19 +38,19 @@
                     </div>
 
 
-                @can('show managers')
-                        <div class="menu-item">
-                            <a class="menu-link @if(Request::is('manager/manager*') ) active @endif" href="{{ route('manager.manager.index') }}">
-                        <span class="menu-icon">
-                           <i class="ki-duotone ki-briefcase fs-2">
-                             <i class="path1"></i>
-                             <i class="path2"></i>
-                            </i>
-                        </span>
-                                <span class="menu-title">{{t('Managers')}}</span>
-                            </a>
-                        </div>
-                @endcan
+{{--                @can('show managers')--}}
+{{--                        <div class="menu-item">--}}
+{{--                            <a class="menu-link @if(Request::is('manager/manager*') ) active @endif" href="{{ route('manager.manager.index') }}">--}}
+{{--                        <span class="menu-icon">--}}
+{{--                           <i class="ki-duotone ki-briefcase fs-2">--}}
+{{--                             <i class="path1"></i>--}}
+{{--                             <i class="path2"></i>--}}
+{{--                            </i>--}}
+{{--                        </span>--}}
+{{--                                <span class="menu-title">{{t('Managers')}}</span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                @endcan--}}
 
 
                 @can('show schools')

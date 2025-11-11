@@ -135,6 +135,13 @@ function examFormSubmit(with_validation=true){
                         message = xhr.responseJSON.message;
                     }
                     showToastify(message, "error");
+
+                    if(xhr.responseText){
+                        let error_message = JSON.parse(xhr.responseText);
+                        if(error_message.status === 401){
+                            location.reload();
+                        }
+                    }
                 }
 
             })

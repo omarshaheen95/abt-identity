@@ -9,28 +9,32 @@
     </li>
 @endpush
 @section('filter')
-    <div class="col-lg-3 mb-2">
-        <label>{{t('ID Number')}}:</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('ID')}}:</label>
+        <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('ID Number')}}:</label>
         <input type="text" name="id_number" class="form-control kt-input" placeholder="{{t('Student Id Number')}}">
     </div>
 
-    <div class="col-lg-3  mb-2">
-        <label>{{t('Student Name')}}:</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Student Name')}}:</label>
         <input type="text"  name="name" class="form-control direct-search" placeholder="{{t('Student Name')}}">
     </div>
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Username')}}:</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Username')}}:</label>
         <input type="text"  name="email" class="form-control direct-search" placeholder="{{t('Username')}}">
     </div>
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Registration Date')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Registration Date')}} :</label>
         <input autocomplete="disabled" class="form-control form-control-solid" value="" placeholder="{{t('Pick date rage')}}" id="date_range_picker"/>
         <input type="hidden" name="start_registration_date" id="start_date_range_picker" />
         <input type="hidden" name="end_registration_date" id="end_date_range_picker" />
     </div>
 
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Year')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Year')}} :</label>
         <select name="year_id" id="year_id" class="form-select" data-control="select2" data-placeholder="{{t('Select Year')}}" data-allow-clear="true">
             <option></option>
             @foreach($years as $year)
@@ -38,35 +42,26 @@
             @endforeach
         </select>
     </div>
-    <div class="col-3 mb-2">
-        <label class="mb-1">{{t('Grades')}}:</label>
-        <select class="form-select direct-value" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Grade')}}" multiple name="grade[]" id="grade">
-            @foreach(range(1,12) as $grade)
-                <option value="{{$grade}}">{{$grade}}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Levels')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Levels')}} :</label>
         <select name="level_id[]" id="levels_id" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Level')}}" multiple data-allow-clear="true">
         </select>
     </div>
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Class Name')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Class Name')}} :</label>
         <select name="class_name[]" id="class_name" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Class Name')}}" multiple data-allow-clear="true">
         </select>
     </div>
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Order By')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Order By')}} :</label>
         <select name="orderBy" id="orderBy" class="form-select" data-control="select2" data-placeholder="{{t('Select Type')}}" >
             <option value="latest" selected>{{t('Latest')}}</option>
             <option value="name">{{t('Name')}}</option>
             <option value="level">{{t('Level')}}</option>
             <option value="section">{{t('Section')}}</option>
-            <option value="arab">{{t('Arab Status')}}</option>
         </select>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Sen Student')}}:</label>
         <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Status')}}" name="sen" data-allow-clear="true">
             <option></option>
@@ -74,7 +69,7 @@
             <option value="2">{{t('Normal Student')}}</option>
         </select>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Citizen')}}:</label>
         <select class="form-control form-select " data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Type')}}" name="citizen" data-allow-clear="true">
             <option></option>
@@ -82,15 +77,7 @@
             <option value="2">{{t('Non-Citizen')}}</option>
         </select>
     </div>
-    <div class="col-2 mb-2">
-        <label class="mb-1">{{t('Arabs Status')}}:</label>
-        <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Arabs Status')}}" name="arab_status" data-allow-clear="true">
-            <option></option>
-            <option value="1">{{t('Arabs')}}</option>
-            <option value="2">{{t('Non-Arabs')}}</option>
-        </select>
-    </div>
-    <div class="col-2 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('G&T')}}:</label>
         <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('G&T')}}" name="g_t" data-allow-clear="true">
             <option></option>
@@ -135,7 +122,6 @@
         <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="text-start"></th>
-            <th class="text-start">#</th>
             <th class="text-start">{{t('Name')}}</th>
             <th class="text-start">{{t('Level')}}</th>
             <th class="text-start">{{t('Grade Name')}}</th>
@@ -153,7 +139,6 @@
 
         var TABLE_COLUMNS = [
             {data: 'id', name: 'id'},
-            {data: 'sid', name: 'student_id'},
             {data: 'name', name: 'name'},
             {data: 'level', name: 'level'},
             {data: 'grade_name', name: 'grade_name'},

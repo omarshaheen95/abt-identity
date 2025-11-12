@@ -23,6 +23,8 @@ class LoginSession extends Model
         return $query->when($value = $request->get('model_id'), function (Builder $query)use ($value) {
              $query->where('model_id',$value) ;
 
+        })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+            $query->where('id', $value);
         })->when($value = $request->get('name'), function (Builder $query)use ($value) {
              $query->whereHasMorph('model',[Manager::class,School::class,Student::class,Inspection::class],function ($query) use ($value){
                  $query->where('name','LIKE','%'.$value.'%');

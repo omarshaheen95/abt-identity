@@ -19,18 +19,22 @@
 @endsection
 @section('filter')
     <div class="row">
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Question Content')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('ID')}}:</label>
+            <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Question Content')}}:</label>
             <input autocomplete="off" type="text"  name="content" class="form-control direct-search" placeholder="{{t('Question Content')}}">
         </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Assessments Name')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Assessments Name')}}:</label>
             <input type="text" id="term_name" name="term_name" class="form-control direct-search" placeholder="{{t('Assessments Name')}}">
         </div>
 
 
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Year')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Year')}} :</label>
             <select name="year_id" id="year_id" class="form-select" data-control="select2" data-placeholder="{{t('Select Year')}}" data-allow-clear="true">
                 <option></option>
                 @foreach($years as $year)
@@ -39,21 +43,21 @@
             </select>
         </div>
 
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Levels')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Levels')}} :</label>
             <select name="level_id" id="levels_id" class="form-select" data-control="select2" data-placeholder="{{t('Select Level')}}" data-allow-clear="true">
             </select>
         </div>
 
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Assessments')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Assessments')}} :</label>
             <select name="term_id" id="terms" class="form-select" data-control="select2" data-placeholder="{{t('Select Assessment')}}" data-allow-clear="true">
                 <option></option>
             </select>
         </div>
 
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Subject')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Subject')}} :</label>
             <select name="subject" id="subject" class="form-select" data-control="select2" data-placeholder="{{t('Select Subject')}}" data-allow-clear="true">
                 <option></option>
                 @foreach(range(1,4) as $i)
@@ -62,8 +66,8 @@
             </select>
         </div>
 
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Question Type')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Question Type')}} :</label>
             <select name="type" class="form-select" data-control="select2" data-placeholder="{{t('Select type')}}" data-allow-clear="true">
                 <option></option>
                 @foreach(\App\Models\Question::getQuestionTypes() as $type)
@@ -91,7 +95,6 @@
             <thead>
             <tr class="fw-semibold fs-6 text-gray-800">
                 <th class="text-start"></th>
-                <th class="text-start">#</th>
                 <th class="text-start">{{t('Assessment Name')}}</th>
                 <th class="text-start">{{t('Content')}}</th>
                 <th class="text-start">{{t('Type')}}</th>
@@ -112,7 +115,6 @@
         var TABLE_URL = "{{route('manager.term.terms-questions')}}";
 
         var TABLE_COLUMNS = [
-            {data: 'id'},
             {data: 'id'},
             {data: 'term_name'},
             {data: 'content'},

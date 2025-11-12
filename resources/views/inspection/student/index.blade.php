@@ -28,29 +28,34 @@
 @endsection
 
 @section('filter')
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('ID')}}:</label>
+        <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+    </div>
+
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Student Id Number')}}:</label>
         <input type="text" name="id_number" class="form-control" placeholder="{{t('Student Id Number')}}"
                data-col-index="0"/>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Name')}}:</label>
         <input type="text" name="name" class="form-control direct-search" placeholder="{{t('Name')}}"
                data-col-index="0"/>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Email')}}:</label>
         <input type="text" name="email" class="form-control datatable-input"
                placeholder="{{t('Email')}}" data-col-index="1"/>
     </div>
 
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Grade Name')}}:</label>
         <input type="text" name="grade_name" class="form-control datatable-input"
                placeholder="{{t('Grade Name')}}" data-col-index="1"/>
     </div>
 
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('School')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select School')}}" name="school_id">
             <option></option>
@@ -60,7 +65,7 @@
 
         </select>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Year')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id" id="year_id">
             <option></option>
@@ -70,7 +75,7 @@
         </select>
     </div>
 
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Levels')}}:</label>
         <select class="form-control form-select direct-value" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Levels')}}" multiple name="level_id[]" id="levels_id">
             <option></option>
@@ -84,9 +89,7 @@
         <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="text-start"></th>
-            <th class="text-start">#</th>
             <th class="text-start">{{t('Name')}}</th>
-            <th class="text-start">{{t('Username')}}</th>
             <th class="text-start">{{t('Level')}}</th>
             <th class="text-start">{{t('School')}}</th>
             <th class="text-start">{{t('Grade Name')}}</th>
@@ -106,9 +109,7 @@
 
         var TABLE_COLUMNS = [
             {data: 'id', name: 'id'},
-            {data: 'id_number', name: 'id_number'},
             {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
             {data: 'level', name: 'level'},
             {data: 'school', name: 'school'},
             {data: 'grade_name', name: 'grade'},

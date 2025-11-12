@@ -113,6 +113,8 @@ class Question extends Model
             $query->whereHas('term',function (Builder $query) use ($value){
                 $query->where('name','LIKE','%'.$value.'%');
             });
+        })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+            $query->where('id', $value);
         })->when($value = $request->get('year_id'),function (Builder $query) use ($value){
             $query->whereHas('term.level',function (Builder $query) use ($value){
                 $query->where('year_id',$value);

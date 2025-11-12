@@ -275,13 +275,11 @@ class TermController extends Controller
             return DataTables::make($students)
                 ->escapeColumns([])
                 ->addColumn('name', function ($student) {
-                    return '<div class="d-flex flex-column"><span>'.$student->name.'</span><span class="text-danger cursor-pointer" data-clipboard-text="'.$student->email.'" onclick="copyToClipboard(this)">' . $student->email . '</span></div>';
+                    return '<div class="d-flex flex-column"><span class="copy-txt cursor-pointer" data-id="n-txt-'.$student->id.'" data-txt="'.$student->name.'">'.$student->name.'</span><span id="e-txt-'.$student->id.'" class="text-danger cursor-pointer copy-txt" data-txt="'.$student->email.'">' . $student->email . '</span><span>SID: <span id="idn-'.$student->id_number.'" class="text-info fw-bold copy-txt cursor-pointer" data-txt="'.$student->id_number.'">'.$student->id_number.'</span></span></div>';
                 })
-                ->addColumn('sid', function ($student) {
-                    return '<div class="d-flex flex-column align-items-center"><span class="cursor-pointer" data-clipboard-text="'.$student->id.'" onclick="copyToClipboard(this)">' . $student->id . '</span></div>';
-                })
+
                 ->addColumn('school', function ($student) {
-                    return "<a class='text-info' target='_blank' href='" . route('manager.school.edit', $student->school->id) . "'>" . $student->school->name . "</a>". (is_null($student->id_number) ? '' : "<br><span class='text-danger cursor-pointer' data-clipboard-text=".$student->id_number." onclick='copyToClipboard(this)' >" . t('SID Num') .': '.$student->id_number. "</span> " ) ;
+                    return "<a class='text-info' target='_blank' href='" . route('manager.school.edit', $student->school->id) . "'>" . $student->school->name . "</a>" ;
                 })
 
                 ->addColumn('level', function ($student) {

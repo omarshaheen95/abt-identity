@@ -26,17 +26,17 @@
 
 @section('filter')
     <div class="row">
-        <div class="col-1 mb-2">
-            <label>{{t('ID')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('ID')}}:</label>
             <input type="text"  name="id" class="form-control kt-input" placeholder="E.g: 45">
         </div>
 
-        <div class="col-3 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <div class="form-group">
-                <label class="">{{t('School')}}:</label>
+                <label class="mb-1">{{t('School')}}:</label>
                 <select class="form-select" data-control="select2" data-allow-clear="true" name="school_id" data-placeholder="{{t('Select School')}}">
                     <option></option>
-                @foreach($schools as $school)
+                    @foreach($schools as $school)
                         <option
                             value="{{ $school->id }}">{{ $school->name }}</option>
                     @endforeach
@@ -45,12 +45,12 @@
         </div>
 
 
-        <div class="col-3 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <div class="form-group">
-                <label class="">{{t('Year')}}:</label>
+                <label class="mb-1">{{t('Year')}}:</label>
                 <select class="form-select" data-control="select2" data-allow-clear="true" name="year_id" data-placeholder="{{t('Select Year')}}">
                     <option></option>
-                @foreach($years as $year)
+                    @foreach($years as $year)
                         <option
                             value="{{ $year->id }}">{{ $year->name }}</option>
                     @endforeach
@@ -58,9 +58,9 @@
             </div>
         </div>
 
-        <div class="col-2 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <div class="form-group">
-                <label >{{t('Round')}}</label>
+                <label class="mb-1">{{t('Round')}}</label>
                 <select class="form-select" data-control="select2" data-allow-clear="true" name="round" data-placeholder="{{t('Select Round')}}">
                     <option></option>
                     @foreach(['september','february','may'] as $month)
@@ -70,9 +70,9 @@
             </div>
         </div>
 
-        <div class="col-3 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <div class="form-group">
-                <label class="">{{t('Status')}}:</label>
+                <label class="mb-1">{{t('Status')}}:</label>
                 <select class="form-select" data-control="select2" data-hide-search="true" data-allow-clear="true" name="status" data-placeholder="{{t('Select Section')}}">
                     <option></option>
                     <option value="Pending">{{t('Pending')}}</option>
@@ -87,6 +87,7 @@
 
     </div>
 @endsection
+
 
 @section('actions')
     <div class="dropdown d-none" id="actions_dropdown">
@@ -113,7 +114,6 @@
                         <thead>
                         <tr class="fw-semibold fs-6 text-gray-800">
                             <th class="text-start"></th>
-                            <th class="text-start">{{t('ID')}}</th>
                             <th class="text-start">{{t('School')}}</th>
                             <th class="text-start">{{t('Round')}}</th>
                             <th class="text-start">{{t('Year')}}</th>
@@ -136,7 +136,6 @@
 
         var TABLE_COLUMNS = [
             {data: 'id', name: 'id'},
-            {data: 'id', name: 'view_id'},
             {data: 'school', name: 'school'},
             {data: 'round', name: 'round'},
             {data: 'year', name: 'year'},

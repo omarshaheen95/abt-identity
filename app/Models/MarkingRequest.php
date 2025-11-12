@@ -46,6 +46,8 @@ class MarkingRequest extends Model
         return $query
             ->when($value = $request->get('id', false), function (Builder $query) use ($value) {
                 $query->where('id', $value);
+            })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+                $query->where('id', $value);
             })->when($value = $request->get('year_id', false), function (Builder $query) use ($value) {
                 $query->where('year_id', $value);
             })->when($value = $request->get('school_id', false), function (Builder $query) use ($value) {

@@ -9,11 +9,15 @@
 
 @section('filter')
     <div class="row">
-        <div class="col-3 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('ID')}}:</label>
+            <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-2">
             <label class="mb-1">{{t('Name')}}:</label>
             <input type="text" name="name" class="form-control" placeholder="{{t('Name')}}"/>
         </div>
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Year')}}:</label>
             <select name="year_id" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select Year')}}" data-hide-search="true" data-allow-clear="true">
@@ -24,7 +28,7 @@
             </select>
         </div>
 
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Level')}}:</label>
             <select name="level_id" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select Level')}}" data-hide-search="true" data-allow-clear="true">
@@ -32,7 +36,7 @@
             </select>
         </div>
 
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Status')}}:</label>
             <select name="status" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select Status')}}" data-hide-search="true" data-allow-clear="true">

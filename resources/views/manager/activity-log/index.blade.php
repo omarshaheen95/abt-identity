@@ -11,8 +11,12 @@
 @endsection
 @section('filter')
     <div class="row">
-        <div class="col-3 mb-2">
-            <label class="mb-2">{{t('Causer')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('ID')}}:</label>
+            <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Causer')}} :</label>
             <select name="causer_type" class="form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Type')}}">
                 <option></option>
                 @foreach($causers as $name=>$causer)
@@ -21,21 +25,21 @@
 
             </select>
         </div>
-        <div class="col-lg-3 mb-2">
-            <label class="mb-2">{{t('Causer ID')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Causer ID')}}:</label>
             <input type="text"  name="causer_id" class="form-control" placeholder="{{t('Causer ID')}}">
         </div>
-        <div class="col-lg-3 mb-2">
-            <label class="mb-2">{{t('Name')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Name')}}:</label>
             <input type="text"  name="name" class="form-control" placeholder="{{t('Name')}}">
         </div>
 
-        <div class="col-lg-3 mb-2">
-            <label class="mb-2">{{t('Email')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Email')}}:</label>
             <input type="text"  name="email" class="form-control" placeholder="{{t('Email')}}">
         </div>
-        <div class="col-3 mb-2">
-            <label class="mb-2">{{t('Subject')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Subject')}} :</label>
             <select name="subject_type" class="form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Type')}}">
                 <option></option>
                 @foreach($models as $model)
@@ -44,12 +48,12 @@
 
             </select>
         </div>
-        <div class="col-lg-2 mb-2">
-            <label class="mb-2">{{t('Subject ID')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Subject ID')}}:</label>
             <input type="text"  name="subject_id" class="form-control" placeholder="{{t('Subject ID')}}">
         </div>
-        <div class="col-3 mb-2">
-            <label class="mb-2">{{t('Type')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Type')}} :</label>
             <select name="type" class="form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Type')}}">
                 <option></option>
                 <option value="created">{{t('Created')}}</option>
@@ -59,8 +63,8 @@
             </select>
         </div>
 
-        <div class="col-lg-3 mb-2">
-            <label class="mb-2">{{t('Date Range')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Date Range')}} :</label>
             <input autocomplete="disabled" class="form-control form-control-solid" value="" placeholder="{{t('Pick date rage')}}" id="date_range_picker"/>
             <input type="hidden" name="date_start" id="start_date_range_picker" />
             <input type="hidden" name="date_end" id="end_date_range_picker" />

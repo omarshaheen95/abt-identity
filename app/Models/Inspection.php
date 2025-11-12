@@ -56,6 +56,8 @@ class Inspection extends Authenticatable
                 $query->where(function (Builder $query) use ($name) {
                     $query->where(DB::raw('LOWER(name)'), 'like', '%' .  strtolower($name) . '%');
                 });
+            })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+                $query->where('id', $value);
             })->when($email = $request->get('email', false), function (Builder $query) use ($email) {
                 $query->where('email', $email);
             })->when($school_id = $request->get('school_id', false), function (Builder $query) use ($school_id) {

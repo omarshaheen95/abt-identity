@@ -24,23 +24,27 @@
 
 @section('filter')
     <div class="row">
-        <div class="col-3 mb-2">
-            <label>{{t('User ID')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('ID')}}:</label>
+            <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('User ID')}}:</label>
             <input type="text"  name="model_id" class="form-control kt-input" placeholder="E.g: 45">
         </div>
-        <div class="col-3 mb-2">
-            <label>{{t('Name')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Name')}}:</label>
             <input type="text" name="name" class="form-control kt-input" placeholder="{{t('Name')}}">
         </div>
 
-        <div class="col-3 mb-2">
-            <label>{{t('Email')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Email')}}:</label>
             <input type="text" name="email" class="form-control kt-input" placeholder="{{t('Email')}}">
         </div>
 
-        <div class="col-3 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <div class="form-group">
-                <label class="">{{t('Type')}}:</label>
+                <label class="mb-1">{{t('Type')}}:</label>
                 <select class="form-select" data-control="select2" data-allow-clear="true" name="model_type" data-placeholder="{{t('Select Type')}}">
                     <option></option>
                     @foreach(['Manager','School','Inspection','Student'] as $type)
@@ -49,8 +53,8 @@
                 </select>
             </div>
         </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Date Range')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Date Range')}} :</label>
             <input autocomplete="disabled" class="form-control form-control-solid" id="date_range" name="date_range" value="" placeholder="{{t('Pick date range')}}" />
             <input type="hidden" name="start_date" id="start_date_range" />
             <input type="hidden" name="end_date" id="end_date_range" />
@@ -58,7 +62,6 @@
 
     </div>
 @endsection
-
 
 
 

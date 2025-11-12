@@ -34,6 +34,8 @@ class StudentImportFile extends Model
             ->when($request->filled('name'), function (Builder $query) use ($request) {
                 $name = strtolower($request->get('name'));
                 $query->whereRaw('LOWER(original_file_name) LIKE ?', ["%{$name}%"]);
+            })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+                $query->where('id', $value);
             })
             ->when($request->filled('school_id'), function (Builder $query) use ($request) {
                 $query->where('school_id', $request->get('school_id'));

@@ -43,6 +43,8 @@ class Subject extends Model
 //                });
             })->when($value = $request->get('row_id',[]),function (Builder $query) use ($value){
                 $query->whereIn('id', $value);
+            })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+                $query->where('id', $value);
             });
     }
 

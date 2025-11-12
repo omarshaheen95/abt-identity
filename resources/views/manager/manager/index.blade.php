@@ -12,7 +12,7 @@
 
 @section('filter')
     <div class="col-lg-3 mb-2">
-        <label>{{t('ID')}}:</label>
+        <label class="mb-1">{{t('ID')}}:</label>
         <input type="text" id="id" name="id" class="form-control kt-input" placeholder="E.g: 4590">
     </div>
 
@@ -27,7 +27,7 @@
     </div>
 
     <div class="col-lg-3  mb-2">
-        <label>{{t('Approved Status')}}:</label>
+        <label class="mb-1">{{t('Approved Status')}}:</label>
         <select name="approved" class="form-control form-select" data-control="select2" data-placeholder="{{t('Select Status')}}" data-hide-search="true" data-allow-clear="true">
             <option></option>
             <option value="1">{{t('Approved')}}</option>
@@ -64,7 +64,6 @@
         <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="text-start"></th>
-            <th class="text-start">#</th>
             <th class="text-start">{{t('Name')}}</th>
             <th class="text-start">{{t('Email')}}</th>
             <th class="text-start">{{t('Last Login')}}</th>
@@ -81,7 +80,6 @@
         var DELETE_URL = "{{route('manager.delete-manager')}}";
         var TABLE_URL = "{{route('manager.manager.index')}}";
         var TABLE_COLUMNS = [
-            {data: 'id', name: 'id'},
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},

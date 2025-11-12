@@ -55,6 +55,8 @@ class Manager extends Authenticatable
     {
         return $query->when($value = $request->get('email'), function (Builder $query) use ($value) {
             $query->where('email', $value);
+        })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+            $query->where('id', $value);
         })->when($value = $request->get('name'), function (Builder $query) use ($value) {
             $query->where('name', 'LIKE', '%' . $value . '%');
         })->when($value = $request->get('id', false), function (Builder $query) use ($value) {

@@ -42,8 +42,11 @@ class AbtIdController extends Controller
                     return $student->level->short_name . '<br>' . $gender . ' - ' . $citizen . ' - ' . $sen;;
                 })
                 ->addColumn('school', function ($student) {
-                    return "<a class='text-info' target='_blank' href='" . route('manager.school.edit', $student->school_id) . "'>" . $student->school->name . "</a>" . (is_null($student->id_number) ? '' : "<br><span class='text-danger'>" . t('SID Num') . ":</span> " . $student->id_number);
+                    return "<a class='text-black' target='_blank' href='" . route('manager.school.edit', $student->school->id) . "'>" . $student->school->name . "</a>".'<div class="mt-1 text-info">'.t('Assessments Count').': <span class="badge badge-primary text-center">'.$student->student_terms_count.'</span></div></div>' ;
 
+                })
+                ->addColumn('name', function ($student) {
+                    return '<div class="d-flex flex-column"><span class="copy-txt cursor-pointer" data-id="n-txt-'.$student->id.'" data-txt="'.$student->name.'">'.$student->name.'</span><span id="e-txt-'.$student->id.'" class="text-danger cursor-pointer copy-txt" data-txt="'.$student->email.'">' . $student->email . '</span><span>SID: <span id="idn-'.$student->id_number.'" class="text-info fw-bold copy-txt cursor-pointer" data-txt="'.$student->id_number.'">'.$student->id_number.'</span></span></div>';
                 })
                 ->addColumn('check', function ($student) {
                     return $student->check;

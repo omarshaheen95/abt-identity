@@ -34,16 +34,21 @@
 
 @section('filter')
     <div class="row">
-        <div class="col-lg-2 mb-2">
-            <label>{{t('SID Num')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('ID')}}:</label>
+            <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('SID Num')}}:</label>
             <input type="text" name="id_number" class="form-control direct-search" placeholder="{{t('Student Id Number')}}">
         </div>
-        <div class="col-2 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label class="mb-1">{{t('ABT Id Number')}}:</label>
             <input type="text" name="abt_id" class="form-control" placeholder="{{t('ABT Id Number')}}"
                    data-col-index="0"/>
         </div>
-        <div class="col-2 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label class="mb-1">{{t('Has ABT')}}:</label>
             <select name="has_abt_id" id="has_abt_id" class="form-select" data-control="select2" data-placeholder="{{t('Select type')}}" data-allow-clear="true">
                 <option></option>
@@ -54,16 +59,16 @@
 
 
 
-        <div class="col-lg-3  mb-2">
-            <label>{{t('Student Name')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Student Name')}}:</label>
             <input type="text"  name="name" class="form-control direct-search" placeholder="{{t('Student Name')}}">
         </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Username')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Username')}}:</label>
             <input type="text"  name="email" class="form-control direct-search" placeholder="{{t('Username')}}">
         </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('School')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('School')}} :</label>
             <select name="school_id" id="school_id" class="form-select" data-control="select2" data-placeholder="{{t('Select School')}}" data-allow-clear="true">
                 <option></option>
                 @foreach($schools as $school)
@@ -72,8 +77,8 @@
             </select>
         </div>
 
-        <div class="col-lg-2 mb-2">
-            <label>{{t('Year')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Year')}} :</label>
             <select name="year_id" id="year_id" class="form-select" data-control="select2" data-placeholder="{{t('Select Year')}}" data-allow-clear="true">
                 <option></option>
                 @foreach($years as $year)
@@ -81,19 +86,19 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Levels')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Levels')}} :</label>
             <select name="level_id[]" id="levels_id" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Level')}}" multiple data-allow-clear="true">
             </select>
         </div>
-        <div class="col-lg-2 mb-2">
-            <label>{{t('Class Name')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Class Name')}} :</label>
             <select name="grade_name[]" id="class_name" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Class Name')}}" multiple data-allow-clear="true">
             </select>
         </div>
 
-        <div class="col-lg-2 mb-2">
-            <label>{{t('Gender')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Gender')}} :</label>
             <select name="gender" id="gender" class="form-select" data-control="select2" data-placeholder="{{t('Select Gender')}}" data-allow-clear="true">
                 <option></option>
                 <option value="boy">{{t('Boy')}}</option>
@@ -101,7 +106,7 @@
             </select>
         </div>
 
-        <div class="col-2 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label class="mb-1">{{t('Sen Student')}}:</label>
             <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Status')}}" name="sen" data-allow-clear="true">
                 <option></option>
@@ -109,7 +114,7 @@
                 <option value="2">{{t('Normal Student')}}</option>
             </select>
         </div>
-        <div class="col-2 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label class="mb-1">{{t('Citizen Student')}}:</label>
             <select class="form-control form-select " data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Status')}}" name="citizen" data-allow-clear="true">
                 <option></option>
@@ -117,7 +122,7 @@
                 <option value="2">{{t('NonCitizen')}}</option>
             </select>
         </div>
-        <div class="col-2 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label class="mb-1">{{t('Type Student')}}:</label>
             <select class="form-control form-select " data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Type')}}" name="section" data-allow-clear="true">
                 <option></option>
@@ -125,14 +130,14 @@
                 <option value="2">{{t('Non-Arabs')}}</option>
             </select>
         </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Registration Date')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Registration Date')}} :</label>
             <input autocomplete="disabled" class="form-control form-control-solid" name="registration_date" value="" placeholder="{{t('Pick date range')}}" id="registration_date"/>
             <input type="hidden" name="start_date" id="start_registration_date" />
             <input type="hidden" name="end_date" id="end_registration_date" />
         </div>
-        <div class="col-lg-2 mb-2">
-            <label>{{t('Order By')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Order By')}} :</label>
             <select name="orderBy" id="orderBy" class="form-select" data-control="select2" data-placeholder="{{t('Select Type')}}" >
                 <option value="latest" selected>{{t('Latest')}}</option>
                 <option value="name">{{t('Name')}}</option>
@@ -155,7 +160,6 @@
                         <thead>
                         <tr class="fw-semibold fs-6 text-gray-800">
                             <th class="text-start"></th>
-                            <th class="text-start">#</th>
                             <th class="text-start">{{t('ABT ID')}}</th>
                             <th class="text-start">{{t('Name')}}</th>
                             <th class="text-start">{{t('School')}}</th>
@@ -177,36 +181,9 @@
         var CONFIRM_UNGROUP_SUB_MESSAGE = "{{t('You can group them again')}}";
         var DELETE_URL = "{{route('manager.student.delete')}}";
         var TABLE_URL = "{{route('manager.abt-id.abt_students')}}";
-        var COLUMN_DEFS =  [
-            {
-                targets: 1,
-                render: function (data, type, full, meta) {
-
-                    return '<div class="student-box" style="text-align: start">\n' +
-                        '                                    <div class="content">\n' +
-                        '                                        <div class="student-name text-center">' + full.id + '</div>\n' +
-                        '                                        <div class="student-username text-center"><span class=" badge badge-primary">' + full.student_terms_count + '</span></div>\n' +
-                        '                                    </div>\n' +
-                        '                                </div>';
-                },
-            },
-            {
-                targets: 3,
-                render: function (data, type, full, meta) {
-
-                    return '<div class="student-box" style="text-align: start">\n' +
-                        '                                    <div class="content">\n' +
-                        '                                        <div class="student-name">' + full.name + '</div>\n' +
-                        '                                        <div class="student-username">' + full.email + '</div>\n' +
-                        '                                    </div>\n' +
-                        '                                </div>';
-                },
-            }
-            ]
 
         var TABLE_COLUMNS = [
             {data: 'id', name: 'id'},
-            {data: 'id_number', name: 'id_number'},
             {data: 'abt_id', name: 'abt_id'},
             {data: 'name', name: 'name'},
             {data: 'school', name: 'school'},

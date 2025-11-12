@@ -35,10 +35,7 @@ class StudentController extends Controller
                     return Carbon::parse($student->created_at)->toDateString();
                 })
                 ->addColumn('name', function ($student) {
-                    return '<div class="d-flex flex-column"><span>'.$student->name.'</span><span class="text-danger cursor-pointer" data-clipboard-text="'.$student->email.'" onclick="copyToClipboard(this)">' . $student->email . '</span></div>';
-                })
-                ->addColumn('sid', function ($student) {
-                    return '<div class="d-flex flex-column align-items-center"><span class="cursor-pointer" data-clipboard-text="'.$student->id_number.'" onclick="copyToClipboard(this)">' . $student->id_number . '</span><span class="badge badge-primary text-center">'.$student->student_terms_count.'</span></div>';
+                    return '<div class="d-flex flex-column"><span class="copy-txt cursor-pointer" data-id="n-txt-'.$student->id.'" data-txt="'.$student->name.'">'.$student->name.'</span><span id="e-txt-'.$student->id.'" class="text-danger cursor-pointer copy-txt" data-txt="'.$student->email.'">' . $student->email . '</span><span>SID: <span id="idn-'.$student->id_number.'" class="text-info fw-bold copy-txt cursor-pointer" data-txt="'.$student->id_number.'">'.$student->id_number.'</span></span></div>';
                 })
                 ->addColumn('year', function ($student) {
                     return $student->year->name;

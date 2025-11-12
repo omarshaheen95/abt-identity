@@ -48,6 +48,8 @@ class Level extends Model
                             ->orWhere(DB::raw('LOWER(name->"$.en")'), 'like', '%' . $name . '%');
                     });
                 });
+            })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+                $query->where('id', $value);
             })->when($year_id = $request->get('year_id', false), function (Builder $query) use ($year_id) {
                 $query->where('year_id', $year_id);
             })->when($value = $request->get('class',false),function (Builder $query) use ($value){

@@ -19,6 +19,7 @@
                placeholder="{{t('Email')}}" data-col-index="1"/>
     </div>
 
+
     <div class="col-3 mb-2">
         <label class="mb-1">{{t('School')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select School')}}" name="school_id">
@@ -39,19 +40,17 @@
             @endforeach
         </select>
     </div>
-
     <div class="col-lg-3 mb-2">
-        <label>{{t('Class Name')}} :</label>
+        <label class="mb-1">{{t('Class Name')}} :</label>
         <select  id="class_name" name="grade_name[]" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Class Name')}}" data-allow-clear="true" multiple="multiple">
         </select>
     </div>
-
     <div class="col-lg-3 mb-2">
-        <label>{{t('Grade')}} :</label>
+        <label class="mb-1">{{t('Grade')}} :</label>
         <select name="grade[]" multiple class="form-select direct-value" data-control="select2" data-allow-clear="true"
                 data-placeholder="{{t('Select Grade')}}">
             @foreach(range(1,12) as $grade)
-                <option value="{{ $grade }}">{{ $grade }}</option>
+                <option value="{{ $grade }}" @if(request('grades') && in_array($grade,explode(',',request('grades')))) selected @endif>{{ $grade }}</option>
             @endforeach
         </select>
     </div>
@@ -73,14 +72,14 @@
     </div>
 
     <div class="col-lg-3 mb-2">
-        <label>{{t('Submission Date')}} :</label>
+        <label class="mb-1">{{t('Submission Date')}} :</label>
         <input autocomplete="disabled" class="form-control form-control-solid" name="submit_date" value=""
                placeholder="{{t('Pick date rage')}}" id="submit_date"/>
         <input type="hidden" name="start_date" id="start_submit_date"/>
         <input type="hidden" name="end_date" id="end_submit_date"/>
     </div>
     <div class="col-lg-3 mb-2">
-        <label>{{t('Order By')}} :</label>
+        <label class="mb-1">{{t('Order By')}} :</label>
         <select name="orderBy" id="orderBy" class="form-select" data-control="select2" data-placeholder="{{t('Select Type')}}" >
             <option value="latest" selected>{{t('Latest')}}</option>
             <option value="name">{{t('Name')}}</option>
@@ -100,7 +99,7 @@
     </div>
     <input type="hidden" name="corrected" value="{{request('status')=='corrected'?1:2}}">
     <div class="col-lg-2 mb-2">
-        <label>{{t('Student Duplicated')}} :</label>
+        <label class="mb-1">{{t('Student Duplicated')}} :</label>
         <select name="duplicated" id="duplicated" class="form-select" data-control="select2" data-placeholder="{{t('Select Student Type')}}" data-allow-clear="true">
             <option></option>
             <option value="0">{{t('All')}}</option>
@@ -142,7 +141,6 @@
         <tr class="fw-semibold fs-6 text-gray-800">
              <th class="text-start"></th>
              <th class="text-start">{{t('Name')}}</th>
-             <th class="text-start">{{t('Email')}}</th>
              <th class="text-start">{{t('School')}}</th>
              <th class="text-start">{{t('Year')}}</th>
              <th class="text-start">{{t('Round')}}</th>
@@ -166,7 +164,6 @@
         var TABLE_COLUMNS = [
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
             {data: 'school', name: 'school'},
             {data: 'year', name: 'year'},
             {data: 'round', name: 'round'},

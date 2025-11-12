@@ -2,6 +2,9 @@ var table = $('#datatable');
 let lang = $('html').attr('lang');
 let columnDefs = [];
 let createdRow = null;
+const copyIdTitle = lang==='ar'?'انقر لنسخ المعرف':'Click to copy ID';
+const copyIdNumberTitle = lang==='ar'?'انقر لنسخ رقم الطالب':'Click to copy ID Number';
+const copyMessage = lang==='ar'?'[ + ] تم نسخه الى الحافظة ':'[ + ] copied to clipboard ';
 
 table.addClass('table-bordered') //make table bordered
 
@@ -11,10 +14,14 @@ let checkbox = {
     className: 'dt-left',
     orderable: false,
     render: function (data, type, full, meta) {
-        return '<div class="form-check form-check-custom form-check-solid form-check-sm">' +
-            '   <input value="' + data + '" name="rows[]" class="form-check-input checkable checkbox" type="checkbox" value="1" id="flexCheckDefault"/>' +
-            '     <label class="form-check-label " for="flexCheckDefault">' +
-            '      </label></div>';
+        return `
+        <div class="d-flex flex-column gap-1 align-items-center">
+        <div class="form-check form-check-custom form-check-solid form-check-sm">
+            <input value="${data}" name="rows[]" class="form-check-input checkable checkbox" type="checkbox" value="1" id="flexCheckDefault"/>
+        </div>
+        ${hasIdColumn()?``:`<span id="crow-id-${full.id}" class="badge badge-primary copy-txt" data-txt="${full.id}" style="cursor: pointer;" title="${copyIdTitle}">${full.id}</span>`}
+        </div>
+        `
     }
 
 }
@@ -42,7 +49,7 @@ table.DataTable({
     // DOM Layout settings
 
 
-    lengthMenu: [5, 10, 25, 50, 100, 200],
+    lengthMenu: [5, 10, 25, 50],
 
     pageLength: 10,
 
@@ -79,11 +86,13 @@ table.DataTable({
     },
     headerCallback: function (thead, data, start, end, display) {
         thead.getElementsByTagName('th')[0].innerHTML = `
-                <div class="form-check form-check-custom form-check-solid form-check-sm">
+        <div class="d-flex justify-content-center">
+         <div class="form-check form-check-custom form-check-solid form-check-sm">
                     <input class="form-check-input group-checkable" type="checkbox" id="flexCheckDefault"/>
-                    <label class="form-check-label " for="flexCheckDefault">
-                    </label>
-                </div>`;
+
+                </div>
+        </div>
+               `;
 
     },
     columnDefs: columnDefs,
@@ -371,3 +380,73 @@ function checkedVisible(status=true) {
     }
 }
 
+function hasIdColumn(tableId='datatable') {
+    let headers = [];
+    $(`#${tableId} thead th`).each(function() {
+        headers.push($(this).text().trim());
+    });
+
+    //console.log(headers)
+    // Check if any header matches #, Id, or ID
+    return headers.some(header => ['#', 'Id', 'ID'].includes(header));
+}
+
+function getCheckedRows(){
+    var row_id = [];
+    $("input:checkbox[name='rows[]']:checked").each(function () {
+        row_id.push($(this).val());
+    });
+    console.log('selected-rows',row_id)
+    return row_id;
+}
+function getFormData(){
+    let d = {};
+    var frm_data = $('#filter').serializeArray();
+    if (frm_data){
+        $.each(frm_data, function (key, val) {
+            d[val.name] = val.value;
+        });
+        //get value directly from element has [direct-value] class
+        $('select.direct-value').each(function () {
+            let val = $(this).val()
+            let name = $(this).attr('name');
+            delete d[name];
+            name = name.replace("[]", "");
+
+            if (val instanceof Array){
+                if (val.length>0){
+                    d[name] = $(this).val();
+                }
+            }else if (val){
+                d[name] = $(this).val();
+            }
+
+        })
+
+    }
+    d['row_id']=getCheckedRows();
+    console.log('form-data',d)
+    return d;
+}
+
+// Add click event listener for copying ID
+$(document).on('click', '.copy-txt', function() {
+    let txt = $(this).data('txt');
+    // Copy to clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        // Modern approach
+        navigator.clipboard.writeText(txt).then(function() {
+            toastr.info(copyMessage.replace('+',txt));
+        }).catch(function(err) {
+            console.error('Failed to copy:', err);
+        });
+    } else {
+        // Fallback for older browsers
+        let tempInput = $('<input>');
+        $('body').append(tempInput);
+        tempInput.val(txt).select();
+        document.execCommand('copy');
+        tempInput.remove();
+        toastr.info(copyMessage.replace('+',txt));
+    }
+});

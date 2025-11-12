@@ -31,19 +31,23 @@
 
 
 @section('filter')
-    <div class="col-lg-3 mb-lg-0 mb-6">
-        <label>{{t('Name')}}:</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('ID')}}:</label>
+        <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Name')}}:</label>
         <input type="text" name="name" class="form-control direct-search" placeholder="{{t('Name')}}"
                data-col-index="0"/>
     </div>
 @endsection
+
 
 @section('content')
     <table class="table table-row-bordered gy-5" id="datatable">
         <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="text-start"></th>
-            <th class="text-start">#</th>
             <th class="text-start">{{t('Name')}}</th>
             <th class="text-start">{{t('Default')}}</th>
             <th class="text-start">{{t('Actions')}}</th>
@@ -60,7 +64,6 @@
         var TABLE_URL = "{{route('manager.year.index')}}";
         var EXPORT_URL = null;
         var TABLE_COLUMNS = [
-            {data: 'id', name: 'id'},
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'default', name: 'default'},

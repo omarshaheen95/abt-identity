@@ -251,9 +251,9 @@ $('.direct-search').on('keyup',function () {
 $('#kt_reset').on('click', function(e) {
     e.preventDefault();
     $('.filter input').each(function() {
-        if ($(this).is(':radio') && $(this).val() == ''){
+        if ($(this).is(':radio') && $(this).val() === ''){
             $(this).prop('checked', true);
-        }else if($(this).is(':radio') && $(this).val() != ''){
+        }else if($(this).is(':radio') && $(this).val() !== ''){
             $(this).prop('checked', false);
         }else {
             $(this).val('');
@@ -261,7 +261,7 @@ $('#kt_reset').on('click', function(e) {
     });
     $(".filter select").each(function() {
         if (!$(this).hasClass('reset-no')){
-            $(this).val('').trigger('change');
+            $(this).find('option:selected').prop('selected', false).trigger('change');
         }
     });
 

@@ -58,10 +58,10 @@
      * Combines term ID and student ID to create a unique identifier
      */
     function getTermKey() {
-        const form = $('#term_form');
+        const form = $('#exams');
         const termId = form.data('term-id');
         const studentId = form.data('student-id');
-        return `abt_social_assessment_${termId}_answers_std_${studentId}`;
+        return `abt_identity_assessment_${termId}_answers_std_${studentId}`;
     }
 
     /**

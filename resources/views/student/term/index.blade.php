@@ -292,7 +292,7 @@
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>
-    <script src="{{asset('web_assets/js/assessment_cache.js')}}?v=2"></script>
+    <script src="{{asset('web_assets/js/assessment_cache.js')}}?v=3"></script>
     <script>
         getAndSetResults() //cache results
     </script>

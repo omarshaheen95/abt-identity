@@ -268,6 +268,7 @@ $(document).ready(function () {
     $('#confirm-emergency-save').on('click', function() {
         $('#emergency-save-modal').modal('hide');
         $('#emergency-save-indicator').fadeIn(200);
+        $('#emergency-save-input').val(1)
         setTimeout(function() {
             examFormSubmit(false); // Submit without validation
         }, 500);

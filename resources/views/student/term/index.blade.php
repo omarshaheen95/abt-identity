@@ -170,6 +170,7 @@
             </div>
             <form id="exams" action="{{route('student.term-save', ['id'=>$term->id])}}" data-term-id="{{$term->id}}" data-student-id="{{$student->id}}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="started_at" value="{{now()}}">
+                <input type="hidden" name="emergency_save" id="emergency-save-input" value="0">
                 @csrf
                 @if(app()->getLocale()=='en')
                     <div class="recovery-notice mb-4" dir="ltr">
@@ -286,7 +287,7 @@
         localStorage.removeItem(STORAGE_KEY);
         @endif
     </script>
-    <script src="{{asset('web_assets/js/student_term.js')}}?v=11"></script>
+    <script src="{{asset('web_assets/js/student_term.js')}}?v=12"></script>
     <script src="{{asset('web_assets/js/questions/fill_blank.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/matching.js')}}"></script>
     <script src="{{asset('web_assets/js/questions/sorting.js')}}"></script>

@@ -22,9 +22,13 @@
 
 @section('filter')
     <div class="row">
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('ID')}}:</label>
+            <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+        </div>
 
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Year')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Year')}} :</label>
             <select name="year_id" id="year_id" class="form-select" data-control="select2" data-placeholder="{{t('Select Year')}}" data-allow-clear="true">
                 <option></option>
                 @foreach($years as $year)
@@ -32,8 +36,8 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-3 mb-2">
-            <label class="">{{t('Round')}}:</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Round')}}:</label>
             <select class="form-select" required name="round" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Round')}}">
                 <option></option>
                 @foreach(['september','may','february'] as $month)
@@ -41,8 +45,8 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Status')}} :</label>
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Status')}} :</label>
             <select name="status" class="form-select" data-control="select2" data-placeholder="{{t('Select Status')}}" data-allow-clear="true">
                 <option></option>
                 <option value="Pending">{{t('Pending')}}</option>
@@ -69,7 +73,6 @@
             <thead>
             <tr class="fw-semibold fs-6 text-gray-800">
                 <th class="text-start"></th>
-                <th class="text-start">{{t('ID')}}</th>
                 <th class="text-start">{{t('Year')}}</th>
                 <th class="text-start">{{t('Grades')}}</th>
                 <th class="text-start">{{t('Round')}}</th>
@@ -90,7 +93,6 @@
         var DELETE_URL = '{{ route("school.marking_requests.destroy")}}';
         var TABLE_URL = "{{route('school.marking_requests.index')}}";
         var TABLE_COLUMNS = [
-            {data: 'id', name: 'id'},
             {data: 'id', name: 'id'},
             {data: 'year', name: 'year'},
             {data: 'grades', name: 'grades'},

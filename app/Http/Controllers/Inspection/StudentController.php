@@ -32,8 +32,8 @@ class StudentController extends Controller
                 ->addColumn('level', function ($row) {
                     return $row->level->name;
                 })
-                ->addColumn('email', function ($row) {
-                    return '<span class="cursor-pointer" data-clipboard-text="'.$row->email.'" onclick="copyToClipboard(this)">' . $row->email . '</span>';
+                ->addColumn('name', function ($student) {
+                    return '<div class="d-flex flex-column"><span class="copy-txt cursor-pointer" data-id="n-txt-'.$student->id.'" data-txt="'.$student->name.'">'.$student->name.'</span><span id="e-txt-'.$student->id.'" class="text-danger cursor-pointer copy-txt" data-txt="'.$student->email.'">' . $student->email . '</span><span>SID: <span id="idn-'.$student->id_number.'" class="text-info fw-bold copy-txt cursor-pointer" data-txt="'.$student->id_number.'">'.$student->id_number.'</span></span></div>';
                 })
                 ->addColumn('school', function ($row) {
                     return '<a href="'.route('inspection.school-login',$row->school->id).'">' . $row->school->name . '</a>';

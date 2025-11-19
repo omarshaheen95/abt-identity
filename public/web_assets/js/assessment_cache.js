@@ -93,6 +93,103 @@
     };
 
     /**
+     * Remove duplicate elements from container based on data-id or text content
+     * Also removes duplicates from the paired container (options/answers)
+     */
+    function removeDuplicates($container) {
+        const seen = new Set();
+
+        // First, collect and remove duplicates from the current container
+        $container.children('div').each(function() {
+            const id = $(this).attr('data-id') || $(this).text().trim();
+            if (seen.has(id)) {
+                $(this).remove();
+            } else {
+                seen.add(id);
+            }
+        });
+
+        // Then remove duplicates from the paired container
+        if ($container.hasClass('matchOptions')) {
+            // Find the paired matchAnswers containers with same question id
+            const questionId = $container.attr('data-question');
+            $('.matchAnswers[data-question="' + questionId + '"]').each(function() {
+                $(this).children('div').each(function() {
+                    const id = $(this).attr('data-id') || $(this).text().trim();
+                    if (seen.has(id)) {
+                        $(this).remove();
+                    }
+                });
+            });
+        } else if ($container.hasClass('matchAnswers')) {
+            // Find the paired matchOptions container with same question id
+            const questionId = $container.attr('data-question');
+            const $matchOptions = $('.matchOptions[data-question="' + questionId + '"]');
+            $matchOptions.children('div').each(function() {
+                const id = $(this).attr('data-id') || $(this).text().trim();
+                if (seen.has(id)) {
+                    $(this).remove();
+                }
+            });
+        } else if ($container.hasClass('sortOptions')) {
+            // Find the paired sortAnswers container with same question id
+            const questionId = $container.attr('data-question');
+            const $sortAnswers = $('.sortAnswers[data-question="' + questionId + '"]');
+            $sortAnswers.children('div').each(function() {
+                const id = $(this).attr('data-id') || $(this).text().trim();
+                if (seen.has(id)) {
+                    $(this).remove();
+                }
+            });
+        } else if ($container.hasClass('sortAnswers')) {
+            // Find the paired sortOptions container with same question id
+            const questionId = $container.attr('data-question');
+            const $sortOptions = $('.sortOptions[data-question="' + questionId + '"]');
+            $sortOptions.children('div').each(function() {
+                const id = $(this).attr('data-id') || $(this).text().trim();
+                if (seen.has(id)) {
+                    $(this).remove();
+                }
+            });
+        } else if ($container.hasClass('fillBlankOptions')) {
+            // Find the paired fillBlankAnswers containers with same question id
+            const questionId = $container.attr('data-question');
+            $('.fillBlankAnswers[data-question="' + questionId + '"]').each(function() {
+                $(this).children('div').each(function() {
+                    const id = $(this).attr('data-id') || $(this).text().trim();
+                    if (seen.has(id)) {
+                        $(this).remove();
+                    }
+                });
+            });
+        } else if ($container.hasClass('fillBlankAnswers')) {
+            // Find the paired fillBlankOptions container with same question id
+            const questionId = $container.attr('data-question');
+            const $fillBlankOptions = $('.fillBlankOptions[data-question="' + questionId + '"]');
+            $fillBlankOptions.children('div').each(function() {
+                const id = $(this).attr('data-id') || $(this).text().trim();
+                if (seen.has(id)) {
+                    $(this).remove();
+                }
+            });
+        }
+    }
+
+    /**
+     * Smart duplicate removal for drag-drop operations
+     * Removes duplicates from both source and target containers
+     */
+    function handleDragDuplicates($targetContainer, $sourceContainer) {
+        // Always remove duplicates from target container
+        removeDuplicates($targetContainer);
+
+        // Also remove duplicates from source container if it exists
+        if ($sourceContainer && $sourceContainer.length > 0) {
+            removeDuplicates($sourceContainer);
+        }
+    }
+
+    /**
      * Save the complete form state to localStorage
      * Captures all interactive elements and their current values/states
      */
@@ -136,7 +233,7 @@
                 data.toggleStates[this.id] = $(this).prop('checked');
             });
 
-            // Save matching questions
+            // Save matching questions (don't remove duplicates from options here)
             $('.matchOptions').each(function() {
                 const questionId = $(this).attr('data-question');
                 if (questionId) {
@@ -147,11 +244,13 @@
             $('.matchAnswers').each(function() {
                 const key = $(this).attr('data-question') + '_' + $(this).attr('data-index');
                 if (key) {
+                    // Remove duplicates from answers only
+                    removeDuplicates($(this));
                     data.matchAnswersHtml[key] = $(this).html();
                 }
             });
 
-            // Save sorting questions
+            // Save sorting questions (don't remove duplicates from options here)
             $('.sortOptions').each(function() {
                 const questionId = $(this).attr('data-question');
                 if (questionId) {
@@ -162,11 +261,13 @@
             $('.sortAnswers').each(function() {
                 const questionId = $(this).attr('data-question');
                 if (questionId) {
+                    // Remove duplicates from answers only
+                    removeDuplicates($(this));
                     data.sortAnswersHtml[questionId] = $(this).html();
                 }
             });
 
-            // Save fill blank questions
+            // Save fill blank questions (don't remove duplicates from options here)
             $('.fillBlankOptions').each(function() {
                 const questionId = $(this).attr('data-question');
                 if (questionId) {
@@ -177,6 +278,8 @@
             $('.fillBlankAnswers').each(function() {
                 const key = $(this).attr('data-question') + '_' + $(this).attr('data-index');
                 if (key) {
+                    // Remove duplicates from answers only
+                    removeDuplicates($(this));
                     data.fillBlankAnswersHtml[key] = $(this).html();
                 }
             });
@@ -249,28 +352,38 @@
 
             // Restore matching questions
             for (const questionId in data.matchOptionsHtml) {
-                $('.matchOptions[data-question="' + questionId + '"]').html(data.matchOptionsHtml[questionId]);
+                const $container = $('.matchOptions[data-question="' + questionId + '"]');
+                $container.html(data.matchOptionsHtml[questionId]);
+                // Don't remove duplicates from options after restore
             }
 
             for (const key in data.matchAnswersHtml) {
                 const parts = key.split('_');
                 if (parts.length === 2) {
-                    $('.matchAnswers[data-question="' + parts[0] + '"][data-index="' + parts[1] + '"]').html(data.matchAnswersHtml[key]);
+                    const $container = $('.matchAnswers[data-question="' + parts[0] + '"][data-index="' + parts[1] + '"]');
+                    $container.html(data.matchAnswersHtml[key]);
+                    // Remove any duplicates from answers after restore
+                    removeDuplicates($container);
                 }
             }
 
             // Restore sorting questions
             for (const questionId in data.sortOptionsHtml) {
-                $('.sortOptions[data-question="' + questionId + '"]').html(data.sortOptionsHtml[questionId]);
+                const $container = $('.sortOptions[data-question="' + questionId + '"]');
+                $container.html(data.sortOptionsHtml[questionId]);
+                // Don't remove duplicates from options after restore
             }
 
             for (const questionId in data.sortAnswersHtml) {
-                $('.sortAnswers[data-question="' + questionId + '"]').html(data.sortAnswersHtml[questionId]);
+                const $container = $('.sortAnswers[data-question="' + questionId + '"]');
+                $container.html(data.sortAnswersHtml[questionId]);
+                // Remove any duplicates from answers after restore
+                removeDuplicates($container);
 
                 // Re-number the inputs
                 setTimeout(function() {
                     let i = 1;
-                    $('.sortAnswers[data-question="' + questionId + '"] div input').each(function() {
+                    $container.find('div input').each(function() {
                         $(this).val(i++);
                     });
                 }, 100);
@@ -278,13 +391,18 @@
 
             // Restore fill blank questions
             for (const questionId in data.fillBlankOptionsHtml) {
-                $('.fillBlankOptions[data-question="' + questionId + '"]').html(data.fillBlankOptionsHtml[questionId]);
+                const $container = $('.fillBlankOptions[data-question="' + questionId + '"]');
+                $container.html(data.fillBlankOptionsHtml[questionId]);
+                // Don't remove duplicates from options after restore
             }
 
             for (const key in data.fillBlankAnswersHtml) {
                 const parts = key.split('_');
                 if (parts.length === 2) {
-                    $('.fillBlankAnswers[data-question="' + parts[0] + '"][data-index="' + parts[1] + '"]').html(data.fillBlankAnswersHtml[key]);
+                    const $container = $('.fillBlankAnswers[data-question="' + parts[0] + '"][data-index="' + parts[1] + '"]');
+                    $container.html(data.fillBlankAnswersHtml[key]);
+                    // Remove any duplicates from answers after restore
+                    removeDuplicates($container);
                 }
             }
 
@@ -329,6 +447,9 @@
      * Sets up all event listeners for form interaction
      */
     function registerEvents() {
+        // Shared timer for drag operations to prevent multiple rapid saves
+        let dragTimer = null;
+
         // For radio buttons
         $(document).on('change', 'input[type="radio"]', function() {
             setTimeout(saveState, 100);
@@ -341,14 +462,31 @@
             textTimer = setTimeout(saveState, 500);
         });
 
-        // For sorting and matching
-        $(document).on('sortreceive sortupdate', '.sortOptions, .sortAnswers, .matchOptions, .matchAnswers, .fillBlankOptions, .fillBlankAnswers', function() {
-            setTimeout(saveState, 200);
+        // For sorting and matching - use single shared timer
+        $(document).on('sortreceive sortupdate', '.sortOptions, .sortAnswers, .matchOptions, .matchAnswers, .fillBlankOptions, .fillBlankAnswers', function(event, ui) {
+            // Handle duplicates in the target container after drag operation
+            const $targetContainer = $(this);
+            const $sourceContainer = ui.sender; // The container where the element came from
+            handleDragDuplicates($targetContainer, $sourceContainer);
+
+            clearTimeout(dragTimer);
+            dragTimer = setTimeout(saveState, 300);
         });
 
-        // When items are clicked to move between options and answers
+        // When items are clicked to move between options and answers - use same shared timer
         $(document).on('click', '.sortOptions div, .sortAnswers div, .matchOptions div, .matchAnswers div, .fillBlankOptions div, .fillBlankAnswers div', function() {
-            setTimeout(saveState, 200);
+            // For click operations, we need to detect where it's moving
+            const $clickedElement = $(this);
+            const $sourceContainer = $clickedElement.parent();
+
+            // Wait for the element to move, then check its new parent
+            setTimeout(function() {
+                const $targetContainer = $clickedElement.parent();
+                handleDragDuplicates($targetContainer, $sourceContainer);
+            }, 50);
+
+            clearTimeout(dragTimer);
+            dragTimer = setTimeout(saveState, 300);
         });
 
         // For toggle switches

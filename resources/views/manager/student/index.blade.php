@@ -35,6 +35,7 @@
                 <li><a class="dropdown-item not-deleted-students" href="#!" onclick="excelExport('{{ route("manager.student.students-cards-by-section") }}')">{{t('Cards By Section')}}</a>
             @endcan
             <li><a class="dropdown-item d-none checked-visible" href="#!" onclick="autoOpenTime()">{{t('Open Time Assessment')}}</a></li>
+            <li id="restore-students" class="d-none"><a class="dropdown-item" href="#!" onclick="restore()">{{t('Restore Students')}}</a></li>
 
             @can('delete students')
                 <li id="li_delete_rows"><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
@@ -46,23 +47,27 @@
 @endsection
 
 @section('filter')
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('ID')}}:</label>
+        <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Student Id Number')}}:</label>
         <input type="text" name="id_number" class="form-control" placeholder="{{t('Student Id Number')}}"
                data-col-index="0"/>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Name')}}:</label>
         <input type="text" name="name" class="form-control direct-search" placeholder="{{t('Name')}}"
                data-col-index="0"/>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Email')}}:</label>
         <input type="text" name="email" class="form-control datatable-input"
                placeholder="{{t('Email')}}" data-col-index="1"/>
     </div>
 
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('School')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select School')}}" name="school_id">
             <option></option>
@@ -72,25 +77,8 @@
 
         </select>
     </div>
-    <div class="col-3 mb-2">
-        <label class="mb-1">{{t('Grades')}}:</label>
-        <select class="form-select direct-value" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Grade')}}" multiple name="grade[]" id="grade">
-         @foreach(range(1,12) as $grade)
-                <option value="{{$grade}}">{{$grade}}</option>
-         @endforeach
-        </select>
-    </div>
-    <div class="col-3 mb-2">
-        <label class="mb-1">{{t('Student Year')}}:</label>
-        <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="student_year_id" id="student_year_id">
-            <option></option>
-            @foreach($years as $year)
-                <option value="{{$year->id}}">{{$year->name}}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="col-3 mb-2">
-        <label class="mb-1">{{t('Assessment Year')}}:</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Year')}}:</label>
         <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id" id="year_id">
             <option></option>
             @foreach($years as $year)
@@ -99,37 +87,36 @@
         </select>
     </div>
 
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Levels')}}:</label>
         <select class="form-select direct-value" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Level')}}" multiple name="level_id[]" id="levels_id">
         </select>
     </div>
 
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Class Name')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Class Name')}} :</label>
         <select  id="class_name" name="class_name[]" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Class Name')}}" data-allow-clear="true" multiple="multiple">
         </select>
     </div>
 
-    <div class="col-lg-3 mb-2">
-        <label>{{t('Registration Date')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Registration Date')}} :</label>
         <input autocomplete="disabled" class="form-control form-control-solid" name="registration_date" value="" placeholder="{{t('Pick date rage')}}" id="registration_date"/>
         <input type="hidden" name="start_date" id="start_registration_date" />
         <input type="hidden" name="end_date" id="end_registration_date" />
     </div>
 
 
-    <div class="col-2 mb-2">
-        <label>{{t('Order By')}} :</label>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Order By')}} :</label>
         <select name="orderBy" id="orderBy" class="form-select" data-control="select2" data-placeholder="{{t('Select Type')}}" >
             <option value="latest" selected>{{t('Latest')}}</option>
             <option value="name">{{t('Name')}}</option>
             <option value="level">{{t('Level')}}</option>
             <option value="section">{{t('Section')}}</option>
-            <option value="arab">{{t('Arab Status')}}</option>
         </select>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Sen Student')}}:</label>
         <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Status')}}" name="sen" data-allow-clear="true">
             <option></option>
@@ -137,7 +124,7 @@
             <option value="2">{{t('Normal Student')}}</option>
         </select>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Citizen')}}:</label>
         <select class="form-control form-select " data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Type')}}" name="citizen" data-allow-clear="true">
             <option></option>
@@ -145,7 +132,7 @@
             <option value="2">{{t('Non-Citizen')}}</option>
         </select>
     </div>
-    <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('Students Status')}}:</label>
         <select class="form-control form-select reset-no" data-hide-search="true" data-control="select2" data-placeholder="{{t('Select Student Status')}}" name="deleted_at" id="students_status">
             <option value="1" selected>{{t('Not Deleted Students')}}</option>
@@ -154,15 +141,7 @@
             @endcan
         </select>
     </div>
-    <div class="col-2 mb-2">
-        <label class="mb-1">{{t('Arabs Status')}}:</label>
-        <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('Arabs Status')}}" name="arab_status" data-allow-clear="true">
-            <option></option>
-            <option value="1">{{t('Arabs')}}</option>
-            <option value="2">{{t('Non-Arabs')}}</option>
-        </select>
-    </div>
-    <div class="col-2 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('G&T')}}:</label>
         <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('G&T')}}" name="g_t" data-allow-clear="true">
             <option></option>
@@ -178,7 +157,6 @@
         <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="text-start"></th>
-            <th class="text-start">#</th>
             <th class="text-start">{{t('Name')}}</th>
             <th class="text-start">{{t('School')}}</th>
             <th class="text-start">{{t('Level')}}</th>
@@ -200,7 +178,6 @@
 
         var TABLE_COLUMNS = [
             {data: 'id', name: 'id'},
-            {data: 'sid', name: 'student_id'},
             {data: 'name', name: 'name'},
             {data: 'school', name: 'school'},
             {data: 'level', name: 'level'},
@@ -245,33 +222,91 @@
                 $('.not-deleted-students').removeClass('d-none')
                 // //show delete button
                 $('#li_delete_rows').removeClass('d-none')
+                $('#restore-students').addClass('d-none')
             }else {
                 //hide actions for not deleted students
                 $('.not-deleted-students').addClass('d-none')
                 // //hide delete button
                 $('#li_delete_rows').addClass('d-none')
+                $('#restore-students').removeClass('d-none')
 
             }
             table.DataTable().draw(true);
         })
 
         //restore students
-       function restore(id) {
-           $.ajax({
-               type: "POST", //we are using GET method to get data from server side
-               url: '{{route('manager.student.student-restore',':id')}}'.replace(':id',id), // get the route value
-               data: {
-                   '_token':'{{csrf_token()}}'
-               },
-               success:function (result) {
-                   toastr.success(result.message)
-                   table.DataTable().draw(false);
-               },
-               error:function (error) {
-                   toastr.error(error.responseJSON.message)
-               }
-           })
-       }
+        function restore(id = null) {
+            let data = {
+                '_token': '{{ csrf_token() }}'
+            };
+
+            if (!id) {
+                id = [];
+                $("table input:checkbox:checked").each(function () {
+                    id.push($(this).val());
+                });
+                data['id'] = id;
+
+                let school_id = $('select[name="school_id"]').val();
+                if (id.length <= 0 && !school_id) {
+                    toastr.error('{{ t('School is required') }}');
+                    return;
+                } else {
+                    data['school_id'] = school_id;
+                }
+
+                let year_id = $('select[name="year_id"]').val();
+                if (id.length <= 0 && !year_id) {
+                    toastr.error('{{ t('Year is required') }}');
+                    return;
+                } else {
+                    data['year_id'] = year_id;
+                }
+            }else {
+                data['id']=id;
+            }
+
+            Swal.fire({
+                title: '{{ t('Are you sure?') }}',
+                text: '{{ t('Do you want to restore the selected students?') }}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '{{ t('Yes, restore!') }}',
+                cancelButtonText: '{{ t('Cancel') }}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showLoadingModal()
+                    $.ajax({
+                        type: "POST",
+                        url: '{{route('manager.student.restore')}}',
+                        data: data,
+                        success: function (result) {
+                            hideLoadingModal()
+                            Swal.fire({
+                                icon: 'success',
+                                title: '{{ t('Restored!') }}',
+                                text: result.message,
+                                //timer: 2000,
+                                showConfirmButton: true
+                            });
+                            table.DataTable().draw(false);
+                        },
+                        error: function (error) {
+                            hideLoadingModal()
+                            Swal.fire({
+                                icon: 'error',
+                                title: '{{ t('Error') }}',
+                                text: error.responseJSON?.message || '{{ t('Something went wrong') }}'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+
         //open assessment
         function autoOpenTime() {
             var row_id = [];

@@ -84,7 +84,10 @@ class SettingController extends Controller
         app()->setLocale($local);
         return back();
     }
-
+    public function liveStudents()
+    {
+        return view('school.live-students',['school' => Auth::guard('school')->user()]);
+    }
     public function getLevelsByYear(Request $request)
     {
         $year = $request->get('year_id', false);

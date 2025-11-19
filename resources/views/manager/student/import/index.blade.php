@@ -8,13 +8,17 @@
 @endpush
 
 @section('filter')
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('ID')}}:</label>
+        <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+    </div>
     <div class="row">
-        <div class="col-3 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label class="mb-1">{{t('Name')}}:</label>
             <input type="text" name="name" class="form-control" placeholder="{{t('Name')}}"/>
         </div>
 
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('School')}}:</label>
             <select name="school_id" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select School')}}" data-allow-clear="true">
@@ -24,7 +28,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Process Type')}}:</label>
             <select name="process_type" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select Type')}}" data-hide-search="true" data-allow-clear="true">
@@ -34,7 +38,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Status')}}:</label>
             <select name="status" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select Status')}}" data-hide-search="true" data-allow-clear="true">
@@ -44,7 +48,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Has Logs')}}:</label>
             <select name="has_logs" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select Type')}}" data-hide-search="true" data-allow-clear="true">
@@ -53,7 +57,7 @@
                 <option value="0">{{t('No')}}</option>
             </select>
         </div>
-        <div class="col-lg-3  mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Has Errors')}}:</label>
             <select name="has_errors" class="form-control form-select" data-control="select2"
                     data-placeholder="{{t('Select Type')}}" data-hide-search="true" data-allow-clear="true">
@@ -62,7 +66,7 @@
                 <option value="0">{{t('No')}}</option>
             </select>
         </div>
-        <div class="col-lg-3 mb-2">
+        <div class="col-md-3 col-sm-6 mb-2">
             <label>{{t('Creation Date')}} :</label>
             <input autocomplete="disabled" class="form-control form-control-solid" name="create_date" value="" placeholder="{{t('Pick date rage')}}" id="create_date"/>
             <input type="hidden" name="start_date" id="start_create_date" />

@@ -191,6 +191,8 @@ class Activity extends Model implements ActivityContract
         return $query
             ->when($value = $request->get('causer_type', false), function (Builder $query) use ($value) {
                 $query->where('causer_type', $value);
+            })->when($value = $request->get('id',false),function (Builder $query) use ($value){
+                $query->where('id', $value);
             })->when($value = $request->get('causer_id', false), function (Builder $query) use ($value) {
                 $query->where('causer_id', $value);
             })->when($value = $request->get('subject_type', false), function (Builder $query) use ($value) {

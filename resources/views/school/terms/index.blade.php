@@ -21,54 +21,67 @@
 
 @endsection
 @section('filter')
-
-        <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('ID')}}:</label>
+        <input type="text" name="id" class="form-control direct-search" placeholder="E.g: 4590"/>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
         <div class="form-group">
             <label class="mb-1">{{t('Student name')}}:</label>
-            <input type="text" class="form-control direct-search" id="" value="" name="student_name" placeholder="{{t('Student name')}}">
+            <input type="text" class="form-control direct-search" id="" value="" name="student_name"
+                   placeholder="{{t('Student name')}}">
         </div>
     </div>
 
 
-        <div class="col-3 mb-2">
+    <div class="col-md-3 col-sm-6 mb-2">
         <div class="form-group">
             <label class="mb-1">{{t('Student ID Number')}}:</label>
-            <input type="text" class="form-control direct-search" id="" value="" name="student_id_number" placeholder="{{t('Student ID Number')}}" >
+            <input type="text" class="form-control direct-search" id="" value="" name="student_id_number"
+                   placeholder="{{t('Student ID Number')}}">
         </div>
-       </div>
+    </div>
 
-        <div class="col-3 mb-2">
-            <label class="mb-1">{{t('Year')}}:</label>
-            <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id" id="year_id">
-                <option></option>
-                @foreach($years as $year)
-                    <option value="{{$year->id}}">{{$year->name}}</option>
-                @endforeach
-            </select>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <div class="form-group">
+            <label class="mb-1">{{t('Grade name')}}:</label>
+            <input type="text" class="form-control" id="" value="" name="grade_name" placeholder="{{t('Grade name')}}">
         </div>
-
-        <div class="col-lg-3 mb-2">
-            <label>{{t('Class Name')}} :</label>
-            <select name="grade_name[]" id="class_name" class="form-select direct-value" data-control="select2" data-placeholder="{{t('Select Class Name')}}" multiple data-allow-clear="true">
-            </select>
-        </div>
-
-        <div class="col-3 mb-2">
-            <label class="mb-1">{{t('Levels')}}:</label>
-            <select class="form-control form-select direct-value" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select School')}}" multiple name="level_id" id="levels_id">
-                <option></option>
-            </select>
-        </div>
-        <div class="col-3 mb-2">
-            <label class="mb-1">{{t('Round')}}:</label>
-            <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select One')}}" name="round">
-                <option></option>
-                <option value="september">{{t('September')}}</option>
-                <option value="february">{{t('February')}}</option>
-                <option value="may">{{t('May')}}</option>
-            </select>
-        </div>
-        <input type="hidden" name="corrected" value="{{request('type')=='corrected'?1:2}}">
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Year')}}:</label>
+        <select class="form-control form-select" data-control="select2" data-allow-clear="true"
+                data-placeholder="{{t('Select Year')}}" name="year_id" id="year_id">
+            <option></option>
+            @foreach($years as $year)
+                <option value="{{$year->id}}">{{$year->name}}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Class Name')}} :</label>
+        <select name="grade_name[]" id="class_name" class="form-select direct-value" data-control="select2"
+                data-placeholder="{{t('Select Class Name')}}" multiple data-allow-clear="true">
+        </select>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Levels')}}:</label>
+        <select class="form-control form-select direct-value" data-control="select2" data-allow-clear="true"
+                data-placeholder="{{t('Select School')}}" multiple name="level_id" id="levels_id">
+            <option></option>
+        </select>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Round')}}:</label>
+        <select class="form-control form-select" data-control="select2" data-allow-clear="true"
+                data-placeholder="{{t('Select One')}}" name="round">
+            <option></option>
+            <option value="september">{{t('September')}}</option>
+            <option value="february">{{t('February')}}</option>
+            <option value="may">{{t('May')}}</option>
+        </select>
+    </div>
+    <input type="hidden" name="corrected" value="{{request('type')=='corrected'?1:2}}">
 
 @endsection
 @section('content')
@@ -77,9 +90,7 @@
         <thead>
         <tr class="fw-semibold fs-6 text-gray-800">
             <th class="text-start"></th>
-            <th class="text-start">#</th>
             <th class="text-start">{{t('Name')}}</th>
-            <th class="text-start">{{t('Username')}}</th>
             <th class="text-start">{{t('Grade Name')}}</th>
             <th class="text-start">{{t('Assessment')}}</th>
             <th class="text-start">{{t('Round')}}</th>
@@ -104,9 +115,7 @@
 
         var TABLE_COLUMNS = [
             {data: 'id', name: 'id'},
-            {data: 'student.id_number', name: 'student_id'},
-            {data: 'student.name', name: 'name'},
-            {data: 'student.email', name: 'email'},
+            {data: 'name', name: 'name'},
             {data: 'student.grade_name', name: 'grade'},
             {data: 'term', name: 'term'},
             {data: 'round', name: 'round'},

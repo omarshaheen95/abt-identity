@@ -143,6 +143,7 @@ class TermController extends Controller
                             'submitted_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
                             'corrected_at' => null,
                             'corrected_by' => null,
+                            'emergency_save'=>$request->get('emergency_save',0)
                         ]
                     ]);
                     $student->update(['assessment_opened' => 0]);

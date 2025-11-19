@@ -28,6 +28,25 @@
 
             <!--begin::Navbar-->
             <div class="app-navbar flex-shrink-0">
+{{--                @if(guardIs('school'))--}}
+{{--                    <div class="app-navbar-item ms-1 ms-md-3">--}}
+{{--                        <a href="{{route('school.live-students')}}" target="_blank" class="btn btn-sm btn-outline btn-outline-dashed btn-outline-success rounded-4 position-relative">--}}
+{{--                            <div class="d-flex align-items-center gap-1">--}}
+{{--                             <span class="me-1" style="--}}
+{{--                                display: inline-block;--}}
+{{--                                width: 12px;--}}
+{{--                                height: 12px;--}}
+{{--                                border-radius: 50%;--}}
+{{--                                background-color: #4ade80;--}}
+{{--                                box-shadow: 0 0 10px #4ade80;--}}
+{{--                                animation: pulse 1s infinite;">--}}
+{{--                                </span>--}}
+{{--                                <span class="fw-bold">{{t('Online Students')}}</span>--}}
+{{--                            </div>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+
                 <!--begin::Local-->
                 <div class="app-navbar-item ms-1 ms-md-3">
                     <!--begin::Menu toggle-->

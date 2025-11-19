@@ -135,6 +135,13 @@ function examFormSubmit(with_validation=true){
                         message = xhr.responseJSON.message;
                     }
                     showToastify(message, "error");
+
+                    if(xhr.responseText){
+                        let error_message = JSON.parse(xhr.responseText);
+                        if(error_message.status === 401){
+                            location.reload();
+                        }
+                    }
                 }
 
             })
@@ -261,6 +268,7 @@ $(document).ready(function () {
     $('#confirm-emergency-save').on('click', function() {
         $('#emergency-save-modal').modal('hide');
         $('#emergency-save-indicator').fadeIn(200);
+        $('#emergency-save-input').val(1)
         setTimeout(function() {
             examFormSubmit(false); // Submit without validation
         }, 500);

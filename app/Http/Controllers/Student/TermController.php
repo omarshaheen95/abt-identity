@@ -43,7 +43,7 @@ class TermController extends Controller
                         $query->where('arab', $student->level->arab);
                     })
                     ->first();
-            }else{
+            } else {
                 $term = Term::query()
                     ->where('id', $id)
                     ->where('level_id', $student->level_id)
@@ -55,13 +55,23 @@ class TermController extends Controller
 
 
             //check if term round is available in studentSchool
-            $round_is_available = SchoolGrade::with('school')
-                ->where('school_id', $student->school_id)
-                ->where($term->round, true)
-                ->where('arab', $student->level->arab)
-                ->whereHas('school', function ($query) use ($student) {
-                    $query->where('available_year_id', $student->level->year_id);
-                })->first();
+            if (in_array($student->school->curriculum_type, ['Indian', 'Pakistan', 'Bangladeshi'])) {
+                $round_is_available = SchoolGrade::with('school')
+                    ->where('school_id', $student->school_id)
+                    ->where($term->round, true)
+                    ->where('arab', $student->level->arab)
+                    ->whereHas('school', function ($query) use ($student) {
+                        $query->where('available_year_id', $student->school->available_year_id);
+                    })->first();
+            } else {
+                $round_is_available = SchoolGrade::with('school')
+                    ->where('school_id', $student->school_id)
+                    ->where($term->round, true)
+                    ->where('arab', $student->level->arab)
+                    ->whereHas('school', function ($query) use ($student) {
+                        $query->where('available_year_id', $student->level->year_id);
+                    })->first();
+            }
 
             if (!$round_is_available) {
                 return redirect()->route('student.home')->with('term-message', t('Assessment Not Available For You'));
@@ -143,7 +153,7 @@ class TermController extends Controller
                             'submitted_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
                             'corrected_at' => null,
                             'corrected_by' => null,
-                            'emergency_save'=>$request->get('emergency_save',0)
+                            'emergency_save' => $request->get('emergency_save', 0)
                         ]
                     ]);
                     $student->update(['assessment_opened' => 0]);
@@ -196,7 +206,7 @@ class TermController extends Controller
             }
         }
 
-        return Response::respondSuccess('Assessment passed successfully',route('student.home'));
+        return Response::respondSuccess('Assessment passed successfully', route('student.home'));
     }
 
 

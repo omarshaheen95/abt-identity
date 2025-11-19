@@ -19,6 +19,7 @@ use App\Models\Term;
 use App\Models\TFQuestion;
 use App\Models\TFQuestionResult;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,10 +34,21 @@ class TermController extends Controller
 
         if (!$student->demo) {
             //get term and check if available for student
-            $term = Term::query()
-                ->where('id', $id)
-                ->where('level_id', $student->level_id)
-                ->first();
+            if (in_array($student->school->curriculum_type, ['Indian', 'Pakistan', 'Bangladeshi'])) {
+                $term = Term::query()
+                    ->where('id', $id)
+                    ->whereHas('level', function (Builder $query) use ($student) {
+                        $query->where('year_id', $student->school->available_year_id);
+                        $query->where('grade', $student->level->grade);
+                        $query->where('arab', $student->level->arab);
+                    })
+                    ->first();
+            }else{
+                $term = Term::query()
+                    ->where('id', $id)
+                    ->where('level_id', $student->level_id)
+                    ->first();
+            }
             if (!$term) {
                 return redirect()->route('student.home')->with('term-message', t('Assessment Not Found'));
             }

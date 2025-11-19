@@ -148,6 +148,7 @@
                 <th class="text-start">{{t('Total')}}</th>
             @endif
             <th class="text-start">{{t('Status')}}</th>
+            <th class="text-start">{{t('Submitted At')}}</th>
              <th class="text-start">{{t('Actions')}}</th>
         </tr>
         </thead>
@@ -171,6 +172,7 @@
             {data: 'total', name: 'total'},
             @endif
             {data: 'corrected', name: 'corrected'},
+            {data: 'created_at', name: 'created_at'},
             {data: 'actions', name: 'actions'}
         ];
         var CREATED_ROW = function(row, data, dataIndex) {

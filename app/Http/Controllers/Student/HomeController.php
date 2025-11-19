@@ -91,9 +91,8 @@ class HomeController extends Controller
                     //get terms
                     $available_terms = Term::query()
                         ->whereNotIn('id', $completed_terms->pluck('term_id'))
-                        ->whereIn('round', $available_rounds)
-                        ->where('level_id', $student->level_id)
-                        ->where('year_id', $student->level->year_id)
+                        ->whereIn('round',$available_rounds)
+                        ->where('level_id',$student->level_id)
                         ->where('active', 1)
                         ->get();
                 }

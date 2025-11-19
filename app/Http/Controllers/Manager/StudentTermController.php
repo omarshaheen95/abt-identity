@@ -22,6 +22,7 @@ use App\Models\Term;
 use App\Models\TFQuestionResult;
 use App\Models\Year;
 use App\Services\CorrectionService;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,6 +65,9 @@ class StudentTermController extends Controller
             $rows = StudentTerm::with(['student.school','term.level.year'])->search($request)->latest();
             return DataTables::make($rows)
                 ->escapeColumns([])
+                ->addColumn('created_at', function ($row) {
+                    return Carbon::parse($row->created_at)->toDateString();
+                })
                 ->addColumn('student_id', function ($row) {
                     return $row->student->id??'-';
                 })
@@ -95,6 +99,7 @@ class StudentTermController extends Controller
                     }
                         return '<a><span class="badge badge-success">'.t('Corrected').'</span></a>';
                 })
+
                 ->addColumn('actions', function ($row) {
                     return $row->action_data;
                 })

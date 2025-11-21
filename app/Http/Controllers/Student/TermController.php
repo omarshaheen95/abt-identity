@@ -202,7 +202,7 @@ class TermController extends Controller
             if ($exception->getCode() == 23000) {
                 return Response::respondSuccess('** Assessment passed successfully **', route('student.home'));
             } else {
-                return Response::respondError($exception->getMessage());
+                return Response::respondError([$exception->getMessage()]);
             }
         }
 

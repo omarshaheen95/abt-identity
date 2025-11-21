@@ -66,7 +66,7 @@ class StudentTermController extends Controller
             return DataTables::make($rows)
                 ->escapeColumns([])
                 ->addColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->toDateString();
+                    return Carbon::parse($row->created_at)->toDateTimeString();
                 })
                 ->addColumn('student_id', function ($row) {
                     return $row->student->id??'-';

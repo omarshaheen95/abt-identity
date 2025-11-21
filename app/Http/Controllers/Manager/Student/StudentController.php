@@ -227,7 +227,7 @@ class StudentController extends Controller
         $students = Student::query()->search($request)->update([
             'assessment_opened' => 0,
         ]);
-        return $this->sendResponse($request->all(), t('Assessments Updated Successfully for Students : ' . $students));
+        return $this->sendResponse($request->all(), t('Assessments Updated Successfully for Students').' : ' . $students);
     }
 
     public function restoreStudent(Request $request)

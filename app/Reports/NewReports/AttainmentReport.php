@@ -483,6 +483,12 @@ class AttainmentReport
                     if (count($sections) > 0) {
                         $query->whereIn('grade_name', $sections);
                     }
+                    //check included SEN and G&T students
+                    $query->when(!$this->request->get('include_sen', false), function ($query) {
+                        $query->where('sen', 0);
+                    })->when(!$this->request->get('include_g_t', false), function ($query) {
+                        $query->where('g_t', 0);
+                    });
                     $query->whereIn('school_id', $this->schools->pluck('id'));
                 })
                 ->whereIn('term_id', $allTerms->pluck('id'))
@@ -501,6 +507,12 @@ class AttainmentReport
                     if (count($sections) > 0) {
                         $query->whereIn('grade_name', $sections);
                     }
+                    //check included SEN and G&T students
+                    $query->when(!$this->request->get('include_sen', false), function ($query) {
+                        $query->where('sen', 0);
+                    })->when(!$this->request->get('include_g_t', false), function ($query) {
+                        $query->where('g_t', 0);
+                    });
                     $query->whereIn('school_id', $this->schools->pluck('id'));
                 })
                 ->whereIn('term_id', $allTerms->pluck('id'))

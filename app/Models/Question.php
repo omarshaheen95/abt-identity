@@ -131,6 +131,14 @@ class Question extends Model
             $query->where('type',$value);
         })->when($value = $request->get('row_id',[]),function (Builder $query) use ($value){
             $query->whereIn('id', $value);
+        })
+            //has_standard
+        ->when($request->has('has_standard'), function (Builder $query) use ($request) {;
+            if ($request->get('has_standard') == 1) {
+                $query->whereHas('question_standard');
+            } else {
+                $query->whereDoesntHave('question_standard');
+            }
         });
     }
 

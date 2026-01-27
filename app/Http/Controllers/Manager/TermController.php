@@ -399,9 +399,12 @@ class TermController extends Controller
                         if ($data['with_standards'] == 1) {
 //                            foreach ($question->question_standard as $standard) {
                                 $standard = $question->question_standard;
-                                $new_standard = $standard->replicate();
-                                $new_standard->question_id = $new_question->id;
-                                $new_standard->save();
+                                if ($standard)
+                                {
+                                    $new_standard = $standard->replicate();
+                                    $new_standard->question_id = $new_question->id;
+                                    $new_standard->save();
+                                }
 //                            }
                         }
                         switch ($question->type)

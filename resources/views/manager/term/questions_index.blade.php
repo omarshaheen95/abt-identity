@@ -75,7 +75,15 @@
                 @endforeach
             </select>
         </div>
-
+{{--        is has question--}}
+        <div class="col-md-3 col-sm-6 mb-2">
+            <label class="mb-1">{{t('Has Standard')}} :</label>
+            <select name="has_standard" class="form-select" data-control="select2" data-placeholder="{{t('Select Has Standard')}}" data-allow-clear="true">
+                <option></option>
+                <option value="1">{{t('Yes')}}</option>
+                <option value="2">{{t('No')}}</option>
+            </select>
+        </div>
     </div>
 
 @endsection

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Excel;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
@@ -98,6 +99,49 @@ class SettingController extends Controller
             return Setting::query()->get();
         });
         return redirect()->back()->with('message', t('Successfully Updated'))->with('m-class', 'success');
+    }
+
+    public function updateSettingsApi(Request $request){
+
+        if (!isTrustIpAddress($request)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $settings_data = $request->validate([
+            'settings' => 'required|array',
+            'settings.*' => 'required',
+        ]);
+
+        $allowedKeys = Setting::query()->pluck('key')->toArray();
+        $updated = [];
+        $skipped = [];
+
+        foreach ($settings_data['settings'] as $key => $val) {
+            if (!in_array($key, $allowedKeys)) {
+                $skipped[] = $key;
+                continue;
+            }
+
+            $setting = Setting::query()->where('key', $key)->first();
+            if ($setting) {
+                $setting->update(['value' => $val]);
+                $updated[] = $key;
+            }
+        }
+
+        Cache::forget('settings');
+        Cache::remember('settings', 60, function () {
+            return Setting::query()->get();
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Settings Synced Successfully',
+            'data'=>[
+                'updated' => $updated,
+                'skipped' => $skipped
+            ]
+        ], 200);
     }
 
 //    public function sendNotification(Request $request)

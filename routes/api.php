@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('import_students',[\App\Http\Controllers\Manager\Student\StudentImportController::class,'importStudentsApi']);
-
+Route::post('update_settings',[\App\Http\Controllers\Manager\SettingController::class,'updateSettingsApi']);
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

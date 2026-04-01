@@ -321,6 +321,7 @@ class TermController extends Controller
         $data['with_questions'] = $request->get('with_questions', 0);
         $data['with_standards'] = $request->get('with_standards', 0);
         $data['with_terms'] = $request->get('with_terms', 0);
+        $data['with_questions_content'] = $request->get('with_questions_content', 0);
         $from_terms = Term::query()
             ->with(['level', 'question.tf_question', 'question.option_question', 'question.match_question', 'question.sort_question'])
             ->whereHas('level', function (Builder $query) use ($data) {
@@ -391,10 +392,12 @@ class TermController extends Controller
                     foreach ($term->question as $question) {
                         $new_question = $question->replicate();
                         $new_question->term_id = $to_term->id;
-//                        $new_question->content = null;
-//                        $new_question->image = null;
-//                        $new_question->audio = null;
-//                        $new_question->question_reader = null;
+                        if ($data['with_questions_content'] == 0) {
+                            $new_question->content = null;
+                            $new_question->image = null;
+                            $new_question->audio = null;
+                            $new_question->question_reader = null;
+                        }
                         $new_question->save();
                         if ($data['with_standards'] == 1) {
 //                            foreach ($question->question_standard as $standard) {
@@ -418,6 +421,10 @@ class TermController extends Controller
                                 foreach ($question->option_question as $option) {
                                     $new_option = $option->replicate();
                                     $new_option->question_id = $new_question->id;
+                                    if ($data['with_questions_content'] == 0) {
+                                        $new_option->content = null;
+                                        $new_option->image = null;
+                                    }
                                     $new_option->save();
                                 }
                                 break;
@@ -426,6 +433,11 @@ class TermController extends Controller
                                     $new_option = $match->replicate();
                                     $new_option->question_id = $new_question->id;
                                     $new_option->uid = Str::uuid()->toString();
+                                    if ($data['with_questions_content'] == 0) {
+                                        $new_option->content = null;
+                                        $new_option->image = null;
+                                        $new_option->result = null;
+                                    }
                                     $new_option->save();
                                 }
                                 break;
@@ -434,6 +446,10 @@ class TermController extends Controller
                                     $new_option = $sort->replicate();
                                     $new_option->question_id = $new_question->id;
                                     $new_option->uid = Str::uuid()->toString();
+                                    if ($data['with_questions_content'] == 0) {
+                                        $new_option->content = null;
+                                        $new_option->image = null;
+                                    }
                                     $new_option->save();
                                 }
                                 break;

@@ -116,6 +116,16 @@
             </div>
             <div class="col-lg-3 mt-8">
                 <div class="form-check form-switch form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" value="1" id="with_questions_content"
+                           checked name="with_questions_content"
+                    />
+                    <label class="form-check-label" for="flexSwitchDefault">
+                        {{t('With Questions Content')}}
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-3 mt-8">
+                <div class="form-check form-switch form-check-custom form-check-solid">
                     <input class="form-check-input" type="checkbox" value="1" id="with_standards"
                            checked name="with_standards"
                     />

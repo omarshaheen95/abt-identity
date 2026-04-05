@@ -21,7 +21,7 @@
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input d-none" type="radio" name="questions[{{$question->id}}][answer]"
                                            id="tf-option-{{$question->id}}-1" value="1"
-                                        {{$question->result==1?'checked':''}}>
+                                        {{$question->tf_question->result==1?'checked':''}}>
                                     <label class="form-check-label form-check-custom" for="tf-option-{{$question->id}}-1" >
                                         <span> <img src="{{asset('web_assets/img/true.svg')}}" alt=""></span>
                                         <span class="text"> {{$term->level->arab?'صح':'True'}} </span>
@@ -30,7 +30,7 @@
                                 <div class="form-check form-check-inline ">
                                     <input class="form-check-input d-none" type="radio" name="questions[{{$question->id}}][answer]"
                                            id="tf-option-{{$question->id}}-2" value="0"
-                                        {{$question->result==0?'checked':''}}>
+                                        {{$question->tf_question->result==0?'checked':''}}>
 
                                     <label class="form-check-label form-check-custom" for="tf-option-{{$question->id}}-2">
                                         <span> <img src="{{asset('web_assets/img/false.svg')}}" alt=""></span>

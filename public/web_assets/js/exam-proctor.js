@@ -421,7 +421,7 @@ var EXAM_PROCTOR_CONFIG = {
                 '  font-weight: 600;' +
                 '  letter-spacing: 0.3px;' +
                 '  transition: all 0.3s;' +
-                '  box-shadow: 0 4px 15px rgba(var(--science-color-rgb, 6, 130, 65), 0.35);' +
+                '  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);' +
                 '  color: #fff;' +
                 '  display: inline-flex;' +
                 '  align-items: center;' +
@@ -431,8 +431,8 @@ var EXAM_PROCTOR_CONFIG = {
                 '}' +
                 '#proctor-grant-btn:hover:not(:disabled) {' +
                 '  transform: translateY(-2px);' +
-                '  box-shadow: 0 6px 25px rgba(var(--science-color-rgb, 6, 130, 65), 0.4);' +
-                '  background: rgba(var(--science-color-rgb, 6, 130, 65), 0.9);' +
+                '  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);' +
+                '  background: var(--science-color, #068241); filter: brightness(0.9);' +
                 '  color: #fff;' +
                 '}' +
                 '#proctor-grant-btn:disabled {' +

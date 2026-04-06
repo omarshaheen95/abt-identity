@@ -19,6 +19,13 @@
     <meta name="google" content="notranslate">
 
     @if(settingCache('exam_desktop_only') && in_array(strtolower(auth()->guard('student')->user()->school->country), ['uae', 'qatar', 'bahrain']))
+        <script>
+            var DESKTOP_ONLY_ENABLED = true;
+            var DESKTOP_ONLY_CONFIG = {
+                redirectUrl: '{{route('student.home')}}',
+                allowedRoutes: ['{{parse_url(route('student.home'), PHP_URL_PATH)}}']
+            };
+        </script>
         <script src="{{asset('web_assets/js/desktop-only.js')}}?v={{time()}}"></script>
     @endif
 

@@ -43,6 +43,8 @@ class SettingsTableSeeder extends Seeder
             ['name' => 'reCAPTCHA site key', 'key' => 'captcha_site_key', 'value' => null, 'type' => 'text', 'group' => 'captcha'],
             //Assessments
             ['name' => 'Submit Assessment When Timeout', 'key' => 'submit_when_timeout', 'value' => 1, 'type' => 'checkbox', 'group' => 'assessment'],
+            ['name' => 'Enable Exam Proctoring', 'key' => 'exam_proctoring_enabled', 'value' => 0, 'type' => 'checkbox', 'group' => 'assessment'],
+            ['name' => 'Enable Desktop Only Exam', 'key' => 'exam_desktop_only', 'value' => 0, 'type' => 'checkbox', 'group' => 'assessment'],
 
         ];
 

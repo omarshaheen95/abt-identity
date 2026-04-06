@@ -79,6 +79,7 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'checkIfActive' => CheckIfActive::class,
         'setRequestData' => SetRequestDataMiddleware::class,
+        'desktop.only' => \App\Http\Middleware\DesktopOnlyMiddleware::class,
 
     ];
 }

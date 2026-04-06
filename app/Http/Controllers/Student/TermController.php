@@ -17,6 +17,7 @@ use App\Models\StudentTerm;
 use App\Models\Subject;
 use App\Models\Term;
 use App\Models\TFQuestion;
+use App\Models\ProctorImage;
 use App\Models\TFQuestionResult;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -143,7 +144,8 @@ class TermController extends Controller
         try {
             if (!$student->demo) {
 
-                DB::transaction(function () use ($request, $id, $student) {
+                $student_term = null;
+                DB::transaction(function () use ($request, $id, $student, &$student_term) {
 
                     $student_term = StudentTerm::query()->create([
                         'student_id' => $student->id,
@@ -196,6 +198,32 @@ class TermController extends Controller
 
 
                 });
+
+                // Save proctor images outside transaction
+                if ($student_term && settingCache('exam_proctoring_enabled')) {
+                    foreach ($request->file('proctor_selfies', []) as $index => $file) {
+                        $uploaded = uploadFile($file, 'proctor_images/selfies');
+                        if ($uploaded) {
+                            ProctorImage::create([
+                                'student_term_id' => $student_term->id,
+                                'type' => 'selfie',
+                                'file_path' => $uploaded['path'],
+                                'capture_minute' => $request->input("proctor_selfie_minutes.{$index}"),
+                            ]);
+                        }
+                    }
+                    foreach ($request->file('proctor_screenshots', []) as $index => $file) {
+                        $uploaded = uploadFile($file, 'proctor_images/screenshots');
+                        if ($uploaded) {
+                            ProctorImage::create([
+                                'student_term_id' => $student_term->id,
+                                'type' => 'screenshot',
+                                'file_path' => $uploaded['path'],
+                                'capture_minute' => $request->input("proctor_screenshot_minutes.{$index}"),
+                            ]);
+                        }
+                    }
+                }
             }
 
         } catch (\Exception $exception) {

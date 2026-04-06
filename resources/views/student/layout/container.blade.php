@@ -18,6 +18,10 @@
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}" />
     <meta name="google" content="notranslate">
 
+    @if(settingCache('exam_desktop_only') && in_array(strtolower(auth()->guard('student')->user()->school->country), ['uae', 'qatar', 'bahrain']))
+        <script src="{{asset('web_assets/js/desktop-only.js')}}?v={{time()}}"></script>
+    @endif
+
     @yield('pre-style')
     @if($student->level->arab)
         <link href="{{asset('web_assets/css/bootstrap.rtl.min.css')}}" rel="stylesheet">

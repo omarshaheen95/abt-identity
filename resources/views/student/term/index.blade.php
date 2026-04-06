@@ -296,4 +296,8 @@
     <script>
         getAndSetResults() //cache results
     </script>
+    @if(settingCache('exam_proctoring_enabled') && in_array(strtolower(auth()->guard('student')->user()->school->country), ['uae', 'qatar', 'bahrain']))
+        <script>window.PROCTOR_ENABLED = true;</script>
+        <script src="{{asset('web_assets/js/exam-proctor.js')}}?v={{time()}}"></script>
+    @endif
 @endsection

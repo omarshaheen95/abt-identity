@@ -45,6 +45,7 @@ class SettingsTableSeeder extends Seeder
             ['name' => 'Submit Assessment When Timeout', 'key' => 'submit_when_timeout', 'value' => 1, 'type' => 'checkbox', 'group' => 'assessment'],
             ['name' => 'Enable Exam Proctoring', 'key' => 'exam_proctoring_enabled', 'value' => 0, 'type' => 'checkbox', 'group' => 'assessment'],
             ['name' => 'Enable Desktop Only Exam', 'key' => 'exam_desktop_only', 'value' => 0, 'type' => 'checkbox', 'group' => 'assessment'],
+            ['name' => 'Proctor Images Retention (Days)', 'key' => 'proctor_images_retention_days', 'value' => 90, 'type' => 'number', 'group' => 'proctoring'],
 
         ];
 

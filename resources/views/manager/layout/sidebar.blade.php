@@ -117,6 +117,21 @@
                     </div>
                 @endcan
 
+                @can('show proctor images')
+                    <div class="menu-item">
+                        <a class="menu-link @if(Route::is('manager.proctor-images.*'))active @endif "
+                           href="{{ route('manager.proctor-images.index') }}">
+                                <span class="menu-icon">
+                                   <i class="ki-duotone ki-picture fs-1">
+                                     <span class="path1"></span>
+                                     <span class="path2"></span>
+                                    </i>
+                                </span>
+                            <span class="menu-title">{{t('Proctor Images')}}</span>
+                        </a>
+                    </div>
+                @endcan
+
                 @can('show abt grouping students')
                     <div class="menu-item">
                         <a class="menu-link @if(Request::is('manager/abt_students*') )active @endif"
@@ -482,8 +497,7 @@
             </div>
 
 
-
-            <!--end::Menu-->
+<!--end::Menu-->
 
 
 

@@ -140,6 +140,8 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'combined reports','guard_name'=>'manager','group'=>'reports'],
             ['name' => 'progress reports','guard_name'=>'manager','group'=>'reports'],
             ['name' => 'general reports','guard_name'=>'manager','group'=>'reports'],
+            ['name' => 'show proctor images', 'guard_name' => 'manager', 'group' => 'proctor_images'],
+            ['name' => 'delete proctor images', 'guard_name' => 'manager', 'group' => 'proctor_images'],
 
         ];
 

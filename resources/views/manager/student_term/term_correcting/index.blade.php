@@ -15,11 +15,13 @@
                     <span class="text ms-2">{{$student_term->term->name}}</span>
                 </a>
                 <div class="d-flex align-items-center gap-2">
+                    @can('show proctor images')
                     @if($student_term->proctorImages->count() > 0)
                         <button type="button" class="btn btn-sm btn-secondary d-flex align-items-center" onclick="openProctorGallery()">
                             <i class="fas fa-camera me-1"></i> Student Screenshots ({{ $student_term->proctorImages->count() }})
                         </button>
                     @endif
+                    @endcan
                     <a href="#!" class="btn btn-sm btn-primary text-white"
                        style="background-color: #068241;border-color: #068241" onclick="$('#submit-term').modal('show')">
                         {{t('Assessment Approval')}}
@@ -120,7 +122,9 @@
         </div>
     </section>
 
+    @can('show proctor images')
     @include('general.proctor-viewer', ['proctor_images' => $student_term->proctorImages, 'student_name' => $student->name])
+    @endcan
 
     <!--exam confirm modal-->
     <div class="modal fade c-modal" id="submit-term" tabindex="-1" aria-labelledby="modalTitleId" style="display: none;"

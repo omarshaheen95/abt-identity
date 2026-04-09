@@ -172,6 +172,12 @@ Route::group([], function () {
     Route::get('activity-log/{id}', [\App\Http\Controllers\Manager\ActivityLogController::class, 'show'])->name('activity-log.show');
     Route::delete('activity-log', [\App\Http\Controllers\Manager\ActivityLogController::class, 'destroy'])->name('activity-log.delete');
 
+    //Proctor Images
+    Route::get('proctor-images', [\App\Http\Controllers\Manager\ProctorImageController::class, 'index'])->name('proctor-images.index');
+    Route::get('proctor-images/load-more', [\App\Http\Controllers\Manager\ProctorImageController::class, 'loadMore'])->name('proctor-images.load-more');
+    Route::delete('proctor-images/bulk-destroy', [\App\Http\Controllers\Manager\ProctorImageController::class, 'bulkDestroy'])->name('proctor-images.bulk-destroy');
+    Route::delete('proctor-images/{proctorImage}', [\App\Http\Controllers\Manager\ProctorImageController::class, 'destroy'])->name('proctor-images.destroy');
+
     //Login Sessions
     Route::resource('login_sessions', \App\Http\Controllers\Manager\LoginSessionController::class);
 

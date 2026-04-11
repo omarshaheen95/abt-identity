@@ -263,4 +263,7 @@ return [
 
     ],
 
+
+    'secure_exam_countries' => ['uae', 'bahrain'],
+
 ];

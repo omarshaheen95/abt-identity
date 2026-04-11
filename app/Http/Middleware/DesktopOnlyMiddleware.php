@@ -14,7 +14,7 @@ class DesktopOnlyMiddleware
 
         $userAgent = $request->header('User-Agent', '');
 
-        if ($this->isMobilePhone($userAgent) && in_array(strtolower(request()->user()->school->country), ['uae', 'qatar', 'bahrain'])) {
+        if ($this->isMobilePhone($userAgent) && in_array(strtolower(request()->user()->school->country), config('app.secure_exam_countries', []))) {
             return redirect()->route('student.home', ['desktop_only' => 1]);
         }
 

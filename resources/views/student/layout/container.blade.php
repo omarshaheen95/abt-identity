@@ -18,7 +18,7 @@
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}" />
     <meta name="google" content="notranslate">
 
-    @if(settingCache('exam_desktop_only') && in_array(strtolower(auth()->guard('student')->user()->school->country), ['uae', 'qatar', 'bahrain']))
+    @if(settingCache('exam_desktop_only') && in_array(strtolower(auth()->guard('student')->user()->school->country), config('app.secure_exam_countries', [])))
         <script>
             var DESKTOP_ONLY_ENABLED = true;
             var DESKTOP_ONLY_CONFIG = {

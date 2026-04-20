@@ -191,6 +191,31 @@
             @endcan
         </div>
 
+            <hr class="mt-4">
+            <h4>{{t('Proctoring Settings')}}</h4>
+            <div class="col-lg-3 mt-8">
+                <div class="form-check form-switch form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" value="1" id="proctoring_desktop_only"
+                           {{ isset($school) && $school->proctoringFlag('desktop_only') ? 'checked' : '' }} name="proctoring_settings[desktop_only]"/>
+                    <label class="form-check-label" for="proctoring_desktop_only">{{t('Desktop Only')}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3 mt-8">
+                <div class="form-check form-switch form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" value="1" id="proctoring_screenshot"
+                           {{ isset($school) && $school->proctoringFlag('screenshot') ? 'checked' : '' }} name="proctoring_settings[screenshot]"/>
+                    <label class="form-check-label" for="proctoring_screenshot">{{t('Screenshot')}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3 mt-8">
+                <div class="form-check form-switch form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" value="1" id="proctoring_selfie"
+                           {{ isset($school) && $school->proctoringFlag('selfie') ? 'checked' : '' }} name="proctoring_settings[selfie]"/>
+                    <label class="form-check-label" for="proctoring_selfie">{{t('Selfie')}}</label>
+                </div>
+            </div>
+            <hr class="mt-4">
+
         <div class="row my-5">
             <div class="separator separator-content my-4"></div>
             <div class="col-6 d-flex justify-content-start">

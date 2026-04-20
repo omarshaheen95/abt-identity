@@ -296,8 +296,13 @@
     <script>
         getAndSetResults() //cache results
     </script>
-    @if(settingCache('exam_proctoring_enabled') && in_array(strtolower(auth()->guard('student')->user()->school->country), config('app.secure_exam_countries', [])))
-        <script>window.PROCTOR_ENABLED = true;</script>
+    @php($school = optional(auth()->guard('student')->user())->school)
+    @if($school && $school->isProctoringEnabled())
+        <script>
+            var PROCTOR_ENABLED = true;
+            var PROCTOR_SCREENSHOT = {{ $school->proctoringFlag('screenshot') ? 'true' : 'false' }};
+            var PROCTOR_SELFIE = {{ $school->proctoringFlag('selfie') ? 'true' : 'false' }};
+        </script>
         <script src="{{asset('web_assets/js/exam-proctor.js')}}?v={{time()}}"></script>
     @endif
 @endsection

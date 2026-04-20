@@ -8,13 +8,14 @@ class DesktopOnlyMiddleware
 {
     public function handle($request, Closure $next)
     {
-        if (!settingCache('exam_desktop_only')) {
+        $school = optional(request()->user())->school;
+        if (!$school || !$school->proctoringFlag('desktop_only')) {
             return $next($request);
         }
 
         $userAgent = $request->header('User-Agent', '');
 
-        if ($this->isMobilePhone($userAgent) && in_array(strtolower(request()->user()->school->country), config('app.secure_exam_countries', []))) {
+        if ($this->isMobilePhone($userAgent)) {
             return redirect()->route('student.home', ['desktop_only' => 1]);
         }
 

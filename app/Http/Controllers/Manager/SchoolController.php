@@ -71,6 +71,7 @@ class SchoolController extends Controller
             $data['logo'] = $logo['path'];
         }
         $data['password'] = bcrypt($request->get('password'));
+        $data['proctoring_settings'] = School::prepareProctoringSettings($request);
         School::query()->create($data);
 
         return redirect()->route('manager.school.index')->with('message', t('Successfully Created'));
@@ -95,6 +96,7 @@ class SchoolController extends Controller
             $data['logo'] = $logo['path'];
         }
         $data['password'] = $request->get('password', false) ? bcrypt($request->get('password', 123456)) : $school->password;
+        $data['proctoring_settings'] = School::prepareProctoringSettings($request);
         $school->update($data);
         return redirect()->route('manager.school.index')->with('message', t('Successfully Updated'));
     }
@@ -126,5 +128,25 @@ class SchoolController extends Controller
     {
         return (new SchoolExport($request))
             ->download('Schools Information.xlsx');
+    }
+
+    public function bulkUpdateProctoringSettings(Request $request)
+    {
+        $request->validate([
+            'row_id' => 'nullable|array',
+            'countries' => 'nullable|array',
+            'proctoring_settings' => 'nullable|array',
+        ]);
+        $proctoringSettings = School::prepareProctoringSettings($request);
+        $query = School::query();
+        $rowIds = array_filter((array) $request->get('row_id', []));
+        $countries = array_filter(array_map('strtolower', (array) $request->get('countries', [])));
+        if (!empty($rowIds)) {
+            $query->whereIn('id', $rowIds);
+        } elseif (!empty($countries)) {
+            $query->whereIn(\DB::raw('LOWER(country)'), $countries);
+        }
+        $count = $query->update(['proctoring_settings' => json_encode($proctoringSettings)]);
+        return $this->sendResponse(null, t('Proctoring settings updated for') . ' ' . $count . ' ' . t('schools'));
     }
 }

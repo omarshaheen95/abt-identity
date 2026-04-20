@@ -200,7 +200,7 @@ class TermController extends Controller
                 });
 
                 // Save proctor images outside transaction
-                if ($student_term && settingCache('exam_proctoring_enabled')) {
+                if ($student_term && optional($student->school)->isProctoringEnabled()) {
                     foreach ($request->file('proctor_selfies', []) as $index => $file) {
                         $uploaded = uploadFile($file, 'proctor_images/selfies');
                         if ($uploaded) {

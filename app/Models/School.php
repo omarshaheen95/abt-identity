@@ -20,15 +20,21 @@ use Spatie\Translatable\HasTranslations;
 class School extends Authenticatable
 {
     use Notifiable, SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark'];
+    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
     protected $fillable = [
         'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info', 'certificate_mark',
-        'available_year_id','allow_reports'
+        'available_year_id','allow_reports', 'proctoring_settings'
         ];
+
+    protected $casts = [
+        'proctoring_settings' => 'array',
+    ];
+
+    public const PROCTORING_KEYS = ['desktop_only', 'screenshot', 'selfie'];
     protected $cascadeDeletes = ['students','school_grades', 'inspections_school'];
 
     public $translatable = ['name'];
@@ -131,8 +137,24 @@ class School extends Authenticatable
         return $this->hasMany(Student::class)->where('gender','girl');
     }
 
+    public function proctoringFlag(string $key): bool
+    {
+        $settings = $this->proctoring_settings ?? [];
+        return !empty($settings[$key]);
+    }
 
+    public function isProctoringEnabled(): bool
+    {
+        return $this->proctoringFlag('screenshot') || $this->proctoringFlag('selfie');
+    }
 
-
+    public static function prepareProctoringSettings(Request $request): array
+    {
+        return [
+            'desktop_only' => $request->has('proctoring_settings.desktop_only'),
+            'screenshot'   => $request->has('proctoring_settings.screenshot'),
+            'selfie'       => $request->has('proctoring_settings.selfie'),
+        ];
+    }
 
 }

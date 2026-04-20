@@ -44,6 +44,10 @@ class SchoolRequest extends FormRequest
         if (\Auth::guard('manager')->user()->hasDirectPermission('edit reports status')) {
             $rules['allow_reports'] = 'nullable|boolean';
         }
+        $rules['proctoring_settings'] = 'nullable|array';
+        $rules['proctoring_settings.desktop_only'] = 'nullable';
+        $rules['proctoring_settings.screenshot'] = 'nullable';
+        $rules['proctoring_settings.selfie'] = 'nullable';
         foreach(\Config::get('app.languages') as $locale)
         {
             $rules["name.$locale"] = 'required';

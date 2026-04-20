@@ -26,6 +26,9 @@
             @can('schools general scheduling')
                     <li><a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#update_general_scheduling">{{t('General Scheduling')}}</a></li>
             @endcan
+            @can('edit schools')
+                <li><a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#update_proctoring_settings">{{t('Proctoring Settings')}}</a></li>
+            @endcan
             @can('delete schools')
             <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
             @endcan
@@ -93,6 +96,72 @@
         </tr>
         </thead>
     </table>
+
+    @can('edit schools')
+    <div class="modal fade" tabindex="-1" id="update_proctoring_settings">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">{{t('Bulk Update Proctoring Settings')}}</h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+                <form class="form-horizontal" id="proctoring_settings_form" action="{{route('manager.school.proctoring-settings.bulk-update')}}" method="post">
+                    {{csrf_field()}}
+                    <div class="modal-body">
+                        <div class="alert alert-info p-3 mb-4" role="alert">
+                            {{t('If you select schools from the table, the settings will be applied to the selected schools only. Otherwise, the settings will be applied to all schools matching the selected countries below. If no country is selected and no schools are checked, all schools will be updated.')}}
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-4">{{t('Countries')}}</label>
+                            <div class="col-md-8">
+                                <select class="form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Countries')}}" name="countries[]">
+                                    <option></option>
+                                    @foreach(schoolsCountry() as $key => $type)
+                                        <option value="{{$key}}">{{$type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-4">{{t('Desktop Only')}}</label>
+                            <div class="col-md-8">
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="1" id="bulk_proctoring_desktop_only" name="proctoring_settings[desktop_only]"/>
+                                    <label class="form-check-label" for="bulk_proctoring_desktop_only">{{t('Enable Desktop Only')}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-4">{{t('Screenshot')}}</label>
+                            <div class="col-md-8">
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="1" id="bulk_proctoring_screenshot" name="proctoring_settings[screenshot]"/>
+                                    <label class="form-check-label" for="bulk_proctoring_screenshot">{{t('Enable Screenshot')}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-4">{{t('Selfie')}}</label>
+                            <div class="col-md-8">
+                                <div class="form-check form-switch form-check-custom form-check-solid">
+                                    <input class="form-check-input" type="checkbox" value="1" id="bulk_proctoring_selfie" name="proctoring_settings[selfie]"/>
+                                    <label class="form-check-label" for="bulk_proctoring_selfie">{{t('Enable Selfie')}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{t('Cancel')}}</button>
+                        <button type="button" class="btn btn-warning" id="proctoring_settings_confirm">{{t('Save')}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @endcan
+
     @can('schools general scheduling')
         <div class="modal fade" id="update_general_scheduling" tabindex="-1" role="dialog" aria-labelledby="updateModel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog" role="document">
@@ -172,6 +241,63 @@
         ];
     </script>
     <script src="{{asset('assets_v1/js/datatable.js')}}?v={{time()}}"></script>
-
+    <script>
+            $('#update_proctoring_settings').on('show.bs.modal', function () {
+                var form = $('#proctoring_settings_form');
+                form.find('input[name="row_id[]"]').remove();
+                $("input:checkbox[name='rows[]']:checked").each(function () {
+                    form.append('<input type="hidden" name="row_id[]" value="' + $(this).val() + '"/>');
+                });
+            });
+            function clearProctoringModal() {
+                var form = $('#proctoring_settings_form');
+                form.find('input[name="row_id[]"]').remove();
+                form.find('select[name="countries[]"]').val(null).trigger('change');
+                form.find('input[type="checkbox"]').prop('checked', false);
+            }
+            $('#proctoring_settings_confirm').click(function () {
+                var form = $('#proctoring_settings_form');
+                var formData = form.serialize();
+                var rowIds = [];
+                form.find('input[name="row_id[]"]').each(function () { rowIds.push($(this).val()); });
+                var countriesText = form.find('select[name="countries[]"]').find('option:selected').map(function () { return $.trim($(this).text()); }).get().filter(Boolean);
+                var desktopOnly = form.find('#bulk_proctoring_desktop_only').is(':checked');
+                var screenshot = form.find('#bulk_proctoring_screenshot').is(':checked');
+                var selfie = form.find('#bulk_proctoring_selfie').is(':checked');
+                var scopeText = '';
+                if (rowIds.length > 0) { scopeText = rowIds.length + ' {{t("schools selected from table")}}'; }
+                else if (countriesText.length > 0) { scopeText = countriesText.join(' , '); }
+                else { scopeText = '{{t("All schools")}}'; }
+                var enabledList = [], disabledList = [];
+                if (desktopOnly) enabledList.push("{{t('Desktop Only')}}"); else disabledList.push("{{t('Desktop Only')}}");
+                if (screenshot) enabledList.push("{{t('Screenshot')}}"); else disabledList.push("{{t('Screenshot')}}");
+                if (selfie) enabledList.push("{{t('Selfie')}}"); else disabledList.push("{{t('Selfie')}}");
+                var detailsHtml = '<div style="text-align:start; font-size:14px;"><div class="mb-2"><strong>{{t("Apply to")}}:</strong> ' + scopeText + '</div>';
+                if (enabledList.length > 0) { detailsHtml += '<div class="mb-1"><span class="text-success">&#10003;</span> <strong>{{t("Enable")}}:</strong> ' + enabledList.join(' , ') + '</div>'; }
+                if (disabledList.length > 0) { detailsHtml += '<div><span class="text-danger">&#10005;</span> <strong>{{t("Disable")}}:</strong> ' + disabledList.join(' , ') + '</div>'; }
+                detailsHtml += '</div>';
+                $('#update_proctoring_settings').modal('hide');
+                clearProctoringModal();
+                Swal.fire({
+                    title: "{{t('Are you sure?')}}",
+                    html: detailsHtml, icon: 'warning',
+                    showCancelButton: true, confirmButtonText: CONFIRM_TEXT, cancelButtonText: CANCEL_TEXT,
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        showLoadingModal();
+                        $.ajax({
+                            type: 'POST', url: "{{route('manager.school.proctoring-settings.bulk-update')}}", data: formData,
+                        }).done(function (data) {
+                            hideLoadingModal();
+                            if (data.success) { $('.group-checkable').prop('checked', false); table.DataTable().draw(false); Swal.fire("", data.message, "success"); }
+                            else { Swal.fire("", data.message, "error"); }
+                        }).fail(function (error) {
+                            hideLoadingModal();
+                            Swal.fire("", error.responseJSON ? error.responseJSON.message : "{{t('An error occurred')}}", "error");
+                        });
+                    }
+                });
+            });
+    </script>
 
 @endsection

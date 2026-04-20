@@ -92,6 +92,18 @@ var EXAM_PROCTOR_CONFIG = {
         EXAM_PROCTOR_CONFIG.enabled = !!window.PROCTOR_ENABLED;
     }
 
+    // --------------------------------------------------------
+    // Per-school toggles: disable capture types when the
+    // delegate/school has not opted-in for them. A value of
+    // zero tells the proctor to skip that capture type.
+    // --------------------------------------------------------
+    if (typeof window.PROCTOR_SELFIE !== 'undefined' && !window.PROCTOR_SELFIE) {
+        EXAM_PROCTOR_CONFIG.maxSelfies = 0;
+    }
+    if (typeof window.PROCTOR_SCREENSHOT !== 'undefined' && !window.PROCTOR_SCREENSHOT) {
+        EXAM_PROCTOR_CONFIG.maxScreenshots = 0;
+    }
+
     /**
      * ExamProctor Constructor
      */
@@ -475,8 +487,26 @@ var EXAM_PROCTOR_CONFIG = {
             document.head.appendChild(style);
         }
 
-        // Detect if screen sharing is available (not on mobile/tablet)
+        // Detect if screen sharing is available (not on mobile/tablet) AND enabled
         var screenAvailable = !!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) && !isTabletDevice();
+        var cameraNeeded = cfg.maxSelfies > 0;
+        var screenNeeded = cfg.maxScreenshots > 0 && screenAvailable;
+
+        // Build description text based on which permissions are needed
+        var descAr, descEn;
+        if (cameraNeeded && screenNeeded) {
+            descAr = 'الاختبار مراقب بالكامل من مؤسسة اي بي تي المعيارية الدولية - من فضلك أَعْطِ صلاحيات الكاميرا ومشاركة الشاشة لتتمكن من البدء في الاختبار.';
+            descEn = 'This assessment is fully proctored by ABT Assessment Establishment. Kindly allow access to your camera and screen sharing to proceed.';
+        } else if (cameraNeeded) {
+            descAr = 'الاختبار مراقب بالكامل من مؤسسة اي بي تي المعيارية الدولية - من فضلك أَعْطِ صلاحيات الكاميرا لتتمكن من البدء في الاختبار.';
+            descEn = 'This assessment is fully proctored by ABT Assessment Establishment. Kindly allow access to your camera to proceed.';
+        } else if (screenNeeded) {
+            descAr = 'الاختبار مراقب بالكامل من مؤسسة اي بي تي المعيارية الدولية - من فضلك أَعْطِ صلاحيات مشاركة الشاشة لتتمكن من البدء في الاختبار.';
+            descEn = 'This assessment is fully proctored by ABT Assessment Establishment. Kindly allow access to screen sharing to proceed.';
+        } else {
+            descAr = 'الاختبار مراقب بالكامل من مؤسسة اي بي تي المعيارية الدولية.';
+            descEn = 'This assessment is fully proctored by ABT Assessment Establishment.';
+        }
 
         // --- Create modal HTML ---
         var modalHtml = '' +
@@ -486,16 +516,12 @@ var EXAM_PROCTOR_CONFIG = {
             '      <div class="proctor-dialog-header">' +
             '        <div class="proctor-shield-icon"><i class="fas fa-eye" style="color:white;"></i></div>' +
             '        <h3>' + this._t('The assessment permissions access', 'صلاحيات دخول الاختبار') + '</h3>' +
-            '        <span class="proctor-desc-line" dir="rtl">' + (screenAvailable
-                ? 'الاختبار مراقب بالكامل من مؤسسة اي بي تي المعيارية الدولية - من فضلك أَعْطِ صلاحيات الكاميرا ومشاركة الشاشة لتتمكن من البدء في الاختبار.'
-                : 'الاختبار مراقب بالكامل من مؤسسة اي بي تي المعيارية الدولية - من فضلك أَعْطِ صلاحيات الكاميرا لتتمكن من البدء في الاختبار.') + '</span>' +
-            '        <span class="proctor-desc-line" dir="ltr">' + (screenAvailable
-                ? 'This assessment is fully proctored by ABT Assessment Establishment. Kindly allow access to your camera and screen sharing to proceed.'
-                : 'This assessment is fully proctored by ABT Assessment Establishment. Kindly allow access to your camera to proceed.') + '</span>' +
-
+            '        <span class="proctor-desc-line" dir="rtl">' + descAr + '</span>' +
+            '        <span class="proctor-desc-line" dir="ltr">' + descEn + '</span>' +
             '      </div>' +
             '      <div class="proctor-dialog-body">' +
             '        <div class="proctor-perm-cards">' +
+            (cameraNeeded ? (
             '          <div class="proctor-perm-card proctor-perm-card-camera" id="proctor-card-camera">' +
             '            <div class="proctor-perm-icon">&#128247;</div>' +
             '            <div class="proctor-perm-title">' + this._t('Access Camera', 'صلاحيات الكاميرا') + '</div>' +
@@ -503,8 +529,9 @@ var EXAM_PROCTOR_CONFIG = {
             '              <span class="proctor-status-dot" style="width:8px;height:8px;border-radius:50%;background:#FF0000;display:inline-block;"></span> ' +
                            this._t('Not active', 'غير مفعل') +
             '            </div>' +
-            '          </div>' +
-            (screenAvailable ? (
+            '          </div>'
+            ) : '') +
+            (screenNeeded ? (
             '          <div class="proctor-perm-card proctor-perm-card-screen" id="proctor-card-screen">' +
             '            <div class="proctor-perm-icon">🖥️</div>' +
             '            <div class="proctor-perm-title">' + this._t('Sharing screen', 'مشاركة الشاشة') + '</div>' +

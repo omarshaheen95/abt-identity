@@ -30,6 +30,7 @@ Route::group([], function () {
     Route::delete('delete-school', [SchoolController::class, 'deleteSchool'])->name('delete-school');
     Route::get('school_login/{id}', [SchoolController::class, 'schoolLogin'])->name('school-login');
     Route::post('export-schools', [SchoolController::class, 'schoolExport'])->name('export-schools');
+    Route::post('school/proctoring-settings/bulk-update', [SchoolController::class, 'bulkUpdateProctoringSettings'])->name('school.proctoring-settings.bulk-update');
 
     //SchoolGradeScheduling
     Route::get('scheduling/{id}', [SchedulingController::class, 'index'])->name('school.scheduling.index');

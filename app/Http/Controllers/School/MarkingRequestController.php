@@ -187,7 +187,9 @@ class MarkingRequestController extends Controller
             })->count();
 
         $value = 0;
-        if($student>0 && $student_terms > 0){
+        $remind = 0;
+        $remind_per = 0;
+        if ($student > 0 && $student_terms > 0){
             $value = ($student_terms/$student)*100;
             $remind = $student-$student_terms;
             $remind_per = ($remind/$student)*100;

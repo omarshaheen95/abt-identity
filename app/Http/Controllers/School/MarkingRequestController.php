@@ -186,9 +186,12 @@ class MarkingRequestController extends Controller
                     });
             })->count();
 
-        $value = ($student_terms/$student)*100;
-        $remind = $student-$student_terms;
-        $remind_per = ($remind/$student)*100;
+        $value = 0;
+        if($student>0 && $student_terms > 0){
+            $value = ($student_terms/$student)*100;
+            $remind = $student-$student_terms;
+            $remind_per = ($remind/$student)*100;
+        }
         return $this->sendResponse(['student_count'=>$student,'student_terms_count'=>$student_terms,'value'=>$value,'remind'=>$remind,'remind_per'=>$remind_per]);
 
     }

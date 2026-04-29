@@ -37,19 +37,19 @@
                         </a>
                     </div>
 
-                <div class="menu-item">
-                    <a class="menu-link @if(Request::is('school/scheduling*'))active @endif" href="{{ route('school.scheduling.index') }}">
-                                <span class="menu-icon">
-                                   <i class="ki-duotone ki-profile-user fs-2">
-                                     <i class="path1"></i>
-                                     <i class="path2"></i>
-                                     <i class="path3"></i>
-                                     <i class="path4"></i>
-                                    </i>
-                                </span>
-                        <span class="menu-title">{{t('Assessments Scheduling')}}</span>
-                    </a>
-                </div>
+{{--                <div class="menu-item">--}}
+{{--                    <a class="menu-link @if(Request::is('school/scheduling*'))active @endif" href="{{ route('school.scheduling.index') }}">--}}
+{{--                                <span class="menu-icon">--}}
+{{--                                   <i class="ki-duotone ki-profile-user fs-2">--}}
+{{--                                     <i class="path1"></i>--}}
+{{--                                     <i class="path2"></i>--}}
+{{--                                     <i class="path3"></i>--}}
+{{--                                     <i class="path4"></i>--}}
+{{--                                    </i>--}}
+{{--                                </span>--}}
+{{--                        <span class="menu-title">{{t('Assessments Scheduling')}}</span>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('school/student_term*')?'here show':''}}">
                                            <span class="menu-link">
                                                 <span class="menu-icon">

@@ -23,7 +23,7 @@ class TransferStudentController extends Controller
         // 1. تعريف بيانات المصدر (المراد النقل منها)
         // ============================================================
         $source_school_id = 100;
-        $source_year_id   = 3;
+        $source_year_id   = 2;
         $source_round     = 'february';
 
         // ============================================================
@@ -45,9 +45,10 @@ class TransferStudentController extends Controller
             ->whereHas('term', function ($q) use ($source_round) {
                 $q->where('round', $source_round);
             })
+            ->where('corrected', 1) // شرط إضافي: فقط الاختبارات المصححة
             ->get();
 
-        dd($sourceStudentTerms);
+
 
         // ============================================================
         // 4. جلب student_ids الموجودة مسبقاً في الهدف
@@ -62,6 +63,8 @@ class TransferStudentController extends Controller
             ->pluck('student_id')
             ->flip()
             ->all();
+
+        dd($sourceStudentTerms, $existingTargetStudentIds);
 
         // ============================================================
         // 5. جلب الـ Terms الهدف مفهرسة بـ "{grade}_{arab}"

@@ -47,7 +47,7 @@ class TransferStudentController extends Controller
             })
             ->get();
 
-//        dd($sourceStudentTerms);
+        dd($sourceStudentTerms);
 
         // ============================================================
         // 4. جلب student_ids الموجودة مسبقاً في الهدف

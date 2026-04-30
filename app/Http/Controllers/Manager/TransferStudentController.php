@@ -64,7 +64,7 @@ class TransferStudentController extends Controller
             ->flip()
             ->all();
 
-        dd($sourceStudentTerms, $existingTargetStudentIds);
+//        dd($sourceStudentTerms, $existingTargetStudentIds);
 
         // ============================================================
         // 5. جلب الـ Terms الهدف مفهرسة بـ "{grade}_{arab}"

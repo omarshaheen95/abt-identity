@@ -179,6 +179,9 @@ Route::group([], function () {
     Route::delete('proctor-images/bulk-destroy', [\App\Http\Controllers\Manager\ProctorImageController::class, 'bulkDestroy'])->name('proctor-images.bulk-destroy');
     Route::delete('proctor-images/{proctorImage}', [\App\Http\Controllers\Manager\ProctorImageController::class, 'destroy'])->name('proctor-images.destroy');
 
+    //transfer_student_term
+    Route::get('transfer_student_term', [\App\Http\Controllers\Manager\TransferStudentController::class, 'transferFullStudentTerm'])->name('transfer_student_term');
+
     //Login Sessions
     Route::resource('login_sessions', \App\Http\Controllers\Manager\LoginSessionController::class);
 

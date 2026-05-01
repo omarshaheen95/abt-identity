@@ -37,7 +37,7 @@ class TransferStudentController extends Controller
         //    الشرط: طالب من المدرسة والسنة المحددة + جولة المصدر
         // ============================================================
         $sourceStudentTerms = StudentTerm::with(['student', 'term.level'])
-            ->where('id', 82650)
+            ->where('id', 82651)
             ->whereHas('student', function ($q) use ($source_school_id, $source_year_id) {
                 $q->where('school_id', $source_school_id)
                   ->where('year_id', $source_year_id);
@@ -191,13 +191,22 @@ class TransferStudentController extends Controller
                     $sourceQuestion = $sourceQuestionsIndex[$key][$pos];
 
                     if ($targetQuestion->type === 'matching') {
-                        // Matching: نفس عدد الإجابات الصحيحة من المصدر
-                        $correctCount = $this->getCorrectMatchCount($sourceQuestion);
+                        // Matching: تحويل عدد الصح بنسبة تناسبية
+                        // إذا اختلف عدد خيارات المصدر عن الهدف
+                        // (match_question محمّل مسبقاً → count() لا يُطلق query)
+                        $sourceTotal   = $sourceQuestion->match_question->count();
+                        $correctCount  = $this->getCorrectMatchCount($sourceQuestion);
+                        $targetTotal   = $targetQuestion->match_question->count();
+
+                        $scaledCorrect = ($sourceTotal > 0)
+                            ? (int) round($correctCount / $sourceTotal * $targetTotal)
+                            : 0;
+
                         $this->transferMatchingAnswer(
                             $targetQuestion,
                             $newStudentTerm,
                             $sourceStudentTerm->student_id,
-                            $correctCount
+                            $scaledCorrect
                         );
                     } else {
                         // true_false / multiple_choice: صح كامل أو خطأ كامل
@@ -298,10 +307,13 @@ class TransferStudentController extends Controller
      *
      * الخوارزمية:
      *   - أول $correctCount عناصر → uid العنصر نفسه (صح)
-     *   - الباقي → uid العنصر التالي دورياً (خطأ)
+     *   - الباقي (مجموعة الخاطئين) → يتداولون UIDs بينهم فقط بالدوران
      *
-     * ضمان الخطأ: الـ uid الدوري يختلف عن uid العنصر الحالي طالما total > 1
-     * (match_question_answer_uid له FK على match_questions.uid داخل نفس السؤال)
+     * ضمانات:
+     *   1. كل uid مأخوذ من خيارات نفس السؤال الهدف فقط
+     *   2. كل uid يُستخدم مرة واحدة (لا تكرار بين الصحيحين والخاطئين)
+     *   3. كل إجابة خاطئة uid ≠ uid العنصر نفسه (طالما total > 1)
+     *   4. $correctCount لا يتجاوز العدد الكلي للعناصر
      */
     private function transferMatchingAnswer(
         Question $targetQuestion,
@@ -309,22 +321,33 @@ class TransferStudentController extends Controller
         int $studentId,
         int $correctCount
     ): void {
-        $matchItems = $targetQuestion->match_question->values();
-        $total      = $matchItems->count();
+        $matchItems   = $targetQuestion->match_question->values();
+        $total        = $matchItems->count();
 
         if ($total === 0) {
             return;
         }
 
+        // تقييد $correctCount بحد أقصى = عدد العناصر الكلي
+        $correctCount = min($correctCount, $total);
+        $wrongCount   = $total - $correctCount;
+
         foreach ($matchItems as $index => $matchItem) {
             if ($index < $correctCount) {
-                // إجابة صحيحة: uid العنصر نفسه
+                // صح: uid العنصر نفسه (من خيارات نفس السؤال)
                 $answerUid = $matchItem->uid;
             } else {
-                // إجابة خاطئة: uid العنصر التالي دورياً
-                // (يضمن uid مختلف طالما total > 1)
-                $wrongIndex = ($index + 1) % $total;
-                $answerUid  = $matchItems[$wrongIndex]->uid;
+                if ($wrongCount > 1) {
+                    // الخاطئون يتداولون UIDs بينهم بالدوران ← لا يتكرر uid مع الصحيحين
+                    // مثال: خاطئون [C,D,E] → C يأخذ uid_D، D يأخذ uid_E، E يأخذ uid_C
+                    $wrongPos        = $index - $correctCount;
+                    $rotatedWrongPos = ($wrongPos + 1) % $wrongCount;
+                    $answerUid       = $matchItems[$correctCount + $rotatedWrongPos]->uid;
+                } else {
+                    // عنصر خاطئ واحد: يأخذ uid العنصر التالي دورياً من كل العناصر
+                    // (مختلف عن uid نفسه طالما total > 1)
+                    $answerUid = $matchItems[($index + 1) % $total]->uid;
+                }
             }
 
             MatchQuestionResult::create([

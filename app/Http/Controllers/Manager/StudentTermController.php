@@ -331,50 +331,72 @@ class StudentTermController extends Controller
 
             $updated_marks = 0;
             foreach ($questions as $question) {
-                if ($question->type == 'true_false') {
-                    if (count($question->tf_question_result) > 0) {
-                        $student_result = $question->tf_question_result[0];
-                    }
+                $student_result = null;
+                $main_result = null;
 
+                if ($question->type == 'true_false') {
+                    $student_result = $question->tf_question_result->first();
                     $main_result = $question->tf_question;
+
                     if ($process_type == 'upgrade') {
-                        if (isset($student_result) && isset($main_result) && optional($student_result)->result != optional($main_result)->result) {
-                            $student_result->update([
-                                'result' => optional($main_result)->result,
+                        if (is_null($student_result) && isset($main_result)) {
+                            // الطالب ليس لديه إجابة → إنشاء إجابة صحيحة
+                            TFQuestionResult::create([
+                                'student_id'     => $student_term->student_id,
+                                'student_term_id' => $student_term->id,
+                                'question_id'    => $question->id,
+                                'result'         => $main_result->result,
                             ]);
+                            $updated_marks += $question->mark;
+                        } elseif (!is_null($student_result) && isset($main_result) && $student_result->result != $main_result->result) {
+                            // الطالب لديه إجابة خاطئة → تصحيحها
+                            $student_result->update(['result' => $main_result->result]);
                             $updated_marks += $question->mark;
                         }
                     } else {
-                        if (isset($student_result) && isset($main_result) && optional($student_result)->result == optional($main_result)->result) {
+                        if (!is_null($student_result) && isset($main_result) && $student_result->result == $main_result->result) {
                             $student_result->update([
-                                'result' => optional($main_result)->result == 1 ? 0 : 1,
+                                'result' => $main_result->result == 1 ? 0 : 1,
                             ]);
                             $updated_marks += $question->mark;
                         }
                     }
 
-                }
-                elseif ($question->type == 'multiple_choice') {
+                } elseif ($question->type == 'multiple_choice') {
                     $student_result = $question->option_question_result->first();
 
                     if ($student_result) {
                         $main_result = $question->option_question->where('id', $student_result->option_id)->first();
                     }
 
-
                     if ($process_type == 'upgrade') {
-                        if ($student_result && isset($main_result->result) && $main_result->result != 1) {
-                            $student_result->update([
-                                'option_id' => $question->option_question->where('result', 1)->first()->id,
-                            ]);
-                            $updated_marks += $question->mark;
+                        if (is_null($student_result)) {
+                            // الطالب ليس لديه إجابة → إنشاء إجابة صحيحة
+                            $correct_option = $question->option_question->where('result', 1)->first();
+                            if ($correct_option) {
+                                OptionQuestionResult::create([
+                                    'student_id'     => $student_term->student_id,
+                                    'student_term_id' => $student_term->id,
+                                    'question_id'    => $question->id,
+                                    'option_id'      => $correct_option->id,
+                                ]);
+                                $updated_marks += $question->mark;
+                            }
+                        } elseif ($student_result && isset($main_result->result) && $main_result->result != 1) {
+                            // الطالب لديه إجابة خاطئة → تصحيحها
+                            $correct_option = $question->option_question->where('result', 1)->first();
+                            if ($correct_option) {
+                                $student_result->update(['option_id' => $correct_option->id]);
+                                $updated_marks += $question->mark;
+                            }
                         }
                     } else {
                         if ($student_result && isset($main_result->result) && $main_result->result == 1) {
-                            $student_result->update([
-                                'option_id' => $question->option_question->where('result', 0)->first()->id,
-                            ]);
-                            $updated_marks += $question->mark;
+                            $wrong_option = $question->option_question->where('result', 0)->first();
+                            if ($wrong_option) {
+                                $student_result->update(['option_id' => $wrong_option->id]);
+                                $updated_marks += $question->mark;
+                            }
                         }
                     }
                 }

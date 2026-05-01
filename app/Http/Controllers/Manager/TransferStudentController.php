@@ -37,7 +37,7 @@ class TransferStudentController extends Controller
         //    الشرط: طالب من المدرسة والسنة المحددة + جولة المصدر
         // ============================================================
         $sourceStudentTerms = StudentTerm::with(['student', 'term.level'])
-            ->where('id', 82651)
+//            ->where('id', 82651)
             ->whereHas('student', function ($q) use ($source_school_id, $source_year_id) {
                 $q->where('school_id', $source_school_id)
                   ->where('year_id', $source_year_id);
@@ -150,10 +150,18 @@ class TransferStudentController extends Controller
                 // --------------------------------------------------------
                 // ج. إنشاء StudentTerm جديد للطالب بالـ Term الهدف
                 //    الـ trigger يضبط active_key = 0 تلقائياً عند الإدراج
+                //    dates_at: نحتفظ بتاريخ التقديم من الاختبار القديم
+                //    (correctStudentTerm يقرأ dates_at الموجودة ويُضيف corrected_at فوقها)
                 // --------------------------------------------------------
+                $sourceDates = $sourceStudentTerm->dates_at ?? [];
+
                 $newStudentTerm = StudentTerm::create([
                     'student_id' => $sourceStudentTerm->student_id,
                     'term_id'    => $targetTerm->id,
+                    'dates_at'   => [
+                        'started_at'   => $sourceDates['started_at']   ?? null,
+                        'submitted_at' => $sourceDates['submitted_at'] ?? $sourceStudentTerm->created_at->format('Y-m-d H:i:s'),
+                    ],
                 ]);
 
                 // --------------------------------------------------------

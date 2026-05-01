@@ -18,7 +18,7 @@
                     @can('show proctor images')
                     @if($student_term->proctorImages->count() > 0)
                         <button type="button" class="btn btn-sm btn-secondary d-flex align-items-center" onclick="openProctorGallery()">
-                            <i class="fas fa-camera me-1"></i> Student Screenshots ({{ $student_term->proctorImages->count() }})
+                            <i class="fas fa-camera me-1"></i> Student Screenshots ({{ $student_term->proctorImages->count() }}) - Total : {{$student_term->total}}
                         </button>
                     @endif
                     @endcan

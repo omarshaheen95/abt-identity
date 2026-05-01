@@ -24,7 +24,7 @@ class TransferStudentController extends Controller
         // ============================================================
         $source_school_id = 100;
         $source_year_id   = 2;
-        $source_round     = 'february';
+        $source_round     = 'may';
 
         // ============================================================
         // 2. تعريف بيانات الهدف (المراد النقل إليها)
@@ -46,6 +46,7 @@ class TransferStudentController extends Controller
                 $q->where('round', $source_round);
             })
             ->where('corrected', 1) // شرط إضافي: فقط الاختبارات المصححة
+                ->limit(100) // تقييد عدد الاختبارات المنقولة في كل مرة لتجنب الضغط الزائد
             ->get();
 
 

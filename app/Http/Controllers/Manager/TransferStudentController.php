@@ -165,6 +165,12 @@ class TransferStudentController extends Controller
                     ],
                 ]);
 
+                // created_at ليس في $fillable → نُعيّنه بعد الإنشاء
+                // timestamps = false يمنع Eloquent من تحديث updated_at تلقائياً
+                $newStudentTerm->timestamps = false;
+                $newStudentTerm->created_at = $sourceStudentTerm->created_at;
+                $newStudentTerm->save();
+
                 // --------------------------------------------------------
                 // د. جلب أسئلة الاختبار الجديد مع هياكل إجاباتها الصحيحة
                 //    الأنواع المستثناة (fill_blank/sorting/article) لا تُجلب

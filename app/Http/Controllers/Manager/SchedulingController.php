@@ -29,7 +29,15 @@ class SchedulingController extends Controller
     public function update(Request $request,$id)
     {
         $request->validate(['year_id'=>'required']);
-        School::query()->where('id',$id)->update(['available_year_id'=>$request['year_id']]);
+        $rounds = $request->get('rounds', []);
+        School::query()->where('id',$id)->update([
+            'available_year_id'=>$request['year_id'],
+            'rounds' => [
+                'september' => !empty($rounds['september']),
+                'february' => !empty($rounds['february']),
+                'may' => !empty($rounds['may']),
+            ],
+        ]);
 
         if ($request->get('grades') !== null) {
             foreach ($request['grades'] as $grade){
@@ -54,13 +62,21 @@ class SchedulingController extends Controller
             'status' => 'required|in:1,2',
         ]);
 
-        $round = $request->get('round', false);
+        $round = $request->get('round');
+        $isActive = $request->get('status') == 1;
+
+        $schools = School::query()->get();
+        foreach ($schools as $school) {
+            $rounds = $school->rounds ?? [];
+            $rounds[$round] = $isActive;
+            $school->update(['rounds' => $rounds]);
+        }
 
         SchoolGrade::query()->update([
-            "$round"  => $request->get('status') == 1 ? 1:0,
+            "$round" => $isActive ? 1 : 0,
         ]);
 
-        return redirect()->back()->with('message', t('Successfully Updated'))->with('m-class', 'success');
+        return response()->json(['success' => true, 'message' => t('Successfully Updated')]);
 
     }
 

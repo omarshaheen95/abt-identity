@@ -20,21 +20,29 @@ use Spatie\Translatable\HasTranslations;
 class School extends Authenticatable
 {
     use Notifiable, SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings'];
+    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings', 'rounds'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
 
     protected $fillable = [
         'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info', 'certificate_mark',
-        'available_year_id','allow_reports', 'proctoring_settings'
+        'available_year_id','allow_reports', 'proctoring_settings', 'rounds'
         ];
 
     protected $casts = [
         'proctoring_settings' => 'array',
+        'rounds' => 'array',
     ];
 
     public const PROCTORING_KEYS = ['desktop_only', 'screenshot', 'selfie'];
+    public const ROUND_KEYS = ['september', 'february', 'may'];
+
+    public function isRoundActive(string $round): bool
+    {
+        $rounds = $this->rounds ?? [];
+        return !empty($rounds[$round]);
+    }
     protected $cascadeDeletes = ['students','school_grades', 'inspections_school'];
 
     public $translatable = ['name'];

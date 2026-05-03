@@ -14,6 +14,11 @@
     </li>
 @endpush
 @section('content')
+    <style>
+        .form-check-input.round_active {
+            border: 1px solid #b5b5c3 !important;
+        }
+    </style>
     <form id="grades_form" method="POST"
           action="{{route('manager.school.scheduling.update',['id'=>request()['id']])}}">
         @csrf
@@ -44,6 +49,7 @@
         </div>
         <!--begin: Datatable-->
 
+        @php($schoolRounds = $school->rounds ?? [])
         <table class="table table-separate table-bordered text-center table-checkable" id="kt_datatable_2">
             <thead>
             <tr>
@@ -51,31 +57,43 @@
                 <th>{{t('Arab')}}</th>
                 <th>
                     <div class="d-flex flex-column align-items-center">
-                        {{t('September')}}
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            {{t('September')}}
+                            <div class="form-check form-switch form-check-custom form-check-solid">
+                                <input class="form-check-input round_active h-20px w-30px" type="checkbox" name="rounds[september]" value="1" {{ !empty($schoolRounds['september']) ? 'checked' : '' }} />
+                            </div>
+                        </div>
                         <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
-                            <input class="form-check-input september_select_all " type="checkbox" value="" id="flexRadioLg"
+                            <input class="form-check-input september_select_all" type="checkbox" value=""
                                    @if(count($grades)>0 && count($grades->where('september',0))==0) checked @elseif(count($grades)==0) checked @endif />
                         </div>
                     </div>
-
                 </th>
                 <th>
                     <div class="d-flex flex-column align-items-center">
-                        {{t('February')}}
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            {{t('February')}}
+                            <div class="form-check form-switch form-check-custom form-check-solid">
+                                <input class="form-check-input round_active h-20px w-30px" type="checkbox" name="rounds[february]" value="1" {{ !empty($schoolRounds['february']) ? 'checked' : '' }} />
+                            </div>
+                        </div>
                         <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
-                            <input class="form-check-input february_select_all" type="checkbox" value="" id="flexRadioLg"
+                            <input class="form-check-input february_select_all" type="checkbox" value=""
                                    @if(count($grades)>0 && count($grades->where('february',0))==0) checked @elseif(count($grades)==0) checked @endif />
                         </div>
                     </div>
-
                 </th>
                 <th>
                     <div class="d-flex flex-column align-items-center">
-                        {{t('May')}}
+                        <div class="d-flex align-items-center justify-content-center gap-2">
+                            {{t('May')}}
+                            <div class="form-check form-switch form-check-custom form-check-solid">
+                                <input class="form-check-input round_active h-20px w-30px" type="checkbox" name="rounds[may]" value="1" {{ !empty($schoolRounds['may']) ? 'checked' : '' }} />
+                            </div>
+                        </div>
                         <div class="form-check form-check-custom form-check-solid form-check-sm mt-2">
-                            <input class="form-check-input may_select_all" type="checkbox" value="" id="flexRadioLg"
+                            <input class="form-check-input may_select_all" type="checkbox" value=""
                                    @if(count($grades)>0 && count($grades->where('may',0))==0) checked @elseif(count($grades)==0) checked @endif />
-
                         </div>
                     </div>
                 </th>

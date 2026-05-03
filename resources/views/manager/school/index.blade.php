@@ -174,7 +174,7 @@
                         </div>
                         <!--end::Close-->
                     </div>
-                    <form class="form-horizontal" id="update_dorm"
+                    <form class="form-horizontal" id="general_scheduling_form"
                           action="{{route('manager.school.general-scheduling')}}" method="post">
                         @csrf
                         <div class="modal-body">
@@ -201,8 +201,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{t('Close')}}</button>
-                            <button type="submit" class="btn btn-primary">{{t('Save')}}</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{t('Cancel')}}</button>
+                            <button type="button" class="btn btn-warning" id="general_scheduling_save">{{t('Save')}}</button>
                         </div>
                     </form>
                 </div>
@@ -255,6 +255,24 @@
                 form.find('select[name="countries[]"]').val(null).trigger('change');
                 form.find('input[type="checkbox"]').prop('checked', false);
             }
+            $('#general_scheduling_save').click(function () {
+                var form = $('#general_scheduling_form');
+                if (!form[0].checkValidity()) { form[0].reportValidity(); return; }
+                var formData = form.serialize();
+                $('#update_general_scheduling').modal('hide');
+                showLoadingModal();
+                $.ajax({ type: 'POST', url: form.attr('action'), data: formData })
+                    .done(function (data) {
+                        hideLoadingModal();
+                        if (data.success) { table.DataTable().draw(false); toastr.success(data.message); }
+                        else toastr.error(data.message);
+                    })
+                    .fail(function (error) {
+                        hideLoadingModal();
+                        toastr.error(error.responseJSON ? error.responseJSON.message : "{{t('An error occurred')}}");
+                    });
+            });
+
             $('#proctoring_settings_confirm').click(function () {
                 var form = $('#proctoring_settings_form');
                 var formData = form.serialize();

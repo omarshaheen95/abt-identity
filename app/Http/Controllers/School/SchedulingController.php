@@ -12,6 +12,7 @@ class SchedulingController extends Controller
 {
     public function index()
     {
+        return redirect()->route('school.home');
         $id = \Auth::guard('school')->user()->id;
         $grades = SchoolGrade::query()->where('school_id',$id)->get();
         $school = School::query()->where('id',$id)->first();

@@ -12,7 +12,7 @@
         <div class="container">
             <div class="navbar-container">
                 <a href="#!" class="back-card">
-                    <span class="text ms-2">{{$student_term->term->name}}</span>
+                    <span class="text ms-2">{{$student_term->term->name}}  - Total : {{$student_term->total}}</span>
                 </a>
                 <div class="d-flex align-items-center gap-2">
                     @can('show proctor images')

@@ -296,8 +296,9 @@
     <script>
         getAndSetResults() //cache results
     </script>
-    @php($school = optional(auth()->guard('student')->user())->school)
-    @if($school && $school->isProctoringEnabled())
+    @php($proctorStudent = auth()->guard('student')->user())
+    @php($school = optional($proctorStudent)->school)
+    @if($school && $school->isProctoringEnabled() && !optional($proctorStudent)->demo)
         <script>
             var PROCTOR_ENABLED = true;
             var PROCTOR_SCREENSHOT = {{ $school->proctoringFlag('screenshot') ? 'true' : 'false' }};

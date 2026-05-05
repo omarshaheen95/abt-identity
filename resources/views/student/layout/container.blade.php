@@ -18,7 +18,7 @@
     <link rel="shortcut icon" href="{{!settingCache('logo_min')? asset('logo_min.svg'):asset(settingCache('logo_min'))}}" />
     <meta name="google" content="notranslate">
 
-    @if(optional(auth()->guard('student')->user()->school)->proctoringFlag('desktop_only'))
+    @if(optional(auth()->guard('student')->user()->school)->proctoringFlag('desktop_only') && !optional(auth()->guard('student')->user())->demo)
         <script>
             var DESKTOP_ONLY_ENABLED = true;
             var DESKTOP_ONLY_CONFIG = {

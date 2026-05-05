@@ -8,8 +8,9 @@ class DesktopOnlyMiddleware
 {
     public function handle($request, Closure $next)
     {
-        $school = optional(request()->user())->school;
-        if (!$school || !$school->proctoringFlag('desktop_only')) {
+        $student = optional(request()->user());
+        $school = $student->school ?? null;
+        if (!$school || !$school->proctoringFlag('desktop_only') || $student->demo) {
             return $next($request);
         }
 

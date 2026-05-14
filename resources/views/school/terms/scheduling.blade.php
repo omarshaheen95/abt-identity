@@ -16,13 +16,14 @@
         <div class="row mb-3">
             <div class="col-3 ">
                 <label>{{t('Years')}}:</label>
-                <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" name="year_id">
+                <select class="form-control form-select" data-control="select2" data-allow-clear="true" data-placeholder="{{t('Select Year')}}" disabled>
                     <option></option>
                     @foreach($years as $year)
                         <option value="{{$year->id}}" {{$school->available_year_id==$year->id?'selected':''}}>{{$year->name}}</option>
                     @endforeach
 
                 </select>
+                <input type="hidden" name="year_id" value="{{$school->available_year_id}}">
             </div>
 
             <div class="col-lg-3 d-flex align-items-end">

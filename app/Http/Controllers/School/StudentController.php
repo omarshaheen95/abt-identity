@@ -241,7 +241,7 @@ class StudentController extends Controller
                 $query->whereRaw('student_terms.total >= schools.certificate_mark');
             })
             ->firstOrFail();
-        $name = $student_term->student->name;
+        $name = $student_term->student->minimized_name;
         $grade = $student_term->student->level->grade;
         $mark = $student_term->total;
         return view('general.certificate.web_certificate',compact('name','grade','mark'));

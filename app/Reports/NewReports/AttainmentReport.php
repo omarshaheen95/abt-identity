@@ -615,7 +615,7 @@ class AttainmentReport
             return $this->formatStatisticsData($monthId, 0, 0, 0, 0);
         }
 
-        $below = $filteredTerms->where('total', '<', $this->markData->below->to)->count();
+        $below = $filteredTerms->where('total', '<=', $this->markData->below->to)->count();
         $inline = $filteredTerms->where('total', '>=', $this->markData->inline->from)
             ->where('total', '<', $this->markData->inline->to)->count();
         $above = $filteredTerms->where('total', '>=', $this->markData->above->from)

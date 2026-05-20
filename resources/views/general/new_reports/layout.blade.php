@@ -6,15 +6,15 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta content="نظام اختبارات وتقييم للطلاب للدراسات الإجتماعية S.S.B.T – Social Studies Benchmark Test" name="description"/>
+    <meta content="نظام اختبارات وتقييم الطلاب للهوية Identity Benchmark Test" name="description"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @if(app()->getLocale() == 'ar')
-        <link href="{{ asset('assets_v1/lib/bootstrap-5.0.2/css/bootstrap.rtl.css') }}" rel="stylesheet"
+        <link href="{{ asset('assets_v1/plugins/bootstrap-5.0.2/css/bootstrap.rtl.css') }}" rel="stylesheet"
               type="text/css"/>
         <link href="{{ asset('assets_v1/plugins/print/css/print.rtl.css') }}?v=4" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets_v1/plugins/print/css/report.rtl.css') }}?v=4" rel="stylesheet" type="text/css"/>
     @else
-        <link href="{{ asset('assets_v1/lib/bootstrap-5.0.2/css/bootstrap.min.css') }}" rel="stylesheet"
+        <link href="{{ asset('assets_v1/plugins/bootstrap-5.0.2/css/bootstrap.min.css') }}" rel="stylesheet"
               type="text/css"/>
         <link href="{{ asset('assets_v1/plugins/print/css/print.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets_v1/plugins/print/css/report.css') }}?v=3" rel="stylesheet" type="text/css"/>

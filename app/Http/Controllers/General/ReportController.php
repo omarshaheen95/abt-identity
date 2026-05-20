@@ -11,6 +11,7 @@ namespace App\Http\Controllers\General;
 use App\Exports\NewExports\StudentAttainmentAndProgress;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\General\Report\AttainmentReportRequest;
+use App\Http\Requests\General\Report\ComparisonReportRequest;
 use App\Http\Requests\General\Report\ProgressReportRequest;
 use App\Http\Requests\General\Report\StudentMarkRequest;
 use App\Http\Requests\General\Report\TrendOverTimeReportRequest;
@@ -20,6 +21,7 @@ use App\Models\Student;
 use App\Models\Year;
 use App\Reports\NewReports\AttainmentReport;
 
+use App\Reports\NewReports\ComparisonReport;
 use App\Reports\NewReports\ProgressReport;
 use App\Reports\NewReports\StudentReport;
 use App\Reports\NewReports\YearToYearReport;
@@ -290,4 +292,20 @@ class ReportController extends Controller
         return $report->report();
     }
 
+    public function preComparisonReport()
+    {
+        $title = re('Comparison Report');
+        $schools = $this->availableSchools();
+        $container_type = 'container-fluid';
+        $years = Year::query()->orderBy('id')->get();
+        $grades = range(1,12);
+        return view('general.new_reports.comparison.pre_comparison_report', compact('schools', 'container_type', 'years', 'title', 'grades'));
+    }
+
+    public function comparisonReport(ComparisonReportRequest $request)
+    {
+        $school = School::query()->findOrFail($request->get('school_id'));
+        $comparison_report = new ComparisonReport($request, $school);
+        return $comparison_report->report();
+    }
 }

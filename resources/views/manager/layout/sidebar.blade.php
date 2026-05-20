@@ -288,7 +288,7 @@
                 @endif
 
                 @if(Auth::guard('manager')->user()->hasAnyDirectPermission(\App\Helpers\Constant::REPORT_PERMISSIONS))
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('manager/pre-attainment-report')|| Request::is('manager/pre-student-mark-report')|| Request::is('manager/pre-progress-report')|| Request::is('manager/pre-year-to-year-report')|| Request::is('manager/pre-trends-over-time-report')?'here show':''}}">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{Request::is('manager/pre-attainment-report')|| Request::is('manager/pre-student-mark-report')|| Request::is('manager/pre-progress-report')|| Request::is('manager/pre-year-to-year-report')|| Request::is('manager/pre-trends-over-time-report')|| Request::is('manager/pre-comparison-report')?'here show':''}}">
                                            <span class="menu-link">
                                                 <span class="menu-icon">
                                                     <i class="ki-duotone ki-chart-simple-3 fs-2x">
@@ -357,6 +357,18 @@
                                         <span class="menu-title">{{t('Trends Over Time Progress')}}</span>
                                     </a>
                                 </div>
+
+                            @can('progress reports')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/pre-comparison-report*') )active @endif"
+                                       href="{{ route('manager.report.pre-comparison-report') }}">
+													<span class="menu-bullet">
+														<span class="bullet bullet-dot"></span>
+													</span>
+                                        <span class="menu-title">{{t('Comparison Report')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
                             @endcan
                         </div>
                         <!--end:Menu sub-->

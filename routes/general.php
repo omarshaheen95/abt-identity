@@ -44,3 +44,10 @@ Route::post('/pdfReportsCards', [\App\Http\Controllers\General\ReportController:
 
 
 Route::post('export_student_standards', [\App\Http\Controllers\General\StudentStandardController::class, 'exportStudentStandards'])->name('student.export_student_standards');
+
+
+//comparison reports routes
+Route::get('pre-comparison-report', [\App\Http\Controllers\General\ReportController::class, 'preComparisonReport'])
+    ->name('report.pre-comparison-report');
+Route::get('comparison-report', [\App\Http\Controllers\General\ReportController::class, 'comparisonReport'])
+    ->name('report.comparison-report');

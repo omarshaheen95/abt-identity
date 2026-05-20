@@ -98,6 +98,7 @@
                 <div data-kt-menu-trigger="click" class="menu-item menu-accordion{{Request::is('inspection/pre_school_progress_report')||
                   Request::is('inspection/pre-progress-report')||
                   Request::is('inspection/pre-year-to-year-report')||
+                  Request::is('inspection/pre_group_comparison_report')||
                   Request::is('inspection/pre-trends-over-time-report')?'here show':''}}">
                                            <span class="menu-link">
                                                 <span class="menu-icon">
@@ -146,7 +147,19 @@
                     <!--end:Menu sub-->
 
                 </div>
-
+                <div class="menu-item">
+                    <a class="menu-link @if(Request::is('inspection/pre_group_comparison_report'))active @endif" href="{{route('inspection.report.pre_group_comparison_report')}}">
+                                <span class="menu-icon">
+                        <i class="ki-duotone ki-chart-simple-3 fs-2x">
+                                 <i class="path1"></i>
+                                 <i class="path2"></i>
+                                 <i class="path3"></i>
+                                 <i class="path4"></i>
+                                </i>
+                    </span>
+                        <span class="menu-title">{{t('Comparison Report')}}</span>
+                    </a>
+                </div>
                 <!--end:Reports-->
 
             </div>

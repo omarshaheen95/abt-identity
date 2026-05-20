@@ -1151,7 +1151,7 @@
                             fontWeight: 'bold',
                             color: 'white'
                         },
-                        format: '{point.percentage:.1f}%'
+                        format: '{point.y}%'
 
                     },
                     borderRadiusTopLeft: '20%',

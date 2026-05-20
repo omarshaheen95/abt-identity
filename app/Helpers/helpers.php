@@ -720,6 +720,92 @@ function getSubjectAttainment($subject_data, $subjects, $responseTypeText = 1)
         return $responseTypeText ? 'Unknown' : 0;
     }
 }
+function getMarksRanges($grade, $comparison = false)
+{
+    if ($comparison) {
+        if ($grade > 9) {
+            return [
+                'below' => 60,
+                'from_inline' => 60,
+                'to_inline' => 70,
+                'above' => 70,
+            ];
+        } else {
+            return [
+                'below' => 50,
+                'from_inline' => 50,
+                'to_inline' => 70,
+                'above' => 70,
+            ];
+        }
+    }
+    if ($grade > 9) {
+        return (object)[
+            'above' => (object)[
+                'from' => 70,
+                'to' => 100,
+            ],
+            'inline' => (object)[
+                'from' => 60,
+                'to' => 69,
+            ],
+            'below' => (object)[
+                'from' => 0,
+                'to' => 59,
+            ],
+        ];
+    } else {
+        return (object)[
+            'above' => (object)[
+                'from' => 70,
+                'to' => 100,
+            ],
+            'inline' => (object)[
+                'from' => 50,
+                'to' => 69,
+            ],
+            'below' => (object)[
+                'from' => 0,
+                'to' => 49,
+            ],
+        ];
+    }
+}
+
+function allMarksRanges($grade)
+{
+    return (object)[
+        1 => (object)[
+            'above' => (object)[
+                'from' => 70,
+                'to' => 100,
+            ],
+            'inline' => (object)[
+                'from' => 60,
+                'to' => 69,
+            ],
+            'below' => (object)[
+                'from' => 0,
+                'to' => 59,
+            ],
+        ],
+        10 => (object)[
+            'above' => (object)[
+                'from' => 70,
+                'to' => 100,
+            ],
+            'inline' => (object)[
+                'from' => 50,
+                'to' => 69,
+            ],
+            'below' => (object)[
+                'from' => 0,
+                'to' => 49,
+            ],
+        ],
+    ];
+}
+
 function assessmentExpect($total, $type, $grade)
 {
     // Set thresholds based on conditions

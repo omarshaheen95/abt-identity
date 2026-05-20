@@ -210,6 +210,21 @@
                     </div>
                     <!--end:Menu sub-->
                 </div>
+                <div class="menu-item">
+                    <a class="menu-link @if(!Auth::user()->allow_reports) menu-item-disabled @endif @if(Request::is('school/pre-comparison-report'))active @endif"
+                       @if(Auth::user()->allow_reports)    href="{{route('school.report.pre-comparison-report')}}"
+                       @else href=""@endif>
+                                <span class="menu-icon">
+                        <i class="ki-duotone ki-chart-simple-3 fs-2x">
+                                 <i class="path1"></i>
+                                 <i class="path2"></i>
+                                 <i class="path3"></i>
+                                 <i class="path4"></i>
+                                </i>
+                    </span>
+                        <span class="menu-title">{{t('Comparison Report')}}</span>
+                    </a>
+                </div>
                 <!--End Reports-->
 
             </div>

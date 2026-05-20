@@ -467,6 +467,7 @@ class ComparisonReport
 
 
         // Prepare data for caching (array only, no View objects)
+        dd($general_schools, $general_boy, $general_girl, $general_sen, $school_data);
         $viewData = compact('school', 'data', 'general_boy', 'general_girl',
             'general_sen', 'school_data', 'countries_data', 'curriculums_data', 'general_schools',
             'general_rank', 'local_rank', 'type_rank', 'total_school_students', 'girls_school_students', 'boys_school_students', 'selected_round', 'arabs_grade_ranking', 'non_arabs_grade_ranking'

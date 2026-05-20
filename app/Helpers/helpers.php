@@ -633,6 +633,7 @@ function camelCaseText($text, $replace = '_'): string
 {
     return Str::title(str_replace($replace, ' ', $text));
 }
+
 function sysNationality()
 {
     $host = request()->getHost();
@@ -658,14 +659,16 @@ function sysNationality()
 
     return $country;
 }
+
 function getMarkRange()
 {
     return (object)[
-        'below' => (object)['from' => 0,'to' => 49],
-        'inline' => (object)['from' => 50,'to' => 69],
-        'above'=>(object)['from' => 70,'to' => 100],
+        'below' => (object)['from' => 0, 'to' => 49],
+        'inline' => (object)['from' => 50, 'to' => 69],
+        'above' => (object)['from' => 70, 'to' => 100],
     ];
 }
+
 function judgement($below, $inline, $above)
 {
     $data = [];
@@ -720,56 +723,38 @@ function getSubjectAttainment($subject_data, $subjects, $responseTypeText = 1)
         return $responseTypeText ? 'Unknown' : 0;
     }
 }
+
 function getMarksRanges($grade, $comparison = false)
 {
+    //return (object)[
+    //        'below' => (object)['from' => 0,'to' => 49],
+    //        'inline' => (object)['from' => 50,'to' => 69],
+    //        'above'=>(object)['from' => 70,'to' => 100],
+    //    ];
     if ($comparison) {
-        if ($grade > 9) {
-            return [
-                'below' => 60,
-                'from_inline' => 60,
-                'to_inline' => 70,
-                'above' => 70,
-            ];
-        } else {
-            return [
-                'below' => 50,
-                'from_inline' => 50,
-                'to_inline' => 70,
-                'above' => 70,
-            ];
-        }
-    }
-    if ($grade > 9) {
-        return (object)[
-            'above' => (object)[
-                'from' => 70,
-                'to' => 100,
-            ],
-            'inline' => (object)[
-                'from' => 60,
-                'to' => 69,
-            ],
-            'below' => (object)[
-                'from' => 0,
-                'to' => 59,
-            ],
-        ];
-    } else {
-        return (object)[
-            'above' => (object)[
-                'from' => 70,
-                'to' => 100,
-            ],
-            'inline' => (object)[
-                'from' => 50,
-                'to' => 69,
-            ],
-            'below' => (object)[
-                'from' => 0,
-                'to' => 49,
-            ],
+
+        return [
+            'below' => 50,
+            'from_inline' => 50,
+            'to_inline' => 70,
+            'above' => 70,
         ];
     }
+
+    return (object)[
+        'above' => (object)[
+            'from' => 70,
+            'to' => 100,
+        ],
+        'inline' => (object)[
+            'from' => 50,
+            'to' => 69,
+        ],
+        'below' => (object)[
+            'from' => 0,
+            'to' => 49,
+        ],
+    ];
 }
 
 function allMarksRanges($grade)
@@ -825,6 +810,7 @@ function assessmentExpect($total, $type, $grade)
     }
     return 'Above';
 }
+
 function getProgressText($startPoint, $subTotalMarks)
 {
     $progress = getProgress($startPoint, $subTotalMarks);
@@ -865,6 +851,7 @@ function getProgress($startPoint, $subTotalMarks)
         }
     }
 }
+
 function progressOverTime($total_last_mark, $result_total_mark)
 {
 
@@ -894,6 +881,7 @@ function progressOverTime($total_last_mark, $result_total_mark)
         }
     }
 }
+
 function encryptStudentId($studentId)
 {
     return Crypt::encryptString($studentId);
@@ -918,7 +906,8 @@ function decryptStudentId($encryptedStudentId)
 }
 
 
-function getAllModels() {
+function getAllModels()
+{
     $modelsPath = app_path('Models');
     $modelFiles = \Illuminate\Support\Facades\File::allFiles($modelsPath);
     $modelNames = [];

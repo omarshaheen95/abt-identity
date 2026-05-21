@@ -236,7 +236,9 @@
                     <div class="card-header pt-7">
                         <!--begin::Title-->
                         <h4 class="card-title  align-items-start flex-column">
-                            <span class="card-label fw-bold text-gray-800">{{t('Students Assessments Statistics')}}</span>
+                            <span class="card-label fw-bold text-gray-800">{{t('Students Assessments Statistics')}}
+                            <span id="student_terms_total" class="fs-6 text-danger">{{$term_data['total']}}</span>
+                            </span>
                         </h4>
                         <!--end::Title-->
                         <!--begin::Toolbar-->

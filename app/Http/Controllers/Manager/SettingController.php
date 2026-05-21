@@ -45,7 +45,7 @@ class SettingController extends Controller
                     DB::raw('DATE_FORMAT(created_at, "%H:00") as date'),
                     DB::raw('COUNT(*) as counts')
                 ));
-            $term_data = ['categories' => $students_terms_data->pluck('date'), 'data' => $students_terms_data->pluck('counts')];
+            $term_data = ['categories' => $students_terms_data->pluck('date'), 'data' => $students_terms_data->pluck('counts'), 'total' => "(".t('Total') .' : '.$students_terms_data->sum('counts').")"];
 
             $students_login_data = LoginSession::query()->where('model_type', Student::class)->groupBy('date')->orderBy('date')
                 ->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])

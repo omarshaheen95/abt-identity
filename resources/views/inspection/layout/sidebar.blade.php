@@ -147,6 +147,7 @@
                     <!--end:Menu sub-->
 
                 </div>
+                {{-- Comparison Report (disabled)
                 <div class="menu-item">
                     <a class="menu-link @if(Request::is('inspection/pre_group_comparison_report'))active @endif" href="{{route('inspection.report.pre_group_comparison_report')}}">
                                 <span class="menu-icon">
@@ -160,6 +161,7 @@
                         <span class="menu-title">{{t('Comparison Report')}}</span>
                     </a>
                 </div>
+                --}}
                 <!--end:Reports-->
 
             </div>

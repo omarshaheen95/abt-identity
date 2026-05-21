@@ -39,5 +39,6 @@ Route::post('export-schools', [\App\Http\Controllers\Inspection\SchoolController
 
 Route::get('levelGrades', [\App\Http\Controllers\Inspection\SettingController::class, 'levelGrades'])->name('level.levelGrades');
 
-Route::get('pre_group_comparison_report', [\App\Http\Controllers\Inspection\ComparisonReportController::class, 'preGroupComparisonReport'])->name('report.pre_group_comparison_report');
-Route::get('group_comparison_report', [\App\Http\Controllers\Inspection\ComparisonReportController::class, 'groupComparisonReport'])->name('report.group_comparison_report');
+// Comparison Report (disabled)
+//Route::get('pre_group_comparison_report', [\App\Http\Controllers\Inspection\ComparisonReportController::class, 'preGroupComparisonReport'])->name('report.pre_group_comparison_report');
+//Route::get('group_comparison_report', [\App\Http\Controllers\Inspection\ComparisonReportController::class, 'groupComparisonReport'])->name('report.group_comparison_report');

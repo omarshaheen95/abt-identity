@@ -532,15 +532,18 @@
                     text: ''
                 },
                 xAxis: {
+                    labels: {
+                        useHTML: true
+                    },
                     categories: [
                         @php
                             $key = 1;
                         @endphp
                             @foreach($curriculums_data as $curriculum_data)
                             @if($curriculum_data->ID === "International Baccalaureate")
-                            '{{$key}}-IB Curriculum',
+                            'IB Curriculum<br>({{$curriculum_data->total_schools}} schools)',
                         @else
-                            '{{$key .'-'. strtoupper($curriculum_data->ID)}}',
+                            '{{strtoupper($curriculum_data->ID)}}<br>({{$curriculum_data->total_schools}} schools)',
                         @endif
                         @php
                             $key++;

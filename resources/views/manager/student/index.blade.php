@@ -37,6 +37,10 @@
             <li><a class="dropdown-item d-none checked-visible" href="#!" onclick="autoOpenTime()">{{t('Open Time Assessment')}}</a></li>
             <li id="restore-students" class="d-none"><a class="dropdown-item" href="#!" onclick="restore()">{{t('Restore Students')}}</a></li>
 
+            @can('transfer students')
+                <li><a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#transfer-modal">{{t('Transfer students')}}</a></li>
+            @endcan
+
             @can('delete students')
                 <li id="li_delete_rows"><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
             @endcan
@@ -166,6 +170,48 @@
         </tr>
         </thead>
     </table>
+
+    @can('transfer students')
+    <div class="modal fade" tabindex="-1" id="transfer-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">{{t('Transfer Students')}}</h3>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-12 mb-4">
+                        <label class="form-label">{{t('School')}} :</label>
+                        <select id="transfer_student_school" class="form-select" data-control="select2" data-placeholder="{{t('Select School')}}" data-allow-clear="true">
+                            <option></option>
+                            @foreach($schools as $school)
+                                <option value="{{ $school->id }}">{{ $school->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label class="form-label">{{t('Suffix for transferred students')}} :</label>
+                        <input type="text" id="transfer_from_suffix" class="form-control" placeholder="{{t('e.g. AA')}}">
+                        <span class="text-muted fs-7">{{t('Appended to class of students being transferred. e.g. 3G → 3G - AA')}}</span>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">{{t('Suffix for destination school students')}} :</label>
+                        <input type="text" id="transfer_to_suffix" class="form-control" placeholder="{{t('e.g. BB')}}">
+                        <span class="text-muted fs-7">{{t('Appended to class of students already in destination school. e.g. 3G → 3G - BB')}}</span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{t('Close')}}</button>
+                    <button type="button" class="btn btn-primary" onclick="transferStudents()">{{t('Transfer Students')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endcan
 
 @endsection
 @section('script')
@@ -332,6 +378,68 @@
                 }
             })
         }
+
+        //Transfer Students -----------------------------------------------
+        let transferModal = $('#transfer-modal');
+        transferModal.on('shown.bs.modal', function () {
+            $('#transfer_student_school').select2({
+                dropdownParent: transferModal,
+                placeholder: '{{t('Select School')}}',
+                allowClear: true
+            });
+        });
+        function transferStudents() {
+            let data = {}
+            let frm_data = $('#filter').serializeArray();
+            if (frm_data){
+                $.each(frm_data, function (key, val) {
+                    data[val.name] = val.value;
+                });
+            }
+            let row_id = [];
+            $("table input:checkbox:checked").each(function () {
+                row_id.push($(this).val())
+            });
+
+            data['to_school_id'] = $('#transfer_student_school').val();
+            data['row_id'] = row_id;
+            data['_token'] = '{{csrf_token()}}';
+
+            let fromSuffix = $('#transfer_from_suffix').val().trim();
+            let toSuffix   = $('#transfer_to_suffix').val().trim();
+            if (fromSuffix) data['from_suffix'] = fromSuffix;
+            if (toSuffix)   data['to_suffix']   = toSuffix;
+
+            if (data.to_school_id){
+                transferModal.modal('hide');
+                showLoadingModal()
+                $.ajax({
+                    type: "POST",
+                    url: '{{route('manager.student.transfer')}}',
+                    data: data,
+                    success:function (result) {
+                        hideLoadingModal()
+                        $('#transfer_student_school').val('').trigger('change')
+                        $('#transfer_from_suffix').val('')
+                        $('#transfer_to_suffix').val('')
+                        let d = result.data;
+                        let msg = result.message + '<br>'
+                            + '{{t('From')}}: ' + d.from_school + '<br>'
+                            + '{{t('To')}}: '   + d.to_school   + '<br>'
+                            + '{{t('Transferred')}}: ' + d.transferred + '<br>'
+                            + '{{t('Updated in destination')}}: ' + d.updated_existing;
+                        toastr.success(msg)
+                        table.DataTable().draw(false);
+                    },
+                    error:function (error) {
+                        hideLoadingModal()
+                        transferModal.modal('show');
+                        toastr.error(error.responseJSON.message)
+                    }
+                })
+            }
+        }
+        //-----------------------------------------------------------------------
     </script>
     <script src="{{asset('assets_v1/js/datatable.js')}}?v={{time()}}"></script>
     <script src="{{asset('assets_v1/js/manager/models/student.js')}}"></script>

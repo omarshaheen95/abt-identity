@@ -27,6 +27,7 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'add students','guard_name'=>'manager','group'=>'students'],
             ['name' => 'edit students','guard_name'=>'manager','group'=>'students'],
             ['name' => 'delete students','guard_name'=>'manager','group'=>'students'],
+            ['name' => 'transfer students','guard_name'=>'manager','group'=>'students'],
             ['name' => 'export students','guard_name'=>'manager','group'=>'students'],
             ['name' => 'export students marks','guard_name'=>'manager','group'=>'students'],
             ['name' => 'export students cards','guard_name'=>'manager','group'=>'students'],

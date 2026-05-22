@@ -250,7 +250,7 @@ $('.direct-search').on('keyup',function () {
 
 $('#kt_reset').on('click', function(e) {
     e.preventDefault();
-    $('.filter input').each(function() {
+    $('.filter input').not('[name="_token"]').each(function() {
         if ($(this).is(':radio') && $(this).val() === ''){
             $(this).prop('checked', true);
         }else if($(this).is(':radio') && $(this).val() !== ''){

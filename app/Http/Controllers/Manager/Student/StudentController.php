@@ -24,6 +24,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 
@@ -140,6 +141,59 @@ class StudentController extends Controller
             $student->delete();
         });
         return $this->sendResponse(null, t('Successfully Deleted'));
+    }
+
+    public function transferStudents(Request $request)
+    {
+        $request->validate([
+            'school_id'    => 'required|exists:schools,id',
+            'to_school_id' => 'required|exists:schools,id|different:school_id',
+            'from_suffix'    => 'nullable|string|max:50',
+            'to_suffix'      => 'nullable|string|max:50',
+        ]);
+        $fromSchoolId = $request->get('school_id');
+        $toSchoolId   = $request->get('to_school_id');
+        $fromSuffix     = $request->filled('from_suffix') ? trim($request->input('from_suffix')) : null;
+        $toSuffix       = $request->filled('to_suffix') ? trim($request->input('to_suffix')) : null;
+
+        $fromSchool    = School::query()->findOrFail($fromSchoolId);
+        $toSchool      = School::query()->findOrFail($toSchoolId);
+        $transferredCount = Student::query()->search($request)->count();
+        $existingCount    = Student::query()->where('school_id', $toSchoolId)->count();
+
+        try {
+            // Apply to_suffix to students already in destination school
+            if ($toSuffix) {
+                Student::query()
+                    ->where('school_id', $toSchoolId)
+                    ->whereNotNull('grade_name')
+                    ->update(['grade_name' => DB::raw("CONCAT(`grade_name`, ' - ', " . DB::getPdo()->quote($toSuffix) . ")")]);
+            }
+
+            // Apply from_suffix to students being transferred
+            if ($fromSuffix) {
+                Student::query()
+                    ->search($request)
+                    ->whereNotNull('grade_name')
+                    ->update(['grade_name' => DB::raw("CONCAT(`grade_name`, ' - ', " . DB::getPdo()->quote($fromSuffix) . ")")]);
+            }
+
+            // Transfer students to destination school
+            Student::query()->search($request)->update(['school_id' => $toSchoolId]);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Transfer students failed: ' . $e->getMessage());
+            return $this->sendError($e->getMessage(), 500);
+        }
+
+        return $this->sendResponse([
+            'transferred'      => $transferredCount,
+            'updated_existing' => $existingCount,
+            'from_school'      => $fromSchool->name,
+            'to_school'        => $toSchool->name,
+        ], t('Students Successfully Transferred'));
     }
 
     public function studentExport(Request $request)

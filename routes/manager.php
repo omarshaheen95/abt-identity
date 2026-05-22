@@ -114,6 +114,7 @@ Route::group([], function () {
     //Student
     Route::resource('student', \App\Http\Controllers\Manager\Student\StudentController::class)->except(['destroy']);
     Route::delete('delete-student', [\App\Http\Controllers\Manager\Student\StudentController::class, 'delete'])->name('student.delete');
+    Route::post('student/transfer', [\App\Http\Controllers\Manager\Student\StudentController::class, 'transferStudents'])->name('student.transfer');
     Route::post('student/restore', [\App\Http\Controllers\Manager\Student\StudentController::class, 'restoreStudent'])->name('student.restore');
     Route::get('student-login/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentLogin'])->name('student.student-login');
 //    Route::get('student-report/{id}', [\App\Http\Controllers\Manager\Student\StudentController::class, 'studentReport'])->name('student.student-report');

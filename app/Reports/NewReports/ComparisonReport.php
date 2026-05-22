@@ -570,6 +570,7 @@ class ComparisonReport
             ->select(
                 'd.curriculum_type as curriculum_id',
                 DB::raw('COUNT(*) as total_students'),
+                DB::raw('COUNT(DISTINCT d.id) as total_schools'),
                 DB::raw("SUM(CASE
                     WHEN (st.term_id IN (" . implode(',', $term_1_ids) . ") AND st.total >= {$data_mark_1['above']})
                     OR (st.term_id IN (" . implode(',', $term_10_ids) . ") AND st.total >= {$data_mark_10['above']})
@@ -596,6 +597,7 @@ class ComparisonReport
                 'inline' => $row->inline_count,
                 'below' => $row->below_count,
                 'per_above' => $per_above,
+                'total_schools' => $row->total_schools,
             ]);
         }
 
@@ -633,6 +635,7 @@ class ComparisonReport
             ->select(
                 'd.country as country_id',
                 DB::raw('COUNT(*) as total_students'),
+                DB::raw('COUNT(DISTINCT d.id) as total_schools'),
                 DB::raw("SUM(CASE
                     WHEN (st.term_id IN (" . implode(',', $term_1_ids) . ") AND st.total >= {$data_mark_1['above']})
                     OR (st.term_id IN (" . implode(',', $term_10_ids) . ") AND st.total >= {$data_mark_10['above']})
@@ -659,6 +662,7 @@ class ComparisonReport
                 'inline' => $row->inline_count,
                 'below' => $row->below_count,
                 'per_above' => $per_above,
+                'total_schools' => $row->total_schools,
             ]);
         }
 

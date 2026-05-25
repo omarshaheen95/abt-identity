@@ -9,6 +9,7 @@ use App\Models\Student;
 use App\Models\StudentTerm;
 use App\Models\Term;
 use App\Reports\NewReports\StudentReport;
+use App\Services\PdfZipService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -112,31 +113,19 @@ class GeneralController extends Controller
                 'student' => $student_term
             ];
         }
-        $client = new \GuzzleHttp\Client([
-            'timeout' => 36000,
-        ]);
+        $pdfZipService = new PdfZipService();
+        $fileName = 'student_certificates';
+        $form_params = [
+            'platform' => 'abt-identity',
+            'certificatesUrl' => $urls,
+            'language' => app()->getLocale(),
+        ];
 
-        $data = [];
-        $res = $client->request('POST', 'https://pdfservice.arabic-uae.com/getpdf.php', [
-            'form_params' => [
-                'platform' => 'abt-identity',
-                'certificatesUrl' => $urls,
-                'language' => app()->getLocale(),
-            ],
-        ]);
-
-        $data = json_decode($res->getBody());
-        $url = $data->url;
-        $fileContent = file_get_contents($url);
-        if ($fileContent === false) {
-            throw new \Exception('Unable to download file');
-        } else {
-            return response($fileContent, 200, [
-                'Content-Type' => 'application/zip',
-                'Content-Disposition' => 'inline; filename="certificates.zip"'
-            ]);
+        try {
+            return $pdfZipService->generate($form_params, $fileName);
+        } catch (\RuntimeException $e) {
+            return $this->sendError(t('An error occurred while generating the PDF reports. Please try again later.'), 500);
         }
-        return redirect($data->url);
     }
 
     public function studentActivityRecords(Request $request, $id)

@@ -381,7 +381,7 @@ class TermController extends Controller
             ->withCount('question')
             ->get();
 
-        dd($to_terms->toArray(), $from_terms->toArray());
+        dd($to_terms->toArray(), $from_terms->toArray(), $request->all());
 
 
         $from_terms->each(function ($term) use ($data, $to_terms) {

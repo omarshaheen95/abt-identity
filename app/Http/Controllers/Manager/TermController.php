@@ -381,6 +381,8 @@ class TermController extends Controller
             ->withCount('question')
             ->get();
 
+        dd($to_terms->toArray(), $from_terms->toArray());
+
 
         $from_terms->each(function ($term) use ($data, $to_terms) {
             $to_term = $to_terms->where('level.grade', $term->level->grade)

@@ -34,44 +34,46 @@ class ReportController extends Controller
 {
     private function availableSchools()
     {
-        if (guardIs('manager') || guardIs('inspection')){
+        if (guardIs('manager') || guardIs('inspection')) {
             $schools = School::query()->where('active', 1)
                 ->when(guardIs('inspection'), function (Builder $builder) {
                     $builder->whereIn('id', Auth::guard('inspection')->user()->inspection_schools->pluck('school_id'));
                 })
                 ->orderBy('name')
                 ->get();
-        }else{
+        } else {
             $schools = collect();
         }
         return $schools;
     }
+
     public function preAttainmentReport()
     {
         $title = re('Attainment Report');
         $schools = $this->availableSchools();
         $container_type = 'container-fluid';
         $years = Year::query()->latest()->get();
-        return view('general.new_reports.attainment.pre-attainment-report', compact('title','schools', 'container_type', 'years'));
+        return view('general.new_reports.attainment.pre-attainment-report', compact('title', 'schools', 'container_type', 'years'));
     }
 
     public function attainmentReport(AttainmentReportRequest $request)
     {
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
-        $report = new AttainmentReport($request,$school_id);
+        $report = new AttainmentReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
             return $report->report();
         } else {
             return $report->reportCombined();
         }
     }
+
     public function preProgressReport()
     {
         $title = re('Progress Within The Academic Year');
         $schools = $this->availableSchools();
         $container_type = 'container-fluid';
         $years = Year::query()->latest()->get();
-        return view('general.new_reports.progress.pre-progress-report', compact('title','schools', 'container_type', 'years'));
+        return view('general.new_reports.progress.pre-progress-report', compact('title', 'schools', 'container_type', 'years'));
     }
 
     public function progressReport(ProgressReportRequest $request)
@@ -79,11 +81,12 @@ class ReportController extends Controller
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new ProgressReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
-            return  $report->report();
+            return $report->report();
         } else {
             return $report->reportCombined();
         }
     }
+
     public function preYearToYearReport()
     {
         $title = re('Year To Year Progress Report');
@@ -91,7 +94,7 @@ class ReportController extends Controller
         $container_type = 'container-fluid';
         $years = Year::query()->orderBy('id')->get();
         $yearsCount = 2;
-        return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title','schools', 'container_type', 'years', 'yearsCount'));
+        return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title', 'schools', 'container_type', 'years', 'yearsCount'));
     }
 
     public function preTrendOverTimeReport()
@@ -101,7 +104,7 @@ class ReportController extends Controller
         $container_type = 'container-fluid';
         $years = Year::query()->orderBy('id')->get();
         $yearsCount = 3;
-        return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title','schools', 'container_type', 'years', 'yearsCount'));
+        return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title', 'schools', 'container_type', 'years', 'yearsCount'));
     }
 
     public function yearToYearReport(YearToYearProgressReportRequest $request)
@@ -109,7 +112,7 @@ class ReportController extends Controller
         $school_id = is_array($request->get('school_id')) ? $request->school_id : [$request->school_id];
         $report = new YearToYearReport($request, $school_id);
         if ($request->get('generated_report_type') === 'attainment') {
-            return  $report->report();
+            return $report->report();
         } else {
             return $report->combinedReport();
         }
@@ -120,6 +123,7 @@ class ReportController extends Controller
         return (new \App\Exports\NewExports\YearToYearProgressExport($request, [$request->get('school_id')]))
             ->download("Students progress over the years.xlsx");
     }
+
     public function preTrendsOverTimeReport()
     {
         $title = re('Trends Over Time Report');
@@ -129,7 +133,7 @@ class ReportController extends Controller
         $container_type = 'container-fluid';
         $years = Year::query()->orderBy('id')->get();
         $yearsCount = 3;
-        return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title','schools', 'container_type', 'years', 'yearsCount'));
+        return view('general.new_reports.year_to_year.pre-year-to-year-report', compact('title', 'schools', 'container_type', 'years', 'yearsCount'));
     }
 
 
@@ -177,9 +181,9 @@ class ReportController extends Controller
             'level_id.max' => 'The level may not be greater than 1.',
         ]);
 
-        $school_id = $request->get('school_id',false);
+        $school_id = $request->get('school_id', false);
 
-        $students = Student::with(['level.year','year'])
+        $students = Student::with(['level.year', 'year'])
             ->where('school_id', $school_id)
             ->search($request)
             ->select(['id', 'name as student_name', 'id_number as std_id'])
@@ -199,6 +203,7 @@ class ReportController extends Controller
             return $this->sendError(t('An error occurred while generating the PDF reports. Please try again later.'), 500);
         }
     }
+
     public function pdfReportsCards(Request $request)
     {
         $request->validate([
@@ -212,9 +217,9 @@ class ReportController extends Controller
             'level_id.max' => 'The level may not be greater than 1.',
         ]);
 
-        $school_id = $request->get('school_id',false);
+        $school_id = $request->get('school_id', false);
 
-        $students = Student::with(['level.year','year'])
+        $students = Student::with(['level.year', 'year'])
             ->where('school_id', $school_id)->search($request)
             ->select(['id', 'name as student_name', 'id_number as std_id'])->get()->values()->toArray();
 
@@ -249,6 +254,7 @@ class ReportController extends Controller
             return false;
         }
     }
+
     public function studentQRReportCard(Request $request)
     {
         if ($request->has('token')) {
@@ -279,7 +285,7 @@ class ReportController extends Controller
         $schools = $this->availableSchools();
         $container_type = 'container-fluid';
         $years = Year::query()->orderBy('id')->get();
-        $grades = range(1,12);
+        $grades = range(1, 12);
         return view('general.new_reports.comparison.pre_comparison_report', compact('schools', 'container_type', 'years', 'title', 'grades'));
     }
 

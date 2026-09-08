@@ -43,11 +43,13 @@ class TermController extends Controller
                         $query->where('grade', $student->level->grade);
                         $query->where('arab', $student->level->arab);
                     })
+                    ->where('active', 1)
                     ->first();
             } else {
                 $term = Term::query()
                     ->where('id', $id)
                     ->where('level_id', $student->level_id)
+                    ->where('active', 1)
                     ->first();
             }
             if (!$term) {
@@ -95,6 +97,7 @@ class TermController extends Controller
                     $query->whereIn('id', $student->demo_data->levels);
                 })
                 ->whereIn('round', $student->demo_data->rounds)
+                ->where('active', 1)
                 ->first();
 
             if (!$term) {

@@ -30,6 +30,7 @@ class HomeController extends Controller
                     $query->whereIn('id', $student->demo_data->levels);
                 })
                 ->whereIn('round', $student->demo_data->rounds)
+                ->where('active', 1)
                 ->get();
         } else {
 

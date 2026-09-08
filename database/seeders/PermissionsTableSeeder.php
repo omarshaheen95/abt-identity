@@ -130,6 +130,8 @@ class PermissionsTableSeeder extends Seeder
 
             ['name' => 'show login sessions','guard_name'=>'manager','group'=>'login_sessions'],
 
+            ['name' => 'export login sessions', 'guard_name' => 'manager', 'group' => 'login_sessions'],
+
             ['name' => 'copy terms','guard_name'=>'manager','group'=>'terms'],
 
             ['name' => 'show upgrade terms','guard_name'=>'manager','group'=>'upgrade terms'],

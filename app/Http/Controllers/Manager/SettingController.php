@@ -47,7 +47,7 @@ class SettingController extends Controller
                 ));
             $term_data = ['categories' => $students_terms_data->pluck('date'), 'data' => $students_terms_data->pluck('counts'), 'total' => "(".t('Total') .' : '.$students_terms_data->sum('counts').")"];
 
-            $students_login_data = LoginSession::query()->where('model_type', Student::class)->groupBy('date')->orderBy('date')
+            $students_login_data = LoginSession::query()->where('status', 'success')->where('model_type', Student::class)->groupBy('date')->orderBy('date')
                 ->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])
                 ->get(array(
                     DB::raw('DATE_FORMAT(created_at, "%h:00 %p") as date'),
@@ -204,7 +204,7 @@ class SettingController extends Controller
         }else{
             $format = "%H:00";
         }
-        $students_login_data = LoginSession::query()->where('model_type', Student::class)->groupBy('date')->orderBy('date')
+        $students_login_data = LoginSession::query()->where('status', 'success')->where('model_type', Student::class)->groupBy('date')->orderBy('date')
             ->whereBetween('created_at', [Carbon::parse($request->start_date)->startOfDay(), Carbon::parse($request->end_date)->endOfDay()])
             ->get(array(
                 DB::raw('DATE_FORMAT(created_at, "'.$format.'") as date'),

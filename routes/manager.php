@@ -184,6 +184,8 @@ Route::group([], function () {
     Route::get('transfer_student_term', [\App\Http\Controllers\Manager\TransferStudentController::class, 'transferFullStudentTerm'])->name('transfer_student_term');
 
     //Login Sessions
+
+    Route::post('login_sessions/export', [\App\Http\Controllers\Manager\LoginSessionController::class, 'export'])->name('login_sessions.export');
     Route::resource('login_sessions', \App\Http\Controllers\Manager\LoginSessionController::class);
 
     Route::get('seed', function () {
@@ -234,4 +236,3 @@ Route::group([], function () {
     Route::post('/pdfCertificates', [\App\Http\Controllers\GeneralController::class,'pdfCertificates'])->name('reports.pdfCertificates');
 
 });
-

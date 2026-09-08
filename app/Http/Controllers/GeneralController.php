@@ -145,7 +145,7 @@ class GeneralController extends Controller
                     $query->with('term');
                 }
             ])
-                ->where('model_type', Student::class)
+                ->where('model_type', Student::class)->where('status', 'success')
                 ->where('model_id', $id)
                 ->when($start_date = $request->get('start_date', false), function (Builder $query) use ($start_date) {
                     $query->whereDate('created_at', '>=', $start_date);

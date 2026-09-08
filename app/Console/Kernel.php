@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
 
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('login-sessions:prune --days=365')->dailyAt('03:00');
         // $schedule->command('inspire')->hourly();
         $schedule->command('proctor:clean-images')->dailyAt('02:00');
         $schedule->command('student-terms:auto-correct')

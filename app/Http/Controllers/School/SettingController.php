@@ -52,7 +52,7 @@ class SettingController extends Controller
             $data['new_marking_requests'] = MarkingRequest::query()->where('school_id', $school->id)->where('status', 'Pending')->count();
             $data['marking_requests'] = MarkingRequest::query()->where('school_id', $school->id)->count();
 
-            $students_login_data = LoginSession::query()
+            $students_login_data = LoginSession::query()->where('status', 'success')
             ->whereHasMorph('model', [Student::class], function ($query) use ($school) {
                 $query->where('school_id', $school->id);
             })
@@ -116,7 +116,7 @@ class SettingController extends Controller
         }else{
             $format = "%H:00";
         }
-        $students_login_data = LoginSession::query()
+        $students_login_data = LoginSession::query()->where('status', 'success')
             ->whereHasMorph('model', [Student::class], function ($query) use ($school) {
                 $query->where('school_id', $school->id);
             })

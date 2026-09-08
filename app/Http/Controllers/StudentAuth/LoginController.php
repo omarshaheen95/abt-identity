@@ -72,6 +72,7 @@ class LoginController extends Controller
             Auth::guard('student')->login($student);
             return redirect()->route('student.home');
         }
+        event(new \Illuminate\Auth\Events\Failed('student', null, ['username' => strtolower($request->username)]));
         return redirect()->back()->withErrors([t('Student Not Found')]);
     }
 }

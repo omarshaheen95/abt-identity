@@ -33,5 +33,14 @@ public_html/hot
 
 storage/*.key
 
-resources/lang/
+/resources/lang/*
 .htaccess
+
+!/resources/lang/
+/resources/lang/*
+!/resources/lang/ar/
+!/resources/lang/en/
+/resources/lang/ar/*
+/resources/lang/en/*
+!/resources/lang/ar/auth_log.php
+!/resources/lang/en/auth_log.php

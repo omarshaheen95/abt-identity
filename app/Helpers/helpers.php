@@ -57,11 +57,46 @@ function settingCache($key)
     return $cache[$key] ?? null;
 }
 
+//the file names the system is allowed to store, the types are listed in config/filesystems.php
+//without types it returns them all => allowedUploadExtensions('pdf', 'excel')
+function allowedUploadExtensions(...$types)
+{
+    $types_extensions = config('filesystems.allowed_uploads.extensions', []);
+    if ($types) {
+        $types_extensions = array_intersect_key($types_extensions, array_flip($types));
+    }
+
+    $extensions = [];
+    foreach ($types_extensions as $type_extensions) {
+        $extensions = array_merge($extensions, $type_extensions);
+    }
+
+    return $extensions;
+}
+
+//the mime types of the given types, ready for the mimetypes rule => allowedUploadMimetypes('image', 'pdf')
+function allowedUploadMimetypes(...$types)
+{
+    $mimetypes = [];
+    foreach ($types as $type) {
+        $mimetypes = array_merge($mimetypes, config('filesystems.allowed_uploads.mimetypes.' . $type, []));
+    }
+
+    return implode(',', $mimetypes);
+}
+
 function uploadFile($file, $path)
 {
     $file_original_name = $file->getClientOriginalName();
     $extension = $file->getClientOriginalExtension();
     $file_new_name = Str::random(27) . '.' . $extension;
+
+    $extension = strtolower(trim($extension ?? $file->getClientOriginalExtension()));
+
+    //the file name is what the web server executes, so never store an extension we do not allow
+    if (!in_array($extension, allowedUploadExtensions())) {
+        throw new \App\Exceptions\GeneralException(t('This file type is not allowed'));
+    }
 
     // Use forward slashes for web-compatible paths
     $webPath = 'uploads/' . $path . '/' . date("Y") . '/' . date("m") . '/' . date("d");

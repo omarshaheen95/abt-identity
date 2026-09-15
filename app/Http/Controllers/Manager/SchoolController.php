@@ -19,6 +19,7 @@ class SchoolController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('permission:edit schools')->only('forcePasswordChange');
         $this->middleware('permission:show schools')->only('index');
         $this->middleware('permission:add schools')->only(['create','store']);
         $this->middleware('permission:edit schools')->only(['edit','update']);
@@ -71,6 +72,8 @@ class SchoolController extends Controller
             $data['logo'] = $logo['path'];
         }
         $data['password'] = bcrypt($request->get('password'));
+        $data['force_password_change'] = $request->get('force_password_change', 0);
+        $data['password_changed_at'] = now();
         $data['proctoring_settings'] = School::prepareProctoringSettings($request);
         School::query()->create($data);
 
@@ -95,7 +98,13 @@ class SchoolController extends Controller
             $logo = uploadFile($request->file('logo'), 'schools');
             $data['logo'] = $logo['path'];
         }
-        $data['password'] = $request->get('password', false) ? bcrypt($request->get('password', 123456)) : $school->password;
+        $password_changed = (bool) $request->get('password', false);
+        $data['password'] = $password_changed ? bcrypt($request->get('password')) : $school->password;
+        if ($password_changed) {
+            $data['password_changed_at'] = now();
+        }
+        // a password handed over by a manager is temporary by default
+        $data['force_password_change'] = $request->get('force_password_change', $password_changed ? 1 : 0);
         $data['proctoring_settings'] = School::prepareProctoringSettings($request);
         $school->update($data);
         return redirect()->route('manager.school.index')->with('message', t('Successfully Updated'));
@@ -121,6 +130,7 @@ class SchoolController extends Controller
     {
         $user = School::query()->findOrFail($id);
         Auth::guard('school')->loginUsingId($id);
+        \App\Http\Middleware\ForcePasswordChange::impersonate('school', $id);
         return redirect()->route('school.home');
     }
 
@@ -148,5 +158,23 @@ class SchoolController extends Controller
         }
         $count = $query->update(['proctoring_settings' => json_encode($proctoringSettings)]);
         return $this->sendResponse(null, t('Proctoring settings updated for') . ' ' . $count . ' ' . t('schools'));
+    }
+
+    /**
+     * Raise the forced password change flag on the accounts the table is
+     * currently showing. Same contract as the export: the filters come from the
+     * #filter form and row_id narrows it down to the checked rows.
+     */
+    public function forcePasswordChange(Request $request)
+    {
+        $query = School::query()->search($request);
+
+        // count the matched rows, not the changed ones: MySQL does not report a
+        // row that already carried the flag
+        $affected = (clone $query)->count();
+        $query->update(['force_password_change' => 1]);
+
+        return $this->sendResponse(['affected' => $affected],
+            t('Password change was enforced on :count account(s).', ['count' => $affected]));
     }
 }

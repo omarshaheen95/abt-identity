@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
+use App\Traits\UpdatesPassword;
 
 class ManagerController extends Controller
 {
+    use UpdatesPassword;
+
     public function __construct()
     {
+        $this->middleware('permission:edit managers')->only('forcePasswordChange');
         $this->middleware('permission:show managers')->only('index');
         $this->middleware('permission:add managers')->only(['create','store']);
         $this->middleware('permission:edit managers')->only(['edit','update']);
@@ -60,6 +64,8 @@ class ManagerController extends Controller
     {
         $data = $request->validated();
         $data['password'] = bcrypt($request->get('password'));
+        $data['force_password_change'] = $request->get('force_password_change', 0);
+        $data['password_changed_at'] = now();
         $data['approved'] = $request->get('approved', 0);
         Manager::query()->create($data);
         return redirect()->route('manager.manager.index')->with('message', t('Successfully Created'));
@@ -77,7 +83,13 @@ class ManagerController extends Controller
         $manager = Manager::query()->findOrFail($id);
         $data = $request->validated();
         $data['approved'] = $request->get('approved', 0);
-        $data['password'] = $request->get('password', false) ? bcrypt($request->get('password', 123456)) : $manager->password;
+        $password_changed = (bool) $request->get('password', false);
+        $data['password'] = $password_changed ? bcrypt($request->get('password')) : $manager->password;
+        if ($password_changed) {
+            $data['password_changed_at'] = now();
+        }
+        // a password handed over by a manager is temporary by default
+        $data['force_password_change'] = $request->get('force_password_change', $password_changed ? 1 : 0);
         $manager->update($data);
         return redirect()->route('manager.manager.index')->with('message', t('Successfully Updated'));
     }
@@ -129,18 +141,33 @@ class ManagerController extends Controller
     public function viewUpdatePassword()
     {
         $title = t('Update Password');
-        return view('manager.manager.password', compact('title'));
+        $reason = $this->passwordChangeReason('manager');
+        $forced = $reason !== null;
+        return view('manager.manager.password', compact('title', 'forced', 'reason'));
     }
     public function updatePassword(ManagerPasswordRequest $request)
     {
-        $data = $request->validated();
-        $manager = Auth::guard('manager')->user();
-        if (Hash::check($request->get('old_password'), $manager->password)) {
-            $data['password'] = bcrypt($request->get('password'));
-            $manager->update($data);
-            return redirect()->back()->with('message', t('Successfully Updated'))->with('m-class', 'success');
-        } else {
-            return redirect()->back()->withErrors([t('Current Password Invalid')])->with('message', t('Current Password Invalid'))->with('m-class', 'error');
-        }
+        return $this->applyPasswordUpdate($request, 'manager');
+    }
+
+    /**
+     * Raise the forced password change flag on the accounts the table is
+     * currently showing. Same contract as the export: the filters come from the
+     * #filter form and row_id narrows it down to the checked rows.
+     */
+    public function forcePasswordChange(Request $request)
+    {
+        $query = Manager::query()->search($request);
+
+        // never lock yourself out of the panel with a bulk action
+        $query->where('id', '!=', Auth::guard('manager')->id());
+
+        // count the matched rows, not the changed ones: MySQL does not report a
+        // row that already carried the flag
+        $affected = (clone $query)->count();
+        $query->update(['force_password_change' => 1]);
+
+        return $this->sendResponse(['affected' => $affected],
+            t('Password change was enforced on :count account(s).', ['count' => $affected]));
     }
 }

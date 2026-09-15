@@ -8,31 +8,39 @@
     </li>
 @endpush
 @section('content')
+    @if(!empty($forced))
+        <div class="alert alert-warning d-flex align-items-center mb-6">
+            <i class="la la-exclamation-triangle fs-2 me-3"></i>
+            <div>
+                <h4 class="mb-1">{{t('Password change required')}}</h4>
+                <span>
+                    @if(($reason ?? null) === 'expired')
+                        {{t('Your password has expired, please choose a new one to continue.')}}
+                    @else
+                        {{t('You must change your password before you can continue.')}}
+                    @endif
+                </span>
+            </div>
+        </div>
+    @endif
     <div class="row">
-        <form class="form" id="form_data"
-              action="{{route('school.update-password')}}"
-              method="post">
+        <form class="form" id="form_data" action="{{route('school.update-password')}}" method="post">
             @csrf
-            @isset($manager)
-                <input type="hidden" name="_method" value="PATCH"/>
-            @endisset
             <div class="form-group row">
 
-                <div class="col-lg-4">
-                    <label>{{t('Old Password')}} :</label>
-                    <input name="old_password" type="password" placeholder="{{t('Old Password')}}"
-                           class="form-control"/>
+                <div class="col-lg-4 mb-2">
+                    <label class="form-label mb-1">{{t('Old Password')}} <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <input name="old_password" type="password" placeholder="{{t('Old Password')}}"
+                               autocomplete="current-password" class="form-control"/>
+                        <button class="btn btn-icon btn-light border" type="button" data-password-toggle
+                                title="{{t('Show / Hide Password')}}">
+                            <i class="la la-eye"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-lg-4">
-                    <label>{{t('Password')}} :</label>
-                    <input name="password" type="password" placeholder="{{t('Password')}}"
-                           class="form-control"/>
-                </div>
-                <div class="col-lg-4">
-                    <label>{{t('Confirmed Password')}} :</label>
-                    <input name="password_confirmation" type="password" placeholder="{{t('Confirmed Password')}}"
-                           class="form-control"/>
-                </div>
+
+                @include('components.password-fields')
 
             </div>
 
@@ -44,9 +52,8 @@
             </div>
         </form>
     </div>
-
 @endsection
 @section('script')
-    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}?v=1"></script>
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}?v=2"></script>
     {!! JsValidator::formRequest(\App\Http\Requests\School\SchoolPasswordRequest::class, '#form_data'); !!}
 @endsection

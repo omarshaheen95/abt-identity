@@ -43,7 +43,7 @@ class RouteServiceProvider extends ServiceProvider
             });
 
             Route::group([
-                'middleware' => ['web', 'manager', 'auth:manager','checkIfActive', 'generalLocal','setRequestData'],
+                'middleware' => ['web', 'manager', 'auth:manager','checkIfActive', 'generalLocal','setRequestData', 'session.password:manager', 'force.password:manager'],
                 'prefix' => 'manager',
                 'as' => 'manager.',
                 'namespace' => $this->namespace,
@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
                 require base_path('routes/manager.php');
             });
             Route::group([
-                'middleware' => ['web', 'school', 'auth:school','checkIfActive','generalLocal','setRequestData'],
+                'middleware' => ['web', 'school', 'auth:school','checkIfActive','generalLocal','setRequestData', 'session.password:school', 'force.password:school'],
                 'prefix' => 'school',
                 'as' => 'school.',
                 'namespace' => $this->namespace,
@@ -59,7 +59,7 @@ class RouteServiceProvider extends ServiceProvider
                 require base_path('routes/school.php');
             });
             Route::group([
-                'middleware' => ['web', 'inspection', 'auth:inspection', 'generalLocal','setRequestData'],
+                'middleware' => ['web', 'inspection', 'auth:inspection', 'generalLocal','setRequestData', 'session.password:inspection', 'force.password:inspection'],
                 'prefix' => 'inspection',
                 'as' => 'inspection.',
                 'namespace' => $this->namespace,

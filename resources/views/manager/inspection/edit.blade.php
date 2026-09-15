@@ -90,11 +90,13 @@
                        class="form-control"
                        value="{{ isset($inspection) ? $inspection->email : old("email") }}"/>
             </div>
-            <div class="col-lg-4 mb-2">
-                <label class="form-label mb-1">{{t('Password')}} :</label>
-                <input name="password" type="password" placeholder="{{t('Password')}}"
-                       class="form-control"/>
-            </div>
+            @include('components.password-fields', [
+                'confirm' => false,
+                'col' => 'col-lg-4 mb-2',
+                'required' => !isset($inspection),
+                'simple' => true,
+            ])
+            @include('components.force-password-change', ['row' => $inspection ?? null])
 
             <div class="col-lg-4 mb-2">
                 <label class="form-label mb-1">{{t('School')}}:</label>

@@ -17,6 +17,7 @@ class InspectionController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('permission:edit inspections')->only('forcePasswordChange');
         $this->middleware('permission:show inspections')->only('index');
         $this->middleware('permission:add inspections')->only(['create','store']);
         $this->middleware('permission:edit inspections')->only(['edit','update']);
@@ -67,6 +68,8 @@ class InspectionController extends Controller
         $data = $request->validated();
         $data['active'] = $request->get('active', false) ? 1 : 0;
         $data['password'] = bcrypt($request->get('password'));
+        $data['force_password_change'] = $request->get('force_password_change', 0);
+        $data['password_changed_at'] = now();
 
         if ($request->hasFile('image')) {
             $image = uploadFile($request->file('image'), 'image');
@@ -98,7 +101,13 @@ class InspectionController extends Controller
         $inspection = Inspection::query()->findOrFail($id);
         $data = $request->validated();
         $data['active'] = $request->get('active', false) ? 1 : 0;
-        $data['password'] = $request->get('password', false) ? bcrypt($request->get('password', 123456)) : $inspection->password;
+        $password_changed = (bool) $request->get('password', false);
+        $data['password'] = $password_changed ? bcrypt($request->get('password')) : $inspection->password;
+        if ($password_changed) {
+            $data['password_changed_at'] = now();
+        }
+        // a password handed over by a manager is temporary by default
+        $data['force_password_change'] = $request->get('force_password_change', $password_changed ? 1 : 0);
 
         if ($request->hasFile('image')) {
             $image = uploadFile($request->file('image'), 'image');
@@ -137,11 +146,30 @@ class InspectionController extends Controller
     public function inspectionLogin($id)
     {
         Auth::guard('inspection')->loginUsingId($id);
+        \App\Http\Middleware\ForcePasswordChange::impersonate('inspection', $id);
         return redirect()->route('inspection.home');
     }
 
     public function inspectionExport(Request $request)
     {
         return (new InspectionExport($request))->download('Inspections Information.xlsx');
+    }
+
+    /**
+     * Raise the forced password change flag on the accounts the table is
+     * currently showing. Same contract as the export: the filters come from the
+     * #filter form and row_id narrows it down to the checked rows.
+     */
+    public function forcePasswordChange(Request $request)
+    {
+        $query = Inspection::query()->search($request);
+
+        // count the matched rows, not the changed ones: MySQL does not report a
+        // row that already carried the flag
+        $affected = (clone $query)->count();
+        $query->update(['force_password_change' => 1]);
+
+        return $this->sendResponse(['affected' => $affected],
+            t('Password change was enforced on :count account(s).', ['count' => $affected]));
     }
 }

@@ -25,6 +25,11 @@
                 <li><a class="dropdown-item" href="#!" onclick="excelExport('{{route('manager.export-inspections')}}')">{{t('Export')}}</a></li>
             @endcan
             @can('delete inspections')
+                @can('edit inspections')
+                    <li><a class="dropdown-item text-warning" href="#!"
+                           data-filtered-action="{{route('manager.inspection.force-password-change')}}"
+                           data-confirm="{{t('Password change will be enforced on every account matching the current filters. Continue?')}}">{{t('Force Password Change')}}</a></li>
+                @endcan
                 <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
             @endcan
         </ul>

@@ -14,7 +14,7 @@ Route::get('lang/{local}', [\App\Http\Controllers\Inspection\SettingController::
 Route::get('profile', [\App\Http\Controllers\Inspection\InspectionController::class, 'viewUpdateProfile'])->name('edit-profile');
 Route::post('update-profile', [\App\Http\Controllers\Inspection\InspectionController::class, 'updateProfile'])->name('update-profile');
 Route::get('password', [\App\Http\Controllers\Inspection\InspectionController::class, 'viewUpdatePassword'])->name('edit-password');
-Route::post('update-password', [\App\Http\Controllers\Inspection\InspectionController::class, 'updatePassword'])->name('update-password');
+Route::post('update-password', [\App\Http\Controllers\Inspection\InspectionController::class, 'updatePassword'])->middleware('throttle:10,1')->name('update-password');
 
 
 //Student

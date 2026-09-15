@@ -14,13 +14,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
+use App\Traits\ManagesPasswordLifetime;
 
 class Inspection extends Authenticatable
 {
-    use Notifiable, SoftDeletes, LogsActivity,CascadeSoftDeletes;
+    use Notifiable, SoftDeletes, LogsActivity,CascadeSoftDeletes, ManagesPasswordLifetime;
+
+    /** Guard this model authenticates with, read by ManagesPasswordLifetime. */
+    public static $passwordGuard = 'inspection';
 
     protected $fillable = [
-        'name', 'email', 'password','last_login', 'last_login_info', 'lang','active','image'
+        'name', 'email', 'password','last_login', 'last_login_info', 'lang','active','image',
+        'force_password_change', 'password_changed_at'
+    ];
+
+    protected $casts = [
+        'force_password_change' => 'boolean',
+        'password_changed_at' => 'datetime',
     ];
 
     protected $hidden = [

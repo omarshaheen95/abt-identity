@@ -46,6 +46,7 @@ class SchoolController extends Controller
     public function schoolLogin($id)
     {
         Auth::guard('school')->loginUsingId($id);
+        \App\Http\Middleware\ForcePasswordChange::impersonate('school', $id);
         return redirect()->route('school.home');
     }
 

@@ -169,7 +169,7 @@ function set_locale()
 
 function t($key, $placeholder = [], $locale = null)
 {
-    return translation('translation', $key, $placeholder = [], $locale);
+    return translation('translation', $key, $placeholder, $locale);
 }
 
 function re($key, $placeholder = [], $locale = null)

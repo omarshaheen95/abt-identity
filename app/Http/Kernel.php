@@ -80,6 +80,8 @@ class Kernel extends HttpKernel
         'checkIfActive' => CheckIfActive::class,
         'setRequestData' => SetRequestDataMiddleware::class,
         'desktop.only' => \App\Http\Middleware\DesktopOnlyMiddleware::class,
+        'force.password' => \App\Http\Middleware\ForcePasswordChange::class,
+        'session.password' => \App\Http\Middleware\ValidateSessionPassword::class,
 
     ];
 }

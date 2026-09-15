@@ -16,10 +16,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
+use App\Traits\ManagesPasswordLifetime;
 
 class School extends Authenticatable
 {
-    use Notifiable, SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
+    use Notifiable, SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity, ManagesPasswordLifetime;
+
+    /** Guard this model authenticates with, read by ManagesPasswordLifetime. */
+    public static $passwordGuard = 'school';
     protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings', 'rounds'];
     protected static $recordEvents = ['updated', 'deleted'];
     protected static $logOnlyDirty = true;
@@ -27,10 +31,13 @@ class School extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info', 'certificate_mark',
-        'available_year_id','allow_reports', 'proctoring_settings', 'rounds'
-        ];
+        'available_year_id','allow_reports', 'proctoring_settings', 'rounds',
+        'force_password_change', 'password_changed_at'
+    ];
 
     protected $casts = [
+        'force_password_change' => 'boolean',
+        'password_changed_at' => 'datetime',
         'proctoring_settings' => 'array',
         'rounds' => 'array',
     ];

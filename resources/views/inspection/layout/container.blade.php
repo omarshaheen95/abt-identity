@@ -102,6 +102,7 @@
                                 @hasSection('pre-content')
                                     @yield('pre-content')
                                 @endif
+                                @include('components.password-expiry-notice')
                                 @hasSection('content')
                                     <div class="card py-2 px-3">
                                         <!--begin::Card header-->

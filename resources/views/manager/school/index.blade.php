@@ -30,6 +30,11 @@
                 <li><a class="dropdown-item" href="#!" data-bs-toggle="modal" data-bs-target="#update_proctoring_settings">{{t('Proctoring Settings')}}</a></li>
             @endcan
             @can('delete schools')
+            @can('edit schools')
+                <li><a class="dropdown-item text-warning" href="#!"
+                       data-filtered-action="{{route('manager.school.force-password-change')}}"
+                       data-confirm="{{t('Password change will be enforced on every account matching the current filters. Continue?')}}">{{t('Force Password Change')}}</a></li>
+            @endcan
             <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
             @endcan
         </ul>

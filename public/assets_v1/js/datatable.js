@@ -450,3 +450,98 @@ $(document).on('click', '.copy-txt', function() {
         toastr.info(copyMessage.replace('+',txt));
     }
 });
+
+/**
+ * Post the current #filter form (plus any checked rows) to a bulk action
+ * endpoint and reload the table. Same payload contract as excelExport, but for
+ * actions that answer with JSON instead of a file.
+ */
+function filteredAction(url, confirmMessage) {
+    var run = function () {
+        showLoadingModal();
+
+        var data = {'_token': $('meta[name="csrf-token"]').attr('content')};
+
+        var frm_data = $('#filter').serializeArray();
+        if (frm_data) {
+            $.each(frm_data, function (key, val) {
+                data[val.name] = val.value;
+            });
+
+            $('select.direct-value').each(function () {
+                var val = $(this).val();
+                var name = $(this).attr('name');
+                delete data[name];
+                name = name.replace("[]", "");
+
+                if (val instanceof Array) {
+                    if (val.length > 0) {
+                        data[name] = $(this).val();
+                    }
+                } else if (val) {
+                    data[name] = $(this).val();
+                }
+            });
+        }
+
+        var rows_checkbox = $("input:checkbox[name='rows[]']:checked");
+        if (rows_checkbox.length > 0) {
+            var row_id = [];
+            rows_checkbox.each(function () {
+                row_id.push($(this).val());
+            });
+            data.row_id = row_id;
+        }
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function (response) {
+                hideLoadingModal();
+                toastr.success(response.message);
+                table.DataTable().draw(false);
+            },
+            error: function (xhr) {
+                hideLoadingModal();
+                var message = xhr.responseJSON && xhr.responseJSON.message
+                    ? xhr.responseJSON.message
+                    : 'Error';
+                toastr.error(message);
+            }
+        });
+    };
+
+    if (!confirmMessage) {
+        run();
+        return;
+    }
+
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            text: confirmMessage,
+            icon: 'warning',
+            showCancelButton: true,
+            buttonsStyling: false,
+            confirmButtonText: lang === 'ar' ? 'نعم، تابع' : 'Yes, continue',
+            cancelButtonText: lang === 'ar' ? 'إلغاء' : 'Cancel',
+            customClass: {
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-light'
+            }
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                run();
+            }
+        });
+    } else if (window.confirm(confirmMessage)) {
+        run();
+    }
+}
+
+// delegated binding for [data-filtered-action] links, so translated confirm
+// text can contain quotes without breaking an inline onclick
+$(document).on('click', '[data-filtered-action]', function (event) {
+    event.preventDefault();
+    filteredAction($(this).data('filtered-action'), $(this).data('confirm'));
+});

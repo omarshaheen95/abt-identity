@@ -60,4 +60,14 @@ class LoginController extends Controller
     {
         return Auth::guard('inspection');
     }
+
+    /**
+     * A real sign in ends any impersonation bypass left over in this browser
+     * session, so the account owner is still held to a pending forced change.
+     */
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        \App\Http\Middleware\ForcePasswordChange::stopImpersonating();
+    }
+
 }

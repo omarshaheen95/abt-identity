@@ -52,6 +52,11 @@
             @can('export managers')
                 <li><a class="dropdown-item" href="#!" onclick="excelExport('{{route('manager.manager.export')}}')">{{t('Export')}}</a></li>
             @endcan
+            @can('edit managers')
+                <li><a class="dropdown-item text-warning" href="#!"
+                       data-filtered-action="{{route('manager.manager.force-password-change')}}"
+                       data-confirm="{{t('Password change will be enforced on every account matching the current filters. Continue?')}}">{{t('Force Password Change')}}</a></li>
+            @endcan
             @can('delete managers')
                 <li><a class="dropdown-item text-danger d-none checked-visible" href="#!" id="delete_rows">{{t('Delete')}}</a></li>
             @endcan

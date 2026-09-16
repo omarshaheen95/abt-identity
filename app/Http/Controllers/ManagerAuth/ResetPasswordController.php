@@ -67,6 +67,47 @@ class ResetPasswordController extends Controller
         return Password::broker('managers');
     }
 
+
+    /**
+     * Password reset has to satisfy the same policy as an in app change.
+     */
+    protected function rules()
+    {
+        return [
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => \App\Support\PasswordPolicy::rules(),
+        ];
+    }
+
+    protected function validationErrorMessages()
+    {
+        return \App\Support\PasswordPolicy::messages();
+    }
+
+    /**
+     * A successful reset also clears any pending forced change.
+     */
+    protected function resetPassword($user, $password)
+    {
+        // the broker only deletes the token after this callback returns, so a
+        // rejection here leaves the reset link usable for another attempt
+        if (method_exists($user, 'passwordWasUsedBefore') && $user->passwordWasUsedBefore($password)) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'password' => t('You have used this password recently, please choose a different one. The last :count passwords are remembered.', ['count' => (int) config('password_policy.history', 5)]),
+            ]);
+        }
+
+        $user->forceFill([
+            'password' => bcrypt($password),
+            'force_password_change' => 0,
+            'password_changed_at' => now(),
+            'remember_token' => \Illuminate\Support\Str::random(60),
+        ])->save();
+
+        $this->guard()->login($user);
+    }
+
     /**
      * Get the guard to be used during password reset.
      *

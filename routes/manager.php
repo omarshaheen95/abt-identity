@@ -30,6 +30,7 @@ Route::group([], function () {
     Route::delete('delete-school', [SchoolController::class, 'deleteSchool'])->name('delete-school');
     Route::get('school_login/{id}', [SchoolController::class, 'schoolLogin'])->name('school-login');
     Route::post('export-schools', [SchoolController::class, 'schoolExport'])->name('export-schools');
+    Route::post('school/force-password-change', [SchoolController::class, 'forcePasswordChange'])->name('school.force-password-change');
     Route::post('school/proctoring-settings/bulk-update', [SchoolController::class, 'bulkUpdateProctoringSettings'])->name('school.proctoring-settings.bulk-update');
 
     //SchoolGradeScheduling
@@ -42,17 +43,19 @@ Route::group([], function () {
     Route::delete('delete-inspection', [\App\Http\Controllers\Manager\InspectionController::class, 'deleteInspection'])->name('delete-inspection');
     Route::get('login-inspection/{id}', [\App\Http\Controllers\Manager\InspectionController::class, 'inspectionLogin'])->name('login-inspection');
     Route::post('inspections-export', [\App\Http\Controllers\Manager\InspectionController::class, 'inspectionExport'])->name('export-inspections');
+    Route::post('inspection/force-password-change', [\App\Http\Controllers\Manager\InspectionController::class, 'forcePasswordChange'])->name('inspection.force-password-change');
 
     //Manager
     Route::resource('manager', ManagerController::class)->except(['destroy']);
     Route::post('managers-export', [\App\Http\Controllers\Manager\ManagerController::class, 'export'])->name('manager.export');
+    Route::post('manager/force-password-change', [\App\Http\Controllers\Manager\ManagerController::class, 'forcePasswordChange'])->name('manager.force-password-change');
     Route::delete('delete-manager', [\App\Http\Controllers\Manager\ManagerController::class, 'deleteManager'])->name('delete-manager');
     Route::get('edit-permissions/{id}', [\App\Http\Controllers\Manager\ManagerController::class, 'editPermissions'])->name('manager.edit-permissions');
     Route::post('update-permissions', [\App\Http\Controllers\Manager\ManagerController::class, 'updatePermissions'])->name('manager.update-permissions');
     Route::get('update-profile', [\App\Http\Controllers\Manager\ManagerController::class, 'viewUpdateProfile'])->name('edit-profile');
     Route::post('update-profile', [\App\Http\Controllers\Manager\ManagerController::class, 'updateProfile'])->name('update-profile');
     Route::get('update-password', [\App\Http\Controllers\Manager\ManagerController::class, 'viewUpdatePassword'])->name('edit-password');
-    Route::post('update-password', [\App\Http\Controllers\Manager\ManagerController::class, 'updatePassword'])->name('update-password');
+    Route::post('update-password', [\App\Http\Controllers\Manager\ManagerController::class, 'updatePassword'])->middleware('throttle:10,1')->name('update-password');
 
     //text translation
     Route::get('text_translation', [TextTranslationController::class, 'index'])->name('text_translation.index');

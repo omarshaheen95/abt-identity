@@ -12,13 +12,23 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
+use App\Traits\ManagesPasswordLifetime;
 
 class Manager extends Authenticatable
 {
-    use Notifiable, SoftDeletes, HasRoles, LogsActivity;
+    use Notifiable, SoftDeletes, HasRoles, LogsActivity, ManagesPasswordLifetime;
+
+    /** Guard this model authenticates with, read by ManagesPasswordLifetime. */
+    public static $passwordGuard = 'manager';
 
     protected $fillable = [
-        'name', 'email', 'password', 'avatar', 'lang', 'last_login', 'last_login_info', 'approved'
+        'name', 'email', 'password', 'avatar', 'lang', 'last_login', 'last_login_info', 'approved',
+        'force_password_change', 'password_changed_at'
+    ];
+
+    protected $casts = [
+        'force_password_change' => 'boolean',
+        'password_changed_at' => 'datetime',
     ];
     protected $pathAttribute = [
         'avatar'

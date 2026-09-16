@@ -1,33 +1,46 @@
 <?php
+/*
+Dev Omar Shaheen
+Devomar095@gmail.com
+WhatsApp +972592554320
+*/
 
 namespace App\Http\Requests\Manager;
 
+use App\Support\PasswordPolicy;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 
 class ManagerPasswordRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules()
     {
-        $rules = [];
-        $rules["old_password"] = 'required';
-        $rules["password"] = 'required|min:6|confirmed';
-        return $rules;
+        return [
+            'old_password' => 'required',
+            'password' => PasswordPolicy::rules(),
+        ];
+    }
+
+    public function messages()
+    {
+        return PasswordPolicy::messages();
+    }
+
+    /**
+     * Server side only checks. JsValidator ignores these, so the browser still
+     * gets the length/format rules above.
+     */
+    public function withValidator(Validator $validator)
+    {
+        $user = Auth::guard('manager')->user();
+
+        PasswordPolicy::applyExtraChecks($validator, 'password', $user ? $user->password : null);
+        PasswordPolicy::applyHistoryCheck($validator, 'password', $user);
     }
 }

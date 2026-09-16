@@ -18,7 +18,7 @@ Route::get('lang/{local}', [\App\Http\Controllers\School\SettingController::clas
 Route::get('profile', [\App\Http\Controllers\School\SchoolController::class, 'viewUpdateProfile'])->name('edit-profile');
 Route::post('update-profile', [\App\Http\Controllers\School\SchoolController::class, 'updateProfile'])->name('update-profile');
 Route::get('password', [\App\Http\Controllers\School\SchoolController::class, 'viewUpdatePassword'])->name('edit-password');
-Route::post('update-password', [\App\Http\Controllers\School\SchoolController::class, 'updatePassword'])->name('update-password');
+Route::post('update-password', [\App\Http\Controllers\School\SchoolController::class, 'updatePassword'])->middleware('throttle:10,1')->name('update-password');
 
 
 //Student

@@ -37,11 +37,13 @@
                            class="form-control"
                            value="{{ isset($manager) ? $manager->email : old("email") }}"/>
                 </div>
-                <div class="col-lg-3 mb-2">
-                    <label class="form-label mb-1">{{t('Password')}} :</label>
-                    <input name="password" type="password" placeholder="{{t('Password')}}"
-                           class="form-control"/>
-                </div>
+                @include('components.password-fields', [
+                    'confirm' => false,
+                    'col' => 'col-lg-4 mb-2',
+                    'required' => !isset($manager),
+                    'simple' => true,
+                ])
+                @include('components.force-password-change', ['row' => $manager ?? null])
                 <div class="col-lg-3">
                     <label>{{t('Approved Status')}} :</label>
 

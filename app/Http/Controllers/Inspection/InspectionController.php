@@ -7,9 +7,12 @@ use App\Http\Requests\Inspection\InspectionPasswordRequest;
 use App\Http\Requests\Inspection\InspectionProfileRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Traits\UpdatesPassword;
 
 class InspectionController extends Controller
 {
+    use UpdatesPassword;
+
     public function viewUpdateProfile()
     {
         $title = t('Update Profile');
@@ -30,18 +33,12 @@ class InspectionController extends Controller
     public function viewUpdatePassword()
     {
         $title = t('Update Password');
-        return view('inspection.inspection.password', compact('title'));
+        $reason = $this->passwordChangeReason('inspection');
+        $forced = $reason !== null;
+        return view('inspection.inspection.password', compact('title', 'forced', 'reason'));
     }
     public function updatePassword(InspectionPasswordRequest $request)
     {
-        $data = $request->validated();
-        $inspection = Auth::guard('inspection')->user();
-        if (Hash::check($request->get('old_password'), $inspection->password)) {
-            $data['password'] = bcrypt($request->get('password'));
-            $inspection->update($data);
-            return redirect()->back()->with('message', t('Successfully Updated'))->with('m-class', 'success');
-        } else {
-            return redirect()->back()->withErrors([t('Current Password Invalid')])->with('message', t('Current Password Invalid'))->with('m-class', 'error');
-        }
+        return $this->applyPasswordUpdate($request, 'inspection');
     }
 }

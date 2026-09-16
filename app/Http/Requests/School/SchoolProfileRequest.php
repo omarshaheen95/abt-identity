@@ -28,6 +28,7 @@ class SchoolProfileRequest extends FormRequest
             'name' => 'required',
             'url' => 'nullable',
             'mobile' => 'nullable',
+            'logo' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
         ];
         $user = Auth::guard('school')->user()->id;
         $rules['email'] = "required|email|unique:schools,email,$user,id,deleted_at,NULL";

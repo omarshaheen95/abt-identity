@@ -15,7 +15,7 @@ class ImportStudentFileRequest extends FormRequest
     {
         return [
             'school_id' => 'required|exists:schools,id',
-            'file' => 'required|file|mimes:xlsx,xls,csv',
+            'file' => 'required|file|mimetypes:' . allowedUploadMimetypes('excel'),
             'year_id' => 'required|exists:years,id',
             'process_type' => 'required|in:create,update,delete',
             'status' => 'required|in:create,update,delete',

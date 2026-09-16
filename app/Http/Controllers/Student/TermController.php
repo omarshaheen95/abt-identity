@@ -130,7 +130,15 @@ class TermController extends Controller
 
     public function termSave(Request $request, $id)
     {
-        $request->validate(['questions' => 'required|array']);
+        //the student sends the article answer file and the proctoring images
+        $request->validate([
+            'questions' => 'required|array',
+            'questions.*.answer_file' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
+            'proctor_selfies.*' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
+            'proctor_screenshots.*' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
+        ], [
+            'questions.*.answer_file.mimetypes' => t('The file must be an image'),
+        ]);
 
         $student = Auth::guard('student')->user();
 

@@ -512,6 +512,7 @@ class StudentImportController extends Controller
             'year'=>'required|exists:years,slug',
             'process_type'=>'required',
             'with_abt_id'=>'sometimes',
+            'file'=>'required|file|mimetypes:' . allowedUploadMimetypes('excel'),
         ]);
         $school = School::query()->where('email',$request['school_email'])->first();
         $year = Year::query()->where('slug',$request['year'])->first();

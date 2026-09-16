@@ -17,7 +17,7 @@ class ImportQuestionFileRequest extends FormRequest
         $rules = [
             'level_id' => 'required|exists:levels,id',
             'term_id' => 'required|exists:terms,id',
-            'file' => 'required|file|mimes:xlsx,xls,csv',
+            'file' => 'required|file|mimetypes:' . allowedUploadMimetypes('excel'),
         ];
         return $rules;
     }

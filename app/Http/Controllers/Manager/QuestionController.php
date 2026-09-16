@@ -198,7 +198,18 @@ class QuestionController extends Controller
      * @param $id
      */
     public function updateQuestions(Request $request,$id){
-       $request->validate(['question_data'=>'required|array']);
+       $request->validate([
+           'question_data' => 'required|array',
+           'question_data.*.image' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
+           'question_data.*.audio' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('audio'),
+           'question_data.*.question_reader' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('audio'),
+           'question_data.*.options.*.image' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
+       ], [
+           'question_data.*.image.mimetypes' => t('The file must be an image'),
+           'question_data.*.options.*.image.mimetypes' => t('The file must be an image'),
+           'question_data.*.audio.mimetypes' => t('The file must be an audio file'),
+           'question_data.*.question_reader.mimetypes' => t('The file must be an audio file'),
+       ]);
 
         DB::transaction(function () use ($request,$id){
             foreach ($request['question_data'] as $question){

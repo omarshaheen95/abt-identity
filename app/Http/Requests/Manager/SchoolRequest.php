@@ -25,7 +25,7 @@ class SchoolRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'logo' => 'nullable',
+            'logo' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
             'url' => 'nullable|url',
             'mobile' => 'nullable',
             'country' => 'required',

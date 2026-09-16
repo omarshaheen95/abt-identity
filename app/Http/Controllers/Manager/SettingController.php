@@ -73,9 +73,13 @@ class SettingController extends Controller
 
     public function updateSettings(Request $request, Factory $cache)
     {
-        $settings_data = $request->validate([
-            'settings' => 'required|array',
-        ]);
+        $rules = ['settings' => 'required|array'];
+        //the file settings are images, the other settings are plain values
+        foreach (array_keys((array)$request->file('settings', [])) as $key) {
+            $rules['settings.' . $key] = 'nullable|file|mimetypes:' . allowedUploadMimetypes('image');
+        }
+
+        $settings_data = $request->validate($rules);
 
         foreach ($settings_data['settings'] as $key => $val) {
             $setting = Setting::query()->where('key', $key)->first();

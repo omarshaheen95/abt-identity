@@ -27,6 +27,7 @@ class InspectionRequest extends FormRequest
         $rules = [
             'name' => 'required',
             'schools_ids' => 'required|array|exists:schools,id',
+            'image' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
         ];
         if (Route::currentRouteName() == 'manager.inspection.edit' || Route::currentRouteName() == 'manager.inspection.update') {
             $inspection = $this->route('inspection');

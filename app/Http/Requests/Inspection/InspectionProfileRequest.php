@@ -27,6 +27,7 @@ class InspectionProfileRequest extends FormRequest
     {
         $rules = [
             'name' => 'required',
+            'image' => 'nullable|file|mimetypes:' . allowedUploadMimetypes('image'),
         ];
         $user = Auth::guard('inspection')->user()->id;
         $rules['email'] = "required|email|unique:inspections,email,$user,id,deleted_at,NULL";

@@ -78,6 +78,14 @@
         </select>
     </div>
     <div class="col-md-3 col-sm-6 mb-2">
+        <label class="mb-1">{{t('Gender')}} :</label>
+        <select name="gender" id="gender" class="form-select" data-control="select2" data-placeholder="{{t('Select Gender')}}" data-allow-clear="true">
+            <option></option>
+            <option value="boy">{{t('Boy')}}</option>
+            <option value="girl">{{t('Girl')}}</option>
+        </select>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-2">
         <label class="mb-1">{{t('G&T')}}:</label>
         <select class="form-control form-select" data-hide-search="true" data-control="select2" data-placeholder="{{t('G&T')}}" name="g_t" data-allow-clear="true">
             <option></option>

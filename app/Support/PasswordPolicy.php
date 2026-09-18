@@ -90,7 +90,11 @@ class PasswordPolicy
      */
     public static function temporaryRules($required = true)
     {
-        return [$required ? 'required' : 'nullable', 'string', 'min:' . self::MIN_LENGTH_TEMPORARY];
+        // no whitespace, the same as the full policy: a password stored with a
+        // leading or trailing space can never be typed back, because the old
+        // password field is compared after the request has been trimmed
+        return [$required ? 'required' : 'nullable', 'string',
+            'min:' . self::MIN_LENGTH_TEMPORARY, 'regex:/^[^\s]+$/'];
     }
 
     /**

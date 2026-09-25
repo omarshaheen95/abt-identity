@@ -107,6 +107,14 @@ class PasswordPolicy
      */
     public static function requireStrongUnlessForced(Validator $validator, $field = 'password', array $identity = [])
     {
+        // JsValidator checks remote rules (such as unique on the email) by
+        // posting the whole form through this same request; the error would
+        // land on that other field and stay cached there, so leave this check
+        // to the real submit
+        if (request()->has(config('jsvalidation.remote_validation_field', '_jsvalidation'))) {
+            return;
+        }
+
         $validator->after(function (Validator $validator) use ($field, $identity) {
             $data = $validator->getData();
             $password = $data[$field] ?? null;

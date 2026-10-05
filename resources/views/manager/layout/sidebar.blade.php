@@ -230,9 +230,9 @@
 
 
 
-                @if(Auth::guard('manager')->user()->hasAnyDirectPermission(['show students terms','show students not submitted term']))
+                @if(Auth::guard('manager')->user()->hasAnyDirectPermission(['show students terms','show all students terms','show students not submitted term']))
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion
-                {{Request::is('manager/student_term*') ||Request::is('manager/students_not_submitted_terms') ?'here show':''}}">
+                {{Request::is('manager/student_term*') ||Request::is('manager/all_student_terms') ||Request::is('manager/students_not_submitted_terms') ?'here show':''}}">
                                            <span class="menu-link">
                                                 <span class="menu-icon">
                                                <i class="ki-duotone ki-book-open fs-2">
@@ -247,6 +247,17 @@
 										</span>
                         <!--begin:Menu sub-->
                         <div class="menu-sub menu-sub-accordion">
+
+                            @can('show all students terms')
+                                <div class="menu-item">
+                                    <a class="menu-link @if(Request::is('manager/all_student_terms'))active @endif" href="{{ route('manager.student_term.all') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{t('All Students Assessments')}}</span>
+                                    </a>
+                                </div>
+                            @endcan
 
                             @can('show students terms')
 

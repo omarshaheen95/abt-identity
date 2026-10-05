@@ -162,6 +162,7 @@ Route::group([], function () {
     Route::delete('marking_requests', [\App\Http\Controllers\Manager\MarkingRequestController::class, 'destroy'])->name('marking_requests.destroy');
 
     //StudentTerm
+    Route::get('all_student_terms', [\App\Http\Controllers\Manager\StudentTermController::class, 'allTerms'])->name('student_term.all');
     Route::resource('student_term', \App\Http\Controllers\Manager\StudentTermController::class)->except(['destroy', 'index', 'show']);
     Route::get('student_term/{status}', [\App\Http\Controllers\Manager\StudentTermController::class, 'index'])->name('student_term.index');
     Route::post('update-student-term/{id}', [\App\Http\Controllers\Manager\StudentTermController::class, 'updateTerm'])->name('student.update-student-term');

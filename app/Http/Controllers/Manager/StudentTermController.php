@@ -39,6 +39,7 @@ class StudentTermController extends Controller
     {
         $this->correctionService = $correctionService;
         $this->middleware('permission:show students terms')->only('index');
+        $this->middleware('permission:show all students terms')->only('allTerms');
         $this->middleware('permission:edit students terms')->only(['edit','updateTerm']);
         $this->middleware('permission:restore deleted students terms')->only('restore');
         $this->middleware('permission:delete students terms')->only('deleteStudentTerm');
@@ -416,6 +417,171 @@ class StudentTermController extends Controller
 
     }
 
+    /**
+     * Corrected and uncorrected assessments on one page.
+     *
+     * The status tab travels as the existing `corrected` filter (1 corrected,
+     * 2 uncorrected, empty both), which StudentTerm::search already understands,
+     * so export / auto correct posted from this page follow the open tab.
+     * Gated by its own `show all students terms` permission.
+     */
+    public function allTerms(Request $request)
+    {
+        if ($request->ajax()) {
+            $draw = (int)$request->input('draw', 1);
+            $start = max((int)$request->input('start', 0), 0);
+            $length = (int)$request->input('length', 10);
+            $corrected = $request->input('corrected');
 
+            // Tab counters: the same filters without the status, in one aggregate
+            $countRequest = clone $request;
+            $countRequest->query->remove('corrected');
+            $counts = StudentTerm::query()
+                ->search($countRequest)
+                ->reorder()
+                ->toBase()
+                ->select(DB::raw(
+                    'COALESCE(SUM(student_terms.corrected = 1), 0) as corrected_count, ' .
+                    'COALESCE(SUM(student_terms.corrected = 0), 0) as uncorrected_count'
+                ))
+                ->first();
+
+            $correctedCount = (int)$counts->corrected_count;
+            $uncorrectedCount = (int)$counts->uncorrected_count;
+            $total = $corrected == 1 ? $correctedCount : ($corrected == 2 ? $uncorrectedCount : $correctedCount + $uncorrectedCount);
+
+            $data = $total == 0 ? collect() : StudentTerm::query()
+                ->with(['student.school', 'student.year', 'term.level.year'])
+                ->search($request)
+                // "Latest" by id: same order as created_at, read straight off the primary key
+                ->when(in_array($request->get('orderBy', 'latest'), ['latest', ''], true), function ($query) {
+                    $query->reorder()->orderByDesc('student_terms.id');
+                })
+                ->when($length > 0, function ($query) use ($start, $length) {
+                    $query->offset($start)->limit($length);
+                })
+                ->get();
+
+            $manager = Auth::guard('manager')->user();
+            $permissions = [
+                'correct' => $manager->can('edit students terms'),
+                'correct_uncorrected' => $manager->hasDirectPermission('edit students terms'),
+                'delete' => $manager->can('delete students terms'),
+                'restore' => $manager->hasDirectPermission('restore deleted students terms'),
+            ];
+
+            return response()->json([
+                'draw' => $draw,
+                'recordsTotal' => $total,
+                'recordsFiltered' => $total,
+                'data' => $data->map(function ($row) use ($permissions) {
+                    return $this->allTermsRow($row, $permissions);
+                })->values(),
+                'counts' => [
+                    'all' => $correctedCount + $uncorrectedCount,
+                    'corrected' => $correctedCount,
+                    'uncorrected' => $uncorrectedCount,
+                ],
+            ]);
+        }
+
+        $title = t('All Students Assessments');
+        $years = Year::query()->get();
+        $schools = School::query()->active()->get();
+        $corrected = in_array($request->get('corrected'), ['1', '2']) ? $request->get('corrected') : '';
+
+        return view('manager.student_term.all', compact('title', 'years', 'schools', 'corrected'));
+    }
+
+    private function allTermsRow(StudentTerm $row, array $permissions): array
+    {
+        $student = $row->student;
+        $isCorrected = (bool)$row->corrected;
+
+        $dates = '<div class="text-nowrap">' . ($row->created_at ? $row->created_at->format('Y-m-d H:i') : '-') . '</div>';
+        if ($row->deleted_at) {
+            $dates .= '<div class="text-danger fs-8 mt-1">' . e(t('Deleted')) . ': ' . Carbon::parse($row->deleted_at)->format('Y-m-d H:i') . '</div>';
+        }
+
+        $result = $isCorrected
+            ? '<span class="badge badge-light-success fw-bold">' . e(t('Status Corrected')) . '</span>'
+            : '<span class="badge badge-light-warning fw-bold">' . e(t('Status Uncorrected')) . '</span>';
+        if ($isCorrected) {
+            $color = $row->total < 50 ? 'text-danger' : 'text-success';
+            $result .= '<div class="fw-bolder fs-5 mt-1 ' . $color . '">' . e($row->total) . '<span class="fs-8 text-muted">/100</span></div>';
+        }
+
+        $term = $row->term;
+        $level = $term ? $term->level : null;
+        $termData = $term
+            ? e(t($term->round)) . '<br><span class="text-muted fs-8">' . e($level ? $level->short_name : '') . '</span>'
+            : '-';
+
+        $name = '-';
+        $school = '-';
+        $class = '-';
+        if ($student) {
+            $name = '<div class="d-flex flex-column">'
+                . '<span class="copy-txt text-info cursor-pointer" data-txt="' . e($student->name) . '">' . e($student->name) . '</span>'
+                . '<span class="text-danger cursor-pointer copy-txt" data-txt="' . e($student->email) . '">' . e($student->email) . '</span>'
+                . '<span>SID: <span class="text-info fw-bold copy-txt cursor-pointer" data-txt="' . e($student->id_number) . '">' . e($student->id_number) . '</span></span>'
+                . '</div>';
+            $school = $student->school ? e($student->school->name) : '-';
+
+            // Class plus the student's own year, red when it is not the assessment year
+            $class = '<div>' . e($student->grade_name ?? '-') . '</div>';
+            if ($student->year) {
+                $mismatch = $level && $level->year_id != $student->year_id;
+                $class .= '<span class="badge ' . ($mismatch ? 'badge-light-danger' : 'badge-light') . ' fs-8 mt-1"'
+                    . ' title="' . e($mismatch ? t('Student year differs from the assessment year') : t('Student Year')) . '">'
+                    . e($student->year->name) . '</span>';
+            }
+        }
+
+        return [
+            'DT_RowId' => $row->id,
+            'DT_RowClass' => $isCorrected ? 'st-corrected' : 'st-uncorrected',
+            'id' => $row->id,
+            'name' => $name,
+            'school' => $school,
+            'grade_name' => $class,
+            'term_data' => $termData,
+            'result' => '<div class="d-flex flex-column gap-1 align-items-start">' . $result . '</div>',
+            'created_at' => $dates,
+            'actions' => $this->allTermsActions($row, $permissions),
+            'sen' => $student ? $student->sen : null,
+            'g_t' => $student ? $student->g_t : null,
+        ];
+    }
+
+    /** Row buttons: correct, certificate and a direct delete (the .delete_row handler of datatable.js). */
+    private function allTermsActions(StudentTerm $row, array $permissions): string
+    {
+        if ($row->deleted_at) {
+            return $permissions['restore']
+                ? '<button type="button" onclick="restore(' . $row->id . ')" class="btn btn-sm btn-light-warning">' . e(t('Restore')) . '</button>'
+                : '';
+        }
+
+        $buttons = [];
+        // Same rule as action_data: any edit permission for corrected rows, a direct one for uncorrected rows
+        $canCorrect = $row->corrected ? $permissions['correct'] : $permissions['correct_uncorrected'];
+        if ($canCorrect) {
+            $buttons[] = '<a target="_blank" href="' . route('manager.student_term.edit', $row->id) . '"'
+                . ' class="btn btn-sm ' . ($row->corrected ? 'btn-light-primary' : 'btn-success') . '">' . e(t('Correct')) . '</a>';
+        }
+
+        $school = $row->student ? $row->student->school : null;
+        if ($row->corrected && $school && $row->total >= $school->certificate_mark) {
+            $buttons[] = '<a target="_blank" href="' . route('manager.student-term.certificate', $row->id) . '"'
+                . ' class="btn btn-sm btn-icon btn-light-info" title="' . e(t('Certificate')) . '"><i class="fa fa-certificate"></i></a>';
+        }
+
+        if ($permissions['delete']) {
+            $buttons[] = '<button type="button" class="btn btn-sm btn-icon btn-light-danger delete_row" data-id="' . $row->id . '"'
+                . ' title="' . e(t('Delete')) . '"><i class="fa fa-trash"></i></button>';
+        }
+
+        return '<div class="d-flex align-items-center gap-1 text-nowrap">' . implode('', $buttons) . '</div>';
+    }
 }
-

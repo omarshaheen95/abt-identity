@@ -110,6 +110,7 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'delete marking requests','guard_name'=>'manager','group'=>'marking_requests'],
 
             ['name' => 'show students terms','guard_name'=>'manager','group'=>'students_terms'],
+            ['name' => 'show all students terms','guard_name'=>'manager','group'=>'students_terms'],
             ['name' => 'edit students terms','guard_name'=>'manager','group'=>'students_terms'],
             ['name' => 'export students terms','guard_name'=>'manager','group'=>'students_terms'],
             ['name' => 'delete students terms','guard_name'=>'manager','group'=>'students_terms'],

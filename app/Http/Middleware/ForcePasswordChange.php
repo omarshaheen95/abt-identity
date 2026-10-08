@@ -38,6 +38,15 @@ class ForcePasswordChange
     ];
 
     /**
+     * Columns that hold an account on its home page while they are off, per
+     * guard. Mirrors the approval gates applied to each panel.
+     */
+    private const ACTIVE_COLUMNS = [
+        'manager' => ['approved'],
+        'school' => ['active'],
+    ];
+
+    /**
      * Session key set while an administrator is impersonating another account.
      * Holds "<guard>:<id>" so that signing in as somebody else afterwards does
      * not inherit the bypass.
@@ -85,6 +94,13 @@ class ForcePasswordChange
         $user = Auth::guard($guard)->user();
 
         if (!$user) {
+            return $next($request);
+        }
+
+        // A deactivated account is held on its home page and cannot reach the
+        // change password screen, so sending it there would bounce between the
+        // two forever. The lock applies once it is active.
+        if ($this->isDeactivated($user, $guard)) {
             return $next($request);
         }
 
@@ -148,6 +164,17 @@ class ForcePasswordChange
     private function isLocked($user)
     {
         return (bool) ($user->force_password_change ?? false);
+    }
+
+    private function isDeactivated($user, $guard)
+    {
+        foreach (self::ACTIVE_COLUMNS[$guard] ?? [] as $column) {
+            if (!$user->{$column}) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isAllowedRoute(Request $request, $guard)

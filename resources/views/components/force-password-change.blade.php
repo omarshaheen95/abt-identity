@@ -15,7 +15,7 @@
                id="force_password_change"
                name="force_password_change"
                data-force-password-change
-               {{ $row && $row->force_password_change ? 'checked' : '' }}/>
+               {{ !$row || $row->force_password_change ? 'checked' : '' }}/>
         <span class="form-check-label fs-8 text-muted ms-2">
             {{ t('The account will be locked on the change password page until it is changed.') }}
         </span>

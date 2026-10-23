@@ -12,7 +12,7 @@ php="$1"; project="$2"; snap="$3"; shift 3
 here="$(cd "$(dirname "$0")" && pwd)"
 tests=("$@")
 if [ ${#tests[@]} -eq 0 ]; then
-    tests=(AuthFlow PasswordReset LogViewerAccess Forms Import ExamFlow Export ParamPages Response)
+    tests=(AuthFlow ImpersonateTwice PasswordReset LogViewerAccess Forms Import ExamFlow Export ParamPages Response)
 fi
 mkdir -p "$snap"
 lang="$(mktemp -d)"

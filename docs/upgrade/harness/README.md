@@ -34,6 +34,7 @@
 | ResponseSnapshotTest | محتوى نفس الصفحات، كصفحة وكطلب datatables، مع الرسالة المؤقتة وأخطاء التحقق |
 | ParamPagesSnapshotTest | صفحات بـ parameters وفلاتر: التعديل والعرض، تقارير الطالب وبطاقته، الشهادات، التقارير (attainment وprogress وstudent mark وyear to year وcomparison)، بطاقات الطلاب العامة وتقرير QR، الدخول كمدرسة أو مفتش أو طالب، تغيير اللغة |
 | AuthFlowSnapshotTest | الدخول ثم ثلاث صفحات، والدخول مرة ثانية في نفس الجلسة، والخطأ والقفل وفرض تغيير كلمة المرور لكل guard، ودخول المشرف كمدرسة ومفتش وطالب ثم فتح صفحاتهم، ودخول الطالب، وسجل `login_sessions` |
+| ImpersonateTwiceSnapshotTest | المشرف يدخل كنفس المدرسة ونفس المفتش مرتين في نفس الجلسة ويفتح صفحاتهما. بدون إصلاح `ValidateSessionPassword` يُطرد في الدخول الثاني برسالة "تم تغيير كلمة المرور" |
 | PasswordResetSnapshotTest | رسائل استعادة كلمة المرور (السطور والرابط وHTML كامل في `mail-reset-*.html`) وصفحة إعادة التعيين |
 | LogViewerAccessSnapshotTest | من يستطيع فتح `/log-viewer` |
 | ExportSnapshotTest | 21 تصدير Excel من اللوحات الثلاث، خلية بخلية، مفلترة على صف واحد من مدرسة واحدة |

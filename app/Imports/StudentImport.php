@@ -316,7 +316,9 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
     private function findLevel(array $row)
     {
         $grade = isset($row['Grade']) ? $row['Grade'] : null;
-        $arab = isset($row['Arab']) ? $row['Arab'] : 0;
+        // The file may say Yes/No as well as 1/0 (the validation accepts both):
+        // compare the level with the same 1/0 the student row is saved with.
+        $arab = isset($row['Arab']) ? $this->prepareYesOrNoValue($row['Arab']) : 0;
 
         $levels = is_array($this->levels) ? collect($this->levels) : $this->levels;
 

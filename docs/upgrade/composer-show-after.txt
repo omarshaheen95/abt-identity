@@ -1,0 +1,131 @@
+bacon/bacon-qr-code                  2.0.8   BaconQrCode is a QR code generator for PHP.
+barryvdh/laravel-debugbar            4.4.4   PHP Debugbar integration for Laravel
+brick/math                           1.0.0   Arbitrary-precision arithmetic library
+carbonphp/carbon-doctrine-types      3.2.1   Types to use Carbon in Doctrine
+composer/pcre                        3.4.0   PCRE wrapping library that offers type-safe preg_* replacements.
+composer/semver                      3.5.2   Version comparison library that offers utilities, version constraint ...
+dasprid/enum                         1.0.7   PHP 7.1 enum implementation
+dflydev/dot-access-data              3.0.3   Given a deep data structure, access data by dot notation.
+doctrine/inflector                   2.1.0   PHP Doctrine Inflector is a small library that can perform string man...
+doctrine/lexer                       3.0.3   PHP Doctrine Lexer parser library that can be used in Top-Down, Recur...
+dragonmantank/cron-expression        3.6.1   CRON for PHP: Calculate the next or previous run date and determine i...
+dyrynda/laravel-cascade-soft-deletes 4.6.1   Cascading deletes for Eloquent models that implement soft deletes
+egulias/email-validator              4.0.4   A library for validating emails against several RFCs
+ezyang/htmlpurifier                  4.19.1  Standards compliant HTML filter written in PHP
+fakerphp/faker                       1.24.1  Faker is a PHP library that generates fake data for you.
+filp/whoops                          2.18.7  php error handling for cool kids
+fruitcake/php-cors                   1.4.0   Cross-origin resource sharing library for the Symfony HttpFoundation
+graham-campbell/result-type          1.2.0   An Implementation Of The Result Type
+guzzlehttp/guzzle                    7.16.0  Guzzle is a PHP HTTP client library
+guzzlehttp/promises                  2.6.0   Guzzle promises library
+guzzlehttp/psr7                      2.13.2  PSR-7 message implementation that also provides common utility methods
+guzzlehttp/uri-template              2.0.1   A polyfill class for uri_template of PHP
+hamcrest/hamcrest-php                3.0.0   This is the PHP port of Hamcrest Matchers
+laravel/framework                    13.38.0 The Laravel Framework.
+laravel/prompts                      0.3.26  Add beautiful and user-friendly forms to your command-line applications.
+laravel/sanctum                      4.3.3   Laravel Sanctum provides a featherweight authentication system for SP...
+laravel/serializable-closure         2.1.0   Laravel Serializable Closure provides an easy and secure way to seria...
+laravel/tinker                       3.0.2   Powerful REPL for the Laravel framework.
+laravel/ui                           4.6.3   Laravel UI utilities and presets.
+league/commonmark                    2.10.4  Highly-extensible PHP Markdown parser which fully supports the Common...
+league/config                        1.2.0   Define configuration arrays with strict schemas and access values wit...
+league/flysystem                     3.36.0  File storage abstraction for PHP
+league/flysystem-local               3.35.3  Local filesystem adapter for Flysystem.
+league/mime-type-detection           1.17.0  Mime-type detection for Flysystem
+league/uri                           7.9.0   URI manipulation library
+league/uri-interfaces                7.9.0   Common tools for parsing and resolving RFC3987/RFC3986 URI
+maatwebsite/excel                    3.1.70  Supercharged Excel exports and imports in Laravel
+maennchen/zipstream-php              3.2.2   ZipStream is a library for dynamically streaming dynamic zip files fr...
+markbaker/complex                    3.0.2   PHP Class for working with complex numbers
+markbaker/matrix                     3.0.1   PHP Class for working with matrices
+mockery/mockery                      1.6.15  Mockery is a simple yet flexible PHP mock object framework
+monolog/monolog                      3.12.1  Sends your logs to files, sockets, inboxes, databases and various web...
+myclabs/deep-copy                    1.14.0  Create deep copies (clones) of your objects
+nesbot/carbon                        3.15.0  An API extension for DateTime that supports 281 different languages.
+nette/schema                         1.4.0   📐 Nette Schema: validates and normalizes data such as configuratio...
+nette/utils                          4.1.6   🛠  Nette Utils: lightweight utilities for string & array manipulat...
+nikic/php-parser                     5.9.0   A PHP parser written in PHP
+nunomaduro/collision                 8.9.5   Cli error handling for console/command-line PHP applications.
+nunomaduro/termwind                  2.4.0   It's like Tailwind CSS, but for the console.
+opcodesio/log-viewer                 3.24.2  Fast and easy-to-use log viewer for your Laravel application
+opcodesio/mail-parser                0.2.4   Parse emails without the mailparse extension
+phar-io/manifest                     2.0.4   Component for reading phar.io manifest information from a PHP Archive...
+phar-io/version                      3.2.1   Library for handling version information and constraints
+php-debugbar/php-debugbar            3.8.0   Debug bar in the browser for php application
+php-debugbar/symfony-bridge          1.1.0   Symfony bridge for PHP Debugbar
+phpoffice/phpspreadsheet             1.30.7  PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP ...
+phpoption/phpoption                  1.10.0  Option Type for PHP
+phpunit/php-code-coverage            12.5.8  Library that provides collection, processing, and rendering functiona...
+phpunit/php-file-iterator            6.0.2   FilterIterator implementation that filters files based on a list of s...
+phpunit/php-invoker                  6.0.0   Invoke callables with a timeout
+phpunit/php-text-template            5.0.1   Simple template engine.
+phpunit/php-timer                    8.0.0   Utility class for timing
+phpunit/phpunit                      12.5.40 The PHP Unit Testing framework.
+proengsoft/laravel-jsvalidation      4.10.3  Validate forms transparently with Javascript reusing your Laravel Val...
+psr/clock                            1.0.0   Common interface for reading the clock.
+psr/container                        2.0.2   Common Container Interface (PHP FIG PSR-11)
+psr/event-dispatcher                 1.0.0   Standard interfaces for event handling.
+psr/http-client                      1.0.3   Common interface for HTTP clients
+psr/http-factory                     1.1.0   PSR-17: Common interfaces for PSR-7 HTTP message factories
+psr/http-message                     2.0     Common interface for HTTP messages
+psr/log                              3.0.2   Common interface for logging libraries
+psr/simple-cache                     3.0.0   Common interfaces for simple caching
+psy/psysh                            0.12.24 An interactive shell for modern PHP.
+ralouphie/getallheaders              3.0.3   A polyfill for getallheaders.
+ramsey/collection                    2.1.1   A PHP library for representing and manipulating collections.
+ramsey/uuid                          4.9.4   A PHP library for generating and working with universally unique iden...
+sebastian/cli-parser                 4.2.1   Library for parsing CLI options
+sebastian/comparator                 7.1.8   Provides the functionality to compare PHP values for equality
+sebastian/complexity                 5.0.0   Library for calculating the complexity of PHP code units
+sebastian/diff                       7.0.1   Diff implementation
+sebastian/environment                8.1.2   Provides functionality to handle HHVM/PHP environments
+sebastian/exporter                   7.0.3   Provides the functionality to export PHP variables for visualization
+sebastian/global-state               8.0.3   Snapshotting of global state
+sebastian/lines-of-code              4.0.1   Library for counting the lines of code in PHP source code
+sebastian/object-enumerator          7.0.0   Traverses array structures and object graphs to enumerate all referen...
+sebastian/object-reflector           5.0.0   Allows reflection of object attributes, including inherited and non-p...
+sebastian/recursion-context          7.0.1   Provides functionality to recursively process PHP variables
+sebastian/type                       6.0.4   Collection of value objects that represent the types of the PHP type ...
+sebastian/version                    6.0.1   Library that helps with managing the version number of Git-hosted PHP...
+simplesoftwareio/simple-qrcode       4.2.0   Simple QrCode is a QR code generator made for Laravel.
+spatie/laravel-activitylog           4.12.3  A very simple activity logger to monitor the users of your website or...
+spatie/laravel-package-tools         1.93.3  Tools for creating Laravel packages
+spatie/laravel-permission            8.3.2   Permission handling for Laravel 12 and up
+spatie/laravel-translatable          6.15.0  A trait to make an Eloquent model hold translations
+staabm/side-effects-detector         1.0.5   A static analysis tool to detect side effects in PHP code
+symfony/clock                        8.1.9   Decouples applications from the system clock
+symfony/console                      8.1.9   Eases the creation of beautiful and testable command line interfaces
+symfony/css-selector                 8.1.6   Converts CSS selectors to XPath expressions
+symfony/deprecation-contracts        3.7.1   A generic function and convention to trigger deprecation notices
+symfony/error-handler                8.1.8   Provides tools to manage errors and ease debugging PHP code
+symfony/event-dispatcher             8.1.5   Provides tools that allow your application components to communicate ...
+symfony/event-dispatcher-contracts   3.7.1   Generic abstractions related to dispatching event
+symfony/finder                       8.1.8   Finds files and directories via an intuitive fluent interface
+symfony/http-foundation              8.1.9   Defines an object-oriented layer for the HTTP specification
+symfony/http-kernel                  8.1.9   Provides a structured process for converting a Request into a Response
+symfony/mailer                       8.1.7   Helps sending emails
+symfony/mime                         8.1.7   Allows manipulating MIME messages
+symfony/polyfill-ctype               1.37.0  Symfony polyfill for ctype functions
+symfony/polyfill-intl-grapheme       1.43.0  Symfony polyfill for intl's grapheme_* functions
+symfony/polyfill-intl-idn            1.43.0  Symfony polyfill for intl's idn_to_ascii and idn_to_utf8 functions
+symfony/polyfill-intl-normalizer     1.43.0  Symfony polyfill for intl's Normalizer class and related functions
+symfony/polyfill-mbstring            1.43.0  Symfony polyfill for the Mbstring extension
+symfony/polyfill-php80               1.43.0  Symfony polyfill backporting some PHP 8.0+ features to lower PHP vers...
+symfony/polyfill-php84               1.43.0  Symfony polyfill backporting some PHP 8.4+ features to lower PHP vers...
+symfony/polyfill-php85               1.43.0  Symfony polyfill backporting some PHP 8.5+ features to lower PHP vers...
+symfony/polyfill-php86               1.43.0  Symfony polyfill backporting some PHP 8.6+ features to lower PHP vers...
+symfony/polyfill-time                1.42.0  Symfony polyfill for the Time API added to PHP 8.6
+symfony/polyfill-uuid                1.43.0  Symfony polyfill for uuid functions
+symfony/process                      8.1.9   Executes commands in sub-processes
+symfony/routing                      8.1.9   Maps an HTTP request to a set of configuration variables
+symfony/service-contracts            3.7.3   Generic abstractions related to writing services
+symfony/string                       8.1.9   Provides an object-oriented API to strings and deals with bytes, UTF-...
+symfony/translation                  8.1.5   Provides tools to internationalize your application
+symfony/translation-contracts        3.7.1   Generic abstractions related to translation
+symfony/uid                          8.1.9   Provides an object-oriented API to generate and represent UIDs
+symfony/var-dumper                   8.1.9   Provides mechanisms for walking through any arbitrary PHP variable
+theseer/tokenizer                    2.0.1   A small library for converting tokenized PHP source code into XML and...
+tijsverkoyen/css-to-inline-styles    2.4.0   CssToInlineStyles is a class that enables you to convert HTML-pages/f...
+vlucas/phpdotenv                     5.7.0   Loads environment variables from `.env` to `$_ENV` and `$_SERVER` aut...
+voku/portable-ascii                  2.1.1   Portable ASCII library - performance optimized (ascii) string functio...
+yajra/laravel-datatables-oracle      13.3.1  jQuery DataTables API for Laravel

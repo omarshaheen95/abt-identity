@@ -1,0 +1,43 @@
+== tests/Unit/ExampleTest.php
+Example (Tests\Unit\Example)
+ ✔ Example
+OK (1 test, 1 assertion)
+== tests/Feature/ExampleTest.php
+Example (Tests\Feature\Example)
+ ✔ Example
+OK (1 test, 1 assertion)
+== tests/Feature/LoginActivityTest.php
+Login Activity (Tests\Feature\LoginActivity)
+ ✔ Login session routes and view use current project resources
+ ✔ Unknown failed attempt is logged without secrets and can be filtered
+ ✔ Lockout keeps the current guard
+ ✔ Success and logout events record the account
+ ✔ Prune dry run preserves old rows and rejects invalid retention
+ ✔ Datatable displays unknown accounts and escapes identifiers
+ ✔ Direct student login records an unknown account
+OK (7 tests, 30 assertions)
+== tests/Feature/TrustedIpApiTest.php
+Trusted Ip Api (Tests\Feature\TrustedIpApi)
+ ✔ Update settings refuses a forged forwarding header with data set "HTTP_X_FORWARDED_FOR"
+ ✔ Update settings refuses a forged forwarding header with data set "HTTP_X_FORWARDED"
+ ✔ Update settings refuses a forged forwarding header with data set "HTTP_X_CLUSTER_CLIENT_IP"
+ ✔ Update settings refuses a forged forwarding header with data set "HTTP_FORWARDED_FOR"
+ ✔ Update settings refuses a forged forwarding header with data set "HTTP_FORWARDED"
+ ✔ Import students refuses a forged forwarding header with data set "HTTP_X_FORWARDED_FOR"
+ ✔ Import students refuses a forged forwarding header with data set "HTTP_X_FORWARDED"
+ ✔ Import students refuses a forged forwarding header with data set "HTTP_X_CLUSTER_CLIENT_IP"
+ ✔ Import students refuses a forged forwarding header with data set "HTTP_FORWARDED_FOR"
+ ✔ Import students refuses a forged forwarding header with data set "HTTP_FORWARDED"
+ ✔ A trusted server can still update settings
+ ✔ An untrusted server is refused without any header
+OK (12 tests, 24 assertions)
+
+== tests/Feature/SmokeRoutesTest.php (against tests/smoke-baseline.json)
+Smoke Routes (Tests\Feature\SmokeRoutes)
+ ✔ Guest pages
+ ✔ Manager pages
+ ✔ School pages
+ ✔ Inspection pages
+ ✔ Student pages
+
+OK (5 tests, 14 assertions)

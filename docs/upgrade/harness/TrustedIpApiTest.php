@@ -52,7 +52,7 @@ class TrustedIpApiTest extends TestCase
     #[DataProvider('spoofedHeaders')]
     public function test_import_students_refuses_a_forged_forwarding_header($serverKey)
     {
-        $files = DB::table('import_student_files')->count();
+        $files = DB::table('student_import_files')->count();
 
         $response = $this->spoofed($serverKey, 'post', '/api/import_students', [
             'school_email' => DB::table('schools')->orderBy('id')->value('email'),
@@ -61,7 +61,7 @@ class TrustedIpApiTest extends TestCase
         ]);
 
         $response->assertStatus(401);
-        $this->assertSame($files, DB::table('import_student_files')->count());
+        $this->assertSame($files, DB::table('student_import_files')->count());
     }
 
     public function test_a_trusted_server_can_still_update_settings()

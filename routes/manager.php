@@ -5,7 +5,6 @@ use App\Http\Controllers\Manager\SchoolController;
 use App\Http\Controllers\Manager\SchedulingController;
 use App\Http\Controllers\Manager\TextTranslationController;
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Permission;
 
 require base_path('routes/general.php');
 
@@ -84,9 +83,6 @@ Route::group([], function () {
 
     Route::post('term/question/delete-file', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteQuestionFile'])->name('term.delete-question-file');
     Route::post('term/question/delete-option-image', [\App\Http\Controllers\Manager\QuestionController::class, 'deleteOptionImageRequest'])->name('term.delete-option-image');
-
-    //Question Standards
-    Route::get('update_questions_standards/{year}', [\App\Http\Controllers\Manager\QuestionController::class, 'updateQuestionStandards'])->name('term.update-questions-standards');
 
     //Question File
     Route::resource('question-file', \App\Http\Controllers\Manager\QuestionFileController::class)->except(['destroy', 'edit', 'update']);
@@ -192,50 +188,8 @@ Route::group([], function () {
     Route::post('login_sessions/export', [\App\Http\Controllers\Manager\LoginSessionController::class, 'export'])->name('login_sessions.export');
     Route::resource('login_sessions', \App\Http\Controllers\Manager\LoginSessionController::class);
 
-    Route::get('seed', function () {
-        Artisan::call('db:seed --class PermissionsTableSeeder');
-        //Artisan::call('db:seed --class SettingsTableSeeder');
-
-        $all_manager_permission = Permission::query()
-            ->where('guard_name', 'manager')->get()->pluck('name')->toArray();
-        Auth::guard('manager')->user()->syncPermissions($all_manager_permission);
-        return redirect()->route('manager.home');
-
-    });
-
     Route::get('get-levels-by-year/{id}', [\App\Http\Controllers\GeneralController::class, 'levelsByYear'])->name('get-levels-by-year');
     Route::get('get-terms-by-level/{id}', [\App\Http\Controllers\GeneralController::class, 'termsByLevel'])->name('get-terms-by-level');
-
-    Route::get('copy_structure', function () {
-        $terms = \App\Models\Term::query()->with(['question', 'level'])
-            ->whereRelation('level', 'year_id', 2)->get();
-        $arabs = $terms->filter(function ($value) {
-            return $value->level->arab == 1;
-        });
-        $non_arabs = $terms->filter(function ($value) {
-            return $value->level->arab == 0;
-        });
-        foreach ($arabs as $term) {
-            $non_arab_term = $non_arabs->filter(function ($value) use ($term) {
-                return $value->level->grade == $term->level->grade;
-            })->first();
-            if ($non_arab_term) {
-                $non_arab_term->question()->delete();
-                //replicate questions for non arab term
-                foreach ($term->question as $question) {
-                    $new_question = $question->replicate();
-                    $new_question->term_id = $non_arab_term->id;
-                    $new_question->content = null;
-                    $new_question->image = null;
-                    $new_question->audio = null;
-                    $new_question->question_reader = null;
-                    $new_question->question_file_id = null;
-                    $new_question->save();
-                }
-            }
-        }
-        return 'done';
-    })->name('copy_structure');
 
     Route::post('/pdfCertificates', [\App\Http\Controllers\GeneralController::class,'pdfCertificates'])->name('reports.pdfCertificates');
 

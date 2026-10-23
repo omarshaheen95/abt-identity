@@ -3,16 +3,21 @@
 namespace Tests\Feature;
 
 use App\Models\Manager;
-use App\Models\Student;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 /**
- * Upgrade harness (not part of the project): walks the login / failed login /
- * lockout / logout flow of every guard and writes what happened to
- * SNAPSHOT_DIR/auth.txt. All changes are rolled back.
+ * Upgrade harness (not part of the project): walks the login / next pages /
+ * second login in the same session / failed login / lockout / forced password
+ * change / logout flow of every guard, the manager signing in as a school, an
+ * inspection account and a student, and the student login, and writes what
+ * happened to SNAPSHOT_DIR/auth.txt. All changes are rolled back.
+ *
+ * Every step after a login opens more than one page: Laravel 11+ writes its
+ * own value under password_hash_<guard> at login, the key ValidateSessionPassword
+ * uses, and a clash only shows on the request after the login.
  */
 class AuthFlowSnapshotTest extends TestCase
 {
@@ -24,9 +29,17 @@ class AuthFlowSnapshotTest extends TestCase
         // Reported exceptions are posted to Telegram by this job (sync queue).
         // Never send them from a test run.
         \Illuminate\Support\Facades\Bus::fake([\App\Jobs\LogMessageJob::class]);
+        // the same "now" on both versions (password expiry depends on it)
+        \Illuminate\Support\Carbon::setTestNow('2026-10-22 10:00:00');
     }
 
     private $log = [];
+
+    private const PAGES = [
+        'manager' => ['/manager/home', '/manager/update-profile', '/manager/school'],
+        'school' => ['/school/home', '/school/profile', '/school/student'],
+        'inspection' => ['/inspection/home', '/inspection/profile', '/inspection/school'],
+    ];
 
     public function test_flows()
     {
@@ -50,10 +63,20 @@ class AuthFlowSnapshotTest extends TestCase
 
             $r = $this->post("/$guard/login", ['email' => $user->email, 'password' => $password]);
             $this->record($guard, 'login ok', $r, ['authenticated' => auth($guard)->check()]);
-            $home = $this->get($r->headers->get('Location') ?: "/$guard/home");
-            $this->record($guard, 'follow redirect', $home);
+            $this->record($guard, 'follow redirect', $this->get($r->headers->get('Location') ?: "/$guard/home"));
+            foreach (self::PAGES[$guard] as $page) {
+                $this->record($guard, "then $page", $this->get($page));
+            }
             $r = $this->post("/$guard/logout");
             $this->record($guard, 'logout', $r, ['authenticated' => auth($guard)->check()]);
+
+            // signing in again in the same browser session
+            $r = $this->post("/$guard/login", ['email' => $user->email, 'password' => $password]);
+            $this->record($guard, 'second login, same session', $r, ['authenticated' => auth($guard)->check()]);
+            foreach (self::PAGES[$guard] as $page) {
+                $this->record($guard, "then $page", $this->get($page));
+            }
+            $this->post("/$guard/logout");
             $this->flushSession();
             app('auth')->guard($guard)->logout();
 
@@ -72,25 +95,45 @@ class AuthFlowSnapshotTest extends TestCase
             DB::table($tables[$guard])->where('id', $user->id)->update(['force_password_change' => 1]);
             $r = $this->post("/$guard/login", ['email' => $user->email, 'password' => $password]);
             $this->record($guard, 'login with forced change', $r, ['authenticated' => auth($guard)->check()]);
-            $home = $this->get("/$guard/home");
-            $this->record($guard, 'home with forced change', $home);
+            $this->record($guard, 'home with forced change', $this->get("/$guard/home"));
             $this->post("/$guard/logout");
             $this->flushSession();
             app('auth')->guard($guard)->logout();
+            DB::table($tables[$guard])->where('id', $user->id)->update(['force_password_change' => 0]);
 
             $this->log[] = "[$guard] login_sessions rows written: " . json_encode($this->sessions($before), JSON_UNESCAPED_UNICODE);
+            ResponseSnapshotTest::resetAuth();
         }
 
+        // the manager signs in as the school, the inspection account and a student
+        $student = SmokeRoutesTest::student();
+        $r = $this->post('/manager/login', ['email' => $users['manager']->email, 'password' => $password]);
+        $this->record('manager', 'login before impersonating', $r);
+        $steps = [
+            ['school', "/manager/school_login/{$users['school']->id}", self::PAGES['school']],
+            ['inspection', "/manager/login-inspection/{$users['inspection']->id}", self::PAGES['inspection']],
+            ['student', "/manager/student-login/{$student->id}", ['/student/home', '/student']],
+        ];
+        foreach ($steps as [$guard, $url, $pages]) {
+            $r = $this->get($url);
+            $this->record($guard, "manager opens $url", $r, ['authenticated' => auth($guard)->check()]);
+            foreach ($pages as $page) {
+                $this->record($guard, "then $page", $this->get($page));
+            }
+        }
+        $this->record('manager', 'manager home after impersonating', $this->get('/manager/home'));
+        $this->flushSession();
+        ResponseSnapshotTest::resetAuth();
+
         $before = (int) DB::table('login_sessions')->max('id');
-        $student = Student::query()->whereHas('school', function ($q) { $q->where('approved', 1); })->orderBy('id')->first();
-        $r = $this->post('/student/login', ['email' => strtoupper($student->email)]);
+        $r = $this->post('/student/login', ['username' => strtoupper($student->email)]);
         $this->record('student', 'login ok', $r, ['authenticated' => auth('student')->check()]);
-        $home = $this->get($r->headers->get('Location') ?: '/student/home');
-        $this->record('student', 'follow redirect', $home);
+        $this->record('student', 'follow redirect', $this->get($r->headers->get('Location') ?: '/student/home'));
+        $this->record('student', 'then /student', $this->get('/student'));
         $r = $this->post('/student/logout');
         $this->record('student', 'logout', $r, ['authenticated' => auth('student')->check()]);
         $this->flushSession();
-        $r = $this->post('/student/login', ['email' => 'nobody-' . $student->id . '@example.invalid']);
+        $r = $this->post('/student/login', ['username' => 'nobody-' . $student->id . '@example.invalid']);
         $this->record('student', 'login unknown email', $r, ['errors' => $this->errors()]);
         $this->log[] = "[student] login_sessions rows written: " . json_encode($this->sessions($before), JSON_UNESCAPED_UNICODE);
 
@@ -124,9 +167,16 @@ class AuthFlowSnapshotTest extends TestCase
         } catch (\Throwable $ignored) {
             $e = null;
         }
-        $this->log[] = sprintf('[%s] %s: status %d, location %s, exception %s %s',
+        $flash = [];
+        foreach (['message', 'm-class'] as $key) {
+            if (session()->has($key)) {
+                $flash[$key] = session($key);
+            }
+        }
+        $this->log[] = sprintf('[%s] %s: status %d, location %s, exception %s %s %s',
             $guard, $step, $response->getStatusCode(), $response->headers->get('Location') ?: '-',
             $e ? get_class($e) . ': ' . strtok($e->getMessage(), "\n") : '-',
-            $extra ? json_encode($extra, JSON_UNESCAPED_UNICODE) : '');
+            $extra ? json_encode($extra, JSON_UNESCAPED_UNICODE) : '',
+            $flash ? json_encode($flash, JSON_UNESCAPED_UNICODE) : '');
     }
 }

@@ -44,6 +44,7 @@ class LogViewerAccessSnapshotTest extends TestCase
                 app('auth')->guard($guard)->logout();
             }
             $this->flushSession();
+            ResponseSnapshotTest::resetAuth();
         }
         file_put_contents(getenv('SNAPSHOT_DIR').'/log-viewer.txt', implode("\n", $out)."\n");
         $this->assertTrue(true);

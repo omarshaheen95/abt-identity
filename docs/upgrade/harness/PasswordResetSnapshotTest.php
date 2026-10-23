@@ -24,6 +24,7 @@ class PasswordResetSnapshotTest extends TestCase
         // Reported exceptions are posted to Telegram by this job (sync queue).
         // Never send them from a test run.
         \Illuminate\Support\Facades\Bus::fake([\App\Jobs\LogMessageJob::class]);
+        \Illuminate\Support\Carbon::setTestNow('2026-10-22 10:00:00');
     }
 
     public function test_reset_links()
@@ -56,6 +57,8 @@ class PasswordResetSnapshotTest extends TestCase
                 $out[] = "[$guard] mail subject: ".$mail->subject.', action: '.$mail->actionText
                     .', url: '.str_replace($token, 'TOKEN', $url);
                 $out[] = "[$guard] lines: ".json_encode(array_merge($mail->introLines, $mail->outroLines), JSON_UNESCAPED_UNICODE);
+                // the whole message as it is sent: layout, theme and buttons
+                file_put_contents(getenv('SNAPSHOT_DIR')."/mail-reset-$guard.html", str_replace($token, 'TOKEN', (string) $mail->render()));
                 $form = $this->get(parse_url($url, PHP_URL_PATH));
                 $out[] = "[$guard] reset form: status {$form->getStatusCode()}, has token field "
                     .json_encode(strpos((string) $form->getContent(), $token) !== false);

@@ -8,9 +8,9 @@ use Tests\TestCase;
 
 /**
  * Upgrade harness (not part of the project): runs the Excel exports of the
- * three panels (filtered to one school and year where they take filters) and
- * writes every cell value of the produced workbooks to SNAPSHOT_DIR, so two
- * versions of the app can be diffed.
+ * three panels with the same filters and writes every sheet, cell by cell,
+ * into SNAPSHOT_DIR. The student exports are limited to one grade of the
+ * school SmokeRoutesTest picks, so the files stay small.
  */
 class ExportSnapshotTest extends TestCase
 {
@@ -22,6 +22,8 @@ class ExportSnapshotTest extends TestCase
         // Reported exceptions are posted to Telegram by this job (sync queue).
         // Never send them from a test run.
         \Illuminate\Support\Facades\Bus::fake([\App\Jobs\LogMessageJob::class]);
+        // the same "now" on both versions (export titles and dates)
+        \Illuminate\Support\Carbon::setTestNow('2026-10-22 10:00:00');
     }
 
     public function test_exports()
@@ -32,38 +34,37 @@ class ExportSnapshotTest extends TestCase
         $manager = SmokeRoutesTest::manager();
         $school = SmokeRoutesTest::school();
         $inspection = SmokeRoutesTest::inspection();
-        $importFile = DB::table('import_student_files')->whereNull('deleted_at')->orderByDesc('id')->value('id');
         $yearId = $school->available_year_id;
-        $termId = DB::table('terms')->join('levels', 'levels.id', '=', 'terms.level_id')
-            ->where('levels.year_id', $yearId)->where('terms.questions', 1)->whereNull('terms.deleted_at')
-            ->orderBy('terms.id')->value('terms.id');
-        $years = ['year_id' => $yearId, 'assessment_year_id' => $yearId, 'term_year_id' => $yearId, 'register_year_id' => $yearId];
-        $bySchool = ['school_id' => $school->id] + $years;
+        $level = DB::table('levels')->where('year_id', $yearId)->where('grade', 4)->whereNull('deleted_at')->orderBy('id')->first();
+        $termId = DB::table('terms')->where('level_id', $level->id)->whereNull('deleted_at')->orderBy('id')->value('id');
+        $importFile = DB::table('student_import_files')->where('school_id', $school->id)->whereNull('deleted_at')->orderByDesc('id')->value('id');
+
+        $grade = ['year_id' => $yearId, 'grade' => 4];
+        $bySchool = ['school_id' => $school->id] + $grade;
+        $standards = ['year_id' => $yearId, 'level_id' => [$level->id]];
 
         $calls = [
-            ['manager', $manager, 'post', '/manager/manager/export', []],
-            ['manager', $manager, 'post', '/manager/school/export', []],
-            ['manager', $manager, 'post', '/manager/level/export', []],
-            ['manager', $manager, 'post', '/manager/inspection/export', []],
-            ['manager', $manager, 'post', '/manager/term/export', []],
-            ['manager', $manager, 'post', '/manager/question/export', ['term_id' => $termId]],
-            ['manager', $manager, 'post', '/manager/standard/export', ['term_id' => $termId]],
-            ['manager', $manager, 'post', '/manager/login_sessions/export', ['model_type' => 'App\Models\School']],
-            ['manager', $manager, 'get', "/manager/student_import/$importFile/export_excel", []],
-            ['manager', $manager, 'post', '/manager/student/export', $bySchool],
-            ['manager', $manager, 'post', '/manager/student/marks_export', $bySchool],
-            ['manager', $manager, 'post', '/manager/students_not_started_yet_export', $bySchool],
-            ['manager', $manager, 'post', '/manager/student_term/student_term/export/corrected', $bySchool],
-            ['manager', $manager, 'post', '/manager/student_term/student_term/export/uncorrected', $bySchool],
-            ['manager', $manager, 'post', '/manager/student_term/exportExcelDetails', $bySchool],
-            ['school', $school, 'post', '/school/student/export', $years],
-            ['school', $school, 'post', '/school/student_term/export/corrected', $years],
-            ['school', $school, 'post', '/school/student_term/export/uncorrected', $years],
-            ['school', $school, 'post', '/school/student_term/marks/export', $years],
-            ['school', $school, 'post', '/school/students_not_started_yet_export', $years],
-            ['school', $school, 'post', '/school/assessment_submission/export', $years],
-            ['inspection', $inspection, 'post', '/inspection/student_export', $bySchool],
-            ['inspection', $inspection, 'post', '/inspection/student_term_export', $bySchool],
+            ['manager', $manager, 'post', '/manager/managers-export', []],
+            ['manager', $manager, 'post', '/manager/export-schools', []],
+            ['manager', $manager, 'post', '/manager/level-export', []],
+            ['manager', $manager, 'post', '/manager/inspections-export', []],
+            ['manager', $manager, 'post', '/manager/term-export', ['year_id' => $yearId]],
+            ['manager', $manager, 'post', '/manager/terms_questions_export', ['term_id' => $termId]],
+            ['manager', $manager, 'post', '/manager/standards_export', ['term_id' => $termId]],
+            ['manager', $manager, 'post', '/manager/login_sessions/export', ['login_guard' => 'manager']],
+            ['manager', $manager, 'get', "/manager/students_files_import/$importFile/export_excel", []],
+            ['manager', $manager, 'post', '/manager/student-export', $bySchool],
+            ['manager', $manager, 'post', '/manager/student-marks-export', $bySchool],
+            ['manager', $manager, 'post', '/manager/student-terms-export', $bySchool + ['corrected' => 1]],
+            ['manager', $manager, 'post', '/manager/students_not_submitted_terms_export', $bySchool + ['round' => 'september']],
+            ['manager', $manager, 'post', '/manager/export_student_standards', ['school_id' => $school->id] + $standards],
+            ['school', $school, 'post', '/school/student-export', $grade],
+            ['school', $school, 'post', '/school/student-marks-export', $grade],
+            ['school', $school, 'post', '/school/students_not_submitted_terms/export', $grade + ['round' => 'september']],
+            ['school', $school, 'post', '/school/export_student_standards', $standards],
+            ['inspection', $inspection, 'get', '/inspection/student-export', $bySchool],
+            ['inspection', $inspection, 'get', '/inspection/student-marks-export', $bySchool],
+            ['inspection', $inspection, 'post', '/inspection/export-schools', []],
         ];
 
         foreach ($calls as [$guard, $user, $method, $url, $data]) {
@@ -90,11 +91,13 @@ class ExportSnapshotTest extends TestCase
                 }
             } else {
                 $out .= 'LOCATION ' . $response->headers->get('Location') . "\n";
+                $out .= 'FLASH ' . json_encode(session('errors') ? session('errors')->getBag('default')->toArray() : session('message'), JSON_UNESCAPED_UNICODE) . "\n";
                 $out .= 'BODY ' . substr((string) $response->getContent(), 0, 300) . "\n";
             }
             $name = $guard . '_' . trim(preg_replace('/[^A-Za-z0-9]+/', '_', $url), '_');
-            file_put_contents("$dir/$name.txt", $out);
+            file_put_contents("$dir/export_$name.txt", $out);
             $this->flushSession();
+            ResponseSnapshotTest::resetAuth();
         }
 
         $this->assertTrue(true);

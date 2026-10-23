@@ -8,8 +8,9 @@ use Tests\TestCase;
 
 /**
  * Upgrade harness (not part of the project): saves the normalized body of every
- * parameterless GET page, as a page and as a datatables ajax call, per guard
- * (and for a guest), into SNAPSHOT_DIR so two versions of the app can be diffed.
+ * parameterless GET page of SmokeRoutesTest, as a page and as a datatables
+ * ajax call, per guard (and for a guest), into SNAPSHOT_DIR so two versions of
+ * the app can be diffed.
  */
 class ResponseSnapshotTest extends TestCase
 {
@@ -21,6 +22,8 @@ class ResponseSnapshotTest extends TestCase
         // Reported exceptions are posted to Telegram by this job (sync queue).
         // Never send them from a test run.
         \Illuminate\Support\Facades\Bus::fake([\App\Jobs\LogMessageJob::class]);
+        // the same "now" on both versions and on both sides of midnight
+        \Illuminate\Support\Carbon::setTestNow('2026-10-22 10:00:00');
     }
 
     public function test_snapshots()
@@ -52,28 +55,67 @@ class ResponseSnapshotTest extends TestCase
                     } else {
                         $response = $this->get('/' . $uri);
                     }
-                    $body = $this->normalize((string) $response->getContent(), $response->headers->get('Content-Type'));
-                    $location = $response->headers->get('Location');
-                    try {
-                        $e = $response->exception;
-                    } catch (\Throwable $ignored) {
-                        $e = null;
-                    }
-                    $exception = $e ? get_class($e) . ': ' . strtok($e->getMessage(), "\n") : '';
-                    if ($response->baseResponse instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
-                        $body = 'BINARY FILE ' . $response->headers->get('Content-Disposition');
-                    }
                     $name = $guard . '__' . $mode . '__' . preg_replace('/[^A-Za-z0-9_-]+/', '_', $uri === '/' ? 'root' : $uri);
-                    file_put_contents($dir . '/' . $name . '.txt',
-                        "STATUS " . $response->getStatusCode() . "\nTYPE " . $response->headers->get('Content-Type') .
-                        "\nLOCATION " . $location . "\nEXCEPTION " . $exception . "\n\n" . $body);
+                    file_put_contents($dir . '/' . $name . '.txt', self::describe($response));
                     $this->flushSession();
+                    self::resetAuth();
                     $count++;
                 }
             }
         }
 
         $this->assertGreaterThan(0, $count);
+    }
+
+    /**
+     * actingAs() changes the default guard and it survives forgetGuards(), so a
+     * later login on another guard would look in the wrong table.
+     */
+    public static function resetAuth()
+    {
+        app('auth')->forgetGuards();
+        app('auth')->shouldUse('web');
+    }
+
+    /** Status, type, redirect, exception, flash and the normalized body of a response. */
+    public static function describe($response)
+    {
+        try {
+            $e = $response->exception;
+        } catch (\Throwable $ignored) {
+            $e = null;
+        }
+        $exception = $e ? get_class($e) . ': ' . strtok($e->getMessage(), "\n") : '';
+        $base = $response->baseResponse;
+        if ($base instanceof \Symfony\Component\HttpFoundation\BinaryFileResponse) {
+            $body = 'BINARY FILE ' . $response->headers->get('Content-Disposition');
+        } elseif ($base instanceof \Symfony\Component\HttpFoundation\StreamedResponse) {
+            $body = 'STREAMED ' . $response->headers->get('Content-Disposition');
+        } else {
+            $body = self::normalize((string) $response->getContent(), $response->headers->get('Content-Type'));
+        }
+
+        return "STATUS " . $response->getStatusCode() . "\nTYPE " . $response->headers->get('Content-Type') .
+            "\nLOCATION " . $response->headers->get('Location') . "\nEXCEPTION " . $exception .
+            "\nFLASH " . json_encode(self::flash(), JSON_UNESCAPED_UNICODE) . "\n\n" . $body;
+    }
+
+    /** The flashed message the layouts show after a redirect, and the validation errors. */
+    private static function flash()
+    {
+        $session = app('session.store');
+        $out = [];
+        foreach (['message', 'm-class'] as $key) {
+            if ($session->has($key)) {
+                $out[$key] = $session->get($key);
+            }
+        }
+        $errors = $session->get('errors');
+        if (is_object($errors) && method_exists($errors, 'getBag')) {
+            $out['errors'] = $errors->getBag('default')->toArray();
+        }
+
+        return $out;
     }
 
     private function pages($guard)
@@ -89,6 +131,9 @@ class ResponseSnapshotTest extends TestCase
                 ? !preg_match('#^(manager|school|inspection|student)/#', $uri) || preg_match($auth, $uri)
                 : strpos($uri, $guard . '/') === 0 && !preg_match($auth, $uri);
             if ($mine) {
+                if (preg_match('#(^|/)seed$#', $uri)) {
+                    throw new \LogicException("Refusing to request {$uri}");
+                }
                 $uris[] = $uri;
             }
         }
@@ -97,7 +142,7 @@ class ResponseSnapshotTest extends TestCase
         return array_values(array_unique($uris));
     }
 
-    private function normalize($body, $type)
+    public static function normalize($body, $type)
     {
         if (strpos((string) $type, 'json') !== false) {
             $data = json_decode($body, true);

@@ -16,7 +16,7 @@ use Tests\TestCase;
  *
  * Opens every parameterless GET page of each guard against the local database
  * and compares the status with tests/smoke-baseline.json, which was recorded
- * on Laravel 7 before the upgrade. Pages that change data or build large files
+ * on Laravel 8 before the upgrade. Pages that change data or build large files
  * on GET are skipped. Everything runs inside a transaction.
  *
  * Record a new baseline:  SMOKE_RECORD=1 php vendor/bin/phpunit --filter SmokeRoutesTest
@@ -34,12 +34,13 @@ class SmokeRoutesTest extends TestCase
     }
 
     /**
-     * GET routes that write data (the student term repair tools, restore,
-     * copy and correct actions) or end in dd() (the repair tools' reports),
-     * stream big exports or card sheets, or are ajax lookups that load whole
-     * tables when called without filters.
+     * GET routes that write data (manager/seed runs a seeder and syncs
+     * permissions, copy_structure deletes and copies questions,
+     * transfer_student_term moves assessments of a hard coded school), stream
+     * big exports or card sheets, or are ajax lookups that load whole tables
+     * when called without filters.
      */
-    public const SKIP = '/remove|restore|update_|copy|correctMay|approveStandard|fix_|fixMismatched|mismatchedGrade|reorder_|unorder_|resubmit_|export|excel|cards|load-more|logout|_debugbar|log-viewer|\/get[-_A-Z]|_get_/i';
+    public const SKIP = '/(^|\/)seed$|copy_structure|transfer_student_term|export|excel|cards|load-more|logout|_debugbar|log-viewer|get-sections|\/get[-_A-Z]|_get_/i';
 
     private const BASELINE = 'tests/smoke-baseline.json';
 
@@ -94,27 +95,27 @@ class SmokeRoutesTest extends TestCase
         $schoolId = DB::table('student_terms')
             ->join('students', 'students.id', '=', 'student_terms.student_id')
             ->join('schools', 'schools.id', '=', 'students.school_id')
-            ->where('schools.approved', 1)->where('student_terms.corrected', 1)
+            ->where('schools.active', 1)->where('student_terms.corrected', 1)
             ->whereNull('schools.deleted_at')->whereNull('students.deleted_at')->whereNull('student_terms.deleted_at')
             ->groupBy('schools.id')
             ->orderByRaw('count(*) desc')->orderBy('schools.id')
             ->value('schools.id');
         $school = School::query()->findOrFail($schoolId);
-        // Every local school has a forced password change pending. The query
+        // Most local schools have a forced password change pending. The query
         // builder, so updated_at (shown in the lists) is left alone.
-        DB::table('schools')->where('id', $school->id)->update(['force_password_change' => 0]);
+        DB::table('schools')->where('id', $school->id)->update(['force_password_change' => 0, 'password_changed_at' => '2026-10-01 00:00:00']);
 
         return $school->refresh();
     }
 
     public static function inspection()
     {
-        // Both local inspection accounts are unapproved, have a forced password
-        // change pending and no schools: approve the first one and give it the
-        // school above and the first approved one, so its pages show real data.
+        // Take the first inspection account, clear any pending password change
+        // and give it the school above and the first active one, so its pages
+        // show real data.
         $inspection = Inspection::query()->orderBy('id')->first();
-        DB::table('inspections')->where('id', $inspection->id)->update(['approved' => 1, 'force_password_change' => 0]);
-        $schools = [self::school()->id, School::query()->where('approved', 1)->whereHas('students')->orderBy('id')->value('id')];
+        DB::table('inspections')->where('id', $inspection->id)->update(['active' => 1, 'force_password_change' => 0, 'password_changed_at' => '2026-10-01 00:00:00']);
+        $schools = [self::school()->id, School::query()->where('active', 1)->whereHas('students')->orderBy('id')->value('id')];
         foreach (array_unique($schools) as $schoolId) {
             DB::table('inspection_schools')->insertOrIgnore([
                 'inspection_id' => $inspection->id, 'school_id' => $schoolId,
@@ -129,7 +130,7 @@ class SmokeRoutesTest extends TestCase
     {
         return Student::query()
             ->whereHas('school', function ($query) {
-                $query->where('approved', 1);
+                $query->where('active', 1)->where('student_login', 1);
             })
             ->orderBy('id')
             ->first();
@@ -213,6 +214,10 @@ class SmokeRoutesTest extends TestCase
                 continue;
             }
             if ($filter($uri)) {
+                // never let a change of the skip list reach the seeder route
+                if (preg_match('#(^|/)seed$#', $uri)) {
+                    throw new \LogicException("Refusing to request {$uri}");
+                }
                 $uris[] = $uri;
             }
         }

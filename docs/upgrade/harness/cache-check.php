@@ -1,7 +1,9 @@
 <?php
 // Checks that values cached by one version are read back by the other. The keys
 // hold the kinds of values the app caches: a Setting model and a Collection of
-// them ('settings'), a stdClass (all terms counters) and an array.
+// them ('settings'), a stdClass, models with relations (StudentReport) and an
+// array. Each copy of the project caches into its own storage/framework/cache,
+// so the files are copied from one to the other between "write" and "read".
 //   php cache-check.php <project_dir> write
 //   php cache-check.php <project_dir> read [true|false]   overrides cache.serializable_classes
 //   php cache-check.php <project_dir> clean
@@ -15,6 +17,9 @@ $values = function () {
         'model' => App\Models\Setting::query()->first(),
         'collection' => App\Models\Setting::query()->get(),
         'stdclass' => Illuminate\Support\Facades\DB::query()->selectRaw('1 as corrected_count, 2 as uncorrected_count')->first(),
+        // what StudentReport caches: the student with its school and level, and its attempts
+        'student' => App\Models\Student::query()->with(['school', 'level'])->whereHas('student_terms')->orderBy('id')->first(),
+        'attempts' => App\Models\StudentTerm::query()->with(['term', 'term.level'])->where('corrected', 1)->orderBy('id')->limit(3)->get(),
         'array' => ['a' => 1, 'b' => [2, 3]],
     ];
 };

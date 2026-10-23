@@ -3,7 +3,10 @@
 #   bash run.sh <php binary> <project dir> <snapshot dir> [Test ...]
 # The tests are copied into <project dir>/tests/Feature first (with
 # SmokeRoutesTest, which picks the accounts they all log in with), and the
-# snapshots of each one are written to <snapshot dir>.
+# snapshots of each one are written to <snapshot dir>. The t() helper writes
+# every missing translation key into resources/lang while pages render, so the
+# language files are saved first and put back at the end; the copied tests are
+# removed again (except SmokeRoutesTest, which is part of the project).
 set -u
 php="$1"; project="$2"; snap="$3"; shift 3
 here="$(cd "$(dirname "$0")" && pwd)"
@@ -12,6 +15,8 @@ if [ ${#tests[@]} -eq 0 ]; then
     tests=(AuthFlow PasswordReset LogViewerAccess Forms Import ExamFlow Export ParamPages Response)
 fi
 mkdir -p "$snap"
+lang="$(mktemp -d)"
+cp -r "$project/resources/lang/." "$lang/"
 cp "$here"/*SnapshotTest.php "$here"/SmokeRoutesTest.php "$project/tests/Feature/"
 cd "$project" || exit 1
 for t in "${tests[@]}"; do
@@ -19,3 +24,7 @@ for t in "${tests[@]}"; do
     result=$(SNAPSHOT_DIR="$snap" DEBUGBAR_ENABLED=false "$php" -d memory_limit=-1 vendor/bin/phpunit "tests/Feature/${t}SnapshotTest.php" 2>&1 | tail -1)
     echo "$t: $result ($(( $(date +%s) - start ))s)"
 done
+rm -f tests/Feature/*SnapshotTest.php
+rm -rf resources/lang/ar resources/lang/en
+cp -r "$lang/." resources/lang/
+rm -rf "$lang"

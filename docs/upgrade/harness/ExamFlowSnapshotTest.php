@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 /**
- * Upgrade harness (not part of the project): a student opens an assessment they
- * have not started and submits it (true/false, choice and matching answers),
- * then a manager corrects it from the correction screen. Writes the responses,
- * the saved attempt, the answers and the marks to SNAPSHOT_DIR/exam.txt.
- * Everything is rolled back.
+ * Upgrade harness (not part of the project): a student opens and submits two
+ * assessments (one with true/false, multiple choice and matching questions,
+ * one of the open round with standards), the manager corrects them with the
+ * automatic correction and again from the correction screen, and an older
+ * corrected attempt with standards is corrected again. Writes the saved
+ * answers, marks and standards to SNAPSHOT_DIR/exam.txt. Everything is rolled
+ * back.
  */
 class ExamFlowSnapshotTest extends TestCase
 {
@@ -24,175 +26,198 @@ class ExamFlowSnapshotTest extends TestCase
         // Reported exceptions are posted to Telegram by this job (sync queue).
         // Never send them from a test run.
         \Illuminate\Support\Facades\Bus::fake([\App\Jobs\LogMessageJob::class]);
+        \Illuminate\Support\Carbon::setTestNow('2026-10-22 10:00:00');
     }
 
     public function test_exam()
     {
+        $school = SmokeRoutesTest::school();
         $out = [];
-        [$student, $termId] = $this->pickStudentAndTerm();
-        $this->assertNotNull($student, 'no student with an open assessment');
-        $out['student'] = $student->id;
-        $out['term'] = $termId;
-        $out['reading_level_before'] = $student->reading_level;
 
-        $this->actingAs($student, 'student');
-        $r = $this->get("/student/start-term/$termId");
-        $html = (string) $r->getContent();
-        preg_match_all('/name="tf\[(\d+)\]"/', $html, $mt);
-        preg_match_all('/name="option\[(\d+)\]"/', $html, $mo);
-        preg_match_all('/name="re\[(\d+)\]\[([^\]]+)\]"/', $html, $mr);
-        $out['term_page'] = [
-            'status' => $r->getStatusCode(),
-            'location' => $r->headers->get('Location'),
-            'exception' => $r->exception ? get_class($r->exception) . ': ' . strtok($r->exception->getMessage(), "\n") : null,
-            'tf_inputs' => count(array_unique($mt[1])),
-            'option_inputs' => count(array_unique($mo[1])),
-            're_inputs' => count(array_unique($mr[2])),
-        ];
-        $this->flushSession();
-
-        // answers picked deterministically: some right, some wrong
-        // question types: 1 true/false, 2 multiple choice, 3 matching
-        $payload = ['started_at' => '2026-10-22 10:00:00'];
-        $questions = DB::table('questions')->where('term_id', $termId)->whereNull('deleted_at')->orderBy('id')->get();
-        foreach ($questions as $i => $q) {
-            if ((string) $q->type === '1') {
-                $payload['tf'][$q->id] = $q->id % 2;
-            } elseif ((string) $q->type === '2') {
-                $options = DB::table('options')->where('question_id', $q->id)->whereNull('deleted_at')->orderBy('id')->pluck('id');
-                if ($options->count()) {
-                    $payload['option'][$q->id] = $options[$i % $options->count()];
-                }
-            } elseif ((string) $q->type === '3') {
-                // re[question][uid of the answer] = id of the match it was dropped on;
-                // right when both are the same match, every third one is shifted
-                $matches = DB::table('matches')->where('question_id', $q->id)->whereNull('deleted_at')->orderBy('id')->get(['id', 'uid']);
-                foreach ($matches as $j => $match) {
-                    $target = $j % 3 === 2 ? $matches[($j + 1) % $matches->count()] : $match;
-                    $payload['re'][$q->id][$match->uid] = $target->id;
-                }
-            }
-        }
-        $ajax = ['X-Requested-With' => 'XMLHttpRequest', 'Accept' => 'application/json'];
-        $this->actingAs(Student::query()->find($student->id), 'student');
-        $r = $this->post("/student/save-term/$termId", $payload, $ajax);
-        $out['save'] = [$r->getStatusCode(), $r->getContent()];
-        $this->flushSession();
-
-        // a second save keeps the first answers
-        $this->actingAs(Student::query()->find($student->id), 'student');
-        $r = $this->post("/student/save-term/$termId", ['option' => [], 'tf' => []], $ajax);
-        $out['save_again'] = [$r->getStatusCode(), $r->getContent()];
-        $this->flushSession();
-
-        $attempt = DB::table('student_terms')->where('student_id', $student->id)->where('term_id', $termId)->first();
-        if (!$attempt) {
-            file_put_contents(getenv('SNAPSHOT_DIR') . '/exam.txt', json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-            $this->fail('the attempt was not saved, see exam.txt');
-        }
-        $out['answers_saved'] = $this->answers($attempt->id);
-
-        // correct it from the manager's correction screen, without changing answers
-        $this->actingAs(SmokeRoutesTest::manager(), 'manager');
-        $r = $this->post("/manager/student_term/{$attempt->id}/correcting", []);
-        $out['correcting'] = [$r->getStatusCode(), $r->headers->get('Location'), session('message'),
-            $r->exception ? get_class($r->exception) . ': ' . strtok($r->exception->getMessage(), "\n") : null];
-        $this->flushSession();
-        // and a second time, as a re-correction does
-        $this->actingAs(SmokeRoutesTest::manager(), 'manager');
-        $r = $this->post("/manager/student_term/{$attempt->id}/correcting", []);
-        $out['correcting_again'] = [$r->getStatusCode(), $r->headers->get('Location')];
-        $this->flushSession();
-
-        $a = (array) DB::table('student_terms')->where('id', $attempt->id)->first();
-        $dates = json_decode($a['dates_at'], true);
-        foreach (['submitted_at', 'corrected_at'] as $k) {
-            $dates[$k] = isset($dates[$k]) ? 'SET' : null;
-        }
-        $dates['corrected_by'] = isset($dates['corrected_by']) ? 'MANAGER' : null;
-        foreach (array_keys($a) as $k) {
-            if (in_array($k, ['id', 'created_at', 'updated_at', 'dates_at'], true)) {
-                unset($a[$k]);
-            } elseif (strpos($k, 'v_') === 0 && $a[$k] !== null) {
-                // generated from dates_at: the time of the run
-                $a[$k] = 'SET';
-            }
-        }
-        $out['attempt'] = $a;
-        $out['dates_at'] = $dates;
-        $out['reading_level_after'] = DB::table('students')->where('id', $student->id)->value('reading_level');
-        $out['answers_after_correction'] = $this->answers($attempt->id);
-        $out['student_standards'] = DB::table('student_standards')->where('student_term_id', $attempt->id)->whereNull('deleted_at')
-            ->orderBy('standard_id')->orderBy('id')->get(['standard_id', 'mark'])->map(function ($r) { return (array) $r; })->all();
-
-        // The open round has no standards: re-correct the latest corrected attempt
-        // of the school that has some, to compare the per-standard marks.
-        $old = DB::table('student_terms')
-            ->join('students', 'students.id', '=', 'student_terms.student_id')
-            ->where('students.school_id', SmokeRoutesTest::school()->id)
-            ->where('student_terms.corrected', 1)->whereNull('student_terms.deleted_at')
+        // the assessment with the most question types, and one of the open round
+        $mixed = DB::table('questions')->join('terms', 'terms.id', '=', 'questions.term_id')
+            ->whereNull('questions.deleted_at')->whereNull('terms.deleted_at')
+            ->groupBy('questions.term_id')->orderByRaw('count(distinct questions.type) desc')->orderBy('questions.term_id')
+            ->value('questions.term_id');
+        $level = DB::table('levels')->where('year_id', $school->available_year_id)->where('grade', 4)->where('arab', 1)->whereNull('deleted_at')->first();
+        $open = DB::table('terms')->where('level_id', $level->id)->where('active', 1)->whereNull('deleted_at')
             ->whereExists(function ($q) {
-                $q->select(DB::raw(1))->from('questions')->join('standards', 'standards.question_id', '=', 'questions.id')
-                    ->whereColumn('questions.term_id', 'student_terms.term_id')->whereNull('standards.deleted_at');
-            })
-            ->orderByDesc('student_terms.id')->select('student_terms.*')->first();
-        $before = DB::table('student_standards')->where('student_term_id', $old->id)->whereNull('deleted_at')
-            ->orderBy('standard_id')->orderBy('id')->get(['standard_id', 'mark'])->map(function ($r) { return (array) $r; })->all();
-        $this->actingAs(SmokeRoutesTest::manager(), 'manager');
-        $r = $this->post("/manager/student_term/{$old->id}/correcting", []);
-        $this->flushSession();
-        $after = (array) DB::table('student_terms')->where('id', $old->id)->first();
-        $out['recorrected'] = [
-            'attempt' => $old->id,
-            'status' => $r->getStatusCode(),
-            'before' => ['total' => $old->total, 'grade' => $old->grade, 'expectations' => $old->expectations, 'reading_progress' => $old->reading_progress],
-            'after' => ['total' => $after['total'], 'grade' => $after['grade'], 'expectations' => $after['expectations'], 'reading_progress' => $after['reading_progress']],
-            'standards_before' => $before,
-            'standards_after' => DB::table('student_standards')->where('student_term_id', $old->id)->whereNull('deleted_at')
-                ->orderBy('standard_id')->orderBy('id')->get(['standard_id', 'mark'])->map(function ($r) { return (array) $r; })->all(),
+                $q->from('questions')->join('question_standards', 'question_standards.question_id', '=', 'questions.id')
+                    ->whereColumn('questions.term_id', 'terms.id')->whereNull('questions.deleted_at');
+            })->orderByDesc('id')->value('id');
+
+        // an older corrected attempt with standards, picked before the new ones exist
+        $old = DB::table('student_terms')->join('students', 'students.id', '=', 'student_terms.student_id')
+            ->where('students.school_id', $school->id)->where('student_terms.corrected', 1)->whereNull('student_terms.deleted_at')
+            ->whereExists(function ($q) {
+                $q->from('student_term_standards')->whereColumn('student_term_standards.student_term_id', 'student_terms.id');
+            })->orderByDesc('student_terms.id')->value('student_terms.id');
+
+        foreach (['mixed' => $mixed, 'open round' => $open] as $label => $termId) {
+            $out[$label] = $this->sit($school, $termId);
+        }
+
+        // corrected again
+        $before = $this->attempt($old);
+        $yearId = DB::table('student_terms')->join('terms', 'terms.id', '=', 'student_terms.term_id')->join('levels', 'levels.id', '=', 'terms.level_id')
+            ->where('student_terms.id', $old)->value('levels.year_id');
+        $studentId = DB::table('student_terms')->where('id', $old)->value('student_id');
+        $out['old attempt'] = [
+            'before' => $before,
+            'auto correct' => $this->manager('post', '/manager/auto_correct_student_term', ['year_id' => $yearId, 'student_id' => $studentId]),
+            'after' => $this->attempt($old),
         ];
 
         file_put_contents(getenv('SNAPSHOT_DIR') . '/exam.txt', json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $this->assertTrue(true);
     }
 
-    private function answers($attemptId)
+    /** A student of the school sits the assessment, then the manager corrects it. */
+    private function sit($school, $termId)
     {
-        $rows = function ($table, $columns) use ($attemptId) {
-            return DB::table($table)->where('student_term_id', $attemptId)->whereNull('deleted_at')->orderBy('question_id')->orderBy('id')
-                ->get($columns)->map(function ($r) { return (array) $r; })->all();
-        };
+        $term = DB::table('terms')->find($termId);
+        $level = DB::table('levels')->find($term->level_id);
+        $student = DB::table('students')->where('school_id', $school->id)->whereNull('deleted_at')
+            ->whereNotExists(function ($q) use ($termId) {
+                $q->from('student_terms')->whereColumn('student_terms.student_id', 'students.id')->where('term_id', $termId);
+            })->orderBy('id')->first();
 
-        return [
-            'tf' => $rows('true_false_results', ['question_id', 'result']),
-            'option' => $rows('option_results', ['question_id', 'option_id']),
-            'match' => $rows('match_results', ['question_id', 'match_id', 'match_answer_uid']),
+        // make the assessment available to that student (rolled back)
+        DB::table('students')->where('id', $student->id)->update(['level_id' => $level->id, 'year_id' => $level->year_id, 'demo' => 0, 'assessment_opened' => 0]);
+        DB::table('schools')->where('id', $school->id)->update(['available_year_id' => $level->year_id]);
+        DB::table('terms')->where('id', $termId)->update(['active' => 1]);
+        DB::table('school_grades')->where('school_id', $school->id)->where('grade', $level->grade)->where('arab', $level->arab)
+            ->update([$term->round => 1]);
+
+        $out = ['term' => $termId, 'round' => $term->round];
+        $this->actingAs(Student::query()->find($student->id), 'student');
+        $r = $this->get("/student/term/$termId");
+        $html = (string) $r->getContent();
+        $out['term page'] = [
+            'status' => $r->getStatusCode(), 'location' => $r->headers->get('Location'),
+            'message' => session('term-message'),
+            'questions' => preg_match_all('/questions\[(\d+)\]\[type\]/', $html),
         ];
-    }
+        $this->flushSession();
+        ResponseSnapshotTest::resetAuth();
 
-    private function pickStudentAndTerm()
-    {
-        $school = SmokeRoutesTest::school();
-        $students = Student::query()
-            ->where('school_id', $school->id)
-            ->where(function ($q) { $q->whereNull('demo')->orWhere('demo', 0); })
-            ->orderByDesc('id')
-            ->limit(300)
-            ->get();
-        foreach ($students as $student) {
-            $this->actingAs($student, 'student');
-            $html = (string) $this->get('/student/home')->getContent();
-            $this->flushSession();
-            if (!preg_match_all('#student/start-term/(\d+)#', $html, $m)) {
-                continue;
+        // answers picked deterministically: some right, some wrong
+        $payload = ['started_at' => '2026-10-22 09:30:00', 'questions' => []];
+        $questions = DB::table('questions')->where('term_id', $termId)->whereNull('deleted_at')->orderBy('id')->get();
+        foreach ($questions as $i => $q) {
+            $answer = ['type' => $q->type];
+            if ($q->type === 'true_false') {
+                $answer['answer'] = $q->id % 2;
+            } elseif ($q->type === 'multiple_choice') {
+                $options = DB::table('option_questions')->where('question_id', $q->id)->whereNull('deleted_at')->orderBy('id')->pluck('id');
+                if ($options->count()) {
+                    $answer['answer_option_id'] = $options[$i % $options->count()];
+                }
+            } elseif ($q->type === 'matching') {
+                // options[uid of the answer] = id of the match it was dropped on;
+                // right when both are the same row, every third one is shifted
+                $matches = DB::table('match_questions')->where('question_id', $q->id)->whereNull('deleted_at')->orderBy('id')->get(['id', 'uid']);
+                foreach ($matches as $j => $match) {
+                    $target = $j % 3 === 2 ? $matches[($j + 1) % $matches->count()] : $match;
+                    $answer['options'][$match->uid] = $target->id;
+                }
+            } elseif ($q->type === 'sorting') {
+                $sorts = DB::table('sort_questions')->where('question_id', $q->id)->whereNull('deleted_at')->orderBy('id')->pluck('uid')->all();
+                if ($i % 2) {
+                    $sorts = array_reverse($sorts);
+                }
+                foreach ($sorts as $k => $uid) {
+                    $answer['options'][$uid] = $k + 1;
+                }
+            } elseif ($q->type === 'fill_blank') {
+                $blanks = DB::table('fill_blank_questions')->where('question_id', $q->id)->whereNull('deleted_at')->orderBy('id')->get(['id', 'uid']);
+                foreach ($blanks as $k => $blank) {
+                    $answer['blanks'][$blank->uid] = $blanks[($k + $i) % $blanks->count()]->id;
+                }
             }
-            foreach (array_unique($m[1]) as $termId) {
-                $started = DB::table('student_terms')->where('student_id', $student->id)->where('term_id', $termId)->exists();
-                if (!$started) {
-                    return [$student, (int) $termId];
+            $payload['questions'][$q->id] = $answer;
+        }
+        $out['types'] = array_count_values($questions->pluck('type')->all());
+
+        $this->actingAs(Student::query()->find($student->id), 'student');
+        $r = $this->post("/student/term_save/$termId", $payload, ['X-Requested-With' => 'XMLHttpRequest', 'Accept' => 'application/json']);
+        $out['save'] = [$r->getStatusCode(), json_decode((string) $r->getContent(), true)];
+        $this->flushSession();
+        ResponseSnapshotTest::resetAuth();
+
+        $attemptId = DB::table('student_terms')->where('student_id', $student->id)->where('term_id', $termId)->value('id');
+        if (!$attemptId) {
+            $out['attempt'] = null;
+            return $out;
+        }
+        $out['saved'] = $this->attempt($attemptId);
+        $out['auto correct'] = $this->manager('post', '/manager/auto_correct_student_term', ['year_id' => $level->year_id, 'student_id' => $student->id]);
+        $out['after auto correct'] = $this->attempt($attemptId);
+        // the correction screen sends the answers back, with the subject of each
+        // question and the id of the saved true/false and choice results
+        $correction = $payload['questions'];
+        foreach ($questions as $q) {
+            $correction[$q->id]['subject_id'] = $q->subject_id;
+            $table = ['true_false' => 't_f_question_results', 'multiple_choice' => 'option_question_results'][$q->type] ?? null;
+            if ($table) {
+                $resultId = DB::table($table)->where('student_term_id', $attemptId)->where('question_id', $q->id)->value('id');
+                if ($resultId) {
+                    $correction[$q->id]['question_result_id'] = $resultId;
                 }
             }
         }
+        $out['correction screen'] = $this->manager('post', "/manager/update-student-term/$attemptId", ['questions' => $correction]);
+        $out['after correction screen'] = $this->attempt($attemptId);
 
-        return [null, null];
+        return $out;
+    }
+
+    private function manager($method, $url, $data)
+    {
+        $this->actingAs(SmokeRoutesTest::manager(), 'manager');
+        $r = $this->call(strtoupper($method), $url, $data, [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest', 'HTTP_ACCEPT' => 'application/json']);
+        try {
+            $e = $r->exception;
+        } catch (\Throwable $ignored) {
+            $e = null;
+        }
+        $out = [$r->getStatusCode(), json_decode((string) $r->getContent(), true) ?? substr((string) $r->getContent(), 0, 200),
+            $e && !($e instanceof \Illuminate\Validation\ValidationException) ? get_class($e) . ': ' . strtok($e->getMessage(), "\n") : null];
+        $this->flushSession();
+        ResponseSnapshotTest::resetAuth();
+
+        return $out;
+    }
+
+    /** The attempt row (without times of the run), its answers and its standards. */
+    private function attempt($id)
+    {
+        $a = (array) DB::table('student_terms')->where('id', $id)->first();
+        $dates = json_decode($a['dates_at'], true) ?: [];
+        foreach (['submitted_at', 'corrected_at'] as $k) {
+            $dates[$k] = isset($dates[$k]) ? 'SET' : null;
+        }
+        $a['dates_at'] = $dates;
+        foreach (array_keys($a) as $k) {
+            if (in_array($k, ['id', 'created_at', 'updated_at', 'student_id'], true)) {
+                unset($a[$k]);
+            } elseif (strpos($k, 'v_') === 0 && $a[$k] !== null && $k !== 'v_started_at') {
+                // generated from dates_at
+                $a[$k] = 'SET';
+            }
+        }
+        $strip = function ($row) {
+            $row = (array) $row;
+            unset($row['id'], $row['student_term_id'], $row['student_id'], $row['created_at'], $row['updated_at']);
+            return $row;
+        };
+        $answers = [];
+        foreach (['t_f_question_results', 'option_question_results', 'match_question_results', 'sort_question_results', 'fill_blank_answers'] as $table) {
+            $answers[$table] = DB::table($table)->where('student_term_id', $id)->whereNull('deleted_at')->orderBy('question_id')->orderBy('id')->get()->map($strip)->all();
+        }
+        $a['answers'] = $answers;
+        $a['standards'] = DB::table('student_term_standards')->where('student_term_id', $id)->whereNull('deleted_at')->orderBy('question_standard_id')->get()->map($strip)->all();
+
+        return $a;
     }
 }

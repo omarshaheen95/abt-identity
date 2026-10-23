@@ -23,6 +23,7 @@ class ParamPagesSnapshotTest extends TestCase
         // Reported exceptions are posted to Telegram by this job (sync queue).
         // Never send them from a test run.
         \Illuminate\Support\Facades\Bus::fake([\App\Jobs\LogMessageJob::class]);
+        \Illuminate\Support\Carbon::setTestNow('2026-10-22 10:00:00');
     }
 
     public function test_snapshots()
@@ -62,82 +63,110 @@ class ParamPagesSnapshotTest extends TestCase
         $anyAttempt = DB::table('student_terms')->whereNull('deleted_at')->orderByDesc('id')->value('id');
         $markingRequest = DB::table('marking_requests')->where('school_id', $school->id)->whereNull('deleted_at')->orderByDesc('id')->value('id')
             ?: DB::table('marking_requests')->whereNull('deleted_at')->orderByDesc('id')->value('id');
-        $importFile = DB::table('import_student_files')->whereNull('deleted_at')->orderByDesc('id')->value('id');
+        $importFile = DB::table('student_import_files')->where('school_id', $school->id)->whereNull('deleted_at')->orderByDesc('id')->value('id');
+        $importError = DB::table('student_import_files')->whereNotNull('error')->whereNull('deleted_at')->orderByDesc('id')->value('id');
         $activity = DB::table('activity_log')->orderByDesc('id')->value('id');
-        $batch = DB::table('student_term_upgrades')->orderByDesc('id')->value('id');
-        $types = DB::table('schools')->whereNull('deleted_at')->distinct()->orderBy('type')->pluck('type')->all();
-        $compare = http_build_query(['schools' => $types, 'years' => [$yearId - 1, $yearId], 'levels' => [$grade, $grade + 1]]);
-        $reportData = rawurlencode(json_encode(['report_type' => 'student']));
+        $questionFile = DB::table('question_files')->whereNull('deleted_at')->orderByDesc('id')->value('id');
+        $schoolStudent = DB::table('students')->where('school_id', $school->id)->whereNull('deleted_at')->orderBy('id')->value('id');
+        $scheduling = DB::table('school_grades')->where('school_id', $school->id)->whereNull('deleted_at')->orderBy('id')->value('id');
+        $reportToken = function_exists('encryptStudentId') ? encryptStudentId($studentId) : null;
+        $years = [$yearId - 2, $yearId - 1, $yearId];
+        $report = ['school_id' => $school->id, 'year_id' => $yearId, 'grades' => [$grade], 'student_type' => 2, 'generated_report_type' => 'attainment'];
+        $q = function (array $data) {
+            return http_build_query($data);
+        };
 
         $pages = [
             'manager' => [
                 "manager/activity-log/$activity",
                 "manager/edit-permissions/{$manager->id}",
+                "manager/edit_standards/$termId",
+                "manager/get-levels-by-year/$yearId",
+                "manager/get-terms-by-level/$levelId",
                 "manager/inspection/{$inspection->id}/edit",
                 "manager/level/$levelId/edit",
                 "manager/manager/{$manager->id}/edit",
                 "manager/marking_requests/$markingRequest",
                 "manager/marking_requests/$markingRequest/edit",
+                "manager/question-file/$questionFile",
+                "manager/scheduling/{$school->id}",
                 "manager/school/{$school->id}/edit",
-                "manager/school/{$school->id}/scheduling",
-                "manager/school/report/{$school->id}/$yearId?report_type=1",
+                "manager/student-import-error/$importError",
+                "manager/student-report/$studentId/card",
+                "manager/student-report/$studentId/report",
                 "manager/student/$studentId/activity-records",
                 "manager/student/$studentId/card",
                 "manager/student/$studentId/edit",
-                "manager/student_import/$importFile",
-                "manager/student_import/$importFile/show_logs",
-                "manager/student_report/$studentId",
                 "manager/student_term/{$attempt->id}/certificate",
-                "manager/student_term/{$attempt->id}/show",
-                "manager/student_term/upgrade/batches/$batch",
+                "manager/student_term/{$attempt->id}/edit",
+                "manager/student_term/corrected?" . $q(['school_id' => $school->id, 'year_id' => $yearId]),
+                "manager/student_term/uncorrected?" . $q(['school_id' => $school->id, 'year_id' => $yearId]),
+                "manager/students_files_import/$importFile/show_logs",
                 "manager/term/$termId/edit",
                 "manager/term/$termId/preview",
-                "manager/term/$termId/question/edit",
-                "manager/term/$termId/standard",
+                "manager/term/$termId/questions",
+                "manager/term/$termId/questions_structure",
                 "manager/terms_names/$levelId",
                 "manager/year/$yearId/edit",
-                "manager/compare_result?$compare",
-                "manager/student?school_id={$school->id}&grade=$grade",
-                "manager/student_term/corrected?school_id={$school->id}&year_id=$yearId",
-                "manager/students_not_started_yet?school_id={$school->id}&year_id=$yearId",
+                "manager/student?" . $q(['school_id' => $school->id, 'grade' => $grade]),
+                "manager/students_not_submitted_terms?" . $q(['school_id' => $school->id, 'year_id' => $yearId, 'round' => 'september']),
+                "manager/attainment-report?" . $q($report),
+                "manager/attainment-report?" . $q(['generated_report_type' => 'combined'] + $report),
+                "manager/progress-report?" . $q($report),
+                "manager/student-mark-report?" . $q($report),
+                "manager/year-to-year-report?" . $q(['school_id' => $school->id, 'years' => [$yearId - 1, $yearId], 'grades' => [$grade], 'student_type' => 2, 'round' => 'may', 'generated_report_type' => 'attainment']),
+                "manager/comparison-report?" . $q(['school_id' => $school->id, 'year_id' => $yearId, 'round' => 'may', 'gender' => 'all', 'student_type' => 2, 'curriculums' => [$school->curriculum_type], 'grades' => [$grade]]),
             ],
             'school' => [
-                "school/marking_request/$markingRequest",
-                "school/marking_request/$markingRequest/edit",
-                "school/student/$studentId",
+                "school/marking_requests/$markingRequest",
+                "school/marking_requests/$markingRequest/edit",
+                "school/scheduling/$scheduling",
+                "school/scheduling/$scheduling/edit",
+                "school/student-report/$studentId/card",
+                "school/student-report/$studentId/report",
                 "school/student/$studentId/activity-records",
                 "school/student/$studentId/card",
                 "school/student/$studentId/edit",
-                "school/student_report/$studentId",
                 "school/student_term/{$attempt->id}/certificate",
-                "school/data_analysis/report?year_id=$yearId&report_type=1",
-                "school/student_term/corrected?year_id=$yearId",
-                "school/student_term/marks?year_id=$yearId",
+                "school/student_term/corrected?" . $q(['year_id' => $yearId]),
+                "school/student_term/uncorrected?" . $q(['year_id' => $yearId]),
+                "school/attainment-report?" . $q($report),
+                "school/progress-report?" . $q($report),
             ],
             'inspection' => [
-                "inspection/schools_report/$yearId?school_id={$school->id}&report_type=1",
-                "inspection/student_report/$studentId",
-                "inspection/combined_result?school_id={$school->id}&years=$yearId&levels[]=$grade",
-                "inspection/student_term?school_id={$school->id}&year_id=$yearId",
+                "inspection/school/{$school->id}/edit",
+                "inspection/student-report/$studentId/card",
+                "inspection/student-report/$studentId/report",
+                "inspection/student/$studentId/edit",
+                "inspection/student?" . $q(['school_id' => $school->id, 'year_id' => $yearId]),
+                "inspection/attainment-report?" . $q($report),
+            ],
+            'student' => [
+                'student/home',
             ],
             'guest' => [
-                "user/$studentId/report?data=$reportData",
+                "user/$studentId/report",
                 "user/$certified/certificate",
                 "user/$anyAttempt/certificate",
-                "user/$certified/certificate?language=ar",
+                "student-cards?" . $q(['school_id' => $school->id, 'grade' => $grade, 'year_id' => $yearId]),
+                "student-report?" . $q(['token' => $reportToken]),
+                "student-report-card?" . $q(['token' => $reportToken]),
             ],
             // impersonation and language switches change the session: last
             'manager-login' => [
-                "manager/school/{$school->id}/login",
-                "manager/student/$studentId/login",
-                "manager/inspection_login/{$inspection->id}",
+                "manager/school_login/{$school->id}",
+                "manager/student-login/$studentId",
+                "manager/login-inspection/{$inspection->id}",
                 "manager/lang/ar",
             ],
             'school-login' => [
-                "school/student/$studentId/login",
+                "school/student-login/$schoolStudent",
+                "school/lang/ar",
             ],
             'inspection-login' => [
-                "inspection/school/login/{$school->id}",
+                "inspection/school_login/{$school->id}",
+                "inspection/student-login/$schoolStudent",
+                "inspection/lang/en",
             ],
             'guest-login' => [
                 'lang/ar',
@@ -146,7 +175,7 @@ class ParamPagesSnapshotTest extends TestCase
 
         $users = ['manager' => $manager, 'school' => $school, 'inspection' => $inspection, 'student' => $student, 'guest' => null];
 
-        file_put_contents("$dir/_ids.txt", json_encode(compact('studentId', 'termId', 'levelId', 'yearId', 'certified', 'anyAttempt', 'markingRequest', 'importFile', 'activity', 'batch') + ['attempt' => $attempt->id, 'school' => $school->id, 'manager' => $manager->id, 'inspection' => $inspection->id]));
+        file_put_contents("$dir/_ids.txt", json_encode(compact('studentId', 'termId', 'levelId', 'yearId', 'certified', 'anyAttempt', 'markingRequest', 'importFile', 'importError', 'activity', 'questionFile', 'schoolStudent', 'scheduling') + ['attempt' => $attempt->id, 'school' => $school->id, 'manager' => $manager->id, 'inspection' => $inspection->id]));
 
         foreach ($pages as $group => $uris) {
             $guard = explode('-', $group)[0];
@@ -181,7 +210,10 @@ class ParamPagesSnapshotTest extends TestCase
                         }
                     }
                     // ids stay in the name: two pages of the same route (two certificates) must not share a file
-                    $name = $guard . '__' . $mode . '__' . preg_replace('/[^A-Za-z0-9_-]+/', '_', $uri);
+                    // the QR token is encrypted with a random IV on every run
+                    $shown = $reportToken ? str_replace(urlencode($reportToken), 'TOKEN', $uri) : $uri;
+                    $url = str_replace((string) urlencode((string) $reportToken), 'TOKEN', $url);
+                    $name = $guard . '__' . $mode . '__' . preg_replace('/[^A-Za-z0-9_-]+/', '_', $shown);
                     // long query strings would pass the Windows path limit
                     if (strlen($name) > 100) {
                         $name = substr($name, 0, 80) . '_' . md5($name);
@@ -197,6 +229,7 @@ class ParamPagesSnapshotTest extends TestCase
                     foreach (['manager', 'school', 'inspection', 'student'] as $g) {
                         auth($g)->logout();
                     }
+                    ResponseSnapshotTest::resetAuth();
                 }
             }
         }

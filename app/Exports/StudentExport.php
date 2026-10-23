@@ -22,9 +22,11 @@ class StudentExport implements WithMapping, Responsable, WithHeadings, FromColle
 {
     use Exportable;
     public $length;
+    public $last_cell;
+    public $last_row;
     public $request;
     private $school_ids;
-    public function __construct(Request $request,array $school_ids = null)
+    public function __construct(Request $request,?array $school_ids = null)
     {
         $this->request = $request;
         $this->length = 1;

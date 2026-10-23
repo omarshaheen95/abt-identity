@@ -16,6 +16,8 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    protected $statusCode;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -180,7 +182,7 @@ class Handler extends ExceptionHandler
             return $this->setStatusCode(401)->respondWithError('Unauthenticated');
         }
 
-        $guard = array_get($exception->guards(), 0);
+        $guard = \Illuminate\Support\Arr::get($exception->guards(), 0);
         if (strpos($request->url(), '/api/') !== false){
             return $this->setStatusCode(401)->respondWithError('Unauthenticated');
         }

@@ -7,15 +7,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class QuestionStandard extends Model
 {
     use SoftDeletes, LogsActivity;
-    protected static $logAttributes = ['standard', 'question_id', 'mark'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['standard', 'question_id', 'mark'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
     protected static $recordEvents = ['updated', 'deleted'];
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
     protected $fillable = ['standard','question_id','mark'];
     public function question()
     {

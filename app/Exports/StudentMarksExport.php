@@ -41,7 +41,7 @@ class StudentMarksExport implements WithMapping, Responsable, WithHeadings, From
     private $rounds = Constant::ROUNDS;
 
 
-    public function __construct(Request $request, array $schools_ids = null)
+    public function __construct(Request $request, ?array $schools_ids = null)
     {
         $this->request = $request;
         $this->length = 1;

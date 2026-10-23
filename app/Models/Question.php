@@ -11,15 +11,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Question extends Model
 {
     use SoftDeletes,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = ['term_id','type','content','image','subject_id','audio','mark','question_reader', 'question_file_id'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['term_id','type','content','image','subject_id','audio','mark','question_reader', 'question_file_id'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
     protected static $recordEvents = ['updated', 'deleted'];
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
 
 
     protected $fillable = ['term_id','type','content','image','subject_id','audio','mark','question_reader','question_file_id'];

@@ -94,7 +94,7 @@ trait ManagesPasswordLifetime
             return null;
         }
 
-        return max(0, Carbon::now()->startOfDay()->diffInDays($expires->copy()->startOfDay(), false));
+        return max(0, (int) Carbon::now()->startOfDay()->diffInDays($expires->copy()->startOfDay(), false));
     }
 
     /**

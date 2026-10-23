@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 use App\Traits\ManagesPasswordLifetime;
@@ -24,10 +25,14 @@ class School extends Authenticatable
 
     /** Guard this model authenticates with, read by ManagesPasswordLifetime. */
     public static $passwordGuard = 'school';
-    protected static $logAttributes = ['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings', 'rounds'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings', 'rounds'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
     protected static $recordEvents = ['updated', 'deleted'];
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
 
     protected $fillable = [
         'name', 'email', 'password', 'logo', 'url', 'mobile', 'country', 'curriculum_type', 'last_login', 'lang', 'active','student_login', 'last_login_info', 'certificate_mark',

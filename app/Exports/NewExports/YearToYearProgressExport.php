@@ -128,7 +128,7 @@ class YearToYearProgressExport implements WithMapping, Responsable, WithHeadings
                     if (count($years_data) < count($this->reversedYears)) {
                         continue; // Skip students who don't have data for all years
                     }
-                    $student = array_first($years_data);
+                    $student = \Illuminate\Support\Arr::first($years_data);
                     $student_data = $this->buildStudentBaseData($student);
                     $termsData = $this->buildAllTermsData($student, $years_data);
                     $students_results[] = array_merge($student_data, $termsData);

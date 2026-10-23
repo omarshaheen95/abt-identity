@@ -11,16 +11,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 
 class Term extends Model
 {
     use SoftDeletes, HasTranslations,CascadeSoftDeletes, LogsActivity;
-    protected static $logAttributes = [ 'name', 'level_id', 'round', 'active', 'duration'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([ 'name', 'level_id', 'round', 'active', 'duration'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
     //round 'september', 'february', 'may'
     protected $fillable = [
         'name', 'level_id', 'round', 'active', 'duration'

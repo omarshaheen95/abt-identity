@@ -344,7 +344,7 @@ class StudentImport implements ToModel, SkipsOnFailure, SkipsOnError, WithHeadin
      * @param bool $isUpdate
      * @return array
      */
-    private function prepareStudentData(array $row, $isUpdate = false, Student $student = null)
+    private function prepareStudentData(array $row, $isUpdate = false, ?Student $student = null)
     {
         $data = ['file_id' => $this->file->id];
 

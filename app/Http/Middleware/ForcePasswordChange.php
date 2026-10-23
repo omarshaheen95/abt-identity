@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
  * Locks an account out of every page except the change password screen while
  * its force_password_change flag is raised.
  *
- * Applied per guard in RouteServiceProvider, e.g. 'force.password:admin'.
+ * Applied per guard in bootstrap/app.php, e.g. 'force.password:manager'.
  * Logout lives in routes/web.php outside of the guarded groups, so a user can
  * always sign out instead of changing the password.
  */

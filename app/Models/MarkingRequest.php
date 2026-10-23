@@ -7,15 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class MarkingRequest extends Model
 {
     use SoftDeletes, LogsActivity;
-    protected static $logAttributes = ['school_id', 'status', 'year_id', 'grades', 'section', 'email'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['school_id', 'status', 'year_id', 'grades', 'section', 'email'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
     protected static $recordEvents = ['updated', 'deleted'];
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
 
     protected $fillable = [
         'school_id',

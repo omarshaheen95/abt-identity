@@ -30,6 +30,11 @@ return [
 
     'bcrypt' => [
         'rounds' => env('BCRYPT_ROUNDS', 10),
+        // Laravel 8 did not check the algorithm. With true, logging in to an
+        // account whose password is not a bcrypt hash (plain text or empty,
+        // none locally) throws instead of failing like a wrong password.
+        'verify' => env('HASH_VERIFY', false),
+        'limit' => env('BCRYPT_LIMIT', null),
     ],
 
     /*
@@ -48,5 +53,18 @@ return [
         'threads' => 1,
         'time' => 4,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rehash On Login
+    |--------------------------------------------------------------------------
+    |
+    | Off, as in Laravel 8: a rehash rewrites the password column, which
+    | ValidateSessionPassword reads as a password change and signs the
+    | account's other sessions out.
+    |
+    */
+
+    'rehash_on_login' => false,
 
 ];

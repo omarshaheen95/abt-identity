@@ -14,16 +14,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class StudentTerm extends Model
 {
     use SoftDeletes,CascadeSoftDeletes, LogsActivity;
 
-    protected static $logAttributes = ['student_id', 'term_id', 'corrected', 'subjects_marks', 'total'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['student_id', 'term_id', 'corrected', 'subjects_marks', 'total'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
     protected static $recordEvents = ['updated', 'deleted'];
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
 
     protected $fillable = ['student_id','term_id','corrected','total','notes','subjects_marks','dates_at'];
 

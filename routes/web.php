@@ -98,8 +98,8 @@ Route::get('lang/{locale}', function ($locale) {
     return back();
 })->name('switch-language');
 
-Route::get('student-cards', 'App\Http\Controllers\School\StudentController@studentsCards')->name('student.cards');
-Route::get('user/{id}/certificate', 'App\Http\Controllers\School\StudentController@webCertificate');
+Route::get('student-cards', [\App\Http\Controllers\School\StudentController::class, 'studentsCards'])->name('student.cards');
+Route::get('user/{id}/certificate', [\App\Http\Controllers\School\StudentController::class, 'webCertificate']);
 
 Route::get('user/{id}/report', [\App\Http\Controllers\General\ReportController::class,'getStudentReport']);
 //For QR

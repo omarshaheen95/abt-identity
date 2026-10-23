@@ -42,7 +42,7 @@ class Manager extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email', 'password', 'approved'])
+            ->logOnly(['name', 'email', 'approved'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

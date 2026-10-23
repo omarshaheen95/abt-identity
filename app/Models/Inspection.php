@@ -42,7 +42,7 @@ class Inspection extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email', 'password'])
+            ->logOnly(['name', 'email'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

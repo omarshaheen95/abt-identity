@@ -28,7 +28,7 @@ class School extends Authenticatable
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'email', 'password', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings', 'rounds'])
+            ->logOnly(['name', 'email', 'logo', 'curriculum_type', 'country', 'active', 'available_year_id', 'certificate_mark', 'proctoring_settings', 'rounds'])
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }

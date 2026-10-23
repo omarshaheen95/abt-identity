@@ -46,7 +46,7 @@ class TelegramLoggerHandler extends AbstractProcessingHandler {
         }
 
 
-        $request_data = request()->all();
+        $request_data = $this->mask(request()->all());
 
         if (!empty($request_data)) {
             $requestData = json_encode($request_data, JSON_PRETTY_PRINT);
@@ -58,12 +58,30 @@ class TelegramLoggerHandler extends AbstractProcessingHandler {
             $message .= "\n\n<b>Details:</b>\n<pre>" . htmlspecialchars($contextDetails) . "</pre>";
         }
 
-        $sessionData = session()->all();
+        $sessionData = $this->mask(session()->all());
         if (!empty($sessionData)) {
             $sessionDetails = json_encode($sessionData, JSON_PRETTY_PRINT);
             $message .= "\n\n<b>Session:</b>\n<pre>" . htmlspecialchars($sessionDetails) . "</pre>";
         }
 
         LogMessageJob::dispatch($message);
+    }
+
+    /**
+     * The request and the session go to a Telegram group: hide the passwords
+     * (password, old_password, password_confirmation...), the CSRF token, and
+     * the password hashes the session keeps (password_hash_<guard>).
+     */
+    private function mask(array $data): array
+    {
+        foreach ($data as $key => $value) {
+            if (is_string($key) && preg_match('/pass|token|secret/i', $key)) {
+                $data[$key] = '***';
+            } elseif (is_array($value)) {
+                $data[$key] = $this->mask($value);
+            }
+        }
+
+        return $data;
     }
 }

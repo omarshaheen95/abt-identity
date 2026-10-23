@@ -1,0 +1,36 @@
+== tests/Unit/ExampleTest.php
+Example (Tests\Unit\Example)
+ ✔ Example
+OK (1 test, 1 assertion)
+== tests/Feature/ExampleTest.php
+Example (Tests\Feature\Example)
+ ✔ Example
+OK (1 test, 1 assertion)
+== tests/Feature/LoginActivityTest.php
+Login Activity (Tests\Feature\LoginActivity)
+ ✔ Login session routes and view use current project resources
+ ✔ Unknown failed attempt is logged without secrets and can be filtered
+ ✔ Lockout keeps the current guard
+ ✔ Success and logout events record the account
+ ✔ Prune dry run preserves old rows and rejects invalid retention
+ ✔ Datatable displays unknown accounts and escapes identifiers
+ ✔ Direct student login records an unknown account
+OK (7 tests, 30 assertions)
+
+== tests/Feature/SmokeRoutesTest.php (SMOKE_RECORD=1)
+Smoke Routes (Tests\Feature\SmokeRoutes)
+ ✔ Guest pages
+
+[manager] manager/cer -> 500 Facade\Ignition\Exceptions\ViewException: Undefined variable: name (View: C:\laragon\www\abt-identity\resources\views\general\certificate\certificate.blade.php)
+[manager] manager/login_sessions/create -> 500 BadMethodCallException: Method App\Http\Controllers\Manager\LoginSessionController::create does not exist.
+[manager] manager/student_term/create -> 500 BadMethodCallException: Method App\Http\Controllers\Manager\StudentTermController::create does not exist. ✔ Manager pages
+
+[school] school/scheduling/create -> 500 BadMethodCallException: Method App\Http\Controllers\School\SchedulingController::create does not exist. ✔ School pages
+
+[inspection] inspection/school/create -> 500 BadMethodCallException: Method App\Http\Controllers\Inspection\SchoolController::create does not exist.
+[inspection] inspection/student/create -> 500 BadMethodCallException: Method App\Http\Controllers\Inspection\StudentController::create does not exist. ✔ Inspection pages
+ ✔ Student pages
+
+Time: 01:07.582, Memory: 56.00 MB
+
+OK (5 tests, 9 assertions)

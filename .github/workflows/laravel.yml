@@ -34,11 +34,23 @@ jobs:
         run: |
           sshpass -e ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_ADDRESS }} "
             cd /home/omar/websites/abt-identity &&
+            git config --global user.name 'GitHub Action' &&
+            git config --global user.email 'action@github.com' &&
+            { php artisan down || echo 'artisan down failed, deploying without maintenance mode'; } &&
+            git stash --include-untracked &&
+            rm -f composer.lock &&
+            git remote set-url origin https://${{ secrets.ACCESS_TOKEN }}@github.com/omarshaheen95/ABT-Identity.git &&
+            git checkout master &&
             git pull origin master &&
+            rm -f bootstrap/cache/*.php &&
+            composer install --no-dev --optimize-autoloader --no-interaction &&
             php artisan migrate --force &&
+            php artisan permission:cache-reset &&
             php artisan cache:clear &&
             php artisan config:cache &&
             php artisan route:cache &&
             php artisan view:cache &&
-            php artisan queue:restart
-            "
+            php artisan queue:restart &&
+            php artisan up
+          "
+

@@ -1,0 +1,2 @@
+You are running Composer with SSL/TLS protection disabled.
+No security vulnerability advisories found.

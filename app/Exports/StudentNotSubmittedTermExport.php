@@ -27,6 +27,8 @@ class StudentNotSubmittedTermExport implements WithTitle,WithMapping, Responsabl
 {
     use Exportable;
 
+    public $last_cell;
+    public $last_row;
     public $school;
     public $request;
     public function __construct(Request $request, int $school = 0 )

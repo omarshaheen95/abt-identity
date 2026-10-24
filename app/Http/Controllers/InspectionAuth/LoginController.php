@@ -5,7 +5,7 @@ namespace App\Http\Controllers\InspectionAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use Hesto\MultiAuth\Traits\LogsoutGuard;
+use App\Traits\LogsoutGuard;
 
 class LoginController extends Controller
 {

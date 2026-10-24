@@ -142,7 +142,7 @@ class QuestionsImport implements ToModel, WithHeadingRow, SkipsOnFailure, SkipsO
             'content' => $row['Question Title'],
             'term_id' => $this->questionFile->term_id,
             'subject_id' => $row['Subject ID'],
-            'type' => snake_case($row['Question Type']),
+            'type' => \Illuminate\Support\Str::snake($row['Question Type']),
             'author_id' => auth()->guard(getGuard())->user()->id,
             'author_type' => auth()->guard(getGuard())->user()->getMorphClass(),
             'mark' => $row['Mark'], // Assuming 1 mark for each question

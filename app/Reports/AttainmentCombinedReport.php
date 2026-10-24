@@ -577,7 +577,7 @@ class AttainmentCombinedReport
             $student_type = re('For Arabs And Non-Arabs');
         }
         return (object)[
-            'title' => re('Grade') . ' ' . array_first($grades) . '/' . re('Year') . ' ' . (array_first($grades) + 1) . ' ' . re('To') . ' ' . re('Grade') . ' ' . array_last($grades) . '/' . re('Year') . ' ' . (array_last($grades) + 1) . ' ' . $student_type,
+            'title' => re('Grade') . ' ' . \Illuminate\Support\Arr::first($grades) . '/' . re('Year') . ' ' . (\Illuminate\Support\Arr::first($grades) + 1) . ' ' . re('To') . ' ' . re('Grade') . ' ' . \Illuminate\Support\Arr::last($grades) . '/' . re('Year') . ' ' . (\Illuminate\Support\Arr::last($grades) + 1) . ' ' . $student_type,
             'grades' => $grades,
             'total' => $total,
             'rounds' => $grade_rounds,

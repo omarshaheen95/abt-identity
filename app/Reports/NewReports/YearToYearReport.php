@@ -146,7 +146,7 @@ class YearToYearReport
     private function accumulateStatistics(&$statistics, $attainmentGrades)
     {
         foreach ($attainmentGrades as $grade) {
-            $year = array_first($grade);
+            $year = \Illuminate\Support\Arr::first($grade);
             if ($year) {
                 $statistics['total'] += $year->total;
                 $statistics['boys'] += $year->boys->total;

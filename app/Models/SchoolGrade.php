@@ -5,15 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class SchoolGrade extends Model
 {
     use SoftDeletes, LogsActivity;
-    protected static $logAttributes = ['school_id','arab','grade', 'september', 'february', 'may'];
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['school_id','arab','grade', 'september', 'february', 'may'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
     protected static $recordEvents = ['updated', 'deleted'];
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
     protected $fillable = ['school_id','arab','grade','september','february','may'];
 
     public function school(): BelongsTo

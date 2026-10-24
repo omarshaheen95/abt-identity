@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 
@@ -23,9 +24,13 @@ class Level extends Model
     public $translatable = ['name'];
     protected $cascadeDeletes = ['terms'];
 
-    protected static $logAttributes = [ 'name', 'year_id', 'grade', 'slug', 'active', 'arab'];
-    protected static $logOnlyDirty = true;
-    protected static $submitEmptyLogs = false;
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly([ 'name', 'year_id', 'grade', 'slug', 'active', 'arab'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 
 
     public function year()

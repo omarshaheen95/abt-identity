@@ -24,6 +24,7 @@ class OldStudentImport implements ToModel,SkipsOnFailure,SkipsOnError,WithHeadin
     //1=>New  2=>Uploading  3=>Completed  4=>Failure  5=>Error
 
     public $file;
+    public $log_errors;
     public $update;
     public $delete;
 

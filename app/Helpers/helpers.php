@@ -958,34 +958,14 @@ function getAllModels()
     return $modelNames;
 }
 
-function getRealIpAddress(\Illuminate\Http\Request $request)
-{
-    $headers = [
-        'HTTP_X_FORWARDED_FOR',
-        'HTTP_X_FORWARDED',
-        'HTTP_X_CLUSTER_CLIENT_IP',
-        'HTTP_FORWARDED_FOR',
-        'HTTP_FORWARDED',
-        'REMOTE_ADDR'
-    ];
-
-    foreach ($headers as $header) {
-        if (!empty($_SERVER[$header])) {
-            $ips = explode(',', $_SERVER[$header]);
-            return trim($ips[0]);
-        }
-    }
-
-    return $request->ip();
-}
-
-
+/**
+ * Whether the caller of api/update_settings or api/import_students is one of
+ * config('app.trusted_ips'). The caller is the address of the connection
+ * (through TrustProxies, which trusts no proxy here), never a forwarding
+ * header: those are written by the client itself, and
+ * X-Forwarded-For: 127.0.0.1 used to pass the check.
+ */
 function isTrustIpAddress(\Illuminate\Http\Request $request)
 {
-    $trustedIps = config('app.trusted_ips');
-    $requestIp = getRealIpAddress($request);
-    if (!in_array($requestIp, $trustedIps)) {
-        return false;
-    }
-    return true;
+    return in_array($request->ip(), config('app.trusted_ips', []), true);
 }

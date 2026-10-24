@@ -2,12 +2,21 @@
 
 namespace App\Providers;
 
+use App\Listeners\UserEventSubscriber;
+use App\Models\School;
 use App\Models\Setting;
+use App\Observers\SchoolObserver;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Cache\Factory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -70,6 +79,20 @@ class AppServiceProvider extends ServiceProvider
             dump('Database connected: ' . 'No');
         }
 
+        // What EventServiceProvider registered in Laravel 8
+        School::observe(SchoolObserver::class);
+        Event::subscribe(UserEventSubscriber::class);
 
+        // What RouteServiceProvider configured in Laravel 8
+        RateLimiter::for('api', function (Request $request) {
+            $key = $request->user()?$request->user()->id:request()->ip();
+            return Limit::perMinute(60)->by($key);
+        });
+
+        // The log viewer routes sit behind the manager guard (config/log-viewer.php).
+        // Without a callback opcodesio/log-viewer refuses everyone in production.
+        LogViewer::auth(function ($request) {
+            return Auth::guard('manager')->check();
+        });
     }
 }

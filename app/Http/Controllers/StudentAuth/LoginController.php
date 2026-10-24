@@ -7,7 +7,7 @@ use App\Models\Student;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Hesto\MultiAuth\Traits\LogsoutGuard;
+use App\Traits\LogsoutGuard;
 use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller

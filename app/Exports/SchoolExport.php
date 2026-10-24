@@ -22,7 +22,7 @@ class SchoolExport implements WithMapping, Responsable, WithHeadings, FromCollec
     public $length;
     public $request;
     public $builder;
-    public function __construct(Request $request,Builder $builder = null)
+    public function __construct(Request $request,?Builder $builder = null)
     {
         $this->request = $request;
         $this->length = 1;

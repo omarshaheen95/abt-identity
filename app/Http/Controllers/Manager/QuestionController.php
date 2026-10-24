@@ -14,7 +14,6 @@ use App\Models\SortQuestion;
 use App\Models\Subject;
 use App\Models\Term;
 use App\Models\TFQuestion;
-use App\Services\QuestionStandardService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -537,23 +536,4 @@ class QuestionController extends Controller
         $result = uploadFile($file,$path);
         return $result['path'];
     }
-
-    public function updateQuestionStandards($year)
-    {
-//        $terms = Term::query()->whereHas('question', function ($query) {
-//            $query->where('type', 'matching');
-//        })->whereRelation('level','year_id', $year)->get()->pluck('id');
-//        dd($terms);
-        $question_standards = new QuestionStandardService($year);
-        //arabs standards
-        $question_standards->setQuestionsStandards(1);
-        //non arabs standards
-        $question_standards->setQuestionsStandards(0);
-
-        return 'Done';
-    }
-
-
-
-
 }

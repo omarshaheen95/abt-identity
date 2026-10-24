@@ -48,7 +48,7 @@ class ValidateSessionPassword
             return $next($request);
         }
 
-        if (hash_equals((string) $request->session()->get($key), (string) $current)) {
+        if ($this->matches((string) $request->session()->get($key), (string) $current, $guard)) {
             return $next($request);
         }
 
@@ -70,6 +70,24 @@ class ValidateSessionPassword
         return redirect()->to($this->loginUrl($guard))
             ->with('message', $message)
             ->with('m-class', 'warning');
+    }
+
+    /**
+     * The stored value is the password hash itself (this middleware and
+     * UpdatesPassword), or, right after a sign in, the HMAC of it that
+     * Laravel 11+ SessionGuard::login() writes under the same key. Both change
+     * when the password does.
+     */
+    private function matches($stored, $current, $guard)
+    {
+        if (hash_equals($stored, $current)) {
+            return true;
+        }
+
+        $session = Auth::guard($guard);
+
+        return method_exists($session, 'hashPasswordForCookie')
+            && hash_equals($stored, $session->hashPasswordForCookie($current));
     }
 
     private function loginUrl($guard)

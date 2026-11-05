@@ -8,7 +8,11 @@
     @else
         <div class="btn btn-submit">
             <span class="spinner-border spinner-border-sm me-2 d-none"></span>
-            {{$term->level->arab?'إنهاء':'Finish'}}
+            @if(optional(Auth::guard('student')->user())->demo)
+                اختبار تجريبي، لن يتم الحفظ / Demo exam, not saved
+            @else
+                {{$term->level->arab?'إنهاء':'Finish'}}
+            @endif
         </div>
     @endif
 

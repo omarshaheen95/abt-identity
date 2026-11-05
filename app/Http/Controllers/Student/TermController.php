@@ -244,6 +244,9 @@ class TermController extends Controller
             }
         }
 
+        if ($student->demo) {
+            return Response::respondSuccess('اختبار تجريبي – لم يتم حفظ الإجابات - Demo exam, answers were not saved', route('student.home'));
+        }
         return Response::respondSuccess('Assessment passed successfully', route('student.home'));
     }
 

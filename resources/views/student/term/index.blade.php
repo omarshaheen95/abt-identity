@@ -22,6 +22,21 @@
 @endsection
 
 @section('style')
+    <style>
+        /* Demo exam banner */
+        #demo-exam-banner {
+            position: sticky;
+            top: 0;
+            z-index: 1030;
+            background-color: #068241;
+            color: #fff;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+    </style>
     <link href="{{asset('web_assets/css/custom2.css')}}?v{{time()}}" rel="stylesheet">
     <link href="{{asset('web_assets/css/exam_questions.css')}}?v{{time()}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('web_assets/css/arabic-keyboard.css')}}?v={{time()}}">
@@ -124,6 +139,11 @@
 @endsection
 
 @section('content')
+    @if(optional(Auth::guard('student')->user())->demo)
+        <div id="demo-exam-banner">
+            اختبار تجريبي – لن يتم حفظ الإجابات &nbsp;|&nbsp; Demo Exam – answers are not saved
+        </div>
+    @endif
     <section class="exam-view">
         <div class="container">
             <div class="row">

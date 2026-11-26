@@ -119,7 +119,7 @@ class StudentAttainmentAndProgress implements WithMapping, WithHeadings, FromArr
         $months = $this->getMonthsOrder();
         $this->req->merge(['year_id' => $this->register_year]);
         return Student::query()
-            ->select(['id', 'id_number', 'name', 'grade_name', 'gender', 'nationality', 'sen', 'g_t', 'arab', 'school_id', 'level_id'])
+            ->select(['id', 'id_number', 'name', 'grade_name', 'gender', 'nationality', 'citizen','sen', 'g_t', 'arab', 'school_id', 'level_id'])
             ->with([
                 'level' => function ($query) {
                     $query->select(['id', 'grade', 'arab']);
